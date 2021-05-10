@@ -62,6 +62,18 @@
                 <artifactId>spring-boot-starter-test</artifactId>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>io.ebean</groupId>
+                <artifactId>ebean</artifactId>
+                <version>12.8.0</version>
+            </dependency>
+            <!-- Test dependencies -->
+            <dependency>
+                <groupId>io.ebean</groupId>
+                <artifactId>ebean-test</artifactId>
+                <version>12.8.0</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -77,6 +89,33 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.repaint.maven</groupId>
+                <artifactId>tiles-maven-plugin</artifactId>
+                <version>2.19</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <tiles>
+                        <!-- other tiles ... -->
+                        <tile>io.ebean.tile:enhancement:12.8.0</tile>
+                    </tiles>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>io.ebean</groupId>
+                            <artifactId>querybean-generator</artifactId>
+                            <version>12.8.0</version>
+                        </path>
+                        <!-- other annotation processors -->
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>
