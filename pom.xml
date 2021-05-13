@@ -2,37 +2,34 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.sang</groupId>
-    <artifactId>waking</artifactId>
+    <artifactId>lumen</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>waking</name>
     <packaging>pom</packaging>
-
+    <name>lumen</name>
+    <description>Lumen Dependencies</description>
+    <developers>
+        <developer>
+            <name>sang</name>
+            <email>xiaoyihou@outlook.com</email>
+        </developer>
+    </developers>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.4.3</version>
     </parent>
-
-    <modules>
-        <module>common</module>
-    </modules>
-
     <properties>
         <java.version>11</java.version>
+        <hutool.version>5.3.7</hutool.version>
+        <ebean.version>12.8.0</ebean.version>
     </properties>
-
+    <modules>
+        <module>common</module>
+        <module>core</module>
+    </modules>
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-actuator</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-redis</artifactId>
-            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-freemarker</artifactId>
@@ -42,83 +39,75 @@
                 <artifactId>spring-boot-starter-quartz</artifactId>
             </dependency>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-devtools</artifactId>
-                <scope>runtime</scope>
-                <optional>true</optional>
-            </dependency>
-            <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <optional>true</optional>
             </dependency>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
                 <groupId>io.ebean</groupId>
                 <artifactId>ebean</artifactId>
-                <version>12.8.0</version>
+                <version>${ebean.version}</version>
             </dependency>
             <!-- Test dependencies -->
             <dependency>
                 <groupId>io.ebean</groupId>
                 <artifactId>ebean-test</artifactId>
-                <version>12.8.0</version>
+                <version>${ebean.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <!--hutool 工具包-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>io.repaint.maven</groupId>
-                <artifactId>tiles-maven-plugin</artifactId>
-                <version>2.19</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <tiles>
-                        <!-- other tiles ... -->
-                        <tile>io.ebean.tile:enhancement:12.8.0</tile>
-                    </tiles>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>io.ebean</groupId>
-                            <artifactId>querybean-generator</artifactId>
-                            <version>12.8.0</version>
-                        </path>
-                        <!-- other annotation processors -->
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <excludes>
+                            <exclude>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                            </exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>io.repaint.maven</groupId>
+                    <artifactId>tiles-maven-plugin</artifactId>
+                    <version>2.19</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <tiles>
+                            <!-- other tiles ... -->
+                            <tile>io.ebean.tile:enhancement:12.8.0</tile>
+                        </tiles>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>io.ebean</groupId>
+                                <artifactId>querybean-generator</artifactId>
+                                <version>12.8.0</version>
+                            </path>
+                            <!-- other annotation processors -->
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>
