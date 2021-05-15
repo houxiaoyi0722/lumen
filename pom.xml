@@ -23,10 +23,15 @@
         <java.version>11</java.version>
         <hutool.version>5.3.7</hutool.version>
         <ebean.version>12.8.0</ebean.version>
+        <redisson.version>3.13.5</redisson.version>
+        <validation.version>2.0.1.Final</validation.version>
+        <lombok.version>1.18.12</lombok.version>
+        <mysql.version>8.0.19</mysql.version>
     </properties>
     <modules>
         <module>common</module>
         <module>core</module>
+        <module>system</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -35,12 +40,18 @@
                 <artifactId>spring-boot-starter-freemarker</artifactId>
             </dependency>
             <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-quartz</artifactId>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
                 <optional>true</optional>
             </dependency>
             <dependency>
@@ -48,12 +59,24 @@
                 <artifactId>ebean</artifactId>
                 <version>${ebean.version}</version>
             </dependency>
+            <!-- java annotation processor to generate query beans -->
+            <dependency>
+                <groupId>io.ebean</groupId>
+                <artifactId>querybean-generator</artifactId>
+                <version>${ebean.version}</version>
+                <scope>provided</scope>
+            </dependency>
             <!-- Test dependencies -->
             <dependency>
                 <groupId>io.ebean</groupId>
                 <artifactId>ebean-test</artifactId>
                 <version>${ebean.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation.version}</version>
             </dependency>
             <!--hutool 工具包-->
             <dependency>
@@ -72,6 +95,7 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.postgresql</groupId>
@@ -94,6 +118,16 @@
                             </exclude>
                         </excludes>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.7.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.0.0</version>
                 </plugin>
                 <plugin>
                     <groupId>io.repaint.maven</groupId>
@@ -125,5 +159,21 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <repositories>
+        <!--阿里云仓库-->
+        <repository>
+            <id>nexus-aliyun</id>
+            <name>Nexus aliyun</name>
+            <layout>default</layout>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
 
 </project>
