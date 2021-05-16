@@ -2,6 +2,9 @@ package com.sang.entity;
 
 import com.sang.entity.finder.ProductFinder;
 import com.sang.entity.query.QProduct;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,6 +14,9 @@ import javax.validation.constraints.Size;
 /**
  * Product entity bean.
  */
+@Getter
+@Setter
+@Builder
 @Entity
 @Table(name = "product")
 public class Product {
