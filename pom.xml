@@ -25,7 +25,7 @@
         <ebean.version>12.8.0</ebean.version>
         <redisson.version>3.13.5</redisson.version>
         <validation.version>2.0.1.Final</validation.version>
-        <lombok.version>1.18.16</lombok.version>
+        <lombok.version>1.18.20</lombok.version>
         <mysql.version>8.0.19</mysql.version>
         <avaje.logback.version>1.1</avaje.logback.version>
     </properties>
