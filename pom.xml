@@ -35,6 +35,7 @@
         <enhancement.version>12.8.0</enhancement.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <querybean-generator.version>12.8.0</querybean-generator.version>
+        <jsr305.version>3.0.2</jsr305.version>
     </properties>
     <modules>
         <module>common</module>
@@ -90,6 +91,11 @@
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
                 <version>${validation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>${jsr305.version}</version>
             </dependency>
             <!--hutool 工具包-->
             <dependency>
