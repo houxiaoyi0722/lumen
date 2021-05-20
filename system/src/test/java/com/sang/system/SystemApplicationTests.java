@@ -11,9 +11,9 @@ class SystemApplicationTests {
 
     @Test
     void contextLoads() {
-        Product build = Product.builder().name("111").id(1L).sku("411").build();
-        DB.save(build);
-        Product one = QProduct.alias().id.equalTo(1L).findOne();
+//        Product build = Product.builder().name("111").id(1L).sku("411").build();
+//        DB.save(build);
+//        Product one = QProduct.alias().id.equalTo(1L).findOne();
     }
 
 }
