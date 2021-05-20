@@ -6,7 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>common</name>
     <description>lumen common module</description>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <parent>
         <artifactId>lumen</artifactId>
         <groupId>com.sang</groupId>

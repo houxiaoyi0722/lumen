@@ -6,7 +6,7 @@
     <artifactId>core</artifactId>
     <name>core</name>
     <description>lumen core module</description>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <parent>
         <artifactId>lumen</artifactId>
         <groupId>com.sang</groupId>
@@ -21,6 +21,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.ebean</groupId>
