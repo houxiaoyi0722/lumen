@@ -6,7 +6,7 @@
     <artifactId>core</artifactId>
     <name>core</name>
     <description>lumen core module</description>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <parent>
         <artifactId>lumen</artifactId>
         <groupId>com.sang</groupId>

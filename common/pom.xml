@@ -6,7 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>common</name>
     <description>lumen common module</description>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <parent>
         <artifactId>lumen</artifactId>
         <groupId>com.sang</groupId>
@@ -57,7 +57,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

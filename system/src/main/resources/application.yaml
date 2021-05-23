@@ -9,6 +9,12 @@ ebean:
     platform: h2 # h2, postgres, mysql, mariadb, oracle, sqlserver, hana, clickhouse, sqlite
     ddlMode: dropCreate # none | dropCreate | migration
     dbName: my_app
+logging:
+  level:
+    io:
+      ebean:
+        SQL: DEBUG
+        TXN: DEBUG
 #spring:
 #  jackson:
 #    date-format: yyyy-MM-dd HH:mm:ss
