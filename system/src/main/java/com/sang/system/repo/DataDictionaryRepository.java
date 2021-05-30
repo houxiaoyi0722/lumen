@@ -1,4 +1,4 @@
-package com.sang.system.repo.repository;
+package com.sang.system.repo;
 
 import com.sang.system.domain.entity.DataDictionary;
 import io.ebean.BeanRepository;
