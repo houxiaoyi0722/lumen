@@ -5,7 +5,7 @@ datasource:
     password: w7s6bi
     url: jdbc:mysql://localhost:13306/lumen_server?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
 ebean:
-  test:
+  db:
     ddl:
       generate: true
       run: true

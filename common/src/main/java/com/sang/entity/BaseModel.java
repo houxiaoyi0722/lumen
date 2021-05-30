@@ -1,4 +1,4 @@
-package com.sang.domain;
+package com.sang.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;

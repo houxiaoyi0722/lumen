@@ -1,7 +1,6 @@
-package com.sang.domain.repo;
+package com.sang.entity.repo;
 
 import io.ebean.Database;
-import io.ebean.EbeanServer;
 import io.ebean.bean.EntityBean;
 
 public abstract class BeanRepository<I,T> extends BeanFinder<I,T> {
