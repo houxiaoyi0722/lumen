@@ -7,6 +7,9 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.util.List;
+
+import static javax.persistence.CascadeType.PERSIST;
 
 /**
  * 数据字典 组
@@ -21,12 +24,12 @@ public class DataDictionary extends BaseModel {
 
     public static final DataDictionaryFinder finder = DataDictionaryFinder.builder().build();
 
-//    @OneToMany
-//    private DataDictionaryItem dataDictionaryItem;
+    @OneToMany(mappedBy = "dataDictionary", cascade = PERSIST)
+    private List<DataDictionaryItem> dataDictionaryItems;
     /**
      * 组id
      */
-    @Column(length = 10,unique = true,nullable = false)
+    @Column(length = 10,nullable = false)
     private String groupValue;
     /**
      * 组名称

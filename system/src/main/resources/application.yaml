@@ -6,9 +6,9 @@ datasource:
     url: jdbc:mysql://localhost:13306/lumen_server?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
 ebean:
   test:
-    platform: h2 # h2, postgres, mysql, mariadb, oracle, sqlserver, hana, clickhouse, sqlite
-    ddlMode: dropCreate # none | dropCreate | migration
-    dbName: my_app
+    ddl:
+      generate: true
+      run: true
 logging:
   level:
     io:
