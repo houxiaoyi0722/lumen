@@ -1,4 +1,4 @@
-package com.sang.system.repo;
+package com.sang.system.domain.entity.repo;
 
 import com.sang.system.domain.entity.DataDictionary;
 import io.ebean.BeanRepository;
@@ -22,10 +22,9 @@ public class DataDictionaryRepository extends BeanRepository<Long, DataDictionar
      *
      * }</pre>
      *
-     * @param type   The bean type
      * @param server The Database instance typically created via Spring factory or equivalent
      */
-    protected DataDictionaryRepository(Class<DataDictionary> type, Database server) {
-        super(type, server);
+    protected DataDictionaryRepository(Database server) {
+        super(DataDictionary.class, server);
     }
 }
