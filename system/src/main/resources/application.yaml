@@ -3,7 +3,7 @@ datasource:
   db:
     username: root
     password: w7s6bi
-    url: jdbc:mysql://129.211.190.27:3307/jins_master?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:13306/lumen_server?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
 ebean:
   test:
     platform: h2 # h2, postgres, mysql, mariadb, oracle, sqlserver, hana, clickhouse, sqlite

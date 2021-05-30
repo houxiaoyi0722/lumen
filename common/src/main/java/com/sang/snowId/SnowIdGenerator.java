@@ -1,12 +1,12 @@
-package core.snowId;
+package com.sang.snowId;
 
-import core.utils.SnowIdUtils;
-import io.ebean.annotation.EbeanComponent;
+import com.sang.utils.SnowIdUtils;
 import io.ebean.config.IdGenerator;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
-@EbeanComponent
+@Component
 public class SnowIdGenerator implements IdGenerator,Serializable {
 
     @Override
@@ -16,7 +16,6 @@ public class SnowIdGenerator implements IdGenerator,Serializable {
 
     @Override
     public String getName() {
-//        return this.getClass().getSimpleName();
         return "SnowIdGenerator";
     }
 }
