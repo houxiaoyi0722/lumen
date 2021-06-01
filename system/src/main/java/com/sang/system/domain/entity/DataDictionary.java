@@ -30,12 +30,12 @@ public class DataDictionary extends BaseModel {
      * 组id
      */
     @Column(length = 10,nullable = false)
-    private String groupValue;
+    private String groupId;
     /**
      * 组名称
      */
     @Column(length = 50,nullable = false)
-    private String groupKey;
+    private String groupName;
     /**
      * 备注
      */
