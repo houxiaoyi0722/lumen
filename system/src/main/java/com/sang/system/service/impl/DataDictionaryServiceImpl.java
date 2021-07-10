@@ -10,6 +10,7 @@ import com.sang.system.domain.repo.DataDictionaryRepository;
 import com.sang.system.service.DataDictionaryService;
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Field;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
  * @author xiaoy
  */
 @Log4j2
+@Service
 public class DataDictionaryServiceImpl implements DataDictionaryService {
 
     @Resource
@@ -31,7 +33,6 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
 
     /**
      * 转换list中的字典值 , 需在entity需要转换的字段上添加<tt>Dictionary</tt>注解
-     *
      * @param oriList list
      * @return 返回转换后的对象
      */
