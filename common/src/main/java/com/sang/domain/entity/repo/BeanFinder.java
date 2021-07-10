@@ -1,4 +1,4 @@
-package com.sang.entity.repo;
+package com.sang.domain.entity.repo;
 
 import io.ebean.Database;
 import io.ebean.Finder;

@@ -2,11 +2,11 @@ package com.sang.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.sang.annotation.Dictionary;
+import com.sang.annotation.dictionary.Dictionary;
 import com.sang.constants.StringConst;
-import com.sang.system.domain.entity.DataDictionary;
-import com.sang.system.domain.entity.DataDictionaryItem;
-import com.sang.system.domain.repo.DataDictionaryRepository;
+import com.sang.domain.entity.DataDictionary;
+import com.sang.domain.entity.DataDictionaryItem;
+import com.sang.domain.system.repo.DataDictionaryRepository;
 import com.sang.system.service.DataDictionaryService;
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.log4j.Log4j2;

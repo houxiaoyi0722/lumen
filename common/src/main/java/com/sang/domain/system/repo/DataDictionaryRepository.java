@@ -1,7 +1,7 @@
-package com.sang.system.domain.repo;
+package com.sang.domain.system.repo;
 
-import com.sang.system.domain.entity.DataDictionary;
-import com.sang.system.domain.entity.query.QDataDictionary;
+import com.sang.domain.entity.DataDictionary;
+import com.sang.domain.entity.query.QDataDictionary;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import org.springframework.stereotype.Repository;

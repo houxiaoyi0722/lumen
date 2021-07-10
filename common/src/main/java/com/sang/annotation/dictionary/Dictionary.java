@@ -1,4 +1,4 @@
-package com.sang.annotation;
+package com.sang.annotation.dictionary;
 
 import java.lang.annotation.*;
 

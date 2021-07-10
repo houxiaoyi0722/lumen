@@ -1,11 +1,10 @@
-package com.sang.entity;
+package com.sang.domain.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.ebean.Model;
 import io.ebean.annotation.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
