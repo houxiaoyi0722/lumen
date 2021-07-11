@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 /**
  * 数据字典
- *
  * @author xiaoy
  */
 @Log4j2
@@ -36,7 +35,8 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
      * @param oriList list
      * @return 返回转换后的对象
      */
-    public <T> List<T> conversionDictionaryMapping(List<T> oriList) {
+    @Override
+    public <T> List<T> conversionDictionaryMappingList(List<T> oriList) {
         try {
             if (CollectionUtil.isNotEmpty(oriList)) {
                 //待处理字段
@@ -44,13 +44,10 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
                 //无注解原值返回
                 if (CollectionUtil.isNotEmpty(dictionaryField)) {
                     //需要的字典数据id
-                    List<String> groupIds = dictionaryField.stream()
-                            .map(obj -> obj.getAnnotation(Dictionary.class).groupId())
-                            .filter(StrUtil::isNotEmpty)
-                            .collect(Collectors.toList());
+                    List<String> groupIds = getGroupIds(dictionaryField);
 
                     if (CollectionUtil.isEmpty(groupIds))
-                        throw new IllegalArgumentException("类的 groupId 不能为空");
+                        throw new IllegalArgumentException("groupId 不能为空");
 
                     //字典数据
                     List<DataDictionary> fetch = dataDictionaryRepository.getDictionaryListByGroupIds(groupIds);
@@ -75,13 +72,14 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
         return oriList;
     }
 
+
+    @Override
     public <T> T conversionDictionaryMapping(T ori) {
         Class<?> cls = ori.getClass();
         //待处理字段集合
         List<Field> dictionaryField = getDictionaryFields(cls);
         //需要的字典数据id
-        List<String> groupIds = dictionaryField.stream()
-                .map(obj -> obj.getAnnotation(Dictionary.class).groupId()).distinct().collect(Collectors.toList());
+        List<String> groupIds = getGroupIds(dictionaryField);
 
         //字典数据
         List<DataDictionary> fetch = dataDictionaryRepository.getDictionaryListByGroupIds(groupIds);
@@ -112,27 +110,41 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
         Class<?> cls = ori.getClass();
         field.setAccessible(true);
         //获取字段中的值
-        Optional optional = Optional.ofNullable(field.get(ori));
-        //判断是否为空,判断类型决定处理逻辑
-        String itemValue = StringConst.EMPTY;
-        if (optional.isPresent()) {
-            //非boolean类型正常赋值
-            Optional<DataDictionary> any = fetch.stream().filter(t -> groupId.equals(t.getGroupId())).findAny();
-            if (any.isPresent()) {
-                List<DataDictionaryItem> dataDictionaryItems = any.get().getDataDictionaryItems();
-                if (CollectionUtil.isEmpty(dataDictionaryItems)) {
-                    // todo
-                }
-//                itemValue = dataDictionaryItems;
-            } else {
-                log.warn("字典目标值为空:groupId= " + groupId + " itemValue= " + optional);
-            }
+        Optional<Object> optional = Optional.ofNullable(field.get(ori));
+        //判断是否为空 null不处理
+        if (optional.isEmpty())
+            return;
+
+        Object target = optional.get();
+
+        Optional<DataDictionary> dataDictionary = fetch.stream().filter(t -> groupId.equals(t.getGroupId())).findAny();
+        if (dataDictionary.isEmpty()) {
+            log.warn("groupId不存在： {}",groupId);
+            return;
         }
+
+        List<DataDictionaryItem> dataDictionaryItems = dataDictionary.get().getDataDictionaryItems();
+        if (CollectionUtil.isEmpty(dataDictionaryItems)) {
+            log.warn("字典列表为空:groupId= {}",groupId);
+            return;
+        }
+
+        Object finalTarget = target;
+        target = dataDictionaryItems.stream().filter(dataDictionaryItem -> finalTarget.equals(dataDictionaryItem.getItemKey())).map(DataDictionaryItem::getItemValue).findAny().orElse(StringConst.EMPTY);
 
         //将值设置回该字段或目标字段
         Field fieldObj = StringUtils.isEmpty(targetField) ? field : cls.getDeclaredField(targetField);
         fieldObj.setAccessible(true);
-        fieldObj.set(ori, itemValue);
+        fieldObj.set(ori, target);
+    }
+
+    private List<String> getGroupIds(List<Field> dictionaryField) {
+        List<String> groupIds = dictionaryField.stream()
+                .map(obj -> obj.getAnnotation(Dictionary.class).groupId())
+                .filter(StrUtil::isNotEmpty)
+                .distinct()
+                .collect(Collectors.toList());
+        return groupIds;
     }
 
     /**

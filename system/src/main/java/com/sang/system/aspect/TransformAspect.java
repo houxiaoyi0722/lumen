@@ -28,10 +28,13 @@ public class TransformAspect {
     @Around("transformServer()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         Object result = joinPoint.proceed();
-        // 类型判断
+        // 类型判断 只支持list或者entity
         Class<?> aClass = result.getClass();
         if (List.class.isAssignableFrom(aClass)) {
-
+            List cast = (List) result;
+            result = dataDictionaryService.conversionDictionaryMappingList(cast);
+        } else {
+            result = dataDictionaryService.conversionDictionaryMapping(result);
         }
 
         return result;
