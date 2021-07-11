@@ -1,1 +1,1 @@
-entity-packages: com.sang.*.domain
+entity-packages: com.sang.domain

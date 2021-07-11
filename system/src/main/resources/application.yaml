@@ -3,8 +3,11 @@ datasource:
   db:
     username: root
     password: w7s6bi
-    url: jdbc:mysql://localhost:13306/lumen_server?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:13306/lumen_server?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
 ebean:
+  ## run migrations when the EbeanServer starts
+  migration:
+    run: true
   db:
     ddl:
       generate: true

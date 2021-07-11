@@ -6,7 +6,7 @@ import java.lang.annotation.*;
  * @author xiaoy
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
+@Target({ElementType.METHOD})
 @Inherited
 public @interface Transform {
 

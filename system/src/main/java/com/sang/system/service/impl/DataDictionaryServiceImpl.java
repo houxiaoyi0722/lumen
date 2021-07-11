@@ -4,8 +4,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.sang.annotation.dictionary.Dictionary;
 import com.sang.constants.StringConst;
-import com.sang.domain.entity.DataDictionary;
-import com.sang.domain.entity.DataDictionaryItem;
+import com.sang.domain.system.entity.DataDictionary;
+import com.sang.domain.system.entity.DataDictionaryItem;
 import com.sang.domain.system.repo.DataDictionaryRepository;
 import com.sang.system.service.DataDictionaryService;
 import io.micrometer.core.instrument.util.StringUtils;
@@ -121,7 +121,7 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
             if (any.isPresent()) {
                 List<DataDictionaryItem> dataDictionaryItems = any.get().getDataDictionaryItems();
                 if (CollectionUtil.isEmpty(dataDictionaryItems)) {
-
+                    // todo
                 }
 //                itemValue = dataDictionaryItems;
             } else {

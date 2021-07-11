@@ -1,11 +1,10 @@
-package com.sang.domain.entity;
+package com.sang.domain.system.entity;
 
-import com.sang.domain.entity.finder.DataDictionaryFinder;
+import com.sang.domain.entity.BaseModel;
+import com.sang.domain.system.entity.finder.DataDictionaryFinder;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 import static javax.persistence.CascadeType.PERSIST;
@@ -13,12 +12,14 @@ import static javax.persistence.CascadeType.PERSIST;
 /**
  * 数据字典 组
  */
-@Entity
 @Setter
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@MappedSuperclass
+@Entity
+@Table(name = "DATA_DICTIONARY")
 public class DataDictionary extends BaseModel {
 
     public static final DataDictionaryFinder finder = DataDictionaryFinder.builder().build();

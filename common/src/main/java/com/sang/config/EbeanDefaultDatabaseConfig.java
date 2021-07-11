@@ -33,6 +33,11 @@ public class EbeanDefaultDatabaseConfig {
         databaseConfig.setDefaultServer(true);
         databaseConfig.setCurrentUserProvider(currentUser);
         databaseConfig.loadFromProperties();
+        databaseConfig.setDefaultServer(true);
+//        databaseConfig.setDdlCreateOnly(true);
+
+//        databaseConfig.setRunMigration(true);
+
         Database database = DatabaseFactory.create(databaseConfig);
         log.info("ebean default database : {}", DB.getDefault().getName());
         return database;
