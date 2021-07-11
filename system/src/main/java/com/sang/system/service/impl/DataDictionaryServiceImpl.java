@@ -2,12 +2,15 @@ package com.sang.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.db.PageResult;
 import com.sang.annotation.dictionary.Dictionary;
 import com.sang.constants.StringConst;
-import com.sang.domain.system.entity.DataDictionary;
-import com.sang.domain.system.entity.DataDictionaryItem;
-import com.sang.domain.system.repo.DataDictionaryRepository;
+import com.sang.system.domain.entity.DataDictionary;
+import com.sang.system.domain.entity.DataDictionaryItem;
+import com.sang.system.domain.repo.DataDictionaryRepository;
+import com.sang.system.param.DataDictionaryParam;
 import com.sang.system.service.DataDictionaryService;
+import io.ebean.PagedList;
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -94,6 +97,11 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
         }
 
         return ori;
+    }
+
+    @Override
+    public PagedList<DataDictionary> dictionaryList(DataDictionaryParam dataDictionaryParam) {
+        return dataDictionaryRepository.getDictionaryList(dataDictionaryParam);
     }
 
     /**
