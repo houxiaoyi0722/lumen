@@ -1,6 +1,5 @@
 package com.sang.system.controller;
 
-import cn.hutool.db.PageResult;
 import com.sang.system.domain.entity.DataDictionary;
 import com.sang.system.param.DataDictionaryParam;
 import com.sang.system.service.DataDictionaryService;
@@ -21,6 +20,7 @@ public class DataDictionaryController {
 
     @GetMapping("/dictionaries")
     public PagedList<DataDictionary> dictionaryList(@RequestBody DataDictionaryParam dataDictionaryParam) {
+        DataDictionary dataDictionary = new DataDictionary();
         return dataDictionaryService.dictionaryList(dataDictionaryParam);
     }
 
