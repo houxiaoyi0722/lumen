@@ -22,6 +22,10 @@ public class Result<T> {
         return new Result<>(message, code, data);
     }
 
+    public static <T> Result<T> ok() {
+        return new Result<>(ResultCodeEnum.SUCCESS.getMessage(), ResultCodeEnum.SUCCESS.getCode());
+    }
+
     public static <T> Result<T> ok(T data) {
         return new Result<>(ResultCodeEnum.SUCCESS.getMessage(), ResultCodeEnum.SUCCESS.getCode(), data);
     }

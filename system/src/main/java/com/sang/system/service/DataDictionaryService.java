@@ -1,6 +1,5 @@
 package com.sang.system.service;
 
-import cn.hutool.db.PageResult;
 import com.sang.system.domain.entity.DataDictionary;
 import com.sang.system.param.DataDictionaryParam;
 import io.ebean.PagedList;
@@ -15,4 +14,11 @@ public interface DataDictionaryService {
 
     PagedList<DataDictionary> dictionaryList(DataDictionaryParam dataDictionaryParam);
 
+    DataDictionary findOne(String id);
+
+    DataDictionary save(DataDictionary dataDictionary);
+
+    DataDictionary update(DataDictionary dataDictionary);
+
+    Boolean delete(String id);
 }

@@ -2,7 +2,6 @@ package com.sang.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.db.PageResult;
 import com.sang.annotation.dictionary.Dictionary;
 import com.sang.constants.StringConst;
 import com.sang.system.domain.entity.DataDictionary;
@@ -102,6 +101,26 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
     @Override
     public PagedList<DataDictionary> dictionaryList(DataDictionaryParam dataDictionaryParam) {
         return dataDictionaryRepository.getDictionaryList(dataDictionaryParam);
+    }
+
+    @Override
+    public DataDictionary findOne(String id) {
+        return null;
+    }
+
+    @Override
+    public DataDictionary save(DataDictionary dataDictionary) {
+        return null;
+    }
+
+    @Override
+    public DataDictionary update(DataDictionary dataDictionary) {
+        return null;
+    }
+
+    @Override
+    public Boolean delete(String id) {
+        return null;
     }
 
     /**

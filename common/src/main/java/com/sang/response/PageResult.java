@@ -44,7 +44,7 @@ public class PageResult<T> {
         return new PageResult<T>(message, code);
     }
 
-    public static <T> PageResult<T> ok(PagedList<T> pagedList,Integer page) {
+    public static <T> PageResult<T> ok(PagedList<T> pagedList) {
         return new PageResult<>(ResultCodeEnum.SUCCESS.getMessage(),
                 ResultCodeEnum.SUCCESS.getCode(),
                 pagedList.getList(),
