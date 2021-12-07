@@ -1,0 +1,5 @@
+datasource:
+  db:
+    username: root
+    password: w7s6bi
+    url: jdbc:mysql://localhost:13306/lumen_server?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai

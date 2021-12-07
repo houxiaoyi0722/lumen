@@ -1,9 +1,3 @@
-
-datasource:
-  db:
-    username: root
-    password: w7s6bi
-    url: jdbc:mysql://localhost:13306/lumen_server?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
 ebean:
   ## run migrations when the EbeanServer starts
   migration:
@@ -34,3 +28,6 @@ logging:
 #          max-idle: 50
 #          min-idle: 0
 #          max-wait: 2000
+spring:
+  profiles:
+    active: gs

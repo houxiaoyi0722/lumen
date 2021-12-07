@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class DataDictionaryParam extends Page {
 
 }

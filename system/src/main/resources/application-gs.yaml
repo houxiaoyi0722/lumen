@@ -1,0 +1,5 @@
+datasource:
+  db:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/ebean-example?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai

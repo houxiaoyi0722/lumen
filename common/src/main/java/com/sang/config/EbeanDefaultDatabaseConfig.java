@@ -6,6 +6,7 @@ import io.ebean.DB;
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.DatabaseConfig;
+import io.ebean.datasource.DataSourceConfig;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,9 @@ public class EbeanDefaultDatabaseConfig {
     @Resource
     private SnowIdGenerator snowIdGenerator;
 
+    @Resource
+    private EbeanDataSourceConfig ebeanDataSourceConfig;
+
     @Bean
     @Primary
     public Database database() {
@@ -35,11 +39,20 @@ public class EbeanDefaultDatabaseConfig {
         databaseConfig.loadFromProperties();
         databaseConfig.setDefaultServer(true);
 //        databaseConfig.setDdlCreateOnly(true);
-
 //        databaseConfig.setRunMigration(true);
+        databaseConfig.setDataSourceConfig(dataSourceConfig());
 
         Database database = DatabaseFactory.create(databaseConfig);
         log.info("ebean default database : {}", DB.getDefault().getName());
         return database;
+    }
+
+    @Bean
+    public DataSourceConfig dataSourceConfig() {
+        DataSourceConfig dataSourceConfig = new DataSourceConfig();
+        dataSourceConfig.setUsername(ebeanDataSourceConfig.getUsername());
+        dataSourceConfig.setPassword(ebeanDataSourceConfig.getPassword());
+        dataSourceConfig.setUrl(ebeanDataSourceConfig.getUrl());
+        return dataSourceConfig;
     }
 }
