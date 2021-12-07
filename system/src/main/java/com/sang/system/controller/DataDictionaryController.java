@@ -1,14 +1,11 @@
 package com.sang.system.controller;
 
-import cn.hutool.db.PageResult;
+import com.sang.response.PageResult;
+import com.sang.response.Result;
 import com.sang.system.domain.entity.DataDictionary;
 import com.sang.system.param.DataDictionaryParam;
 import com.sang.system.service.DataDictionaryService;
-import io.ebean.PagedList;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -20,8 +17,28 @@ public class DataDictionaryController {
     private DataDictionaryService dataDictionaryService;
 
     @GetMapping("/dictionaries")
-    public PagedList<DataDictionary> dictionaryList(@RequestBody DataDictionaryParam dataDictionaryParam) {
-        return dataDictionaryService.dictionaryList(dataDictionaryParam);
+    public PageResult<DataDictionary> list(@RequestBody DataDictionaryParam dataDictionaryParam) {
+        return PageResult.ok(dataDictionaryService.dictionaryList(dataDictionaryParam));
+    }
+
+    @GetMapping("/dictionary")
+    public Result<DataDictionary> findOne(@RequestParam("id") String id) {
+        return Result.ok(dataDictionaryService.findOne(id));
+    }
+
+    @PostMapping("/dictionary")
+    public Result<DataDictionary> save(@RequestBody DataDictionary dataDictionary) {
+        return Result.ok(dataDictionaryService.save(dataDictionary));
+    }
+
+    @PutMapping("/dictionary")
+    public Result<DataDictionary> update(@RequestBody DataDictionary dataDictionary) {
+        return Result.ok(dataDictionaryService.update(dataDictionary));
+    }
+
+    @DeleteMapping("/dictionary")
+    public Result<Boolean> delete(@RequestParam("id") String id) {
+        return Result.ok(dataDictionaryService.delete(id));
     }
 
 }

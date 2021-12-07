@@ -1,5 +1,6 @@
 package com.sang.system.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.domain.entity.BaseModel;
 import com.sang.system.domain.entity.finder.DataDictionaryFinder;
 import lombok.*;
@@ -24,6 +25,7 @@ public class DataDictionary extends BaseModel {
 
     public static final DataDictionaryFinder finder = DataDictionaryFinder.builder().build();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "dataDictionary", cascade = PERSIST)
     private List<DataDictionaryItem> dataDictionaryItems;
     /**
