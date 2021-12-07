@@ -36,6 +36,7 @@ public class EbeanDefaultDatabaseConfig {
         databaseConfig.setRegister(true);
         databaseConfig.setDefaultServer(true);
         databaseConfig.setCurrentUserProvider(currentUser);
+        // 从application.yaml中读取不可更改
         databaseConfig.loadFromProperties();
         databaseConfig.setDefaultServer(true);
 //        databaseConfig.setDdlCreateOnly(true);
