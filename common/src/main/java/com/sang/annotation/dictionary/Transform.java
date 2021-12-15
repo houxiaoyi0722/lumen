@@ -10,4 +10,10 @@ import java.lang.annotation.*;
 @Inherited
 public @interface Transform {
 
+    /**
+     * 有包装需要转换的目标字段
+     * @return
+     */
+    String targetField() default "";
+
 }
