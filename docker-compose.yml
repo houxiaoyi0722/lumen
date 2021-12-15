@@ -14,7 +14,14 @@ services:
       - "8888:8888"
     volumes:
       - chronograf:/var/lib/chronograf
+  grafana:
+    image: grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana:/var/lib/grafana
 volumes:
   influxdb:
   influxconf:
   chronograf:
+  grafana:
