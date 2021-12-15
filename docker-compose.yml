@@ -1,16 +1,20 @@
 version: "3.7"
 
 services:
-  app:
-    image: node:12-alpine
-    command: sh -c "yarn install && yarn run dev"
+  influx:
+    image: influxdb:1.7
     ports:
-      - 3000:3000
-    working_dir: /app
+      - "8086:8086"
     volumes:
-      - ./:/app
-    environment:
-      MYSQL_HOST: mysql
-      MYSQL_USER: root
-      MYSQL_PASSWORD: secret
-      MYSQL_DB: todos
+      - influxdb:/var/lib/influxdb
+      - influxconf:/etc/influxdb
+  chronograf:
+    image: chronograf:1.7
+    ports:
+      - "8888:8888"
+    volumes:
+      - chronograf:/var/lib/chronograf
+volumes:
+  influxdb:
+  influxconf:
+  chronograf:
