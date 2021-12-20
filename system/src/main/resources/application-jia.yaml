@@ -3,3 +3,20 @@ datasource:
     username: root
     password: w7s6bi
     url: jdbc:mysql://localhost:13306/lumen_server?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+#management:
+#  metrics:
+#    export:
+#      influx:
+#        auto-create-db: true # Whether to create the InfluxDB database if it does not exist before attempting to publish metrics to it. InfluxDB v1 only. (Default: true)
+#        batch-size: 10000 # Number of measurements per request to use for this backend. If more measurements are found, then multiple requests will be made. (Default: 10000)
+#        compressed: true # Whether to enable GZIP compression of metrics batches published to InfluxDB. (Default: true)
+#        connect-timeout: 1s # Connection timeout for requests to this backend. (Default: 1s)
+#        consistency: one # Write consistency for each point. (Default: one)
+#        db: mydb # Database to send metrics to. InfluxDB v1 only. (Default: mydb)
+#        enabled: true # Whether exporting of metrics to this backend is enabled. (Default: true)
+#        user-name: admin # Login user of the InfluxDB server. InfluxDB v1 only.
+#        password: admin # Login password of the InfluxDB server. InfluxDB v1 only.
+#        read-timeout: 10s # Read timeout for requests to this backend. (Default: 10s)
+#        retention-policy: my_rp # Retention policy to use (InfluxDB writes to the DEFAULT retention policy if one is not specified). InfluxDB v1 only.
+#        step: 1m # Step size (i.e. reporting frequency) to use. (Default: 1m)
+#        uri: http://localhost:8086 # URI of the InfluxDB server. (Default: http://localhost:8086)
