@@ -3,6 +3,7 @@ package com.sang.annotation.dictionary;
 import java.lang.annotation.*;
 
 /**
+ * key:value转换设定注解
  * @author xiaoy
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -17,5 +18,5 @@ public @interface Dictionary {
     /**
      * 目标字段名称,为空则默认该字段
      */
-    String targetField() default "";
+    String valueTargetField() default "";
 }

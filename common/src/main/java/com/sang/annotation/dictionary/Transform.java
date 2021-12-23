@@ -3,6 +3,8 @@ package com.sang.annotation.dictionary;
 import java.lang.annotation.*;
 
 /**
+ * 字典转换标记注解
+ * 转换只支持List或者entity
  * @author xiaoy
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -11,7 +13,7 @@ import java.lang.annotation.*;
 public @interface Transform {
 
     /**
-     * 有包装需要转换的目标字段
+     * 包装内需要转换的目标字段,优先级大于{@link com.sang.annotation.dictionary.TargetField}
      * @return
      */
     String targetField() default "";

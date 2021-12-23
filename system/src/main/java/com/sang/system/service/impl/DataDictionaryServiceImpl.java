@@ -59,7 +59,7 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
                             Dictionary annotation = field.getAnnotation(Dictionary.class);
                             //设置每个对象该field的值
                             for (T ori : oriList) {
-                                setTargetFieldValue(ori, fetch, field, annotation.groupId(), annotation.targetField());
+                                setTargetFieldValue(ori, fetch, field, annotation.groupId(), annotation.valueTargetField());
                             }
                         }
                     } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -89,7 +89,7 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
         try {
             for (Field field : dictionaryField) {
                 Dictionary annotation = field.getAnnotation(Dictionary.class);
-                setTargetFieldValue(ori, fetch, field, annotation.groupId(), annotation.targetField());
+                setTargetFieldValue(ori, fetch, field, annotation.groupId(), annotation.valueTargetField());
             }
         } catch (NoSuchFieldException | IllegalAccessException e) {
             log.error(e);
