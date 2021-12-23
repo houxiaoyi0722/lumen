@@ -80,16 +80,20 @@ public class TransformAspect {
                 Optional<Object> fieldVluOpt = Optional.ofNullable(targetField.get(result));
 
                 fieldVluOpt.ifPresent(fieldVlu -> {
-                    // 类型判断 只支持list或者entity
-                    // todo 可通过重写 接口方法 切换实现逻辑
-                    if (List.class.isAssignableFrom(fieldVlu.getClass())) {
-                        dataDictionaryService.conversionDictionaryMappingList((List) fieldVlu);
-                    } else {
-                        dataDictionaryService.conversionDictionaryMapping(fieldVlu);
+                    try {
+                        // 类型判断 只支持list或者entity
+                        // todo 可通过重写 接口方法 切换实现逻辑
+                        if (List.class.isAssignableFrom(fieldVlu.getClass())) {
+                            targetField.set(result,dataDictionaryService.conversionDictionaryMappingList((List) fieldVlu));
+                        } else {
+                            targetField.set(result,dataDictionaryService.conversionDictionaryMapping(fieldVlu));
+                        }
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException("设置目标字段数据出错",e);
                     }
                 });
             } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("读取目标字段数据出错",e);
             }
         }
 
