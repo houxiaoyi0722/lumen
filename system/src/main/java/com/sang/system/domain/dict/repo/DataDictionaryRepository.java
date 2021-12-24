@@ -1,9 +1,8 @@
-package com.sang.system.domain.repo;
+package com.sang.system.domain.dict.repo;
 
-import cn.hutool.db.PageResult;
-import com.sang.system.domain.entity.DataDictionary;
+import com.sang.system.domain.dict.entity.DataDictionary;
 import com.sang.system.domain.entity.query.QDataDictionary;
-import com.sang.system.param.DataDictionaryParam;
+import com.sang.system.param.dict.DataDictionaryParam;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;

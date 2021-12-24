@@ -1,8 +1,8 @@
-package com.sang.system.domain.entity;
+package com.sang.system.domain.dict.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.domain.entity.BaseModel;
-import com.sang.system.domain.entity.finder.DataDictionaryFinder;
+import com.sang.system.domain.dict.entity.finder.DataDictionaryFinder;
 import lombok.*;
 
 import javax.persistence.*;

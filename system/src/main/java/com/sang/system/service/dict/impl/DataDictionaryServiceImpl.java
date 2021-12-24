@@ -1,14 +1,14 @@
-package com.sang.system.service.impl;
+package com.sang.system.service.dict.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.sang.annotation.dictionary.Dictionary;
 import com.sang.constants.StringConst;
-import com.sang.system.domain.entity.DataDictionary;
-import com.sang.system.domain.entity.DataDictionaryItem;
-import com.sang.system.domain.repo.DataDictionaryRepository;
-import com.sang.system.param.DataDictionaryParam;
-import com.sang.system.service.DataDictionaryService;
+import com.sang.system.domain.dict.entity.DataDictionary;
+import com.sang.system.domain.dict.entity.DataDictionaryItem;
+import com.sang.system.domain.dict.repo.DataDictionaryRepository;
+import com.sang.system.param.dict.DataDictionaryParam;
+import com.sang.system.service.dict.DataDictionaryService;
 import io.ebean.PagedList;
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.log4j.Log4j2;

@@ -1,6 +1,6 @@
-package com.sang.system.domain.entity.finder;
+package com.sang.system.domain.dict.entity.finder;
 
-import com.sang.system.domain.entity.DataDictionary;
+import com.sang.system.domain.dict.entity.DataDictionary;
 import io.ebean.Finder;
 import lombok.Builder;
 

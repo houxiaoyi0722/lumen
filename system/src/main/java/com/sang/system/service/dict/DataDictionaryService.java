@@ -1,7 +1,7 @@
-package com.sang.system.service;
+package com.sang.system.service.dict;
 
-import com.sang.system.domain.entity.DataDictionary;
-import com.sang.system.param.DataDictionaryParam;
+import com.sang.system.domain.dict.entity.DataDictionary;
+import com.sang.system.param.dict.DataDictionaryParam;
 import io.ebean.PagedList;
 
 import java.util.List;

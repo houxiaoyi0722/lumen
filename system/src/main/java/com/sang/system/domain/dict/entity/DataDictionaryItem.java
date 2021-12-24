@@ -1,7 +1,7 @@
-package com.sang.system.domain.entity;
+package com.sang.system.domain.dict.entity;
 
 import com.sang.domain.entity.BaseModel;
-import com.sang.system.domain.entity.finder.DataDictionaryItemFinder;
+import com.sang.system.domain.dict.entity.finder.DataDictionaryItemFinder;
 import lombok.*;
 
 import javax.persistence.Column;

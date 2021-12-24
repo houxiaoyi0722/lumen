@@ -3,7 +3,7 @@ package com.sang.system.aspect;
 import cn.hutool.core.util.StrUtil;
 import com.sang.annotation.dictionary.TargetField;
 import com.sang.annotation.dictionary.Transform;
-import com.sang.system.service.DataDictionaryService;
+import com.sang.system.service.dict.DataDictionaryService;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;

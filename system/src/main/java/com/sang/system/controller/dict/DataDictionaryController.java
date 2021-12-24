@@ -1,10 +1,10 @@
-package com.sang.system.controller;
+package com.sang.system.controller.dict;
 
 import com.sang.response.PageResult;
 import com.sang.response.Result;
-import com.sang.system.domain.entity.DataDictionary;
-import com.sang.system.param.DataDictionaryParam;
-import com.sang.system.service.DataDictionaryService;
+import com.sang.system.domain.dict.entity.DataDictionary;
+import com.sang.system.param.dict.DataDictionaryParam;
+import com.sang.system.service.dict.DataDictionaryService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
