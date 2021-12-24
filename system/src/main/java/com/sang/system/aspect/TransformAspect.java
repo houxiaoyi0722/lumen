@@ -82,7 +82,6 @@ public class TransformAspect {
                 fieldVluOpt.ifPresent(fieldVlu -> {
                     try {
                         // 类型判断 只支持list或者entity
-                        // todo 可通过重写 接口方法 切换实现逻辑
                         if (List.class.isAssignableFrom(fieldVlu.getClass())) {
                             targetField.set(result,dataDictionaryService.conversionDictionaryMappingList((List) fieldVlu));
                         } else {

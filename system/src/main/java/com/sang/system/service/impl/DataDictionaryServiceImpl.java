@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
  */
 @Log4j2
 @Service
+//todo @ConditionalOnMissingBean(DataDictionaryService.class)
 public class DataDictionaryServiceImpl implements DataDictionaryService {
 
     @Resource
