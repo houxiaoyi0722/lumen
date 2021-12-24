@@ -2,7 +2,7 @@ package com.sang.system.domain.dict.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.domain.entity.BaseModel;
-import com.sang.system.domain.dict.entity.finder.DataDictionaryFinder;
+import com.sang.system.domain.dict.entity.finder.DictionaryFinder;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,13 +21,13 @@ import static javax.persistence.CascadeType.PERSIST;
 @MappedSuperclass
 @Entity
 @Table(name = "DATA_DICTIONARY")
-public class DataDictionary extends BaseModel {
+public class Dictionary extends BaseModel {
 
-    public static final DataDictionaryFinder finder = DataDictionaryFinder.builder().build();
+    public static final DictionaryFinder finder = DictionaryFinder.builder().build();
 
     @JsonIgnore
     @OneToMany(mappedBy = "dataDictionary", cascade = PERSIST)
-    private List<DataDictionaryItem> dataDictionaryItems;
+    private List<DictionaryItem> dictionaryItems;
     /**
      * 组id
      */

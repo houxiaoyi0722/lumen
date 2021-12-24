@@ -1,6 +1,6 @@
 package com.sang.system.domain.dict.repo;
 
-import com.sang.system.domain.dict.entity.DataDictionary;
+import com.sang.system.domain.dict.entity.Dictionary;
 import com.sang.system.domain.entity.query.QDataDictionary;
 import com.sang.system.param.dict.DataDictionaryParam;
 import io.ebean.BeanRepository;
@@ -11,17 +11,17 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class DataDictionaryRepository extends BeanRepository<Long, DataDictionary> {
+public class DictionaryRepository extends BeanRepository<Long, Dictionary> {
 
-    protected DataDictionaryRepository(Database server) {
-        super(DataDictionary.class, server);
+    protected DictionaryRepository(Database server) {
+        super(Dictionary.class, server);
     }
 
-    public List<DataDictionary> getDictionaryListByGroupIds(List<String> groupIds) {
+    public List<Dictionary> getDictionaryListByGroupIds(List<String> groupIds) {
         return new QDataDictionary().groupId.in(groupIds).deleted.isFalse().findList();
     }
 
-    public PagedList<DataDictionary> getDictionaryList(DataDictionaryParam dataDictionaryParam) {
+    public PagedList<Dictionary> getDictionaryList(DataDictionaryParam dataDictionaryParam) {
         QDataDictionary dataDictionary = QDataDictionary.alias();
 
         return new QDataDictionary()

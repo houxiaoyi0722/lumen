@@ -2,13 +2,12 @@ package com.sang.system.service.dict.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.sang.annotation.dictionary.Dictionary;
 import com.sang.constants.StringConst;
-import com.sang.system.domain.dict.entity.DataDictionary;
-import com.sang.system.domain.dict.entity.DataDictionaryItem;
-import com.sang.system.domain.dict.repo.DataDictionaryRepository;
+import com.sang.system.domain.dict.entity.Dictionary;
+import com.sang.system.domain.dict.entity.DictionaryItem;
+import com.sang.system.domain.dict.repo.DictionaryRepository;
 import com.sang.system.param.dict.DataDictionaryParam;
-import com.sang.system.service.dict.DataDictionaryService;
+import com.sang.system.service.dict.DictionaryService;
 import io.ebean.PagedList;
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.log4j.Log4j2;
@@ -28,10 +27,10 @@ import java.util.stream.Collectors;
 @Log4j2
 @Service
 //todo @ConditionalOnMissingBean(DataDictionaryService.class)
-public class DataDictionaryServiceImpl implements DataDictionaryService {
+public class DictionaryServiceImpl implements DictionaryService {
 
     @Resource
-    private DataDictionaryRepository dataDictionaryRepository;
+    private DictionaryRepository dictionaryRepository;
 
     /**
      * 转换list中的字典值 , 需在entity需要转换的字段上添加<tt>Dictionary</tt>注解
@@ -53,11 +52,11 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
                         throw new IllegalArgumentException("groupId 不能为空");
 
                     //字典数据
-                    List<DataDictionary> fetch = dataDictionaryRepository.getDictionaryListByGroupIds(groupIds);
+                    List<Dictionary> fetch = dictionaryRepository.getDictionaryListByGroupIds(groupIds);
 
                     try {
                         for (Field field : dictionaryField) {
-                            Dictionary annotation = field.getAnnotation(Dictionary.class);
+                            com.sang.annotation.dictionary.Dictionary annotation = field.getAnnotation(com.sang.annotation.dictionary.Dictionary.class);
                             //设置每个对象该field的值
                             for (T ori : oriList) {
                                 setTargetFieldValue(ori, fetch, field, annotation.groupId(), annotation.valueTargetField());
@@ -85,11 +84,11 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
         List<String> groupIds = getGroupIds(dictionaryField);
 
         //字典数据
-        List<DataDictionary> fetch = dataDictionaryRepository.getDictionaryListByGroupIds(groupIds);
+        List<Dictionary> fetch = dictionaryRepository.getDictionaryListByGroupIds(groupIds);
 
         try {
             for (Field field : dictionaryField) {
-                Dictionary annotation = field.getAnnotation(Dictionary.class);
+                com.sang.annotation.dictionary.Dictionary annotation = field.getAnnotation(com.sang.annotation.dictionary.Dictionary.class);
                 setTargetFieldValue(ori, fetch, field, annotation.groupId(), annotation.valueTargetField());
             }
         } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -100,22 +99,22 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
     }
 
     @Override
-    public PagedList<DataDictionary> dictionaryList(DataDictionaryParam dataDictionaryParam) {
-        return dataDictionaryRepository.getDictionaryList(dataDictionaryParam);
+    public PagedList<Dictionary> dictionaryList(DataDictionaryParam dataDictionaryParam) {
+        return dictionaryRepository.getDictionaryList(dataDictionaryParam);
     }
 
     @Override
-    public DataDictionary findOne(String id) {
+    public Dictionary findOne(String id) {
         return null;
     }
 
     @Override
-    public DataDictionary save(DataDictionary dataDictionary) {
+    public Dictionary save(Dictionary dictionary) {
         return null;
     }
 
     @Override
-    public DataDictionary update(DataDictionary dataDictionary) {
+    public Dictionary update(Dictionary dictionary) {
         return null;
     }
 
@@ -134,7 +133,7 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
      * @param targetField 目标字段
      * @throws NoSuchFieldException targetField不存在时
      */
-    private <T> void setTargetFieldValue(T ori, List<DataDictionary> fetch, Field field, String groupId, String targetField) throws IllegalAccessException, NoSuchFieldException {
+    private <T> void setTargetFieldValue(T ori, List<Dictionary> fetch, Field field, String groupId, String targetField) throws IllegalAccessException, NoSuchFieldException {
         Class<?> cls = ori.getClass();
         field.setAccessible(true);
         //获取字段中的值
@@ -145,20 +144,20 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
 
         Object target = optional.get();
 
-        Optional<DataDictionary> dataDictionary = fetch.stream().filter(t -> groupId.equals(t.getGroupId())).findAny();
+        Optional<Dictionary> dataDictionary = fetch.stream().filter(t -> groupId.equals(t.getGroupId())).findAny();
         if (dataDictionary.isEmpty()) {
             log.warn("groupId不存在： {}",groupId);
             return;
         }
 
-        List<DataDictionaryItem> dataDictionaryItems = dataDictionary.get().getDataDictionaryItems();
-        if (CollectionUtil.isEmpty(dataDictionaryItems)) {
+        List<DictionaryItem> dictionaryItems = dataDictionary.get().getDictionaryItems();
+        if (CollectionUtil.isEmpty(dictionaryItems)) {
             log.warn("字典列表为空:groupId= {}",groupId);
             return;
         }
 
         Object finalTarget = target;
-        target = dataDictionaryItems.stream().filter(dataDictionaryItem -> finalTarget.equals(dataDictionaryItem.getItemKey())).map(DataDictionaryItem::getItemValue).findAny().orElse(StringConst.EMPTY);
+        target = dictionaryItems.stream().filter(dataDictionaryItem -> finalTarget.equals(dataDictionaryItem.getItemKey())).map(DictionaryItem::getItemValue).findAny().orElse(StringConst.EMPTY);
 
         //将值设置回该字段或目标字段
         Field fieldObj = StringUtils.isEmpty(targetField) ? field : cls.getDeclaredField(targetField);
@@ -168,7 +167,7 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
 
     private List<String> getGroupIds(List<Field> dictionaryField) {
         List<String> groupIds = dictionaryField.stream()
-                .map(obj -> obj.getAnnotation(Dictionary.class).groupId())
+                .map(obj -> obj.getAnnotation(com.sang.annotation.dictionary.Dictionary.class).groupId())
                 .filter(StrUtil::isNotEmpty)
                 .distinct()
                 .collect(Collectors.toList());
@@ -183,7 +182,7 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
      */
     private List<Field> getDictionaryFields(Class<?> cls) {
         return Arrays.stream(cls.getDeclaredFields())
-                .filter(obj -> Optional.ofNullable(obj.getAnnotation(Dictionary.class))
+                .filter(obj -> Optional.ofNullable(obj.getAnnotation(com.sang.annotation.dictionary.Dictionary.class))
                         .isPresent()).collect(Collectors.toList());
     }
 }

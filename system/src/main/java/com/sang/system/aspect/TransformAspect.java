@@ -3,7 +3,7 @@ package com.sang.system.aspect;
 import cn.hutool.core.util.StrUtil;
 import com.sang.annotation.dictionary.TargetField;
 import com.sang.annotation.dictionary.Transform;
-import com.sang.system.service.dict.DataDictionaryService;
+import com.sang.system.service.dict.DictionaryService;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class TransformAspect {
 
     @Resource
-    private DataDictionaryService dataDictionaryService;
+    private DictionaryService dictionaryService;
 
     @Pointcut("@annotation(com.sang.annotation.dictionary.Transform)")
     public void transformServer() {
@@ -83,9 +83,9 @@ public class TransformAspect {
                     try {
                         // 类型判断 只支持list或者entity
                         if (List.class.isAssignableFrom(fieldVlu.getClass())) {
-                            targetField.set(result,dataDictionaryService.conversionDictionaryMappingList((List) fieldVlu));
+                            targetField.set(result, dictionaryService.conversionDictionaryMappingList((List) fieldVlu));
                         } else {
-                            targetField.set(result,dataDictionaryService.conversionDictionaryMapping(fieldVlu));
+                            targetField.set(result, dictionaryService.conversionDictionaryMapping(fieldVlu));
                         }
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException("设置目标字段数据出错",e);

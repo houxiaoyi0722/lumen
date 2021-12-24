@@ -1,7 +1,7 @@
 package com.sang.system.domain.dict.entity;
 
 import com.sang.domain.entity.BaseModel;
-import com.sang.system.domain.dict.entity.finder.DataDictionaryItemFinder;
+import com.sang.system.domain.dict.entity.finder.DictionaryItemFinder;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -17,13 +17,13 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Entity
 @Table(name = "DATA_DICTIONARY_ITEM")
-public class DataDictionaryItem extends BaseModel {
+public class DictionaryItem extends BaseModel {
 
-    public static final DataDictionaryItemFinder finder = DataDictionaryItemFinder.builder().build();
+    public static final DictionaryItemFinder finder = DictionaryItemFinder.builder().build();
 
     @NotNull
     @ManyToOne(optional = false)
-    private DataDictionary dataDictionary;
+    private Dictionary dictionary;
 
     @Column(length = 100,nullable = false)
     private String itemValue;
