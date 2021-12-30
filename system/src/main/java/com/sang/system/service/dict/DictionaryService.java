@@ -1,6 +1,6 @@
 package com.sang.system.service.dict;
 
-import com.sang.system.domain.dict.entity.Dictionary;
+import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.system.param.dict.DataDictionaryParam;
 import io.ebean.PagedList;
 

@@ -1,7 +1,7 @@
 package com.sang.system;
 
-import com.sang.system.domain.dict.entity.Dictionary;
-import com.sang.system.domain.dict.entity.DictionaryItem;
+import com.sang.common.domain.dict.entity.Dictionary;
+import com.sang.common.domain.dict.entity.DictionaryItem;
 import io.ebean.DB;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
