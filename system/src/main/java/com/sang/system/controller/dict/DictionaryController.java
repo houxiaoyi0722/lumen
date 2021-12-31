@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/lumen/matedata")
+@RequestMapping("/lumen/dict")
 public class DictionaryController {
 
     @Resource
