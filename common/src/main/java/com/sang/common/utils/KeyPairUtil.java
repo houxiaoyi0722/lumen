@@ -16,7 +16,7 @@ import java.util.Map;
  * @author hxy
  * @date 2021/12/30 18:31
  **/
-public class PairUtil {
+public class KeyPairUtil {
 
     public static final String KEY_ALGORITHM = "RSA";
     public static final String SIGNATURE_ALGORITHM = "MD5withRSA";
