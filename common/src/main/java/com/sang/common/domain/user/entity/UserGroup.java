@@ -1,8 +1,8 @@
-package com.sang.common.domain.role.entity;
+package com.sang.common.domain.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
-import com.sang.common.domain.user.entity.User;
+import com.sang.common.domain.role.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,9 +15,9 @@ import java.util.List;
 import static javax.persistence.CascadeType.PERSIST;
 
 /**
- * 角色
+ * 用户组
  * @author hxy
- * @date 2021/12/30 17:14
+ * @date 2021/12/31 15:53
  **/
 @Setter
 @Getter
@@ -26,38 +26,28 @@ import static javax.persistence.CascadeType.PERSIST;
 @MappedSuperclass
 @Entity
 @SuperBuilder
-@Table(name = "ROLE")
-public class Role extends BaseModel {
+@Table(name = "USER_GROUP")
+public class UserGroup extends BaseModel {
 
-    /**
-     * 角色名称
-     */
-    @Column(length = 20,nullable = false,unique = true)
-    private String roleName;
+    @Column(length = 10,nullable = false,unique = true)
+    private String groupName;
 
-    /**
-     * 角色代码
-     */
-    @Column(length = 20,nullable = false,unique = true)
-    private String roleCode;
+    @Column(length = 10,nullable = false,unique = true)
+    private String groupCode;
 
-    /**
-     * 备注
-     */
     @Column(length = 200)
     private String comment;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "parentId")
-    private List<Role> children;
+    private List<UserGroup> children;
 
     @JsonIgnore
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="PARENT_ID")
-    private Role parentId;
+    private UserGroup parentId;
 
     @JsonIgnore
-    @JoinColumn(name = "USER_ID")
-    @ManyToMany(mappedBy = "role", cascade = PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userGroup", cascade = PERSIST,fetch = FetchType.LAZY)
     private List<User> userList;
 }

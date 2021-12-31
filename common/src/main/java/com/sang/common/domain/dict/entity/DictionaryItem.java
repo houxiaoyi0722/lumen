@@ -22,7 +22,7 @@ public class DictionaryItem extends BaseModel {
     public static final DictionaryItemFinder finder = DictionaryItemFinder.builder().build();
 
     @NotNull
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Dictionary dictionary;
 
     @Column(length = 100,nullable = false)

@@ -26,17 +26,17 @@ public class Dictionary extends BaseModel {
     public static final DictionaryFinder finder = DictionaryFinder.builder().build();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "dataDictionary", cascade = PERSIST)
+    @OneToMany(mappedBy = "dictionary", cascade = PERSIST)
     private List<DictionaryItem> dictionaryItems;
     /**
      * 组id
      */
-    @Column(length = 10,nullable = false)
+    @Column(length = 10,nullable = false,unique = true)
     private String groupId;
     /**
      * 组名称
      */
-    @Column(length = 50,nullable = false)
+    @Column(length = 10,nullable = false,unique = true)
     private String groupName;
     /**
      * 备注

@@ -1,7 +1,7 @@
 package com.sang.system.domain.dict.repo;
 
 import com.sang.common.domain.dict.entity.Dictionary;
-import com.sang.domain.dict.entity.query.QDictionary;
+import com.sang.common.domain.dict.entity.query.QDictionary;
 import com.sang.system.param.dict.DataDictionaryParam;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
