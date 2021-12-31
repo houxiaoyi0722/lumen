@@ -43,11 +43,17 @@ public class UserGroup extends BaseModel {
     private List<UserGroup> children;
 
     @JsonIgnore
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY, cascade = PERSIST)
     @JoinColumn(name="PARENT_ID")
     private UserGroup parentId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "userGroup", cascade = PERSIST,fetch = FetchType.LAZY)
     private List<User> userList;
+
+    @JsonIgnore
+    @JoinColumn(name = "ROLE_ID")
+    @ManyToMany(mappedBy = "userGroup", cascade = PERSIST,fetch=FetchType.LAZY)
+    private List<Role> role;
+
 }

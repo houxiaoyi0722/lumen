@@ -3,6 +3,7 @@ package com.sang.common.domain.role.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.user.entity.User;
+import com.sang.common.domain.user.entity.UserGroup;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -60,4 +61,9 @@ public class Role extends BaseModel {
     @JoinColumn(name = "USER_ID")
     @ManyToMany(mappedBy = "role", cascade = PERSIST,fetch = FetchType.LAZY)
     private List<User> userList;
+
+    @JsonIgnore
+    @JoinColumn(name = "USER_GROUP_ID")
+    @ManyToMany(mappedBy = "role", cascade = PERSIST,fetch = FetchType.LAZY)
+    private List<UserGroup> userGroup;
 }
