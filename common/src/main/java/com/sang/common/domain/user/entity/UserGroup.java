@@ -3,10 +3,7 @@ package com.sang.common.domain.user.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.role.entity.Role;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -25,7 +22,7 @@ import static javax.persistence.CascadeType.PERSIST;
 @AllArgsConstructor
 @MappedSuperclass
 @Entity
-@SuperBuilder
+@Builder
 @Table(name = "USER_GROUP")
 public class UserGroup extends BaseModel {
 

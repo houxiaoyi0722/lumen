@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.user.entity.User;
 import com.sang.common.domain.user.entity.UserGroup;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -26,7 +23,7 @@ import static javax.persistence.CascadeType.PERSIST;
 @AllArgsConstructor
 @MappedSuperclass
 @Entity
-@SuperBuilder
+@Builder
 @Table(name = "ROLE")
 public class Role extends BaseModel {
 

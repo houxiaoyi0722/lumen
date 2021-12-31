@@ -15,7 +15,7 @@ import java.time.Instant;
 
 @Getter
 @Setter
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass

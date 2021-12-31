@@ -22,7 +22,7 @@ import static javax.persistence.CascadeType.PERSIST;
 @AllArgsConstructor
 @MappedSuperclass
 @Entity
-@SuperBuilder
+@Builder
 @Table(name = "USER")
 public class User extends BaseModel {
 
