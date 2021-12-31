@@ -12,6 +12,9 @@ logging:
       ebean:
         SQL: DEBUG
         TXN: DEBUG
+jwt:
+  private.key: classpath:app.key
+  public.key: classpath:app.pub
 #spring:
 #  jackson:
 #    date-format: yyyy-MM-dd HH:mm:ss
