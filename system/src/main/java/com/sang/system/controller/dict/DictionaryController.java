@@ -22,23 +22,26 @@ public class DictionaryController {
     }
 
     @GetMapping("/dictionary")
-    public Result<Dictionary> findOne(@RequestParam("id") String id) {
+    public Result<Dictionary> findOne(@RequestParam("id") Long id) {
         return Result.ok(dictionaryService.findOne(id));
     }
 
     @PostMapping("/dictionary")
     public Result<Dictionary> save(@RequestBody Dictionary dictionary) {
-        return Result.ok(dictionaryService.save(dictionary));
+        dictionaryService.save(dictionary);
+        return Result.ok();
     }
 
     @PutMapping("/dictionary")
     public Result<Dictionary> update(@RequestBody Dictionary dictionary) {
-        return Result.ok(dictionaryService.update(dictionary));
+        dictionaryService.update(dictionary);
+        return Result.ok();
     }
 
     @DeleteMapping("/dictionary")
-    public Result<Boolean> delete(@RequestParam("id") String id) {
-        return Result.ok(dictionaryService.delete(id));
+    public Result<Boolean> delete(@RequestParam("id") Long id) {
+        dictionaryService.delete(id);
+        return Result.ok();
     }
 
 }

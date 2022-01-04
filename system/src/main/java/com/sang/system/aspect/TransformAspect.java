@@ -1,9 +1,15 @@
 package com.sang.system.aspect;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.sang.common.annotation.dictionary.DictionaryTran;
 import com.sang.common.annotation.dictionary.TargetField;
 import com.sang.common.annotation.dictionary.Transform;
+import com.sang.common.constants.StringConst;
+import com.sang.common.domain.dict.entity.Dictionary;
+import com.sang.common.domain.dict.entity.DictionaryItem;
 import com.sang.system.service.dict.DictionaryService;
+import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -83,9 +89,9 @@ public class TransformAspect {
                     try {
                         // 类型判断 只支持list或者entity
                         if (List.class.isAssignableFrom(fieldVlu.getClass())) {
-                            targetField.set(result, dictionaryService.conversionDictionaryMappingList((List) fieldVlu));
+                            targetField.set(result, conversionDictionaryMappingList((List) fieldVlu));
                         } else {
-                            targetField.set(result, dictionaryService.conversionDictionaryMapping(fieldVlu));
+                            targetField.set(result, conversionDictionaryMapping(fieldVlu));
                         }
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException("设置目标字段数据出错",e);
@@ -98,5 +104,128 @@ public class TransformAspect {
 
         return result;
     }
+
+    public <T> List<T> conversionDictionaryMappingList(List<T> oriList) {
+        try {
+            if (CollectionUtil.isNotEmpty(oriList)) {
+                //待处理字段
+                List<Field> dictionaryField = getDictionaryFields(oriList.get(0).getClass());
+                //无注解原值返回
+                if (CollectionUtil.isNotEmpty(dictionaryField)) {
+                    //需要的字典数据id
+                    List<String> groupIds = getGroupIds(dictionaryField);
+
+                    if (CollectionUtil.isEmpty(groupIds))
+                        throw new IllegalArgumentException("groupId can not be empty");
+
+                    //字典数据
+                    List<Dictionary> fetch = dictionaryService.getDictionaryListByGroupIds(groupIds);
+
+                    try {
+                        for (Field field : dictionaryField) {
+                            DictionaryTran annotation = field.getAnnotation(DictionaryTran.class);
+                            //设置每个对象该field的值
+                            for (T ori : oriList) {
+                                setTargetFieldValue(ori, fetch, field, annotation.groupId(), annotation.valueTargetField());
+                            }
+                        }
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        log.error(e);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error("字典转换错误", e);
+            return oriList;
+        }
+        return oriList;
+    }
+
+    private <T> T conversionDictionaryMapping(T ori) {
+        Class<?> cls = ori.getClass();
+        //待处理字段集合
+        List<Field> dictionaryField = getDictionaryFields(cls);
+        //需要的字典数据id
+        List<String> groupIds = getGroupIds(dictionaryField);
+
+        //字典数据
+        List<Dictionary> fetch = dictionaryService.getDictionaryListByGroupIds(groupIds);
+
+        try {
+            for (Field field : dictionaryField) {
+                DictionaryTran annotation = field.getAnnotation(DictionaryTran.class);
+                setTargetFieldValue(ori, fetch, field, annotation.groupId(), annotation.valueTargetField());
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            log.error(e);
+        }
+
+        return ori;
+    }
+
+    /**
+     * 获取有Dictionary注解的字段
+     *
+     * @param cls cls对象
+     * @return 有Dictionary注解的字段
+     */
+    private List<Field> getDictionaryFields(Class<?> cls) {
+        return Arrays.stream(cls.getDeclaredFields())
+                .filter(obj -> Optional.ofNullable(obj.getAnnotation(DictionaryTran.class))
+                        .isPresent()).collect(Collectors.toList());
+    }
+
+
+    /**
+     * 设置目标字段的值
+     *
+     * @param ori         目标对象
+     * @param fetch       groupIds 对应的item数据
+     * @param field       要设置值的字段
+     * @param groupId     该字段的groupId
+     * @param targetField 目标字段
+     * @throws NoSuchFieldException targetField不存在时
+     */
+    private <T> void setTargetFieldValue(T ori, List<Dictionary> fetch, Field field, String groupId, String targetField) throws IllegalAccessException, NoSuchFieldException {
+        Class<?> cls = ori.getClass();
+        field.setAccessible(true);
+        //获取字段中的值
+        Optional<Object> optional = Optional.ofNullable(field.get(ori));
+        //判断是否为空 null不处理
+        if (optional.isEmpty())
+            return;
+
+        Object target = optional.get();
+
+        Optional<Dictionary> dataDictionary = fetch.stream().filter(t -> groupId.equals(t.getGroupId())).findAny();
+        if (dataDictionary.isEmpty()) {
+            log.warn("groupId doesn't exist： {}",groupId);
+            return;
+        }
+
+        List<DictionaryItem> dictionaryItems = dataDictionary.get().getDictionaryItems();
+        if (CollectionUtil.isEmpty(dictionaryItems)) {
+            log.warn("can't find dict item:groupId= {}",groupId);
+            return;
+        }
+
+        Object finalTarget = target;
+        target = dictionaryItems.stream().filter(dataDictionaryItem -> finalTarget.equals(dataDictionaryItem.getItemKey())).map(DictionaryItem::getItemValue).findAny().orElse(StringConst.EMPTY);
+
+        //将值设置回该字段或目标字段
+        Field fieldObj = StringUtils.isEmpty(targetField) ? field : cls.getDeclaredField(targetField);
+        fieldObj.setAccessible(true);
+        fieldObj.set(ori, target);
+    }
+
+    private List<String> getGroupIds(List<Field> dictionaryField) {
+        List<String> groupIds = dictionaryField.stream()
+                .map(obj -> obj.getAnnotation(DictionaryTran.class).groupId())
+                .filter(StrUtil::isNotEmpty)
+                .distinct()
+                .collect(Collectors.toList());
+        return groupIds;
+    }
+
 
 }

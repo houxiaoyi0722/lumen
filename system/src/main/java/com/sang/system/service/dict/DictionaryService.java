@@ -8,17 +8,19 @@ import java.util.List;
 
 public interface DictionaryService {
 
-    <T> List<T> conversionDictionaryMappingList(List<T> oriList);
-
-    <T> T conversionDictionaryMapping(T ori);
+    List<Dictionary> getDictionaryListByGroupIds(List<String> groupIds);
 
     PagedList<Dictionary> dictionaryList(DataDictionaryParam dataDictionaryParam);
 
-    Dictionary findOne(String id);
+    Dictionary findOne(Long id);
 
-    Dictionary save(Dictionary dictionary);
+    void save(Dictionary dictionary);
 
-    Dictionary update(Dictionary dictionary);
+    void saveAll(List<Dictionary> dictionaries);
 
-    Boolean delete(String id);
+    void insert(Dictionary dictionary);
+
+    void update(Dictionary dictionary);
+
+    void delete(Long id);
 }

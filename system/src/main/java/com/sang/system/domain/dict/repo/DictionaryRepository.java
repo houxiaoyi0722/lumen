@@ -36,6 +36,6 @@ public class DictionaryRepository extends BeanRepository<Long, Dictionary> {
     }
 
     public Dictionary findOne(String id) {
-        return null;
+        return new QDictionary().id.eq(Long.parseLong(id)).findOne();
     }
 }
