@@ -2,8 +2,9 @@ package com.sang.system.service.dict.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.sang.common.annotation.dictionary.Dictionary;
+import com.sang.common.annotation.dictionary.DictionaryTran;
 import com.sang.common.constants.StringConst;
+import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.common.domain.dict.entity.DictionaryItem;
 import com.sang.system.domain.dict.repo.DictionaryRepository;
 import com.sang.system.param.dict.DataDictionaryParam;
@@ -53,11 +54,11 @@ public class DictionaryServiceImpl implements DictionaryService {
                         throw new IllegalArgumentException("groupId 不能为空");
 
                     //字典数据
-                    List<com.sang.common.domain.dict.entity.Dictionary> fetch = dictionaryRepository.getDictionaryListByGroupIds(groupIds);
+                    List<Dictionary> fetch = dictionaryRepository.getDictionaryListByGroupIds(groupIds);
 
                     try {
                         for (Field field : dictionaryField) {
-                            Dictionary annotation = field.getAnnotation(Dictionary.class);
+                            DictionaryTran annotation = field.getAnnotation(DictionaryTran.class);
                             //设置每个对象该field的值
                             for (T ori : oriList) {
                                 setTargetFieldValue(ori, fetch, field, annotation.groupId(), annotation.valueTargetField());
@@ -85,11 +86,11 @@ public class DictionaryServiceImpl implements DictionaryService {
         List<String> groupIds = getGroupIds(dictionaryField);
 
         //字典数据
-        List<com.sang.common.domain.dict.entity.Dictionary> fetch = dictionaryRepository.getDictionaryListByGroupIds(groupIds);
+        List<Dictionary> fetch = dictionaryRepository.getDictionaryListByGroupIds(groupIds);
 
         try {
             for (Field field : dictionaryField) {
-                Dictionary annotation = field.getAnnotation(Dictionary.class);
+                DictionaryTran annotation = field.getAnnotation(DictionaryTran.class);
                 setTargetFieldValue(ori, fetch, field, annotation.groupId(), annotation.valueTargetField());
             }
         } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -100,22 +101,22 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     @Override
-    public PagedList<com.sang.common.domain.dict.entity.Dictionary> dictionaryList(DataDictionaryParam dataDictionaryParam) {
+    public PagedList<Dictionary> dictionaryList(DataDictionaryParam dataDictionaryParam) {
         return dictionaryRepository.getDictionaryList(dataDictionaryParam);
     }
 
     @Override
-    public com.sang.common.domain.dict.entity.Dictionary findOne(String id) {
+    public Dictionary findOne(String id) {
         return null;
     }
 
     @Override
-    public com.sang.common.domain.dict.entity.Dictionary save(com.sang.common.domain.dict.entity.Dictionary dictionary) {
+    public Dictionary save(Dictionary dictionary) {
         return null;
     }
 
     @Override
-    public com.sang.common.domain.dict.entity.Dictionary update(com.sang.common.domain.dict.entity.Dictionary dictionary) {
+    public Dictionary update(Dictionary dictionary) {
         return null;
     }
 
@@ -134,7 +135,7 @@ public class DictionaryServiceImpl implements DictionaryService {
      * @param targetField 目标字段
      * @throws NoSuchFieldException targetField不存在时
      */
-    private <T> void setTargetFieldValue(T ori, List<com.sang.common.domain.dict.entity.Dictionary> fetch, Field field, String groupId, String targetField) throws IllegalAccessException, NoSuchFieldException {
+    private <T> void setTargetFieldValue(T ori, List<Dictionary> fetch, Field field, String groupId, String targetField) throws IllegalAccessException, NoSuchFieldException {
         Class<?> cls = ori.getClass();
         field.setAccessible(true);
         //获取字段中的值
@@ -145,7 +146,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
         Object target = optional.get();
 
-        Optional<com.sang.common.domain.dict.entity.Dictionary> dataDictionary = fetch.stream().filter(t -> groupId.equals(t.getGroupId())).findAny();
+        Optional<Dictionary> dataDictionary = fetch.stream().filter(t -> groupId.equals(t.getGroupId())).findAny();
         if (dataDictionary.isEmpty()) {
             log.warn("groupId不存在： {}",groupId);
             return;
@@ -168,7 +169,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     private List<String> getGroupIds(List<Field> dictionaryField) {
         List<String> groupIds = dictionaryField.stream()
-                .map(obj -> obj.getAnnotation(Dictionary.class).groupId())
+                .map(obj -> obj.getAnnotation(DictionaryTran.class).groupId())
                 .filter(StrUtil::isNotEmpty)
                 .distinct()
                 .collect(Collectors.toList());
@@ -183,7 +184,7 @@ public class DictionaryServiceImpl implements DictionaryService {
      */
     private List<Field> getDictionaryFields(Class<?> cls) {
         return Arrays.stream(cls.getDeclaredFields())
-                .filter(obj -> Optional.ofNullable(obj.getAnnotation(Dictionary.class))
+                .filter(obj -> Optional.ofNullable(obj.getAnnotation(DictionaryTran.class))
                         .isPresent()).collect(Collectors.toList());
     }
 }

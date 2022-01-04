@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
 @Inherited
-public @interface Dictionary {
+public @interface DictionaryTran {
     /**
      * 组id
      */
