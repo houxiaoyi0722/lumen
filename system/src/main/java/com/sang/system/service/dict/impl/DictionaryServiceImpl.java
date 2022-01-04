@@ -107,7 +107,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     @Override
     public Dictionary findOne(String id) {
-        return null;
+        return dictionaryRepository.findOne(id);
     }
 
     @Override

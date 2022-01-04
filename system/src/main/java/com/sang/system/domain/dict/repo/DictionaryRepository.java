@@ -34,4 +34,8 @@ public class DictionaryRepository extends BeanRepository<Long, Dictionary> {
                 .orderBy().whenCreated.desc()
                 .findPagedList();
     }
+
+    public Dictionary findOne(String id) {
+        return null;
+    }
 }
