@@ -20,7 +20,6 @@ import static javax.persistence.CascadeType.PERSIST;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
 @Entity
 @Builder
 @Table(name = "USER")
