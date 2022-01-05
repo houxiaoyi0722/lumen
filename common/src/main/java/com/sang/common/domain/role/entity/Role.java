@@ -5,9 +5,9 @@ import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.user.entity.User;
 import com.sang.common.domain.user.entity.UserGroup;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.PERSIST;
@@ -46,7 +46,7 @@ public class Role extends BaseModel {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "parentId")
-    private List<Role> children;
+    private List<Role> children = new ArrayList<>();
 
     @JsonIgnore
     @ManyToOne(fetch=FetchType.LAZY)
@@ -54,12 +54,11 @@ public class Role extends BaseModel {
     private Role parentId;
 
     @JsonIgnore
-    @JoinColumn(name = "USER_ID")
-    @ManyToMany(mappedBy = "role", cascade = PERSIST,fetch = FetchType.LAZY)
-    private List<User> userList;
+    @ManyToMany(mappedBy = "roles", cascade = PERSIST,fetch = FetchType.LAZY)
+    private List<User> users;
 
-    @JsonIgnore
+/*    @JsonIgnore
     @JoinColumn(name = "USER_GROUP_ID")
-    @ManyToMany(mappedBy = "role", cascade = PERSIST,fetch = FetchType.LAZY)
-    private List<UserGroup> userGroup;
+    @ManyToMany(mappedBy = "roles", cascade = PERSIST,fetch = FetchType.LAZY)
+    private List<UserGroup> userGroups;*/
 }

@@ -1,13 +1,13 @@
 package com.sang.common.config;
 
-import com.sang.common.snowId.SnowIdGenerator;
 import com.sang.common.provider.CurrentUser;
+import com.sang.common.snowId.SnowIdGenerator;
 import io.ebean.DB;
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.DatabaseConfig;
 import io.ebean.datasource.DataSourceConfig;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Primary;
 import javax.annotation.Resource;
 
 @Configuration
-@Log4j2
+@Slf4j
 public class EbeanDefaultDatabaseConfig {
 
 
@@ -40,7 +40,8 @@ public class EbeanDefaultDatabaseConfig {
         databaseConfig.loadFromProperties();
         databaseConfig.setDefaultServer(true);
 //        databaseConfig.setDdlCreateOnly(true);
-//        databaseConfig.setRunMigration(true);
+        // 此设置需要选运行GenerateDbMigration生成ddl文件
+        databaseConfig.setRunMigration(true);
         databaseConfig.setDataSourceConfig(dataSourceConfig());
 
         Database database = DatabaseFactory.create(databaseConfig);

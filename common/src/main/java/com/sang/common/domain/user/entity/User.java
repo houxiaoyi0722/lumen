@@ -3,8 +3,8 @@ package com.sang.common.domain.user.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.role.entity.Role;
+import io.ebean.annotation.DbComment;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,6 +23,7 @@ import static javax.persistence.CascadeType.PERSIST;
 @Entity
 @Builder
 @Table(name = "USER")
+@DbComment("角色表")
 public class User extends BaseModel {
 
     /**
@@ -62,11 +63,9 @@ public class User extends BaseModel {
     private String email;
 
     @JsonIgnore
-    @JoinColumn(name = "ROLE_ID")
-    @ManyToMany(mappedBy = "user", cascade = PERSIST,fetch=FetchType.LAZY)
-    private List<Role> role;
+    @ManyToMany(cascade = PERSIST,fetch=FetchType.LAZY)
+    private List<Role> roles;
 
-    @JoinColumn(name = "groupId")
     @ManyToOne(fetch=FetchType.LAZY)
     private UserGroup userGroup;
 

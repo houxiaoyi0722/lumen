@@ -2,7 +2,7 @@ package com.sang.system.domain.dict.repo;
 
 import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.common.domain.dict.entity.query.QDictionary;
-import com.sang.system.param.dict.DataDictionaryParam;
+import com.sang.system.domain.dict.param.DataDictionaryParam;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
@@ -33,9 +33,5 @@ public class DictionaryRepository extends BeanRepository<Long, Dictionary> {
                 .setMaxRows(dataDictionaryParam.getEndPosition())
                 .orderBy().whenCreated.desc()
                 .findPagedList();
-    }
-
-    public Dictionary findOne(String id) {
-        return new QDictionary().id.eq(Long.parseLong(id)).findOne();
     }
 }

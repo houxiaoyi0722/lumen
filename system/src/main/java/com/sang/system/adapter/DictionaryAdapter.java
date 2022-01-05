@@ -1,4 +1,4 @@
-package com.sang.system.service.dict;
+package com.sang.system.adapter;
 
 import com.sang.common.domain.dict.entity.Dictionary;
 

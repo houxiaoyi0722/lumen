@@ -1,4 +1,4 @@
-package com.sang.system.param.dict;
+package com.sang.system.domain.dict.param;
 
 import cn.hutool.db.Page;
 import lombok.AllArgsConstructor;

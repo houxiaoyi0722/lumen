@@ -2,12 +2,11 @@ package com.sang.system.service.dict.impl;
 
 import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.system.domain.dict.repo.DictionaryRepository;
-import com.sang.system.param.dict.DataDictionaryParam;
+import com.sang.system.domain.dict.param.DataDictionaryParam;
 import com.sang.system.service.dict.DictionaryService;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,7 +16,7 @@ import java.util.List;
  * 数据字典
  * @author xiaoy
  */
-@Log4j2
+@Slf4j
 @Service
 public class DictionaryServiceImpl implements DictionaryService {
 

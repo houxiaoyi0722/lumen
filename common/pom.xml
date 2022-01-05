@@ -48,7 +48,6 @@
         <dependency>
             <groupId>io.ebean</groupId>
             <artifactId>ebean-migration</artifactId>
-            <version>12.12.3</version>
         </dependency>
         <dependency>
             <groupId>io.ebean</groupId>
@@ -74,6 +73,11 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.aspectj</groupId>-->

@@ -36,6 +36,7 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <querybean-generator.version>12.8.0</querybean-generator.version>
         <jsr305.version>3.0.2</jsr305.version>
+        <ebean.migration>12.4.0</ebean.migration>
     </properties>
     <modules>
         <module>common</module>
@@ -80,6 +81,11 @@
                 <groupId>io.ebean</groupId>
                 <artifactId>ebean</artifactId>
                 <version>${ebean.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.ebean</groupId>
+                <artifactId>ebean-migration</artifactId>
+                <version>${ebean.migration}</version>
             </dependency>
             <!-- java annotation processor to generate query beans -->
             <dependency>

@@ -1,10 +1,9 @@
-package com.sang.system.service.dict.impl;
+package com.sang.system.adapter.impl;
 
 import com.sang.common.domain.dict.entity.Dictionary;
+import com.sang.system.adapter.DictionaryAdapter;
 import com.sang.system.domain.dict.repo.DictionaryRepository;
-import com.sang.system.service.dict.DictionaryAdapter;
-import com.sang.system.service.dict.DictionaryService;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +16,9 @@ import java.util.List;
  * @date 2022/1/5 14:39
  **/
 @Component
-@Log4j2
+@Slf4j
 // 提取公共代码，使得Dictionary数据源可自定义
-@ConditionalOnMissingBean(DictionaryService.class)
+//@ConditionalOnMissingBean(DictionaryAdapter.class)
 public class DictionaryAdapterImpl implements DictionaryAdapter {
 
     @Resource

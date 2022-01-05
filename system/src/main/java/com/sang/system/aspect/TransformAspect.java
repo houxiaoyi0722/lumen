@@ -8,13 +8,14 @@ import com.sang.common.annotation.dictionary.Transform;
 import com.sang.common.constants.StringConst;
 import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.common.domain.dict.entity.DictionaryItem;
-import com.sang.system.service.dict.DictionaryAdapter;
-import com.sang.system.service.dict.DictionaryService;
+import com.sang.system.adapter.DictionaryAdapter;
 import io.micrometer.core.instrument.util.StringUtils;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,7 @@ import java.util.stream.Collectors;
  */
 @Component
 @Aspect
-@Log4j2
+@Slf4j
 public class TransformAspect {
 
     @Resource
@@ -131,7 +132,7 @@ public class TransformAspect {
                             }
                         }
                     } catch (NoSuchFieldException | IllegalAccessException e) {
-                        log.error(e);
+                        log.error("",e);
                     }
                 }
             }
@@ -158,7 +159,7 @@ public class TransformAspect {
                 setTargetFieldValue(ori, fetch, field, annotation.groupId(), annotation.valueTargetField());
             }
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            log.error(e);
+            log.error("",e);
         }
 
         return ori;
