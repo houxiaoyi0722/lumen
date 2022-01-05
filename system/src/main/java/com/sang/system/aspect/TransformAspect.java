@@ -8,6 +8,7 @@ import com.sang.common.annotation.dictionary.Transform;
 import com.sang.common.constants.StringConst;
 import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.common.domain.dict.entity.DictionaryItem;
+import com.sang.system.service.dict.DictionaryAdapter;
 import com.sang.system.service.dict.DictionaryService;
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.log4j.Log4j2;
@@ -35,7 +36,7 @@ import java.util.stream.Collectors;
 public class TransformAspect {
 
     @Resource
-    private DictionaryService dictionaryService;
+    private DictionaryAdapter dictionaryAdapter;
 
     @Pointcut("@annotation(com.sang.common.annotation.dictionary.Transform)")
     public void transformServer() {
@@ -119,7 +120,7 @@ public class TransformAspect {
                         throw new IllegalArgumentException("groupId can not be empty");
 
                     //字典数据
-                    List<Dictionary> fetch = dictionaryService.getDictionaryListByGroupIds(groupIds);
+                    List<Dictionary> fetch = dictionaryAdapter.getDictionaryListByGroupIds(groupIds);
 
                     try {
                         for (Field field : dictionaryField) {
@@ -149,7 +150,7 @@ public class TransformAspect {
         List<String> groupIds = getGroupIds(dictionaryField);
 
         //字典数据
-        List<Dictionary> fetch = dictionaryService.getDictionaryListByGroupIds(groupIds);
+        List<Dictionary> fetch = dictionaryAdapter.getDictionaryListByGroupIds(groupIds);
 
         try {
             for (Field field : dictionaryField) {

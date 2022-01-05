@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface DictionaryService {
 
-    List<Dictionary> getDictionaryListByGroupIds(List<String> groupIds);
-
     PagedList<Dictionary> dictionaryList(DataDictionaryParam dataDictionaryParam);
 
     Dictionary findOne(Long id);

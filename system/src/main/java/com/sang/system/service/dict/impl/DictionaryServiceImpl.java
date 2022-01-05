@@ -5,6 +5,7 @@ import com.sang.system.domain.dict.repo.DictionaryRepository;
 import com.sang.system.param.dict.DataDictionaryParam;
 import com.sang.system.service.dict.DictionaryService;
 import io.ebean.PagedList;
+import io.ebean.annotation.Transactional;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
@@ -18,23 +19,10 @@ import java.util.List;
  */
 @Log4j2
 @Service
-// 提取公共代码，使得Dictionary数据源可自定义
-@ConditionalOnMissingBean(DictionaryService.class)
 public class DictionaryServiceImpl implements DictionaryService {
 
     @Resource
     private DictionaryRepository dictionaryRepository;
-
-    /**
-     * 配合提供数据 转换list中的字典值 , 需在entity需要转换的字段上添加<tt>Dictionary</tt>注解
-     *
-     * @param groupIds list
-     * @return 返回转换后的对象
-     */
-    @Override
-    public List<Dictionary> getDictionaryListByGroupIds(List<String> groupIds) {
-        return dictionaryRepository.getDictionaryListByGroupIds(groupIds);
-    }
 
     @Override
     public PagedList<Dictionary> dictionaryList(DataDictionaryParam dataDictionaryParam) {
@@ -46,27 +34,32 @@ public class DictionaryServiceImpl implements DictionaryService {
         return dictionaryRepository.findById(id);
     }
 
+    @Transactional
     @Override
     public void save(Dictionary dictionary) {
-        dictionaryRepository.save(dictionary);
+        dictionary.save();
     }
 
     @Override
+    @Transactional
     public void saveAll(List<Dictionary> dictionaries) {
         dictionaryRepository.saveAll(dictionaries);
     }
 
     @Override
+    @Transactional
     public void insert(Dictionary dictionary) {
-        dictionaryRepository.insert(dictionary);
+        dictionary.insert();
     }
 
     @Override
+    @Transactional
     public void update(Dictionary dictionary) {
-        dictionaryRepository.update(dictionary);
+        dictionary.update();
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         dictionaryRepository.deleteById(id);
     }
