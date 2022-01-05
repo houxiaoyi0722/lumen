@@ -47,9 +47,8 @@ public class UserGroup extends BaseModel {
     @OneToMany(mappedBy = "userGroup", cascade = PERSIST,fetch = FetchType.LAZY)
     private List<User> userList;
 
-/*    @JsonIgnore
-    @JoinColumn(name = "ROLE_ID")
-    @ManyToMany(mappedBy = "userGroups", cascade = PERSIST,fetch=FetchType.LAZY)
-    private List<Role> roles;*/
+    @JsonIgnore
+    @ManyToMany(cascade = PERSIST,fetch=FetchType.LAZY)
+    private List<Role> roles;
 
 }

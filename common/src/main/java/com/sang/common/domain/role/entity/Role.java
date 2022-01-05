@@ -57,8 +57,7 @@ public class Role extends BaseModel {
     @ManyToMany(mappedBy = "roles", cascade = PERSIST,fetch = FetchType.LAZY)
     private List<User> users;
 
-/*    @JsonIgnore
-    @JoinColumn(name = "USER_GROUP_ID")
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles", cascade = PERSIST,fetch = FetchType.LAZY)
-    private List<UserGroup> userGroups;*/
+    private List<UserGroup> userGroups;
 }
