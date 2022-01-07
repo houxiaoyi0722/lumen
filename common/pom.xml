@@ -13,10 +13,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <dependencies>
-<!--        <dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -79,7 +79,7 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-<!--        <dependency>-->
+        <!--        <dependency>-->
 <!--            <groupId>org.aspectj</groupId>-->
 <!--            <artifactId>aspectjweaver</artifactId>-->
 <!--            <version>1.9.6</version>-->
