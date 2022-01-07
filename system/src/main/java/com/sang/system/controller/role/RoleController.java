@@ -50,19 +50,13 @@ public class RoleController {
         return Result.ok();
     }
 
-    @PostMapping("/role")
-    public Result<Boolean> insertRole(@RequestBody Role role) {
-        roleService.insert(role);
-        return Result.ok();
-    }
-
     @PostMapping("/roles")
     public Result<Boolean> saveAll(@RequestBody List<Role> roles) {
         roleService.saveAll(roles);
         return Result.ok();
     }
 
-    @DeleteMapping("/roles")
+    @DeleteMapping("/role")
     public Result<Boolean> delete(@RequestBody Role role) {
         roleService.delete(role);
         return Result.ok();
