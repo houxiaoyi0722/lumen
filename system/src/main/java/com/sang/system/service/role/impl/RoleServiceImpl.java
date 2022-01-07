@@ -1,9 +1,10 @@
 package com.sang.system.service.role.impl;
 
 import com.sang.common.domain.role.entity.Role;
-import com.sang.system.domain.role.dto.RoleDto;
+import com.sang.common.domain.role.dto.RoleDto;
 import com.sang.system.domain.role.repo.RoleRepository;
 import com.sang.system.service.role.RoleService;
+import io.ebean.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +28,46 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> findTopRoles() {
         return roleRepository.findTopRoles();
+    }
+
+    @Override
+    public List<Role> rolesByParentId(Long parentId) {
+        return roleRepository.rolesByParentId(parentId);
+    }
+
+    @Override
+    @Transactional
+    public void save(Role role) {
+        roleRepository.save(role);
+    }
+
+    @Override
+    @Transactional
+    public void update(Role role) {
+        roleRepository.update(role);
+    }
+
+    @Override
+    @Transactional
+    public void insert(Role role) {
+        roleRepository.insert(role);
+    }
+
+    @Override
+    @Transactional
+    public void saveAll(List<Role> roles) {
+        roleRepository.saveAll(roles);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Role role) {
+        roleRepository.delete(role);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAll(List<Role> roles) {
+        roleRepository.deleteAll(roles);
     }
 }

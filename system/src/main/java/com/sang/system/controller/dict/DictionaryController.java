@@ -8,6 +8,7 @@ import com.sang.system.service.dict.DictionaryService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/lumen/dict")
@@ -27,20 +28,26 @@ public class DictionaryController {
     }
 
     @PostMapping("/dictionary")
-    public Result<Dictionary> save(@RequestBody Dictionary dictionary) {
+    public Result<Boolean> save(@RequestBody Dictionary dictionary) {
         dictionaryService.save(dictionary);
         return Result.ok();
     }
 
     @PutMapping("/dictionary")
-    public Result<Dictionary> update(@RequestBody Dictionary dictionary) {
+    public Result<Boolean> update(@RequestBody Dictionary dictionary) {
         dictionaryService.update(dictionary);
         return Result.ok();
     }
 
     @DeleteMapping("/dictionary")
-    public Result<Boolean> delete(@RequestParam("id") Long id) {
-        dictionaryService.delete(id);
+    public Result<Boolean> delete(@RequestBody Dictionary dictionary) {
+        dictionaryService.delete(dictionary);
+        return Result.ok();
+    }
+
+    @DeleteMapping("/dictionaries")
+    public Result<Boolean> delete(@RequestBody List<Dictionary> dictionaries) {
+        dictionaryService.deleteAll(dictionaries);
         return Result.ok();
     }
 

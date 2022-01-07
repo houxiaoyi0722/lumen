@@ -2,6 +2,7 @@ package com.sang.common.domain.role.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
+import com.sang.common.domain.role.dto.RoleDto;
 import com.sang.common.domain.user.entity.User;
 import com.sang.common.domain.user.entity.UserGroup;
 import lombok.*;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REMOVE;
 
 /**
  * 角色
@@ -45,7 +47,7 @@ public class Role extends BaseModel {
     private String comment;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "parentId")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "parentId",cascade = REMOVE)
     private List<Role> children = new ArrayList<>();
 
     @JsonIgnore
@@ -60,4 +62,9 @@ public class Role extends BaseModel {
     @JsonIgnore
     @ManyToMany(mappedBy = "roles", cascade = PERSIST,fetch = FetchType.LAZY)
     private List<UserGroup> userGroups;
+
+    public static List<RoleDto> getChildTree(List<Role> roles) {
+        // todo
+        return null;
+    }
 }

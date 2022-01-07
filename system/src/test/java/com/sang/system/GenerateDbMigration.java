@@ -23,6 +23,7 @@ public class GenerateDbMigration {
 
     // generate the migration ddl and xml
 //    dbMigration.setGeneratePendingDrop("1.3");
+    dbMigration.setVersion("1.1");
     dbMigration.generateMigration();
   }
 }

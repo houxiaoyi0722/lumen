@@ -33,16 +33,10 @@ public class DictionaryServiceImpl implements DictionaryService {
         return dictionaryRepository.findById(id);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void save(Dictionary dictionary) {
         dictionary.save();
-    }
-
-    @Override
-    @Transactional
-    public void saveAll(List<Dictionary> dictionaries) {
-        dictionaryRepository.saveAll(dictionaries);
     }
 
     @Override
@@ -59,8 +53,20 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        dictionaryRepository.deleteById(id);
+    public void delete(Dictionary dictionary) {
+        dictionaryRepository.delete(dictionary);
+    }
+
+    @Override
+    @Transactional
+    public void saveAll(List<Dictionary> dictionaries) {
+        dictionaryRepository.saveAll(dictionaries);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAll(List<Dictionary> dictionaries) {
+        dictionaryRepository.deleteAll(dictionaries);
     }
 
 }

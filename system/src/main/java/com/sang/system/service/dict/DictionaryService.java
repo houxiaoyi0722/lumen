@@ -20,5 +20,7 @@ public interface DictionaryService {
 
     void update(Dictionary dictionary);
 
-    void delete(Long id);
+    void delete(Dictionary dictionary);
+
+    void deleteAll(List<Dictionary> dictionaries);
 }

@@ -1,7 +1,6 @@
 package com.sang.system.service.role;
 
 import com.sang.common.domain.role.entity.Role;
-import com.sang.system.domain.role.dto.RoleDto;
 
 import java.util.List;
 
@@ -12,4 +11,17 @@ import java.util.List;
 public interface RoleService {
     List<Role> findTopRoles();
 
+    List<Role> rolesByParentId(Long parentId);
+
+    void save(Role role);
+
+    void update(Role role);
+
+    void insert(Role role);
+
+    void saveAll(List<Role> roles);
+
+    void delete(Role role);
+
+    void deleteAll(List<Role> roles);
 }

@@ -1,7 +1,6 @@
-package com.sang.system.domain.role.dto;
+package com.sang.common.domain.role.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import java.util.List;
