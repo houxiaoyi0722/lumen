@@ -3,7 +3,7 @@ package com.sang.system.controller.user;
 import com.sang.common.domain.user.entity.User;
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
-import com.sang.system.domain.user.param.UserParam;
+import com.sang.system.domain.user.param.UserQry;
 import com.sang.system.service.user.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +22,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/users")
-    public PageResult<User> list(@RequestBody UserParam userParam) {
-        return PageResult.ok(userService.userList(userParam));
+    public PageResult<User> list(@RequestBody UserQry userQry) {
+        return PageResult.ok(userService.userList(userQry));
     }
 
 

@@ -1,13 +1,12 @@
 package com.sang.system.service.user.impl;
 
 import com.sang.common.domain.user.entity.User;
-import com.sang.system.domain.user.param.UserParam;
+import com.sang.system.domain.user.param.UserQry;
 import com.sang.system.domain.user.repo.UserRepository;
 import com.sang.system.service.user.UserService;
 import io.ebean.PagedList;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,8 +23,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public PagedList<User> userList(UserParam userParam) {
-        return userRepository.userList(userParam);
+    public PagedList<User> userList(UserQry userQry) {
+        return userRepository.userList(userQry);
     }
 
     @Override

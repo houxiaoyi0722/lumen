@@ -1,9 +1,8 @@
 package com.sang.system.domain.user.repo;
 
-import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.common.domain.user.entity.User;
 import com.sang.common.domain.user.entity.query.QUser;
-import com.sang.system.domain.user.param.UserParam;
+import com.sang.system.domain.user.param.UserQry;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
@@ -38,12 +37,12 @@ public class UserRepository extends BeanRepository<Long, User> {
     }
 
 
-    public PagedList<User> userList(UserParam userParam) {
+    public PagedList<User> userList(UserQry userQry) {
         QUser qUser = QUser.alias();
         return new QUser()
                 .deleted.isFalse()
-                .setFirstRow(userParam.getStartPosition())
-                .setMaxRows(userParam.getEndPosition())
+                .setFirstRow(userQry.getStartPosition())
+                .setMaxRows(userQry.getEndPosition())
                 .orderBy().id.asc()
                 .findPagedList();
     }

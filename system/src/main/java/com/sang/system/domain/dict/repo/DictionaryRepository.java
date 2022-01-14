@@ -2,7 +2,7 @@ package com.sang.system.domain.dict.repo;
 
 import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.common.domain.dict.entity.query.QDictionary;
-import com.sang.system.domain.dict.param.DataDictionaryParam;
+import com.sang.system.domain.dict.param.DataDictionaryQry;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
@@ -21,7 +21,7 @@ public class DictionaryRepository extends BeanRepository<Long, Dictionary> {
         return new QDictionary().groupId.in(groupIds).deleted.isFalse().findList();
     }
 
-    public PagedList<Dictionary> getDictionaryList(DataDictionaryParam dataDictionaryParam) {
+    public PagedList<Dictionary> getDictionaryList(DataDictionaryQry dataDictionaryQry) {
         QDictionary dataDictionary = QDictionary.alias();
 
         return new QDictionary()
@@ -29,8 +29,8 @@ public class DictionaryRepository extends BeanRepository<Long, Dictionary> {
                         dataDictionary.groupName,
                         dataDictionary.comment)
                 .deleted.isFalse()
-                .setFirstRow(dataDictionaryParam.getStartPosition())
-                .setMaxRows(dataDictionaryParam.getEndPosition())
+                .setFirstRow(dataDictionaryQry.getStartPosition())
+                .setMaxRows(dataDictionaryQry.getEndPosition())
                 .orderBy().whenCreated.desc()
                 .findPagedList();
     }
