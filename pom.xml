@@ -38,6 +38,7 @@
         <jsr305.version>3.0.2</jsr305.version>
         <ebean.migration>12.4.0</ebean.migration>
         <nimbus.jose.jwt>9.7</nimbus.jose.jwt>
+        <spring.boot>2.6.2</spring.boot>
     </properties>
     <modules>
         <module>common</module>
@@ -48,10 +49,12 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
+                <version>${spring.boot}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-freemarker</artifactId>
+                <version>${spring.boot}</version>
             </dependency>
             <dependency>
                 <groupId>org.redisson</groupId>
@@ -61,11 +64,13 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-quartz</artifactId>
+                <version>${spring.boot}</version>
             </dependency>
             <!--cache-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-cache</artifactId>
+                <version>${spring.boot}</version>
             </dependency>
             <dependency>
                 <groupId>org.avaje.composite</groupId>
@@ -118,14 +123,14 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
-            <dependency>
+<!--            <dependency>
                 <groupId>com.microsoft.sqlserver</groupId>
                 <artifactId>mssql-jdbc</artifactId>
-            </dependency>
-            <dependency>
+            </dependency>-->
+<!--            <dependency>
                 <groupId>com.oracle.database.jdbc</groupId>
                 <artifactId>ojdbc8</artifactId>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
