@@ -6,6 +6,8 @@ import com.sang.system.domain.user.repo.UserRepository;
 import com.sang.system.service.user.UserService;
 import io.ebean.PagedList;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,11 +18,10 @@ import java.util.List;
  * @date 2022/1/7 15:09
  **/
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Resource
     private UserRepository userRepository;
-
 
     @Override
     public PagedList<User> userList(UserParam userParam) {
