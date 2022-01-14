@@ -5,6 +5,7 @@ import com.sang.system.domain.user.param.UserParam;
 import com.sang.system.domain.user.repo.UserRepository;
 import com.sang.system.service.user.UserService;
 import io.ebean.PagedList;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -44,5 +45,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteAll(List<User> users) {
         userRepository.deleteAll(users);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        return userRepository.loadUserByUsername(username);
     }
 }

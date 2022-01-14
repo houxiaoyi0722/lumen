@@ -7,6 +7,7 @@ import com.sang.system.domain.user.param.UserParam;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -45,5 +46,9 @@ public class UserRepository extends BeanRepository<Long, User> {
                 .setMaxRows(userParam.getEndPosition())
                 .orderBy().id.asc()
                 .findPagedList();
+    }
+
+    public UserDetails loadUserByUsername(String username) {
+        return new QUser().deleted.isFalse().userName.eq(username).findOne();
     }
 }
