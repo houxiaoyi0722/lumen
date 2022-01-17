@@ -2,9 +2,7 @@ package com.sang.system.controller.auth;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
-import com.sang.common.constants.AuthConst;
-import com.sang.system.domain.auth.dto.TokenDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sang.common.domain.auth.dto.TokenDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

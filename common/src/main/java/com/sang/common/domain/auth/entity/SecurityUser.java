@@ -1,4 +1,4 @@
-package com.sang.common.domain.auth;
+package com.sang.common.domain.auth.entity;
 
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.role.entity.Role;

@@ -1,16 +1,14 @@
-package com.sang.system.filter;
+package com.sang.common.filter;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
-import com.sang.system.domain.auth.dto.TokenDto;
+import com.sang.common.domain.auth.dto.TokenDto;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.*;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
@@ -28,11 +26,7 @@ import static com.sang.common.constants.AuthConst.*;
  * @author hxy
  * @date 2022/1/17 11:48
  **/
-public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
-
-    public TokenAuthenticationFilter(AuthenticationManager authenticationManager) {
-        super(authenticationManager);
-    }
+public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Value("${jwt.expire}")
     public long EXPIRY;
@@ -115,7 +109,7 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
 
         JwtClaimsSet freshClaims = JwtClaimsSet.builder()
                 .issuer(refreshToken.getIssuer().toString())
-                //.id()
+                .id(refreshToken.getId())
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(EXPIRY))
                 .subject(refreshToken.getSubject())
