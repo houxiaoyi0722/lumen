@@ -7,10 +7,12 @@ import com.sang.system.service.user.UserService;
 import io.ebean.PagedList;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author hxy
@@ -29,17 +31,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void save(User user) {
-        userRepository.save(user);
+        user.save();
     }
 
     @Override
     public void update(User user) {
-        userRepository.update(user);
+        user.update();
     }
 
     @Override
     public void delete(User user) {
-        userRepository.delete(user);
+        user.delete();
     }
 
     @Override
@@ -49,6 +51,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        return userRepository.loadUserByUsername(username);
+        Optional<UserDetails> userDetails = Optional.ofNullable(userRepository.loadUserByUsername(username));
+
+        if (!userDetails.isPresent()) {
+            throw new UsernameNotFoundException(username);
+        }
+        return userDetails.get();
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,11 +33,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Value("${jwt.refresh-expiry}")
     public long REFRESH_EXPIRY;
 
-    @Resource
     private JwtDecoder jwtDecoder;
 
-    @Resource
     private JwtEncoder jwtEncoder;
+
+    public TokenAuthenticationFilter(JwtDecoder jwtDecoder, JwtEncoder jwtEncoder) {
+        this.jwtDecoder = jwtDecoder;
+        this.jwtEncoder = jwtEncoder;
+    }
 
     /**
      * 验证jwt是否有效,
