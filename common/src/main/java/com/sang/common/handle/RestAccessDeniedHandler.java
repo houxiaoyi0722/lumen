@@ -1,9 +1,16 @@
 package com.sang.common.handle;
 
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.json.JSONUtil;
+import com.sang.common.response.Result;
+import lombok.SneakyThrows;
+import org.apache.tomcat.util.http.ResponseUtil;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,10 +21,14 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class RestAccessDeniedHandler implements AccessDeniedHandler {
 
+    @SneakyThrows
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setStatus(403);
+
+        response.setHeader("Content-Type", "application/json;charset=UTF-8");
+        response.setStatus(HttpStatus.FORBIDDEN.value());
+        response.getWriter().write(JSONUtil.toJsonStr(Result.error(e.getMessage(),HttpStatus.FORBIDDEN.value())));
+
     }
 
 }

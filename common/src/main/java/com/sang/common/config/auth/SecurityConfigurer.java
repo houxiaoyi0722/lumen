@@ -1,4 +1,4 @@
-package com.sang.common.config;
+package com.sang.common.config.auth;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -6,8 +6,8 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import com.sang.common.filter.TokenAuthenticationFilter;
 import com.sang.common.handle.EntryPointUnauthorizedHandler;
+import com.sang.common.handle.JsonLoginSuccessHandler;
 import com.sang.common.handle.RestAccessDeniedHandler;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,20 +22,20 @@ import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AuthenticatedVoter;
 import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.access.vote.UnanimousBased;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 import javax.annotation.Resource;
 import java.security.interfaces.RSAPrivateKey;
@@ -60,6 +60,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Resource
     private RestAccessDeniedHandler restAccessDeniedHandler;
 
+    @Resource
+    private UserDetailsService userDetailsService;
+
 
     @Value("${jwt.public.key}")
     RSAPublicKey key;
@@ -67,38 +70,34 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Value("${jwt.private.key}")
     RSAPrivateKey priv;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        // 允许对于网站静态资源的无授权访问
-        web.ignoring().antMatchers("/",
-                "/*.html",
-                "/favicon.ico",
-                "/**/*.html",
-                "/swagger-ui.html",
-                "/**/*.css",
-                "/**/*.js",
-                "/swagger-resources/**",
-                "/v2/api-docs/**",
-                "/webjars/**");
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        // 允许对于网站静态资源的无授权访问
+//        web.ignoring().antMatchers(
+//                "/*.html",
+//                "/favicon.ico",
+//                "/**/*.html",
+//                "/swagger-ui.html",
+//                "/**/*.css",
+//                "/**/*.js",
+//                "/swagger-resources/**",
+//                "/v2/api-docs/**",
+//                "/webjars/**");
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        http.formLogin().disable();
         // 接口权限
         http.authorizeRequests()
-                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll() //放行所有健康检查请求
                 .antMatchers(HttpMethod.OPTIONS).permitAll()//跨域请求会先进行一次options请求
-                .antMatchers("/**","/token").permitAll() //白名单
+                .antMatchers("/login").permitAll() //白名单
+                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll() //放行所有健康检查请求
                 // 除上面外的所有请求全部需要鉴权认证
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
                 //自定义决策管理器accessDecisionManager，使用自定义AccessDecisionVoter
-//                .accessDecisionManager(accessDecisionManager());
+                .accessDecisionManager(accessDecisionManager());
 
         // session相关
         http.sessionManagement()
@@ -115,10 +114,23 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         // 禁用缓存
         http.headers().cacheControl();
 
-        // todo 添加自定义账号密码过滤器
-//        http.addFilterAfter(new TokenAuthenticationFilter(jwtDecoder(),jwtEncoder()), LogoutFilter.class);
         // 添加自定义jwt过滤器
-        http.addFilterAfter(new TokenAuthenticationFilter(jwtDecoder(),jwtEncoder()), LogoutFilter.class);
+        http.apply(new JwtTokenLoginConfigurer<>()).permissiveRequestUrls("/logout");
+        http.apply(new JsonLoginConfigurer<>("/login",HttpMethod.POST.name())).loginSuccessHandler(jsonLoginSuccessHandler());
+
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
+        auth.authenticationProvider(authenticationProvider);
+    }
+
+    @Bean
+    protected JsonLoginSuccessHandler jsonLoginSuccessHandler() {
+        return new JsonLoginSuccessHandler();
     }
 
     @Bean

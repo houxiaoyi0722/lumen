@@ -31,7 +31,7 @@ public class Result<T> {
     }
 
     public static Result error(String message,Integer code) {
-        return new Result<>(ResultCodeEnum.SUCCESS.getMessage(), ResultCodeEnum.SUCCESS.getCode());
+        return new Result<>(message, code);
     }
 
     public static Result unhandledException(String message,Integer code) {

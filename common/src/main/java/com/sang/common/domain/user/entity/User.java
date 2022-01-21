@@ -8,6 +8,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -62,19 +63,19 @@ public class User extends BaseModel implements UserDetails {
 
     @DbComment("是否启用")
     @Column
-    private boolean enabled;
+    private Boolean enabled = true;
 
     @DbComment("账户未过期")
     @Column
-    private boolean accountNonExpired;
+    private Boolean accountNonExpired = true;
 
     @DbComment("账户锁定")
     @Column
-    private boolean accountNonLocked;
+    private Boolean accountNonLocked = false;
 
     @DbComment("凭证未过期")
     @Column
-    private boolean credentialsNonExpired;
+    private Boolean credentialsNonExpired = true;
 
     @JsonIgnore
     @ManyToMany(cascade = PERSIST,fetch=FetchType.LAZY)
@@ -118,4 +119,8 @@ public class User extends BaseModel implements UserDetails {
         return this.enabled;
     }
 
+    public void setPassword(String password) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        this.password = bCryptPasswordEncoder.encode(password);
+    }
 }
