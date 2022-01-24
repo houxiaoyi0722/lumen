@@ -10,6 +10,7 @@ import com.sang.common.handle.EntryPointUnauthorizedHandler;
 import com.sang.common.handle.JsonLoginSuccessHandler;
 import com.sang.common.handle.JwtTokenClearLogoutHandler;
 import com.sang.common.handle.RestAccessDeniedHandler;
+import com.sang.common.provider.JwtTokenAuthenticationProvider;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -23,6 +24,7 @@ import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AuthenticatedVoter;
 import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.access.vote.UnanimousBased;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -132,6 +134,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
         auth.authenticationProvider(authenticationProvider);
+        auth.authenticationProvider(jwtTokenAuthenticationProvider());
     }
 
     @Bean
@@ -149,6 +152,11 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         JWK jwk = new RSAKey.Builder(this.key).privateKey(this.priv).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
+    }
+
+    @Bean
+    protected AuthenticationProvider jwtTokenAuthenticationProvider() {
+        return new JwtTokenAuthenticationProvider(jwtDecoder(),jwtEncoder());
     }
 
     @Bean

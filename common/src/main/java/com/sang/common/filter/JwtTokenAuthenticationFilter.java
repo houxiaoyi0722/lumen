@@ -3,19 +3,17 @@ package com.sang.common.filter;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.sang.common.config.auth.JwtAuthenticationToken;
+import com.sang.common.constants.StringConst;
 import com.sang.common.domain.auth.dto.TokenDto;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.*;
+import org.springframework.security.oauth2.jwt.BadJwtException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -31,12 +29,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import static com.sang.common.constants.AuthConst.*;
+import static com.sang.common.constants.AuthConst.AUTHORIZATION;
+import static com.sang.common.constants.AuthConst.TOKEN_HEADER;
 
 /**
  * @author hxy
@@ -50,7 +47,8 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
     private List<RequestMatcher> permissiveRequestMatchers;
     private AuthenticationManager authenticationManager;
 
-    private AuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
+    // 去除默认成功后处理
+    private AuthenticationSuccessHandler successHandler = null;
     private AuthenticationFailureHandler failureHandler = new SimpleUrlAuthenticationFailureHandler();
 
 
@@ -115,7 +113,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         if (StrUtil.isNotEmpty(jwtStr)) {
             if (jwtStr.startsWith(TOKEN_HEADER)) {
                 // 去除 tokenHeader
-                jwtStr = jwtStr.replace(jwtStr, TOKEN_HEADER);
+                jwtStr = jwtStr.replace(TOKEN_HEADER, StringConst.EMPTY);
                 if (StrUtil.isNotEmpty(jwtStr)) {
                     TokenDto tokenDto = JSONUtil.toBean(jwtStr, TokenDto.class);
                     return new JwtAuthenticationToken(tokenDto);
@@ -165,7 +163,9 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                                             HttpServletResponse response, FilterChain chain, Authentication authResult)
             throws IOException, ServletException{
         SecurityContextHolder.getContext().setAuthentication(authResult);
-        successHandler.onAuthenticationSuccess(request, response, authResult);
+        if (successHandler != null) {
+            successHandler.onAuthenticationSuccess(request, response, authResult);
+        }
     }
 
     public void setAuthenticationSuccessHandler(

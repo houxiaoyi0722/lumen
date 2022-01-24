@@ -3,6 +3,7 @@ package com.sang.common.provider;
 import cn.hutool.core.util.StrUtil;
 import com.sang.common.config.auth.JwtAuthenticationToken;
 import com.sang.common.domain.auth.dto.TokenDto;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -25,12 +26,17 @@ import static com.sang.common.constants.AuthConst.*;
  * @date 2022/1/21 16:50
  **/
 @Slf4j
+@NoArgsConstructor
 public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
 
-    @Resource
     private JwtDecoder jwtDecoder;
-    @Resource
+
     private JwtEncoder jwtEncoder;
+
+    public JwtTokenAuthenticationProvider(JwtDecoder jwtDecoder, JwtEncoder jwtEncoder) {
+        this.jwtDecoder = jwtDecoder;
+        this.jwtEncoder = jwtEncoder;
+    }
 
     @Value("${jwt.expire}")
     public long EXPIRY;
@@ -82,10 +88,13 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
     private UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(TokenDto tokenDto, Jwt token) {
         if (StrUtil.isNotEmpty(token.getSubject())) {
             // 从Token中解密获取用户角色
-            String[] roles = token.getClaim(ROLES).toString().split(ROLE_SPLIT);
+            String rolsStr = token.getClaim(ROLES).toString();
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            for (String s : roles) {
-                authorities.add(new SimpleGrantedAuthority(s));
+            if (StrUtil.isNotBlank(rolsStr)) {
+                String[] roles = rolsStr.split(ROLE_SPLIT);
+                for (String s : roles) {
+                    authorities.add(new SimpleGrantedAuthority(s));
+                }
             }
             return new UsernamePasswordAuthenticationToken(token.getSubject(), tokenDto.getToken(), authorities);
         }
