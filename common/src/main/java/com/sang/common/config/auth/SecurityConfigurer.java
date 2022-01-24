@@ -8,6 +8,7 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.sang.common.handle.EntryPointUnauthorizedHandler;
 import com.sang.common.handle.JsonLoginSuccessHandler;
+import com.sang.common.handle.JwtTokenClearLogoutHandler;
 import com.sang.common.handle.RestAccessDeniedHandler;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +37,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 import javax.annotation.Resource;
 import java.security.interfaces.RSAPrivateKey;
@@ -118,6 +120,10 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.apply(new JwtTokenLoginConfigurer<>()).permissiveRequestUrls("/logout");
         http.apply(new JsonLoginConfigurer<>("/login",HttpMethod.POST.name())).loginSuccessHandler(jsonLoginSuccessHandler());
 
+        // logout
+        http.logout()
+                .addLogoutHandler(tokenClearLogoutHandler())
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
     }
 
     @Override
@@ -143,6 +149,11 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         JWK jwk = new RSAKey.Builder(this.key).privateKey(this.priv).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
+    }
+
+    @Bean
+    protected JwtTokenClearLogoutHandler tokenClearLogoutHandler() {
+        return new JwtTokenClearLogoutHandler();
     }
 
     public AccessDecisionManager accessDecisionManager(){
