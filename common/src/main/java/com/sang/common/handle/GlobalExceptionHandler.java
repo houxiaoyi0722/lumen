@@ -37,7 +37,6 @@ public class GlobalExceptionHandler {
         requestErrorInfo.setUrl(request.getRequestURL().toString());
         requestErrorInfo.setException(ExceptionUtil.stacktraceToOneLineString(e));
         logger.error("Error Request Info      : {}", JSONUtil.toJsonStr(requestErrorInfo));
-        throw e;
     }
 
     @Data
