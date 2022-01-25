@@ -5,6 +5,7 @@ import com.sang.system.domain.user.param.UserQry;
 import com.sang.system.domain.user.repo.UserRepository;
 import com.sang.system.service.user.UserService;
 import io.ebean.PagedList;
+import io.ebean.annotation.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,21 +31,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public void save(User user) {
         user.save();
     }
 
     @Override
+    @Transactional
     public void update(User user) {
         user.update();
     }
 
     @Override
+    @Transactional
     public void delete(User user) {
         user.delete();
     }
 
     @Override
+    @Transactional
     public void deleteAll(List<User> users) {
         userRepository.deleteAll(users);
     }
