@@ -1,22 +1,25 @@
 package com.sang.common.domain.router.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sang.common.domain.role.entity.Role;
-import com.sang.common.domain.router.entity.Router;
+import lombok.*;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static javax.persistence.CascadeType.PERSIST;
 
 /**
  * @author hxy
  * @date 2022/1/25 16:20
  **/
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
+@Setter
 public class RouterDto {
 
-
+    /**
+     * id
+     */
+    private Long id;
     /**
      * 路由名称
      */
@@ -49,13 +52,16 @@ public class RouterDto {
      * alwaysShow
      */
     private Boolean alwaysShow;
-
+    /**
+     * 上级路由id
+     */
+    private Long parentId;
     /**
      * 排序
      */
     private Integer orderBy;
 
-    private List<Router> children = null;
+    private List<RouterDto> children = new ArrayList<>();
 
 
 }

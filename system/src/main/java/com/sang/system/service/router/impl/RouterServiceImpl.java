@@ -1,5 +1,6 @@
 package com.sang.system.service.router.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.sang.common.domain.router.dto.RouterDto;
 import com.sang.common.domain.router.entity.Router;
 import com.sang.system.domain.router.repo.RouterRepository;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 路由管理
@@ -60,11 +63,10 @@ public class RouterServiceImpl implements RouterService {
     public List<RouterDto> routerTree() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        for (GrantedAuthority authority : authorities) {
-            String authority1 = authority.getAuthority();
-        }
+        List<String> roleCodes = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
-        return null;
+        List<RouterDto> routers = routerRepository.routerListByRoleCodes(roleCodes);
+
+        return Router.getRootNodeRouterTree(routers);
     }
 }

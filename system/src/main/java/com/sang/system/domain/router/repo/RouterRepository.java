@@ -1,10 +1,15 @@
 package com.sang.system.domain.router.repo;
 
 import com.sang.common.domain.role.entity.Role;
+import com.sang.common.domain.role.entity.query.QRole;
+import com.sang.common.domain.router.dto.RouterDto;
 import com.sang.common.domain.router.entity.Router;
+import com.sang.common.domain.router.entity.query.QRouter;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author hxy
@@ -18,5 +23,13 @@ public class RouterRepository extends BeanRepository<Long, Router> {
     }
 
 
-
+    public List<RouterDto> routerListByRoleCodes(List<String> roleCodes) {
+        QRouter router = QRouter.alias();
+        return new QRouter().select(
+                router.name, router.path, router.redirect,
+                router.component, router.mate, router.description,
+                router.hidden, router.alwaysShow, router.parentId.id,
+                router.orderBy
+        ).roles.roleCode.in(roleCodes).asDto(RouterDto.class).findList();
+    }
 }
