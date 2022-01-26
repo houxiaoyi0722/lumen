@@ -1,6 +1,5 @@
 package com.sang.system.service.router.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.sang.common.domain.router.dto.RouterDto;
 import com.sang.common.domain.router.entity.Router;
 import com.sang.system.domain.router.repo.RouterRepository;
@@ -12,10 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * 路由管理
