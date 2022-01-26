@@ -1,4 +1,4 @@
-package com.sang.common.config;
+package com.sang.common.config.ebean;
 
 import com.sang.common.provider.CurrentUser;
 import com.sang.common.snowId.SnowIdGenerator;

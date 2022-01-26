@@ -1,4 +1,4 @@
-package com.sang.common.config;
+package com.sang.common.config.ebean;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
