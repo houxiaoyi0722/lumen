@@ -1,5 +1,6 @@
 package com.sang.system.domain.router.repo;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.sang.common.domain.role.entity.Role;
 import com.sang.common.domain.role.entity.query.QRole;
 import com.sang.common.domain.router.dto.RouterDto;
@@ -25,11 +26,17 @@ public class RouterRepository extends BeanRepository<Long, Router> {
 
     public List<RouterDto> routerListByRoleCodes(List<String> roleCodes) {
         QRouter router = QRouter.alias();
-        return new QRouter().select(
+
+        QRouter select = new QRouter().select(
                 router.name, router.path, router.redirect,
                 router.component, router.mate, router.description,
                 router.hidden, router.alwaysShow, router.parentId.id,
                 router.orderBy
-        ).roles.roleCode.in(roleCodes).asDto(RouterDto.class).findList();
+        );
+        if (CollectionUtil.isNotEmpty(roleCodes)) {
+            select = select.roles.roleCode.in(roleCodes);
+        }
+
+        return select.asDto(RouterDto.class).findList();
     }
 }
