@@ -88,6 +88,7 @@ class TestThreadBaseExample {
         Thread producer2 = new Thread(() -> {
             synchronized (list) {
                 try {
+                    // 中断线程优雅退出
                     for (;!Thread.currentThread().isInterrupted();) {
                         Thread.sleep(100);
                         // 有产品,等待消费
@@ -122,6 +123,7 @@ class TestThreadBaseExample {
                         e.printStackTrace();
                     }
                     if (longAdder.sum() > 20) {
+                        // 中断线程优雅退出
                         producer1.interrupt();
                         producer2.interrupt();
                         break;
