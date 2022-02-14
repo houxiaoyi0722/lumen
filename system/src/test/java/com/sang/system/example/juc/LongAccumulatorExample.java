@@ -3,7 +3,6 @@ package com.sang.system.example.juc;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.LongAccumulator;
-import java.util.function.LongBinaryOperator;
 
 /**
  * @author hxy
@@ -20,6 +19,7 @@ class LongAccumulatorExample {
             Thread thread = new Thread(() -> {
                 longAccumulator.accumulate(2);
             });
+            thread.start();
         }
 
         long l = longAccumulator.get();
