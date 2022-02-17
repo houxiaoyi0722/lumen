@@ -1,0 +1,19 @@
+# 多数据源配置
+#datasource:
+#  db:
+#    username: LUPU_PROD
+#    password: asd123
+#    driver: oracle.jdbc.driver.OracleDriver
+#    url: jdbc:oracle:thin:@192.168.10.123:1521:ORCL
+#
+#  dwhSrc:
+#    username: LUPU_PROD_DWH
+#    password: 123456
+#    driver: oracle.jdbc.driver.OracleDriver
+#    url: jdbc:oracle:thin:@192.168.10.123:1521:ORCL
+#
+#  dwhTag:
+#    username: LUPU_DWH_NEW
+#    password: LDN05mzns
+#    driver: oracle.jdbc.driver.OracleDriver
+#    url: jdbc:oracle:thin:@192.168.10.205:1521:ORCL
