@@ -40,5 +40,6 @@ public class BaseModel extends Model {
     @WhenModified
     private Instant whenModified;
 
+    @SoftDelete
     private boolean deleted;
 }
