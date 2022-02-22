@@ -35,6 +35,12 @@ class LockSupportExample {
 
             // 1
 //            LockSupport.park();
+//            or //经过指定时间后自动返回
+//            LockSupport.parkNanos();
+//            or // 带有blocker参数的park方法会在jstack时提供线程被阻塞位置的代码信息
+//            LockSupport.park(this);
+//            or // blocker 和到指定时间点后返回
+//            LockSupport.parkUntil(this,9999990000L);
 
             // 2 线程被中断后也会从阻塞状态返回
             while(!Thread.currentThread().isInterrupted()) {
