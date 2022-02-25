@@ -1,12 +1,8 @@
 package com.sang.system.example.juc;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author hxy
