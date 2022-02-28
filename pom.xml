@@ -39,6 +39,7 @@
         <ebean.migration>12.4.0</ebean.migration>
         <nimbus.jose.jwt>9.7</nimbus.jose.jwt>
         <spring.boot>2.6.2</spring.boot>
+        <webcollector.version>2.73-alpha</webcollector.version>
     </properties>
     <modules>
         <module>common</module>
@@ -140,6 +141,11 @@
                 <groupId>com.nimbusds</groupId>
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>${nimbus.jose.jwt}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.edu.hfut.dmic.webcollector</groupId>
+                <artifactId>WebCollector</artifactId>
+                <version>${webcollector.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
