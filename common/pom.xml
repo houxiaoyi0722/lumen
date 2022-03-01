@@ -90,7 +90,6 @@
         <dependency>
             <groupId>cn.edu.hfut.dmic.webcollector</groupId>
             <artifactId>WebCollector</artifactId>
-            <scope>test</scope>
         </dependency>
 <!--        <dependency>
             <groupId>com.nimbusds</groupId>
