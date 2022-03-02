@@ -40,6 +40,7 @@
         <nimbus.jose.jwt>9.7</nimbus.jose.jwt>
         <spring.boot>2.6.2</spring.boot>
         <webcollector.version>2.73-alpha</webcollector.version>
+        <ikanalyzer.version>2012_u6</ikanalyzer.version>
     </properties>
     <modules>
         <module>common</module>
@@ -146,6 +147,11 @@
                 <groupId>cn.edu.hfut.dmic.webcollector</groupId>
                 <artifactId>WebCollector</artifactId>
                 <version>${webcollector.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.janeluo</groupId>
+                <artifactId>ikanalyzer</artifactId>
+                <version>${ikanalyzer.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
