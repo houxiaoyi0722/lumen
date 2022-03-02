@@ -4,10 +4,7 @@ import com.sang.system.example.sentimentAnalysis.fengCi.fengCi;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,7 +39,7 @@ public class sentiment {
 
         String[] split = text.split("\r\n");
         String[] stringList;
-        dic();
+        buildDic();
 
         StringBuffer readParse, ParseSen;
 
@@ -117,7 +114,7 @@ public class sentiment {
                 }
             }
             System.out.print("\r\n");
-            System.out.println(readParse.toString() + " " + ParseSen.toString());
+            System.out.println(readParse + " " + ParseSen);
 
             //判断标签
 
@@ -127,19 +124,16 @@ public class sentiment {
     }
 
     //构建词典
-    public void dic() throws IOException {
-
-
-        BufferedReader posWord = new BufferedReader(new FileReader(new File("G:/DicSentimentAnalysis/DictSentiment/DATA/构建词典/正面词/正面词（0.8）.txt")));
-        BufferedReader negWord = new BufferedReader(new FileReader(new File("G:/DicSentimentAnalysis/DictSentiment/DATA/构建词典/负面词/负面词（-0.8）.txt")));
-        BufferedReader negVod = new BufferedReader(new FileReader(new File("G:/DicSentimentAnalysis/DictSentiment/DATA/构建词典/否定副词/否定（-0.8）.txt")));
-        BufferedReader vod1 = new BufferedReader(new FileReader(new File("G:/DicSentimentAnalysis/DictSentiment/DATA/构建词典/程度词语/最（0.9）.txt")));
-        BufferedReader vod2 = new BufferedReader(new FileReader(new File("G:/DicSentimentAnalysis/DictSentiment/DATA/构建词典/程度词语/超（0.9）.txt")));
-        BufferedReader vod3 = new BufferedReader(new FileReader(new File("G:/DicSentimentAnalysis/DictSentiment/DATA/构建词典/程度词语/很（0.7）.txt")));
-        BufferedReader vod4 = new BufferedReader(new FileReader(new File("G:/DicSentimentAnalysis/DictSentiment/DATA/构建词典/程度词语/较（0.5）.txt")));
-        BufferedReader vod5 = new BufferedReader(new FileReader(new File("G:/DicSentimentAnalysis/DictSentiment/DATA/构建词典/程度词语/稍（0.3）.txt")));
-        BufferedReader vod6 = new BufferedReader(new FileReader(new File("G:/DicSentimentAnalysis/DictSentiment/DATA/构建词典/程度词语/欠（-0.5）.txt")));
-
+    public void buildDic() throws IOException {
+        BufferedReader posWord = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/positiveWord/正面词（0.8）.txt")),"GBK"));
+        BufferedReader negWord = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/negativeWord/负面词（-0.8）.txt")),"GBK"));
+        BufferedReader negVod = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/negativeAdverb/否定（-0.8）.txt")),"GBK"));
+        BufferedReader vod1 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/最（0.9）.txt")),"GBK"));
+        BufferedReader vod2 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/超（0.9）.txt")),"GBK"));
+        BufferedReader vod3 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/很（0.7）.txt")),"GBK"));
+        BufferedReader vod4 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/较（0.5）.txt")),"GBK"));
+        BufferedReader vod5 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/稍（0.3）.txt")),"GBK"));
+        BufferedReader vod6 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/欠（-0.5）.txt")),"GBK"));
 
         posWordSet = new HashSet<String>();
         negWordSet = new HashSet<String>();
@@ -150,7 +144,6 @@ public class sentiment {
         vod4Set = new HashSet<String>();
         vod5Set = new HashSet<String>();
         vod6Set = new HashSet<String>();
-
 
         String Sb = null;
         while ((Sb = posWord.readLine()) != null) {
