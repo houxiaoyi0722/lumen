@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.concurrent.atomic.LongAccumulator;
 
 /**
+ * LongAccumulator示例
  * @author hxy
  * @date 2022/2/11 18:28
  **/
