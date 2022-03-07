@@ -29,25 +29,17 @@ public class NewsCrawler extends BreadthCrawler {
 	public NewsCrawler(String crawlPath, boolean autoParse, String onetype) {
 		super(crawlPath, autoParse);
 
-		/* 正则规则设置 */
-		/* 正向的 */
-//		http://mil.news.sina.com.cn/
+        // 正则规则设置
 		this.addRegex("+https://(" + onetype + ").*.sina.com.cn/.*");
-		/* 负的，不要爬的 */
-		// 不要包含#，因为发现好多重复的
-//		this.addRegex("-.*#.*");
+		// 不要包含#的
+		this.addRegex("-.*#.*");
 
 		// 设置线程数
 		setThreads(50);
-		/* 设置每次迭代中爬取数量的上限 */
+		// 设置每次迭代中爬取数量的上限
 		getConf().setTopN(100);
 
-		/*
-		 * 设置是否为断点爬取，如果设置为false，任务启动前会清空历史数据。
-		 * 如果设置为true，会在已有crawlPath(构造函数的第一个参数)的基础上继
-		 * 续爬取。对于耗时较长的任务，很可能需要中途中断爬虫，也有可能遇到 死机、断电等异常情况，使用断点爬取模式，可以保证爬虫不受这些因素
-		 * 的影响，爬虫可以在人为中断、死机、断电等情况出现后，继续以前的任务 进行爬取。断点爬取默认为false
-		 */
+		// 设置是否为断点爬取
 		setResumable(false);
 
 	}
@@ -55,31 +47,29 @@ public class NewsCrawler extends BreadthCrawler {
 	@Override
 	public void visit(Page page, CrawlDatums next) {
 		String newsType = getNewsType(page);
-		/* 判断是否为新闻页，通过正则可以轻松判断 */
+	    // 判断是否为新闻页
 		if (newsType != null) {
 
 			Map<String, Object> resultMap = new HashMap<>();
 			try {
 				News mynew = ContentExtractor.getNewsByDoc(page.doc());
 				System.err.println(mynew.getTime() + mynew.getTitle() + mynew.getUrl());
-				resultMap.put("newsTitle", mynew.getTitle()); // 标题
-				resultMap.put("newsContent", mynew.getContent()); // 文本内容
+				resultMap.put("newsTitle", mynew.getTitle());
+				resultMap.put("newsContent", mynew.getContent());
 			} catch (Exception e) {
-				resultMap.put("newsTitle", page.doc().title()); // 标题
-				resultMap.put("newsContent", page.doc().text()); // 文本内容
+				resultMap.put("newsTitle", page.doc().title());
+				resultMap.put("newsContent", page.doc().text());
 			}
-			resultMap.put("_id", page.url()); // 芒果DB的id的形式是 _id
-			resultMap.put("newsURL", page.url()); // 唯一的url
+
+			resultMap.put("newsURL", page.url());
 
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String time= sdf.format( new  Date());
-			resultMap.put("newsScratchTime", time); // 爬取得时间
-			resultMap.put("newsType", newsType); // 新闻的种类
-//			-------------------------------------------------------------------------------------------------------
-			resultMap.put("newsSource", "新浪新闻"); // 新闻的来源
+			resultMap.put("newsScratchTime", time);
+			resultMap.put("newsType", newsType);
+			resultMap.put("newsSource", "新浪新闻");
 
 			System.out.println(JSONUtil.toJsonStr(resultMap));
-//			 manager.insertOneDocument(CollectionName, resultMap); //写入芒果DB
 			System.err.println(newsType+"--"+resultMap.get("newsTitle"));
 		}
 	}
