@@ -27,6 +27,8 @@ class ReentrantLockExample {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        // 从队列释放第一个等待的线程竞争锁
+        condition.signal();
 
 
     }
