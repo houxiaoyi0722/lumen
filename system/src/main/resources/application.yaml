@@ -5,7 +5,7 @@ ebean:
   db:
     ddl:
       generate: true
-      run: true
+#      run: true
 logging:
   level:
     io:
