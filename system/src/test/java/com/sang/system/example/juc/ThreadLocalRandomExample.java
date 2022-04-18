@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.LongAdder;
  **/
 class TestThreadLocalRandomExample {
 
-    @Test
+//    @Test
     void test() throws InterruptedException {
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(3,5,1000, TimeUnit.SECONDS,new ArrayBlockingQueue<>(10), Executors.defaultThreadFactory(),new ThreadPoolExecutor.AbortPolicy());
 

@@ -2,11 +2,12 @@ package com.sang.common.config.ebean;
 
 import com.sang.common.provider.CurrentUser;
 import com.sang.common.snowId.SnowIdGenerator;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import io.ebean.DB;
 import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.DatabaseConfig;
-import io.ebean.datasource.DataSourceConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +42,9 @@ public class EbeanDefaultDatabaseConfig {
 //        databaseConfig.setDdlCreateOnly(true);
         // 此设置需要先运行GenerateDbMigration生成ddl文件
         databaseConfig.setRunMigration(true);
-        databaseConfig.setDataSourceConfig(dataSourceConfig());
+        databaseConfig.setDdlRun(false);
+        databaseConfig.setDataSource(dataSourceConfig());
+//        databaseConfig.setDataSourceConfig(dataSourceConfig());
 
         Database database = DatabaseFactory.create(databaseConfig);
         log.info("ebean default database : {}", DB.getDefault().getName());
@@ -49,11 +52,19 @@ public class EbeanDefaultDatabaseConfig {
     }
 
     @Bean
-    public DataSourceConfig dataSourceConfig() {
-        DataSourceConfig dataSourceConfig = new DataSourceConfig();
-        dataSourceConfig.setUsername(ebeanDataSourceConfig.getUsername());
-        dataSourceConfig.setPassword(ebeanDataSourceConfig.getPassword());
-        dataSourceConfig.setUrl(ebeanDataSourceConfig.getUrl());
-        return dataSourceConfig;
+    public HikariDataSource dataSourceConfig() {
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(ebeanDataSourceConfig.getUrl());
+        hikariConfig.setUsername(ebeanDataSourceConfig.getUsername());
+        hikariConfig.setPassword(ebeanDataSourceConfig.getPassword());
+        hikariConfig.setMinimumIdle(5);
+        hikariConfig.setPoolName("HikariCP");
+        hikariConfig.setIdleTimeout(ebeanDataSourceConfig.getIdleTimeout());
+        hikariConfig.setMaximumPoolSize(ebeanDataSourceConfig.getMaxPoolSize());
+        hikariConfig.setMaxLifetime(ebeanDataSourceConfig.getMaxLifetime());
+        hikariConfig.setConnectionTimeout(ebeanDataSourceConfig.getConnectionTimeout());
+        hikariConfig.setDriverClassName(ebeanDataSourceConfig.getDriverClassName());
+
+        return new HikariDataSource(hikariConfig);
     }
 }

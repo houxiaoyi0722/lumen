@@ -160,7 +160,7 @@ public class SimHashExample {
     }
 
 
-    @Test
+//    @Test
     void simHashTest() {
         String s = "This is a test string for testing";
         SimHash hash1 = new SimHash(s, 64);

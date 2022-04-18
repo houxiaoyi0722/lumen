@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @SpringBootTest
 class SystemApplicationTests {
 
-    @Test
+//    @Test
     void contextLoads() {
         Dictionary build = Dictionary.builder().groupId("22").build();
         DictionaryItem build1 = DictionaryItem.builder().itemKey("11").itemValue("132").build();

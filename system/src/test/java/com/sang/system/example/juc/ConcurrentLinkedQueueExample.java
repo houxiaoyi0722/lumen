@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  **/
 class ConcurrentLinkedQueueExample {
 
-    @Test
+//    @Test
     void concurrentLinkedQueueExample() {
         /*
              线程安全的无界(无容量限制)非阻塞(cas操作)队列(单向队列头出尾进)，其底层数据结构使用单向链表实现，对于入队和出队操作使用CAS来实现线程安全

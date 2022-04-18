@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 class ReentrantReadWriteLockExample {
 
 
-    @Test
+//    @Test
     void reentrantReadWriteLockExample() {
 
         /*

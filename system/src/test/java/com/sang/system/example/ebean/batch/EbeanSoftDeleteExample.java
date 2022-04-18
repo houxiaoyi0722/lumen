@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public class EbeanSoftDeleteExample {
 
 
-    @Test
+//    @Test
     void ebeanSoftDeleteExample() {
         User user = new User();
         // update mybean set version=?, deleted=? where id=? and version=?; --bind(2,true,1,1,)

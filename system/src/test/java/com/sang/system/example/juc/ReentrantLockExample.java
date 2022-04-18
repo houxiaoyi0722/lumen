@@ -11,7 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
  **/
 class ReentrantLockExample {
 
-    @Test
+//    @Test
     void reentrantLockExample() {
         ReentrantLock reentrantLock = new ReentrantLock();
 

@@ -11,25 +11,25 @@ import java.util.regex.Pattern;
 public class sentiment {
     Set<String> posWordSet, negWordSet, negVodSet, vod1Set, vod2Set, vod3Set, vod4Set, vod5Set, vod6Set;
     StringBuffer sensTxt;
-    float tolSens = 0;//¸÷¸ö¼«ĞÔ¶ÌÓïµÄÇ¿¶È
-    float docSens = 0;//¾ä×ÓÆ½¾ùµÄÇ¿¶È,
+    float tolSens = 0;//å„ä¸ªææ€§çŸ­è¯­çš„å¼ºåº¦
+    float docSens = 0;//å¥å­å¹³å‡çš„å¼ºåº¦,
 
-    @Test
+//    @Test
     void test() throws Exception {
-//		/* ²âÊÔËù¹¹ÔìµÄÄ£ĞÍ×¼È·¶È£¬´ïµ½72.5%
+//		/* æµ‹è¯•æ‰€æ„é€ çš„æ¨¡å‹å‡†ç¡®åº¦ï¼Œè¾¾åˆ°72.5%
 //		sentiment a = new sentiment();
-//		//¿ªÊ¼Çé¸Ğ·ÖÎö
+//		//å¼€å§‹æƒ…æ„Ÿåˆ†æ
 //		a.readDoc("./DATA/test/docFC.txt","./DATA/test/docPrediction.txt");
-//		//²âÊÔ×¼È·ÂÊ
+//		//æµ‹è¯•å‡†ç¡®ç‡
 //		a.accuracy("./DATA/test/docPrediction.txt","./DATA/test/sen.txt");
 //		*/
 
-//		/*·ÖÎöÅÀ³æ×¥È¡µ½µÄ¾©¶«ÆÀÂÛ
-        //¿ªÊ¼·Ö´Ê£¬ÊäÈëÏë·Ö´ÊµÄÎÄ¼şÒÔ¼°Òª±£´æµÄÎÄ¼ş
+//		/*åˆ†æçˆ¬è™«æŠ“å–åˆ°çš„äº¬ä¸œè¯„è®º
+        //å¼€å§‹åˆ†è¯ï¼Œè¾“å…¥æƒ³åˆ†è¯çš„æ–‡ä»¶ä»¥åŠè¦ä¿å­˜çš„æ–‡ä»¶
 
         fengCi jd = new fengCi(this.getClass().getResourceAsStream("/data/jdHuaweiP8Comment.txt"), "UTF8");
         String fengci = jd.getFengci();
-        //¿ªÊ¼sentiment
+        //å¼€å§‹sentiment
         sentiment a = new sentiment();
         a.readDoc(fengci, "../../../../../../../resources/data/JDPrediction.txt");
 //		*/
@@ -116,24 +116,24 @@ public class sentiment {
             System.out.print("\r\n");
             System.out.println(readParse + " " + ParseSen);
 
-            //ÅĞ¶Ï±êÇ©
+            //åˆ¤æ–­æ ‡ç­¾
 
             computeSen(readParse.toString(), ParseSen.toString(), senPath);
 
         }
     }
 
-    //¹¹½¨´Êµä
+    //æ„å»ºè¯å…¸
     public void buildDic() throws IOException {
-        BufferedReader posWord = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/positiveWord/ÕıÃæ´Ê£¨0.8£©.txt")),"GBK"));
-        BufferedReader negWord = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/negativeWord/¸ºÃæ´Ê£¨-0.8£©.txt")),"GBK"));
-        BufferedReader negVod = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/negativeAdverb/·ñ¶¨£¨-0.8£©.txt")),"GBK"));
-        BufferedReader vod1 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/×î£¨0.9£©.txt")),"GBK"));
-        BufferedReader vod2 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/³¬£¨0.9£©.txt")),"GBK"));
-        BufferedReader vod3 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/ºÜ£¨0.7£©.txt")),"GBK"));
-        BufferedReader vod4 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/½Ï£¨0.5£©.txt")),"GBK"));
-        BufferedReader vod5 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/ÉÔ£¨0.3£©.txt")),"GBK"));
-        BufferedReader vod6 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/Ç·£¨-0.5£©.txt")),"GBK"));
+        BufferedReader posWord = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/positiveWord/æ­£é¢è¯ï¼ˆ0.8ï¼‰.txt")),"GBK"));
+        BufferedReader negWord = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/negativeWord/è´Ÿé¢è¯ï¼ˆ-0.8ï¼‰.txt")),"GBK"));
+        BufferedReader negVod = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/negativeAdverb/å¦å®šï¼ˆ-0.8ï¼‰.txt")),"GBK"));
+        BufferedReader vod1 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/æœ€ï¼ˆ0.9ï¼‰.txt")),"GBK"));
+        BufferedReader vod2 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/è¶…ï¼ˆ0.9ï¼‰.txt")),"GBK"));
+        BufferedReader vod3 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/å¾ˆï¼ˆ0.7ï¼‰.txt")),"GBK"));
+        BufferedReader vod4 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/è¾ƒï¼ˆ0.5ï¼‰.txt")),"GBK"));
+        BufferedReader vod5 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/ç¨ï¼ˆ0.3ï¼‰.txt")),"GBK"));
+        BufferedReader vod6 = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/buildDictionary/degreeWords/æ¬ ï¼ˆ-0.5ï¼‰.txt")),"GBK"));
 
         posWordSet = new HashSet<String>();
         negWordSet = new HashSet<String>();
@@ -197,7 +197,7 @@ public class sentiment {
             fwriter.flush();
             fwriter.close();
         } catch (Exception e) {
-            System.out.print("Çé¸Ğ½á¹ûÔÚ±£´æÊı¾İÊ±ºò³öÏÖIO´íÎó£º");
+            System.out.print("æƒ…æ„Ÿç»“æœåœ¨ä¿å­˜æ•°æ®æ—¶å€™å‡ºç°IOé”™è¯¯ï¼š");
             e.printStackTrace();
         }
 
@@ -208,7 +208,7 @@ public class sentiment {
         File preFile = new File(pre);
         File resultFile = new File(result);
         if (!preFile.exists() || !resultFile.exists()) {
-            throw new IllegalArgumentException("´ı²âÊÔ×¼È·ÂÊµÄÎÄ¼ş²»´æÔÚ£¡");
+            throw new IllegalArgumentException("å¾…æµ‹è¯•å‡†ç¡®ç‡çš„æ–‡ä»¶ä¸å­˜åœ¨ï¼");
         }
         BufferedReader preBf = new BufferedReader(new InputStreamReader(new FileInputStream(preFile), "gb2312"));
         BufferedReader resultBf = new BufferedReader(new InputStreamReader(new FileInputStream(resultFile), "gb2312"));
@@ -229,11 +229,11 @@ public class sentiment {
         preBf.close();
         resultBf.close();
 
-        System.out.println("×¼È·ÂÊÊÇ£º" + a / b);
+        System.out.println("å‡†ç¡®ç‡æ˜¯ï¼š" + a / b);
 
     }
 
-    //¼ÆËã¼«ĞÔ¶ÌÓïµÄÇ¿¶È
+    //è®¡ç®—ææ€§çŸ­è¯­çš„å¼ºåº¦
     public double computeSen(String doc, String value, String senPath) {
         String regx1 = "<(.+?)>";
         Pattern p = Pattern.compile(regx1);
@@ -293,7 +293,7 @@ public class sentiment {
             }
 
             System.out.print("(" + tolSens + ")");
-            //°Ñ×ÜµÄ¶ÌÓï¼«ĞÔÏà¼Ó£¬µÃµ½Ò»¸ö¾ä×Ó×ÜµÄÇ¿¶È
+            //æŠŠæ€»çš„çŸ­è¯­ææ€§ç›¸åŠ ï¼Œå¾—åˆ°ä¸€ä¸ªå¥å­æ€»çš„å¼ºåº¦
             docSens = tolSens + docSens;
         }
 
@@ -301,14 +301,14 @@ public class sentiment {
         sensTxt = new StringBuffer();
         if (docSens > 0) {
             sensTxt.append("pos" + "\r\n");
-            System.out.println("×ÜÇé¸Ğ¼«ÖµÊÇ£º" + docSens + " ÅĞ¶ÏÎª£ºpos ");
+            System.out.println("æ€»æƒ…æ„Ÿæå€¼æ˜¯ï¼š" + docSens + " åˆ¤æ–­ä¸ºï¼špos ");
 
         } else if (docSens < 0) {
             sensTxt.append("neg" + "\r\n");
-            System.out.println("×ÜÇé¸Ğ¼«ÖµÊÇ£º" + docSens + " ÅĞ¶ÏÎª£ºneg ");
+            System.out.println("æ€»æƒ…æ„Ÿæå€¼æ˜¯ï¼š" + docSens + " åˆ¤æ–­ä¸ºï¼šneg ");
         } else {
             sensTxt.append("neutral" + "\r\n");
-            System.out.println("×ÜÇé¸Ğ¼«ÖµÊÇ£º" + docSens + " ÅĞ¶ÏÎª£ºneutral ");
+            System.out.println("æ€»æƒ…æ„Ÿæå€¼æ˜¯ï¼š" + docSens + " åˆ¤æ–­ä¸ºï¼šneutral ");
         }
 //        saveSens(senPath, sensTxt.toString());
 

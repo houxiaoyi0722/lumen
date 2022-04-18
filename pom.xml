@@ -41,6 +41,7 @@
         <spring.boot>2.6.2</spring.boot>
         <webcollector.version>2.73-alpha</webcollector.version>
         <ikanalyzer.version>2012_u6</ikanalyzer.version>
+        <HikariCP.version>3.4.5</HikariCP.version>
     </properties>
     <modules>
         <module>common</module>
@@ -152,6 +153,16 @@
                 <groupId>com.janeluo</groupId>
                 <artifactId>ikanalyzer</artifactId>
                 <version>${ikanalyzer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${spring.boot}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>${HikariCP.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

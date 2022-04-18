@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 /**
  * @author hxy
@@ -13,10 +13,17 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Configuration
+@Component
 @ConfigurationProperties(prefix = "datasource.db")
 public class EbeanDataSourceConfig {
     private String username;
     private String password;
     private String url;
+    private String jdbcUrl;
+    private int minIdle = 5;
+    private long idleTimeout = 600000L;
+    private long maxLifetime = 1800000L;
+    private long connectionTimeout = 30000L;
+    private int maxPoolSize = 10;
+    private String driverClassName;
 }

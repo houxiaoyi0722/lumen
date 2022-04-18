@@ -10,7 +10,7 @@ import java.util.concurrent.*;
  **/
 class ForkJoinExample {
 
-    @Test
+//    @Test
     void forkJoinExample() throws ExecutionException, InterruptedException {
             ForkJoinPool forkJoinPool = new ForkJoinPool();
             ForkJoinTask<Integer> task = forkJoinPool.submit(new BatchSaveTask(1,1000000));

@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.LongAccumulator;
  **/
 class LongAccumulatorExample {
 
-    @Test
+//    @Test
     void longAccumulatorExample() throws InterruptedException {
         LongAccumulator longAccumulator = new LongAccumulator((a,b) -> a*b,1);
 

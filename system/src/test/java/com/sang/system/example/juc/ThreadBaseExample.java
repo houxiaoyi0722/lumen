@@ -39,7 +39,7 @@ class TestThreadBaseExample {
         }
     }
 
-    @Test
+//    @Test
     void threadBase() {
         new Thread(new Thread1()).start();
 
@@ -58,7 +58,7 @@ class TestThreadBaseExample {
 
     }
 
-    @Test
+//    @Test
     void threadMethod() throws InterruptedException {
         LinkedList<String> list = new LinkedList<>();
 

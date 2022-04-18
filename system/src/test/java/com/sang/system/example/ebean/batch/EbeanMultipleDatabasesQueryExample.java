@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
  * @date 2022/2/16 18:25
  **/
 class EbeanMultipleDatabasesQueryExample {
-    @Test
+//    @Test
     void ebeanMultipleDatabasesQueryExample() {
         Database db = DB.byName("db");
         // 直接在配置文件里配置数据源即可

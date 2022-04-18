@@ -10,7 +10,7 @@ import java.util.concurrent.locks.LockSupport;
  **/
 class LockSupportExample {
 
-    @Test
+//    @Test
     void lockSupportExample() {
         // 如果thread之前没有调用park，则调用unpark方法后，再调用park方法，其会立刻返回
         System.out.println("begin park");
@@ -27,7 +27,7 @@ class LockSupportExample {
      * 例如，根据调用前后中断状态的对比就可以判断是不是因为被中断才返回的。
      * @throws InterruptedException
      */
-    @Test
+//    @Test
     void lockSupportExample2() throws InterruptedException {
 
         Thread thread = new Thread(() -> {

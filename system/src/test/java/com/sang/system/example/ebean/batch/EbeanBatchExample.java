@@ -21,7 +21,7 @@ class TestEbeanBatchExample {
     /**
      * 未验证
      */
-    @Test
+//    @Test
     void batchModifyTest() {
 
         ArrayList<User> users = new ArrayList<>();
@@ -49,7 +49,7 @@ class TestEbeanBatchExample {
         }
     }
 
-    @Test
+//    @Test
     void batchSelectTest() {
         // ebean流式查询 结合数据库游标
 

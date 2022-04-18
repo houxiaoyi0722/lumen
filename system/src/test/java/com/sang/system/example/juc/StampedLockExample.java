@@ -10,7 +10,7 @@ import java.util.concurrent.locks.StampedLock;
  **/
 class StampedLockExample {
 
-    @Test
+//    @Test
     void stampedLockExample() {
 
         // 并且该锁不是直接实现Lock或ReadWriteLock接口，而是其在内部自己维护了一个双向阻塞队列

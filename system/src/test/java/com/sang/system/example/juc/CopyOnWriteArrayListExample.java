@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  **/
 class CopyOnWriteArrayListExample {
 
-    @Test
+//    @Test
     void copyOnWriteArrayListExample() throws InterruptedException {
         // CopyOnWriteArrayList 读写弱一致性
         CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();

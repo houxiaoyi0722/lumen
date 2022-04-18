@@ -3,7 +3,7 @@
  * 1163802968@qq.com
  * South China Normal University
  * 2015-12-16
- * ¹¦ÄÜ£ºÊµÏÖ·Ö´Ê
+ * åŠŸèƒ½ï¼šå®ç°åˆ†è¯
  * */
 package com.sang.system.example.sentimentAnalysis.fengCi;
 
@@ -17,7 +17,7 @@ import java.util.Set;
 
 public class fengCi {
 
-    //Í£ÓÃ´Ê´Ê±í
+    //åœç”¨è¯è¯è¡¨
     InputStream jdCommemt;
 
     String setCode;
@@ -32,24 +32,24 @@ public class fengCi {
 
     public String getFengci() throws Exception {
 
-        //¶ÁÈëÍ£ÓÃ´ÊÎÄ¼ş
+        //è¯»å…¥åœç”¨è¯æ–‡ä»¶
 
 //        BufferedReader StopWordFileBr = new BufferedReader(new InputStreamReader(new FileInputStream(stopWordTable)));
         BufferedReader StopWordFileBr = new BufferedReader(new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/data/stopWord/stopWord.txt"))));
 
-        //ÓÃÀ´´æ·ÅÍ£ÓÃ´ÊµÄ¼¯ºÏ
+        //ç”¨æ¥å­˜æ”¾åœç”¨è¯çš„é›†åˆ
         Set<String> stopWordSet = new HashSet<>();
 
-        //³õÈç»¯Í£ÓÃ´Ê¼¯
+        //åˆå¦‚åŒ–åœç”¨è¯é›†
         String stopWord = null;
         for (; (stopWord = StopWordFileBr.readLine()) != null; ) {
             stopWordSet.add(stopWord);
         }
 
-        //µ¼ÈëÎÒÃÇÖ®Ç°×¥È¡µÄ¾©¶«ÆÀÂÛ,×¢Òâ±àÂë¸ñÊ½
+        //å¯¼å…¥æˆ‘ä»¬ä¹‹å‰æŠ“å–çš„äº¬ä¸œè¯„è®º,æ³¨æ„ç¼–ç æ ¼å¼
         BufferedReader jdComFileBr = new BufferedReader(new InputStreamReader(jdCommemt, setCode));
 
-        //´´½¨·Ö´Ê¶ÔÏó
+        //åˆ›å»ºåˆ†è¯å¯¹è±¡
         String text = null;
         StringBuffer FT = new StringBuffer();
         try {
@@ -58,9 +58,9 @@ public class fengCi {
                 IKSegmenter ik = new IKSegmenter(sr, true);
                 Lexeme lex = null;
 
-                //·Ö´Ê
+                //åˆ†è¯
                 while ((lex = ik.next()) != null) {
-                    //È¥³ıÍ£ÓÃ´Ê   ×Ô¼ºÌí¼ÓÁË\n,p8
+                    //å»é™¤åœç”¨è¯   è‡ªå·±æ·»åŠ äº†\n,p8
                     if (stopWordSet.contains(lex.getLexemeText())) {
                         continue;
                     }
@@ -69,19 +69,19 @@ public class fengCi {
                 }
                 FT.append("\r\n");
             }
-            StopWordFileBr.close();//¹Ø±ÕÁ÷
+            StopWordFileBr.close();//å…³é—­æµ
             jdComFileBr.close();
 
         } catch (NullPointerException e) {
-//            saveFengci(path, FT.toString());//±£´æ
-            System.out.println("\r\n" + "·Ö´ÊÍê³É£¡(^.^)");
+//            saveFengci(path, FT.toString());//ä¿å­˜
+            System.out.println("\r\n" + "åˆ†è¯å®Œæˆï¼(^.^)");
         }
 
         return FT.toString();
     }
 
 
-    //±£´æ·Ö´Ê
+    //ä¿å­˜åˆ†è¯
     public void saveFengci(String path, String ci) {
         File file = new File(path);
         try {
@@ -93,7 +93,7 @@ public class fengCi {
             fwriter.flush();
             fwriter.close();
         } catch (Exception e) {
-            System.out.print("·Ö´ÊÔÚ±£´æÊı¾İÊ±ºò³öÏÖIO´íÎó£º");
+            System.out.print("åˆ†è¯åœ¨ä¿å­˜æ•°æ®æ—¶å€™å‡ºç°IOé”™è¯¯ï¼š");
             e.printStackTrace();
         }
     }

@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  **/
 class LinkedBlockingQueueExample {
 
-    @Test
+//    @Test
     void linkedBlockingQueueExample() {
 
         /*
