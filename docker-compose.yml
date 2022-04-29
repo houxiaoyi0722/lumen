@@ -1,27 +1,48 @@
 version: "3.7"
 
 services:
-  influx:
-    image: influxdb:1.7
+  mysql:
+    image: mysql:latest
+#    restart: always
     ports:
-      - "8086:8086"
+      - "13306:3306"
     volumes:
-      - influxdb:/var/lib/influxdb
-      - influxconf:/etc/influxdb
-  chronograf:
-    image: chronograf:1.7
+      - /opt/mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: w7s6bi
+    command:
+      --default-authentication-plugin=mysql native password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+  redis:
+    image: redis:latest
     ports:
-      - "8888:8888"
+      - "6379:6379"
     volumes:
-      - chronograf:/var/lib/chronograf
-  grafana:
-    image: grafana:8.3.3
-    ports:
-      - "3000:3000"
-    volumes:
-      - grafana:/var/lib/grafana
-volumes:
-  influxdb:
-  influxconf:
-  chronograf:
-  grafana:
+      - /docker/host/dir:/data
+#  influx:
+#    image: influxdb:1.7
+#    ports:
+#      - "8086:8086"
+#    volumes:
+#      - influxdb:/var/lib/influxdb
+#      - influxconf:/etc/influxdb
+#  chronograf:
+#    image: chronograf:1.7
+#    ports:
+#      - "8888:8888"
+#    volumes:
+#      - chronograf:/var/lib/chronograf
+#  grafana:
+#    image: grafana:8.3.3
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - grafana:/var/lib/grafana
+#volumes:
+#  influxdb:
+#  influxconf:
+#  chronograf:
+#  grafana:
