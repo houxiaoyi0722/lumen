@@ -25,7 +25,7 @@
         <ebean.version>12.8.0</ebean.version>
         <redisson.version>3.13.5</redisson.version>
         <validation.version>2.0.1.Final</validation.version>
-        <lombok.version>1.18.20</lombok.version>
+        <lombok.version>1.18.22</lombok.version>
         <mysql.version>8.0.19</mysql.version>
         <avaje.logback.version>1.1</avaje.logback.version>
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
@@ -34,7 +34,7 @@
         <tiles-maven-plugin.version>2.19</tiles-maven-plugin.version>
         <enhancement.version>12.8.0</enhancement.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <querybean-generator.version>12.8.0</querybean-generator.version>
+        <querybean-generator.version>12.12.1</querybean-generator.version>
         <jsr305.version>3.0.2</jsr305.version>
         <ebean.migration>12.4.0</ebean.migration>
         <nimbus.jose.jwt>9.7</nimbus.jose.jwt>
@@ -83,7 +83,6 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <scope>provided</scope>
                 <version>${lombok.version}</version>
             </dependency>
             <dependency>
@@ -95,6 +94,11 @@
                 <groupId>io.ebean</groupId>
                 <artifactId>ebean-migration</artifactId>
                 <version>${ebean.migration}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.ebean</groupId>
+                <artifactId>ebean-ddl-generator</artifactId>
+                <version>${ebean.version}</version>
             </dependency>
             <!-- java annotation processor to generate query beans -->
             <dependency>
@@ -183,21 +187,6 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>${maven-site-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>${maven-project-info-reports-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>${maven-resources-plugin.version}</version>
-                </plugin>
-                <plugin>
                     <groupId>io.repaint.maven</groupId>
                     <artifactId>tiles-maven-plugin</artifactId>
                     <version>${tiles-maven-plugin.version}</version>
@@ -219,6 +208,11 @@
                                 <groupId>io.ebean</groupId>
                                 <artifactId>querybean-generator</artifactId>
                                 <version>${querybean-generator.version}</version>
+                            </path>
+                            <path>
+                                <groupId>io.ebean</groupId>
+                                <artifactId>persistence-api</artifactId>
+                                <version>2.2.5</version>
                             </path>
                             <path>
                                 <groupId>org.projectlombok</groupId>
@@ -243,8 +237,8 @@
         </pluginManagement>
     </build>
 
-    <repositories>
-        <!--阿里云仓库-->
+<!--    <repositories>
+        &lt;!&ndash;阿里云仓库&ndash;&gt;
         <repository>
             <id>nexus-aliyun</id>
             <name>Nexus aliyun</name>
@@ -257,6 +251,6 @@
                 <enabled>true</enabled>
             </releases>
         </repository>
-    </repositories>
+    </repositories>-->
 
 </project>
