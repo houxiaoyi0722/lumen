@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  gitlab:
+    container_name: "gitlab"
+    environment:
+      DEBUG: 'false'
+      GITLAB_PORT: 12080
+      GITLAB_SECRETS_DB_KEY_BASE: qcs-gitlab-app
+      GITLAB_SECRETS_OTP_KEY_BASE: qcs-gitlab-app
+      GITLAB_SECRETS_SECRET_KEY_BASE: qcs-gitlab-app
+      GITLAB_SSH_PORT: 12022
+      DB_HOST: postgresql
+      DB_NAME: gitlabhq_production
+      DB_USER: gitlab
+      DB_PASS: password
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    image: sameersbn/gitlab:11.4.0
+    links:
+      - redis:redisio
+    ports:
+      - '12080:80'
+      - '12022:22'
+    volumes:
+      - /share/Container/container-station-data/Mount/Gitlab/data:/home/git/data:Z
+    restart: always
+  postgresql:
+    container_name: "postgresql"
+    environment:
+      DB_EXTENSION: pg_trgm
+      DB_NAME: gitlabhq_production
+      DB_PASS: password
+      DB_USER: gitlab
+    image: sameersbn/postgresql:9.6-2
+    ports:
+      - '5432:5432'
+    volumes:
+      - /share/Container/container-station-data/Mount/Gitlab/postgresql:/var/lib/postgresql:Z
+    restart: always
+  redis:
+    container_name: "redis"
+    command:
+      - --loglevel warning
+    image: sameersbn/redis:latest
+    volumes:
+      - /share/Container/container-station-data/Mount/Gitlab/redis:/var/lib/redis:Z
+    restart: always
