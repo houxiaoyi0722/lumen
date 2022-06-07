@@ -11,7 +11,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: w7s6bi
     command:
-      --default-authentication-plugin=mysql native password
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci
       --explicit_defaults_for_timestamp=true

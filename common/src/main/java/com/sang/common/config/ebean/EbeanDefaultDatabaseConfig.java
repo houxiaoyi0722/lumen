@@ -42,7 +42,7 @@ public class EbeanDefaultDatabaseConfig {
 //        databaseConfig.setDdlCreateOnly(true);
         // 此设置需要先运行GenerateDbMigration生成ddl文件
         databaseConfig.setDdlGenerate(true);
-        databaseConfig.setRunMigration(false);
+        databaseConfig.setRunMigration(true);
         databaseConfig.setDdlRun(false);
         databaseConfig.setDataSource(dataSourceConfig());
 //        databaseConfig.setDataSourceConfig(dataSourceConfig());
