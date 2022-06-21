@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 /**
- * Generate the DB Migration.
+ * Generate the DB Doc.
  */
 @ActiveProfiles(value = "gs")
 @SpringBootTest

@@ -43,6 +43,7 @@
         <ikanalyzer.version>2012_u6</ikanalyzer.version>
         <HikariCP.version>3.4.5</HikariCP.version>
         <screw.version>1.0.5</screw.version>
+        <japidocs.version>1.4.4</japidocs.version>
     </properties>
     <modules>
         <module>common</module>
@@ -174,6 +175,11 @@
                 <groupId>cn.smallbun.screw</groupId>
                 <artifactId>screw-core</artifactId>
                 <version>${screw.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.yedaxia</groupId>
+                <artifactId>japidocs</artifactId>
+                <version>${japidocs.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
