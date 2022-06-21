@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<migration xmlns="http://ebean-orm.github.io/xml/ns/dbmigration">
+    <changeSet type="apply">
+        <createTable name="DATA_DICTIONARY" identityType="external" pkName="pk_data_dictionary" comment="数据字典">
+            <column name="id" type="bigint" primaryKey="true" identity="true"/>
+            <column name="group_id" type="varchar(10)" notnull="true" unique="uq_data_dictionary_group_id" comment="组id"/>
+            <column name="group_name" type="varchar(10)" notnull="true" unique="uq_data_dictionary_group_name" comment="组名称"/>
+            <column name="comment" type="varchar(50)" comment="备注"/>
+            <column name="version" type="bigint" notnull="true"/>
+            <column name="when_created" type="timestamp" notnull="true"/>
+            <column name="created_by" type="varchar" notnull="true"/>
+            <column name="modified_by" type="varchar" notnull="true"/>
+            <column name="when_modified" type="timestamp" notnull="true"/>
+            <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
+        </createTable>
+        <createTable name="DATA_DICTIONARY_ITEM" identityType="external" pkName="pk_data_dictionary_item" comment="数据字典明细">
+            <column name="id" type="bigint" primaryKey="true" identity="true"/>
+            <column name="dictionary_id" type="bigint" notnull="true" references="DATA_DICTIONARY.id" foreignKeyName="fk_data_dictionary_item_dictionary_id" foreignKeyIndex="ix_data_dictionary_item_dictionary_id"/>
+            <column name="item_value" type="varchar(100)" notnull="true" comment="value"/>
+            <column name="item_key" type="varchar(100)" notnull="true" comment="key"/>
+            <column name="comment" type="varchar(100)" comment="备注"/>
+            <column name="version" type="bigint" notnull="true"/>
+            <column name="when_created" type="timestamp" notnull="true"/>
+            <column name="created_by" type="varchar" notnull="true"/>
+            <column name="modified_by" type="varchar" notnull="true"/>
+            <column name="when_modified" type="timestamp" notnull="true"/>
+            <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
+        </createTable>
+        <createTable name="ROLE" identityType="external" pkName="pk_role" comment="角色表">
+            <column name="id" type="bigint" primaryKey="true" identity="true"/>
+            <column name="role_name" type="varchar(20)" notnull="true" unique="uq_role_role_name" comment="角色名称"/>
+            <column name="role_code" type="varchar(20)" notnull="true" unique="uq_role_role_code" comment="角色代码"/>
+            <column name="comment" type="varchar(200)" comment="备注"/>
+            <column name="PARENT_ID" type="bigint" references="ROLE.id" foreignKeyName="fk_role_parent_id" foreignKeyIndex="ix_role_parent_id"/>
+            <column name="version" type="bigint" notnull="true"/>
+            <column name="when_created" type="timestamp" notnull="true"/>
+            <column name="created_by" type="varchar" notnull="true"/>
+            <column name="modified_by" type="varchar" notnull="true"/>
+            <column name="when_modified" type="timestamp" notnull="true"/>
+            <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
+        </createTable>
+        <createTable name="ROUTER" identityType="external" pkName="pk_router" comment="路由表">
+            <column name="id" type="bigint" primaryKey="true" identity="true"/>
+            <column name="name" type="varchar(100)" comment="路由名称"/>
+            <column name="path" type="varchar(200)" comment="访问路径"/>
+            <column name="redirect" type="varchar(200)" comment="相对路径 根目录开始"/>
+            <column name="component" type="varchar(200)" comment="component组件"/>
+            <column name="mate" type="varchar(500)" comment="元数据 json格式"/>
+            <column name="description" type="varchar(300)" comment="描述"/>
+            <column name="hidden" type="boolean" comment="是否隐藏"/>
+            <column name="always_show" type="boolean" comment="alwaysShow"/>
+            <column name="order_by" type="integer" comment="排序"/>
+            <column name="PARENT_ID" type="bigint" references="ROUTER.id" foreignKeyName="fk_router_parent_id" foreignKeyIndex="ix_router_parent_id"/>
+            <column name="version" type="bigint" notnull="true"/>
+            <column name="when_created" type="timestamp" notnull="true"/>
+            <column name="created_by" type="varchar" notnull="true"/>
+            <column name="modified_by" type="varchar" notnull="true"/>
+            <column name="when_modified" type="timestamp" notnull="true"/>
+            <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
+        </createTable>
+        <createTable name="ROUTER_ROLE" pkName="pk_router_role">
+            <column name="ROUTER_id" type="bigint" notnull="true" primaryKey="true"/>
+            <column name="ROLE_id" type="bigint" notnull="true" primaryKey="true"/>
+            <foreignKey name="fk_router_role_router" columnNames="ROUTER_id" refColumnNames="id" refTableName="ROUTER" indexName="ix_router_role_router"/>
+            <foreignKey name="fk_router_role_role" columnNames="ROLE_id" refColumnNames="id" refTableName="ROLE" indexName="ix_router_role_role"/>
+        </createTable>
+        <createTable name="USER" identityType="external" pkName="pk_user" comment="角色表">
+            <column name="id" type="bigint" primaryKey="true" identity="true"/>
+            <column name="name" type="varchar(100)" notnull="true" unique="uq_user_name" comment="姓名"/>
+            <column name="user_name" type="varchar(100)" notnull="true" unique="uq_user_user_name" comment="用户名"/>
+            <column name="password" type="varchar(100)" notnull="true" unique="uq_user_password" comment="密码"/>
+            <column name="phone" type="varchar(20)" comment="电话"/>
+            <column name="mobile_phone" type="varchar(20)" comment="移动电话"/>
+            <column name="address" type="varchar(200)" comment="地址"/>
+            <column name="email" type="varchar(50)" comment="邮箱地址"/>
+            <column name="enabled" type="boolean" comment="是否启用"/>
+            <column name="account_non_expired" type="boolean" comment="账户未过期"/>
+            <column name="account_non_locked" type="boolean" comment="账户锁定"/>
+            <column name="credentials_non_expired" type="boolean" comment="凭证未过期"/>
+            <column name="user_group_id" type="bigint" references="USER_GROUP.id" foreignKeyName="fk_user_user_group_id" foreignKeyIndex="ix_user_user_group_id"/>
+            <column name="version" type="bigint" notnull="true"/>
+            <column name="when_created" type="timestamp" notnull="true"/>
+            <column name="created_by" type="varchar" notnull="true"/>
+            <column name="modified_by" type="varchar" notnull="true"/>
+            <column name="when_modified" type="timestamp" notnull="true"/>
+            <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
+        </createTable>
+        <createTable name="USER_ROLE" pkName="pk_user_role">
+            <column name="USER_id" type="bigint" notnull="true" primaryKey="true"/>
+            <column name="ROLE_id" type="bigint" notnull="true" primaryKey="true"/>
+            <foreignKey name="fk_user_role_user" columnNames="USER_id" refColumnNames="id" refTableName="USER" indexName="ix_user_role_user"/>
+            <foreignKey name="fk_user_role_role" columnNames="ROLE_id" refColumnNames="id" refTableName="ROLE" indexName="ix_user_role_role"/>
+        </createTable>
+        <createTable name="USER_GROUP" identityType="external" pkName="pk_user_group" comment="用户组">
+            <column name="id" type="bigint" primaryKey="true" identity="true"/>
+            <column name="group_name" type="varchar(10)" notnull="true" unique="uq_user_group_group_name" comment="用户组名称"/>
+            <column name="group_code" type="varchar(10)" notnull="true" unique="uq_user_group_group_code" comment="用户组代码"/>
+            <column name="comment" type="varchar(200)" comment="备注"/>
+            <column name="PARENT_ID" type="bigint" references="USER_GROUP.id" foreignKeyName="fk_user_group_parent_id" foreignKeyIndex="ix_user_group_parent_id"/>
+            <column name="version" type="bigint" notnull="true"/>
+            <column name="when_created" type="timestamp" notnull="true"/>
+            <column name="created_by" type="varchar" notnull="true"/>
+            <column name="modified_by" type="varchar" notnull="true"/>
+            <column name="when_modified" type="timestamp" notnull="true"/>
+            <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
+        </createTable>
+        <createTable name="USER_GROUP_ROLE" pkName="pk_user_group_role">
+            <column name="USER_GROUP_id" type="bigint" notnull="true" primaryKey="true"/>
+            <column name="ROLE_id" type="bigint" notnull="true" primaryKey="true"/>
+            <foreignKey name="fk_user_group_role_user_group" columnNames="USER_GROUP_id" refColumnNames="id" refTableName="USER_GROUP" indexName="ix_user_group_role_user_group"/>
+            <foreignKey name="fk_user_group_role_role" columnNames="ROLE_id" refColumnNames="id" refTableName="ROLE" indexName="ix_user_group_role_role"/>
+        </createTable>
+    </changeSet>
+</migration>
