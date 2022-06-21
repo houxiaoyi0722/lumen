@@ -5,6 +5,7 @@ import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.router.entity.Router;
 import com.sang.common.domain.user.entity.User;
 import com.sang.common.domain.user.entity.UserGroup;
+import io.ebean.annotation.DbComment;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,23 +26,18 @@ import static javax.persistence.CascadeType.PERSIST;
 @Entity
 @Builder
 @Table(name = "ROLE")
+@DbComment("角色表")
 public class Role extends BaseModel {
 
-    /**
-     * 角色名称
-     */
+    @DbComment("角色名称")
     @Column(length = 20,nullable = false,unique = true)
     private String roleName;
 
-    /**
-     * 角色代码
-     */
+    @DbComment("角色代码")
     @Column(length = 20,nullable = false,unique = true)
     private String roleCode;
 
-    /**
-     * 备注
-     */
+    @DbComment("备注")
     @Column(length = 200)
     private String comment;
 

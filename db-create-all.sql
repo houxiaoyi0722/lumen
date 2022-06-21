@@ -48,15 +48,15 @@ create table role (
 
 create table router (
   id                            bigint not null,
-  name                          varchar(100) comment 'Â·ÓÉÃû³Æ',
-  path                          varchar(200) comment '·ÃÎÊÂ·¾¶',
-  redirect                      varchar(200) comment 'Ïà¶ÔÂ·¾¶ ¸ùÄ¿Â¼¿ªÊ¼',
-  component                     varchar(200) comment 'component×é¼ş',
-  mate                          varchar(500) comment 'ÔªÊı¾İ json¸ñÊ½',
-  description                   varchar(300) comment 'ÃèÊö',
-  hidden                        tinyint(1) comment 'ÊÇ·ñÒş²Ø',
+  name                          varchar(100) comment 'è·¯ç”±åç§°',
+  path                          varchar(200) comment 'è®¿é—®è·¯å¾„',
+  redirect                      varchar(200) comment 'ç›¸å¯¹è·¯å¾„ æ ¹ç›®å½•å¼€å§‹',
+  component                     varchar(200) comment 'componentç»„ä»¶',
+  mate                          varchar(500) comment 'å…ƒæ•°æ® jsonæ ¼å¼',
+  description                   varchar(300) comment 'æè¿°',
+  hidden                        tinyint(1) comment 'æ˜¯å¦éšè—',
   always_show                   tinyint(1) comment 'alwaysShow',
-  order_by                      integer comment 'ÅÅĞò',
+  order_by                      integer comment 'æ’åº',
   parent_id                     bigint,
   version                       bigint not null,
   when_created                  datetime(6) not null,
@@ -65,7 +65,7 @@ create table router (
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
   constraint pk_router primary key (id)
-) comment='Â·ÓÉ±í';
+) comment='è·¯ç”±è¡¨';
 
 create table router_role (
   router_id                     bigint not null,
@@ -75,17 +75,17 @@ create table router_role (
 
 create table user (
   id                            bigint not null,
-  name                          varchar(100) not null comment 'ĞÕÃû',
-  user_name                     varchar(100) not null comment 'ÓÃ»§Ãû',
-  password                      varchar(100) not null comment 'ÃÜÂë',
-  phone                         varchar(20) comment 'µç»°',
-  mobile_phone                  varchar(20) comment 'ÒÆ¶¯µç»°',
-  address                       varchar(200) comment 'µØÖ·',
-  email                         varchar(50) comment 'ÓÊÏäµØÖ·',
-  enabled                       tinyint(1) comment 'ÊÇ·ñÆôÓÃ',
-  account_non_expired           tinyint(1) comment 'ÕË»§Î´¹ıÆÚ',
-  account_non_locked            tinyint(1) comment 'ÕË»§Ëø¶¨',
-  credentials_non_expired       tinyint(1) comment 'Æ¾Ö¤Î´¹ıÆÚ',
+  name                          varchar(100) not null comment 'å§“å',
+  user_name                     varchar(100) not null comment 'ç”¨æˆ·å',
+  password                      varchar(100) not null comment 'å¯†ç ',
+  phone                         varchar(20) comment 'ç”µè¯',
+  mobile_phone                  varchar(20) comment 'ç§»åŠ¨ç”µè¯',
+  address                       varchar(200) comment 'åœ°å€',
+  email                         varchar(50) comment 'é‚®ç®±åœ°å€',
+  enabled                       tinyint(1) comment 'æ˜¯å¦å¯ç”¨',
+  account_non_expired           tinyint(1) comment 'è´¦æˆ·æœªè¿‡æœŸ',
+  account_non_locked            tinyint(1) comment 'è´¦æˆ·é”å®š',
+  credentials_non_expired       tinyint(1) comment 'å‡­è¯æœªè¿‡æœŸ',
   user_group_id                 bigint,
   version                       bigint not null,
   when_created                  datetime(6) not null,
@@ -97,7 +97,7 @@ create table user (
   constraint uq_user_user_name unique (user_name),
   constraint uq_user_password unique (password),
   constraint pk_user primary key (id)
-) comment='½ÇÉ«±í';
+) comment='è§’è‰²è¡¨';
 
 create table user_role (
   user_id                       bigint not null,

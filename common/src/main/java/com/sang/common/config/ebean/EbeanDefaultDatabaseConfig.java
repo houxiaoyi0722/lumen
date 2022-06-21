@@ -52,7 +52,7 @@ public class EbeanDefaultDatabaseConfig {
         return database;
     }
 
-    @Bean
+    @Bean(name = "HikariDataSource")
     public HikariDataSource dataSourceConfig() {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(ebeanDataSourceConfig.getUrl());

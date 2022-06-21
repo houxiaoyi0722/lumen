@@ -42,6 +42,7 @@
         <webcollector.version>2.73-alpha</webcollector.version>
         <ikanalyzer.version>2012_u6</ikanalyzer.version>
         <HikariCP.version>3.4.5</HikariCP.version>
+        <screw.version>1.0.5</screw.version>
     </properties>
     <modules>
         <module>common</module>
@@ -167,6 +168,12 @@
                 <groupId>com.zaxxer</groupId>
                 <artifactId>HikariCP</artifactId>
                 <version>${HikariCP.version}</version>
+            </dependency>
+            <!-- screw 库，简洁好用的数据库表结构文档生成器 -->
+            <dependency>
+                <groupId>cn.smallbun.screw</groupId>
+                <artifactId>screw-core</artifactId>
+                <version>${screw.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
