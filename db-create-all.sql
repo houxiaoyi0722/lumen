@@ -1,8 +1,8 @@
 create table data_dictionary (
   id                            bigint not null,
-  group_id                      varchar(10) not null,
-  group_name                    varchar(10) not null,
-  comment                       varchar(50),
+  group_id                      varchar(10) not null comment '组id',
+  group_name                    varchar(10) not null comment '组名称',
+  comment                       varchar(50) comment '备注',
   version                       bigint not null,
   when_created                  datetime(6) not null,
   created_by                    varchar(255) not null,
@@ -12,14 +12,14 @@ create table data_dictionary (
   constraint uq_data_dictionary_group_id unique (group_id),
   constraint uq_data_dictionary_group_name unique (group_name),
   constraint pk_data_dictionary primary key (id)
-);
+) comment='数据字典';
 
 create table data_dictionary_item (
   id                            bigint not null,
   dictionary_id                 bigint not null,
-  item_value                    varchar(100) not null,
-  item_key                      varchar(100) not null,
-  comment                       varchar(100),
+  item_value                    varchar(100) not null comment 'value',
+  item_key                      varchar(100) not null comment 'key',
+  comment                       varchar(100) comment '备注',
   version                       bigint not null,
   when_created                  datetime(6) not null,
   created_by                    varchar(255) not null,
@@ -27,13 +27,13 @@ create table data_dictionary_item (
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
   constraint pk_data_dictionary_item primary key (id)
-);
+) comment='数据字典明细';
 
 create table role (
   id                            bigint not null,
-  role_name                     varchar(20) not null,
-  role_code                     varchar(20) not null,
-  comment                       varchar(200),
+  role_name                     varchar(20) not null comment '角色名称',
+  role_code                     varchar(20) not null comment '角色代码',
+  comment                       varchar(200) comment '备注',
   parent_id                     bigint,
   version                       bigint not null,
   when_created                  datetime(6) not null,
@@ -44,7 +44,7 @@ create table role (
   constraint uq_role_role_name unique (role_name),
   constraint uq_role_role_code unique (role_code),
   constraint pk_role primary key (id)
-);
+) comment='角色表';
 
 create table router (
   id                            bigint not null,
@@ -107,9 +107,9 @@ create table user_role (
 
 create table user_group (
   id                            bigint not null,
-  group_name                    varchar(10) not null,
-  group_code                    varchar(10) not null,
-  comment                       varchar(200),
+  group_name                    varchar(10) not null comment '用户组名称',
+  group_code                    varchar(10) not null comment '用户组代码',
+  comment                       varchar(200) comment '备注',
   parent_id                     bigint,
   version                       bigint not null,
   when_created                  datetime(6) not null,
@@ -120,7 +120,7 @@ create table user_group (
   constraint uq_user_group_group_name unique (group_name),
   constraint uq_user_group_group_code unique (group_code),
   constraint pk_user_group primary key (id)
-);
+) comment='用户组';
 
 create table user_group_role (
   user_group_id                 bigint not null,

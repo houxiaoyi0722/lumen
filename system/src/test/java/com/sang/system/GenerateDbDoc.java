@@ -23,9 +23,9 @@ import java.util.Collections;
 public class GenerateDbDoc {
 
   private static final String FILE_OUTPUT_DIR = "./doc";
-  private static final String DOC_FILE_NAME = "数据库文档";
+  private static final String DOC_FILE_NAME = "lumen-server数据库文档";
   private static final String DOC_VERSION = "1.0.0";
-  private static final String DOC_DESCRIPTION = "文档描述";
+  private static final String DOC_DESCRIPTION = "lumen-server数据库文档";
 
   @Resource
   private HikariDataSource dataSource;
@@ -51,7 +51,7 @@ public class GenerateDbDoc {
   private static EngineConfig buildEngineConfig() {
     return EngineConfig.builder()
             .fileOutputDir(FILE_OUTPUT_DIR) // 生成文件路径
-            .openOutputDir(true) // 打开目录
+            .openOutputDir(false) // 打开目录
             .fileType(EngineFileType.HTML) // 文件类型  // 可以设置 Word 或者 Markdown 格式
             .produceType(EngineTemplateType.freemarker) // 文件类型
             .fileName(DOC_FILE_NAME) // 自定义文件名称
