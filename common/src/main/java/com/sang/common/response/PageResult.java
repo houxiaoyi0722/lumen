@@ -19,10 +19,18 @@ import java.util.List;
 @NoArgsConstructor
 public class PageResult<T> {
 
+    /**
+     * 消息
+     */
     private String message;
+    /**
+     * 返回码
+     */
     private Integer code;
+    /**
+     * 数据
+     */
     private List<T> data;
-
     /**
      * 页码，0表示第一页
      */
