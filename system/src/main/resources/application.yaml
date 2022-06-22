@@ -17,6 +17,8 @@ jwt:
   public.key: classpath:app.pub
   expire: 36000
   refresh-expiry: 72000
+minio:
+  credentials: classpath:credentials.json
 #spring:
 #  jackson:
 #    date-format: yyyy-MM-dd HH:mm:ss

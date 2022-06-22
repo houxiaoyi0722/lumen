@@ -44,6 +44,7 @@
         <HikariCP.version>3.4.5</HikariCP.version>
         <screw.version>1.0.5</screw.version>
         <japidocs.version>1.4.4</japidocs.version>
+        <minio.version>7.0.2</minio.version>
     </properties>
     <modules>
         <module>common</module>
@@ -180,6 +181,11 @@
                 <groupId>io.github.yedaxia</groupId>
                 <artifactId>japidocs</artifactId>
                 <version>${japidocs.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

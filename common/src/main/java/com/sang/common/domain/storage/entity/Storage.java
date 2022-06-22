@@ -10,8 +10,6 @@ import javax.persistence.Table;
 
 @Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Builder
 @Table(name = "STORAGE")
