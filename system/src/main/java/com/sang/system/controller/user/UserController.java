@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
+ * 用户管理
  * @author hxy
  * @date 2022/1/7 15:10
  **/
@@ -21,12 +22,21 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    /**
+     * 用户分页查询
+     * @param userQry
+     * @return
+     */
     @PostMapping("/users")
     public PageResult<User> list(@RequestBody UserQry userQry) {
         return PageResult.ok(userService.userList(userQry));
     }
 
-
+    /**
+     * 保存用户
+     * @param user
+     * @return
+     */
     @PostMapping("/user")
     public Result<Boolean> save(@RequestBody User user) {
         userService.save(user);

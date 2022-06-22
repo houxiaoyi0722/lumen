@@ -29,18 +29,28 @@ import static javax.persistence.CascadeType.PERSIST;
 @DbComment("角色表")
 public class Role extends BaseModel {
 
+    /**
+     * 角色名称
+     */
     @DbComment("角色名称")
     @Column(length = 20,nullable = false,unique = true)
     private String roleName;
 
+    /**
+     * 角色代码
+     */
     @DbComment("角色代码")
     @Column(length = 20,nullable = false,unique = true)
     private String roleCode;
 
+    /**
+     * 备注
+     */
     @DbComment("备注")
     @Column(length = 200)
     private String comment;
 
+    @DbComment("上级角色id")
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "parentId",cascade = PERSIST)
     private List<Role> children = new ArrayList<>();

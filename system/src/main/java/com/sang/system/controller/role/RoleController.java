@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
+ * 角色管理
  * @author hxy
  * @date 2021/12/31 17:57
  **/
@@ -38,30 +39,55 @@ public class RoleController {
         return Result.ok(roleService.rolesByParentId(parentId));
     }
 
+    /**
+     * 保存对象
+     * @param role
+     * @return
+     */
     @PostMapping("/role")
     public Result<Boolean> saveRole(@RequestBody Role role) {
         roleService.save(role);
         return Result.ok();
     }
 
+    /**
+     * 按照id更新
+     * @param role
+     * @return
+     */
     @PutMapping("/role")
     public Result<Boolean> updateRole(@RequestBody Role role) {
         roleService.update(role);
         return Result.ok();
     }
 
+    /**
+     * 批量保存
+     * @param roles
+     * @return
+     */
     @PostMapping("/roles")
     public Result<Boolean> saveAll(@RequestBody List<Role> roles) {
         roleService.saveAll(roles);
         return Result.ok();
     }
 
+    /**
+     * 按id删除
+     * @param role
+     * @return
+     */
     @DeleteMapping("/role")
     public Result<Boolean> delete(@RequestBody Role role) {
         roleService.delete(role);
         return Result.ok();
     }
 
+    /**
+     * 批量删除
+     * @param roles
+     * @return
+     */
     @DeleteMapping("/roles")
     public Result<Boolean> deleteAll(@RequestBody List<Role> roles) {
         roleService.deleteAll(roles);

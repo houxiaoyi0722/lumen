@@ -20,26 +20,47 @@ import java.time.Instant;
 @MappedSuperclass
 public class BaseModel extends Model {
 
+    /**
+     * id 主键
+     */
     @Id
     @JsonSerialize(using = ToStringSerializer.class)
     @GeneratedValue(generator = "SnowIdGenerator")
     private Long id;
 
+    /**
+     * 版本
+     */
     @Version
     private Long version;
 
+    /**
+     * 创建时间
+     */
     @WhenCreated
     private Instant whenCreated;
 
+    /**
+     * WhoCreated
+     */
     @WhoCreated
     private String createdBy;
 
+    /**
+     * WhoModified
+     */
     @WhoModified
     private String modifiedBy;
 
+    /**
+     * 更新时间
+     */
     @WhenModified
     private Instant whenModified;
 
+    /**
+     * SoftDelete
+     */
     @SoftDelete
     private boolean deleted;
 }

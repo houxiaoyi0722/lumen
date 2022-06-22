@@ -1,6 +1,5 @@
 package com.sang.common.domain.router.entity;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
@@ -32,39 +31,66 @@ import static javax.persistence.CascadeType.PERSIST;
 @DbComment("路由表")
 public class Router extends BaseModel {
 
+    /**
+     * 路由名称
+     */
     @Column(length = 100)
     @DbComment("路由名称")
     private String name;
 
+    /**
+     * 访问路径
+     */
     @DbComment("访问路径")
     @Column(length = 200)
     private String path;
 
+    /**
+     * 相对路径 根目录开始
+     */
     @DbComment("相对路径 根目录开始")
     @Column(length = 200)
     private String redirect;
 
+    /**
+     * component组件
+     */
     @DbComment("component组件")
     @Column(length = 200)
     private String component;
 
+    /**
+     * 元数据 json格式
+     */
     // todo ebean json
     @DbComment("元数据 json格式")
     @Column(length = 500)
     private String mate;
 
+    /**
+     * 描述
+     */
     @DbComment("描述")
     @Column(length = 300)
     private String description;
 
+    /**
+     * 是否隐藏
+     */
     @DbComment("是否隐藏")
     @Column
     private Boolean hidden;
 
+    /**
+     * alwaysShow
+     */
     @DbComment("alwaysShow")
     @Column
     private Boolean alwaysShow;
 
+    /**
+     * 排序
+     */
     @DbComment("排序")
     @Column
     private Integer orderBy;

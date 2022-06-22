@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+/**
+ * 数据字典明细
+ */
 @Setter
 @Getter
 @Builder
@@ -27,14 +30,23 @@ public class DictionaryItem extends BaseModel {
     @ManyToOne
     private Dictionary dictionary;
 
+    /**
+     * value
+     */
     @DbComment("value")
     @Column(length = 100,nullable = false)
     private String itemValue;
 
+    /**
+     * key
+     */
     @DbComment("key")
     @Column(length = 100,nullable = false)
     private String itemKey;
 
+    /**
+     * 备注
+     */
     @DbComment("备注")
     @Column(length = 100)
     private String comment;

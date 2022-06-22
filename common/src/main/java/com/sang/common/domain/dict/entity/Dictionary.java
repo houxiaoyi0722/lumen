@@ -31,14 +31,23 @@ public class Dictionary extends BaseModel {
     @OneToMany(mappedBy = "dictionary", cascade = PERSIST)
     private List<DictionaryItem> dictionaryItems;
 
+    /**
+     * 组id
+     */
     @DbComment("组id")
     @Column(length = 10,nullable = false,unique = true)
     private String groupId;
 
+    /**
+     * 组名称
+     */
     @DbComment("组名称")
     @Column(length = 10,nullable = false,unique = true)
     private String groupName;
 
+    /**
+     * 备注
+     */
     @DbComment("备注")
     @Column(length = 50)
     private String comment;
