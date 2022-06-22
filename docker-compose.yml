@@ -21,6 +21,21 @@ services:
       - "6379:6379"
     volumes:
       - /docker/host/dir:/data
+  minio:
+    container_name: lumen-minio
+    image: docker.io/bitnami/minio:2022
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - ./minio/data:/data
+      - ./minio/config:/root/.minio
+    environment:
+      - MINIO_ROOT_USER=minio-root-user
+      - MINIO_ROOT_PASSWORD=minio-root-password
+      - MINIO_DEFAULT_BUCKETS=my-first-bucket,my-second-bucket
+
+
 #  influx:
 #    image: influxdb:1.7
 #    ports:
