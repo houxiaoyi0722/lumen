@@ -73,6 +73,17 @@ create table router_role (
   constraint pk_router_role primary key (router_id,role_id)
 );
 
+create table storage (
+  id                            bigint not null,
+  version                       bigint not null,
+  when_created                  datetime(6) not null,
+  created_by                    varchar(255) not null,
+  modified_by                   varchar(255) not null,
+  when_modified                 datetime(6) not null,
+  deleted                       tinyint(1) default 0 not null,
+  constraint pk_storage primary key (id)
+) comment='对象存储管理';
+
 create table user (
   id                            bigint not null,
   name                          varchar(100) not null comment '姓名',

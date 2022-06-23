@@ -41,6 +41,8 @@ drop table if exists router;
 
 drop table if exists router_role;
 
+drop table if exists storage;
+
 drop table if exists user;
 
 drop table if exists user_role;
