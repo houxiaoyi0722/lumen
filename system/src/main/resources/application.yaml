@@ -19,6 +19,9 @@ jwt:
   refresh-expiry: 72000
 minio:
   credentials: classpath:credentials.json
+  bucket:
+    master: my-first-bucket
+    second: my-second-bucket
 #spring:
 #  jackson:
 #    date-format: yyyy-MM-dd HH:mm:ss

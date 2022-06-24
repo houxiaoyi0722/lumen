@@ -53,11 +53,11 @@ public class Storage extends BaseModel {
     private String fileType;
 
     /**
-     * 文件大小/kb
+     * 文件大小/b
      */
     @Column(length = 200)
-    @DbComment("文件大小/kb")
-    private Integer size;
+    @DbComment("文件大小/b")
+    private Long size;
 
     /**
      * 业务代码
