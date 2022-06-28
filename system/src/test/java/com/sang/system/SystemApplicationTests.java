@@ -26,7 +26,7 @@ class SystemApplicationTests {
         DB.save(build);
     }
 
-    @Test
+//    @Test
     void addUser() {
 
         final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();

@@ -4,8 +4,6 @@ import cn.hutool.core.io.FastByteArrayOutputStream;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.json.JSONUtil;
 import io.minio.MinioClient;
-import io.minio.errors.InvalidEndpointException;
-import io.minio.errors.InvalidPortException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +36,7 @@ public class MinioConfiguration {
     private String path;
 
     @Bean
-    public MinioClient minioClient() throws InvalidPortException, InvalidEndpointException, FileNotFoundException {
+    public MinioClient minioClient() throws FileNotFoundException {
 //         使用MinIO服务的URL，端口，Access key和Secret key创建一个MinioClient对象
         FastByteArrayOutputStream read = null;
         FileInputStream fileInputStream = null;
@@ -47,14 +45,15 @@ public class MinioConfiguration {
             fileInputStream = new FileInputStream(ResourceUtils.getFile(credentials));
             read = IoUtil.read(fileInputStream);
             minioConfig = JSONUtil.toBean(read.toString(), MinioConfiguration.class);
-        } catch (IOException e) {
-            log.error(e);
-            throw e;
         } finally {
             IoUtil.close(fileInputStream);
             IoUtil.close(read);
         }
-        return new MinioClient(minioConfig.getUrl(), minioConfig.getAccessKey(), minioConfig.getAccessKey());
+
+        return MinioClient.builder()
+                .endpoint(minioConfig.getUrl())
+                .credentials(minioConfig.getAccessKey(), minioConfig.getAccessKey())
+                .build();
     }
 
 

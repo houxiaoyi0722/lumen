@@ -7,9 +7,8 @@ import com.sang.common.snowId.SnowIdGenerator;
 import com.sang.system.domain.storage.repo.StorageRepository;
 import com.sang.system.service.storage.StorageService;
 import io.ebean.annotation.Transactional;
-import io.minio.MinioClient;
-import io.minio.PutObjectOptions;
-import io.minio.errors.*;
+import io.minio.*;
+import io.minio.errors.MinioException;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -48,28 +47,33 @@ public class StorageServiceImpl implements StorageService {
             // 如果不为空，以传递的bucket存储文件，前提是bucket已经存在
             // 注意:！！！！！不能通过请求创建bucket！！！！！安全问题
             if (StrUtil.isNotBlank(bucket)) {
-                if (!minioClient.bucketExists(bucket))
-                    throw new InvalidBucketNameException(bucket,"bucket 不存在");
+                if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build()))
+                    throw new IllegalArgumentException("bucket 不存在: " + bucket);
             } else {
                 bucket = this.bucket;
-                if (!minioClient.bucketExists(bucket))
-                    minioClient.makeBucket(bucket);
+                if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build()))
+                    minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
             }
             long size = file.getSize();
             Long id = (Long)snowIdGenerator.nextValue();
             String fileType = StrUtil.subAfter(originalFilename, StringConst.DOT, true);
 
             // 使用putObject上传一个文件到存储桶中。
-            minioClient.putObject(bucket,id+"",file.getInputStream(), new PutObjectOptions(size,-1));
-
-            String objectUrl = minioClient.getObjectUrl(bucket, id + "");
+            ObjectWriteResponse objectWriteResponse = minioClient.putObject(
+                    PutObjectArgs.builder()
+                            .bucket(bucket)
+                            .object("/lumen/" + id)
+                            .stream(file.getInputStream(),size,-1)
+                            .contentType(fileType)
+                            .build()
+            );
 
             storage = Storage.builder()
                     .originalFileName(originalFilename)
                     .storageBucket(bucket)
                     .size(size)
                     .fileType(fileType)
-                    .url(objectUrl)
+                    .url("")
                     .businessCode(businessCode)
                     .businessType(businessType)
                     .build();

@@ -44,7 +44,7 @@
         <HikariCP.version>3.4.5</HikariCP.version>
         <screw.version>1.0.5</screw.version>
         <japidocs.version>1.4.4</japidocs.version>
-        <minio.version>7.0.2</minio.version>
+        <minio.version>8.4.2</minio.version>
     </properties>
     <modules>
         <module>common</module>
@@ -186,6 +186,11 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>4.9.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
