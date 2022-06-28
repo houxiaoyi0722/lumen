@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class StorageRepository extends BeanRepository<Long, Storage> {
 
-    protected StorageRepository(Class<Storage> type, Database server) {
-        super(type, server);
+    protected StorageRepository(Database server) {
+        super(Storage.class,server);
     }
 
 

@@ -21,7 +21,7 @@ import static javax.persistence.CascadeType.PERSIST;
 @AllArgsConstructor
 @MappedSuperclass
 @Entity
-@Table(name = "DATA_DICTIONARY")
+@Table(name = "data_dictionary")
 @DbComment("数据字典")
 public class Dictionary extends BaseModel {
 

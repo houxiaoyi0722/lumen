@@ -23,7 +23,7 @@ import static javax.persistence.CascadeType.PERSIST;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "USER_GROUP")
+@Table(name = "user_group")
 @DbComment("用户组")
 public class UserGroup extends BaseModel {
 

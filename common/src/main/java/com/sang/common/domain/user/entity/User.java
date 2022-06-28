@@ -29,7 +29,7 @@ import static javax.persistence.CascadeType.PERSIST;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "USER")
+@Table(name = "user")
 @DbComment("角色表")
 public class User extends BaseModel implements UserDetails {
 

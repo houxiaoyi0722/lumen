@@ -13,8 +13,10 @@ import javax.persistence.Table;
 @Getter
 @Entity
 @Builder
-@Table(name = "STORAGE")
+@Table(name = "storage")
 @DbComment("对象存储管理")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Storage extends BaseModel {
 
     /**

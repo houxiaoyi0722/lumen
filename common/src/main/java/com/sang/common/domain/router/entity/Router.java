@@ -27,7 +27,7 @@ import static javax.persistence.CascadeType.PERSIST;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "ROUTER")
+@Table(name = "router")
 @DbComment("路由表")
 public class Router extends BaseModel {
 

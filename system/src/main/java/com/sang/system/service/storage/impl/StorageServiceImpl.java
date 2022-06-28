@@ -6,6 +6,7 @@ import com.sang.common.domain.storage.entity.Storage;
 import com.sang.common.snowId.SnowIdGenerator;
 import com.sang.system.domain.storage.repo.StorageRepository;
 import com.sang.system.service.storage.StorageService;
+import io.ebean.annotation.Transactional;
 import io.minio.MinioClient;
 import io.minio.PutObjectOptions;
 import io.minio.errors.*;
@@ -38,10 +39,11 @@ public class StorageServiceImpl implements StorageService {
     @Value("${minio.bucket.master}")
     private String path;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public Storage upload(MultipartFile file, String bucket, String businessCode, String businessType) throws NoSuchAlgorithmException, IOException, InvalidKeyException, RegionConflictException, InvalidBucketNameException, InsufficientDataException, ErrorResponseException, InvalidResponseException, XmlParserException, InternalException {
+    public Storage upload(MultipartFile file, String bucket, String businessCode, String businessType) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
         String originalFilename = file.getOriginalFilename() == null ? StringConst.EMPTY : file.getOriginalFilename();
-        Storage storage = null;
+        Storage storage;
         try {
             // 如果不为空，以传递的bucket存储文件，前提是bucket已经存在
             // 注意:！！！！！不能通过请求创建bucket！！！！！安全问题
@@ -53,18 +55,20 @@ public class StorageServiceImpl implements StorageService {
                 if (!minioClient.bucketExists(bucket))
                     minioClient.makeBucket(bucket);
             }
-            final long size = file.getSize();
-            final Long id = (Long)snowIdGenerator.nextValue();
+            long size = file.getSize();
+            Long id = (Long)snowIdGenerator.nextValue();
+            String fileType = StrUtil.subAfter(originalFilename, StringConst.DOT, true);
+
             // 使用putObject上传一个文件到存储桶中。
             minioClient.putObject(bucket,id+"",file.getInputStream(), new PutObjectOptions(size,-1));
 
-            final String objectUrl = minioClient.getObjectUrl(bucket, id + "");
+            String objectUrl = minioClient.getObjectUrl(bucket, id + "");
 
             storage = Storage.builder()
                     .originalFileName(originalFilename)
                     .storageBucket(bucket)
                     .size(size)
-                    .fileType(StrUtil.subAfter(originalFilename, StringConst.DOT,true))
+                    .fileType(fileType)
                     .url(objectUrl)
                     .businessCode(businessCode)
                     .businessType(businessType)
@@ -77,5 +81,10 @@ public class StorageServiceImpl implements StorageService {
             throw e;
         }
         return storage;
+    }
+
+    @Override
+    public Storage uploadWithOutBusiness(MultipartFile file, String bucket) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+        return this.upload(file,bucket,null,null);
     }
 }

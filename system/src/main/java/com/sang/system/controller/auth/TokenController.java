@@ -37,7 +37,7 @@ public class TokenController {
 	@Resource
 	private JwtEncoder encoder;
 
-	@PostMapping("/token")
+	@PostMapping("/login")
 	public TokenDto token(Authentication authentication) {
 		Instant now = Instant.now();
 		// @formatter:off
