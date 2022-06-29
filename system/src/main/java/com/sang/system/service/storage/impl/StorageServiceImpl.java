@@ -64,7 +64,7 @@ public class StorageServiceImpl implements StorageService {
                             .bucket(bucket)
                             .object("/lumen/" + id)
                             .stream(file.getInputStream(),size,-1)
-                            .contentType(fileType)
+                            .contentType(file.getContentType())
                             .build()
             );
 

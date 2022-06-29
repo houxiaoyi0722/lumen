@@ -12,7 +12,6 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.ArrayList;
 
 @SpringBootTest
-@ActiveProfiles("gs")
 class SystemApplicationTests {
 
 //    @Test

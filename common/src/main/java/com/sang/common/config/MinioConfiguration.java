@@ -52,7 +52,7 @@ public class MinioConfiguration {
 
         return MinioClient.builder()
                 .endpoint(minioConfig.getUrl())
-                .credentials(minioConfig.getAccessKey(), minioConfig.getAccessKey())
+                .credentials(minioConfig.getAccessKey(), minioConfig.getSecretKey())
                 .build();
     }
 
