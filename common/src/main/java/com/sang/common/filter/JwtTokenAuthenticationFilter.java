@@ -82,8 +82,8 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             JwtAuthenticationToken jwtAuthenticationToken = getAuthentication(request, response);
             authentication = this.getAuthenticationManager().authenticate(jwtAuthenticationToken);
         } catch (BadJwtException e) {
-            logger.error("JWT format error", e);
-            failed = new InsufficientAuthenticationException("JWT format error", e);
+            logger.error(e.getMessage(), e);
+            failed = new InsufficientAuthenticationException(e.getMessage(), e);
         } catch (InternalAuthenticationServiceException e) {
             logger.error("An internal error occurred while trying to authenticate the user.", e);
             failed = e;
