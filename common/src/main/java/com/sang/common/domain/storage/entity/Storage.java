@@ -27,6 +27,13 @@ public class Storage extends BaseModel {
     private String originalFileName;
 
     /**
+     * 原文件名
+     */
+    @Column(length = 100,nullable = false)
+    @DbComment("原文件名")
+    private String etag;
+
+    /**
      * 存储文件名（使用id代替）
      */
 //    @Column(length = 100)
@@ -34,11 +41,11 @@ public class Storage extends BaseModel {
 //    private String newFileName;
 
     /**
-     * 下载链接
+     * 对象存储地址
      */
     @Column(length = 200,nullable = false)
-    @DbComment("下载链接")
-    private String url;
+    @DbComment("对象存储地址")
+    private String object;
 
     /**
      * 存储桶
@@ -52,7 +59,13 @@ public class Storage extends BaseModel {
      */
     @Column(length = 50)
     @DbComment("文件类型/后缀名")
-    private String fileType;
+    private String suffix;
+    /**
+     * 版本id
+     */
+    @Column(length = 50)
+    @DbComment("版本id")
+    private String versionId;
 
     /**
      * 文件大小/b

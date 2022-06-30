@@ -56,13 +56,15 @@ public class StorageServiceImpl implements StorageService {
             }
             long size = file.getSize();
             Long id = (Long)snowIdGenerator.nextValue();
-            String fileType = StrUtil.subAfter(originalFilename, StringConst.DOT, true);
+
+            String suffix = StrUtil.subAfter(originalFilename, StringConst.DOT, true);
 
             // 使用putObject上传一个文件到存储桶中。
+            String path = StrUtil.isNotBlank(businessType)? businessType + StringConst.FORWARD_SLASH : StringConst.EMPTY;
             ObjectWriteResponse objectWriteResponse = minioClient.putObject(
                     PutObjectArgs.builder()
                             .bucket(bucket)
-                            .object("/lumen/" + id)
+                            .object(path + id + (StrUtil.isNotBlank(suffix) ? StringConst.DOT + suffix : StringConst.EMPTY))
                             .stream(file.getInputStream(),size,-1)
                             .contentType(file.getContentType())
                             .build()
@@ -70,10 +72,12 @@ public class StorageServiceImpl implements StorageService {
 
             storage = Storage.builder()
                     .originalFileName(originalFilename)
-                    .storageBucket(bucket)
+                    .etag(objectWriteResponse.etag())
+                    .storageBucket(objectWriteResponse.bucket())
                     .size(size)
-                    .fileType(fileType)
-                    .url("")
+                    .suffix(suffix)
+                    .object(objectWriteResponse.object())
+                    .versionId(objectWriteResponse.versionId())
                     .businessCode(businessCode)
                     .businessType(businessType)
                     .build();

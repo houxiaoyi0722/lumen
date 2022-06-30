@@ -20,7 +20,7 @@ import java.security.NoSuchAlgorithmException;
  * @author hxy
  * @date 2022/1/25 16:01
  **/
-@RequestMapping("/lumen/storage")
+@RequestMapping("/lumen/oss")
 @RestController
 public class StorageController {
 
