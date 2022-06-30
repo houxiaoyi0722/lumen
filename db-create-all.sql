@@ -76,9 +76,10 @@ create table router_role (
 create table storage (
   id                            bigint not null,
   original_file_name            varchar(100) not null comment '原文件名',
-  url                           varchar(200) not null comment '下载链接',
+  object                        varchar(200) not null comment '对象存储地址',
   storage_bucket                varchar(200) not null comment '存储桶',
-  file_type                     varchar(50) comment '文件类型/后缀名',
+  suffix                        varchar(50) comment '文件类型/后缀名',
+  version_id                    varchar(50) comment '版本id',
   size                          bigint(200) comment '文件大小/b',
   business_code                 varchar(50) comment '业务代码',
   business_type                 varchar(50) comment '业务类型',
