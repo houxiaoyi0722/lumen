@@ -36,4 +36,29 @@ public interface StorageService {
      * @return
      */
     Storage uploadWithOutBusiness(MultipartFile file, String bucket) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException;
+
+    /**
+     * 通过业务代码获取下载链接
+     * @param businessCode 业务代码
+     * @param businessType 业务类型
+     * @param expiry 超时时间（秒）\默认24小时
+     * @return 下载链接
+     * @throws MinioException
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
+     */
+    String getPresignedObjectUrlByBusiness(String businessCode, String businessType, int expiry) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException;
+
+    /**
+     * 通过id获取下载链接
+     * @param id id
+     * @param expiry 超时时间（秒）\默认24小时
+     * @return 下载链接
+     * @throws MinioException
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
+     */
+    String getPresignedObjectUrlById(Long id, int expiry) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException;
 }

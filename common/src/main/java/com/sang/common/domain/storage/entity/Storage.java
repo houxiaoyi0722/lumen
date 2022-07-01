@@ -2,6 +2,8 @@ package com.sang.common.domain.storage.entity;
 
 
 import com.sang.common.domain.base.entity.BaseModel;
+import com.sang.common.domain.dict.entity.finder.DictionaryFinder;
+import com.sang.common.domain.storage.entity.finder.StorageFinder;
 import io.ebean.annotation.DbComment;
 import lombok.*;
 
@@ -18,6 +20,8 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Storage extends BaseModel {
+
+    public static final StorageFinder finder = StorageFinder.builder().build();
 
     /**
      * 原文件名

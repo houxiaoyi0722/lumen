@@ -8,7 +8,8 @@ import com.sang.system.domain.storage.repo.StorageRepository;
 import com.sang.system.service.storage.StorageService;
 import io.ebean.annotation.Transactional;
 import io.minio.*;
-import io.minio.errors.MinioException;
+import io.minio.errors.*;
+import io.minio.http.Method;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -35,9 +36,6 @@ public class StorageServiceImpl implements StorageService {
     @Value("${minio.bucket.master}")
     private String bucket;
 
-    @Value("${minio.bucket.master}")
-    private String path;
-
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Storage upload(MultipartFile file, String bucket, String businessCode, String businessType) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
@@ -46,14 +44,7 @@ public class StorageServiceImpl implements StorageService {
         try {
             // 如果不为空，以传递的bucket存储文件，前提是bucket已经存在
             // 注意:！！！！！不能通过请求创建bucket！！！！！安全问题
-            if (StrUtil.isNotBlank(bucket)) {
-                if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build()))
-                    throw new IllegalArgumentException("bucket 不存在: " + bucket);
-            } else {
-                bucket = this.bucket;
-                if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build()))
-                    minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
-            }
+            bucket = checkBucket(bucket);
             long size = file.getSize();
             Long id = (Long)snowIdGenerator.nextValue();
 
@@ -94,5 +85,47 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public Storage uploadWithOutBusiness(MultipartFile file, String bucket) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
         return this.upload(file,bucket,null,null);
+    }
+
+
+    @Override
+    public String getPresignedObjectUrlByBusiness(String businessCode, String businessType, int expiry) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+
+        Storage storage = storageRepository.findByBusiness(businessCode, businessType);
+
+        // todo 定义baseexception 定义业务异常
+
+        return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                .method(Method.GET)
+                .bucket(storage.getStorageBucket())
+                .object(storage.getObject())
+                .expiry(expiry == -1 ? 60 * 60 * 24 : expiry) // 默认超时时间一天
+                .build());
+    }
+
+    @Override
+    public String getPresignedObjectUrlById(Long id, int expiry) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+
+        Storage storage = storageRepository.findById(id);
+
+        return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                .method(Method.GET)
+                .bucket(storage.getStorageBucket())
+                .object(storage.getObject())
+                .expiry(expiry == -1 ? 60 * 60 * 24 : expiry) // 默认超时时间一天
+                .build());
+    }
+
+
+    private String checkBucket(String bucket) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+        if (StrUtil.isNotBlank(bucket)) {
+            if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build()))
+                throw new IllegalArgumentException("bucket 不存在: " + bucket);
+        } else {
+            bucket = this.bucket;
+            if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build()))
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
+        }
+        return bucket;
     }
 }
