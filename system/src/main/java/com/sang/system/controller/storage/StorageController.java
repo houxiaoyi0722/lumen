@@ -6,10 +6,7 @@ import com.sang.common.response.Result;
 import com.sang.system.service.storage.StorageService;
 import io.lettuce.core.dynamic.annotation.Param;
 import io.minio.errors.MinioException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -42,7 +39,7 @@ public class StorageController {
      * @throws InvalidKeyException
      */
     @PutMapping("/upload")
-    public Result<Storage> upload(@Param("file") MultipartFile file,@Param("bucket") String bucket,@Param("businessCode") String businessCode, @Param("businessType") String businessType) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
+    public Result<Storage> upload(@RequestParam("file") MultipartFile file, @RequestParam("bucket") String bucket, @RequestParam("businessCode") String businessCode, @Param("businessType") String businessType) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
         return Result.ok(storageService.upload(file,bucket,businessCode,businessType));
     }
 
@@ -57,17 +54,17 @@ public class StorageController {
      * @throws InvalidKeyException
      */
     @PutMapping("/uploadWithOutBusiness")
-    public Result<Storage> uploadWithOutBusiness(@Param("file") MultipartFile file,@Param("bucket") String bucket) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
+    public Result<Storage> uploadWithOutBusiness(@RequestParam("file") MultipartFile file,@RequestParam("bucket") String bucket) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
         return Result.ok(storageService.uploadWithOutBusiness(file,bucket));
     }
 
     @GetMapping("/objectUrl")
-    public Result<String> getPresignedObjectUrlByBusiness(@Param("businessCode")  String businessCode, @Param("businessType")  String businessType, @Param("expiry")  int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+    public Result<String> getPresignedObjectUrlByBusiness(@RequestParam("businessCode")  String businessCode, @RequestParam("businessType")  String businessType, @RequestParam("expiry")  int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
         return Result.ok(storageService.getPresignedObjectUrlByBusiness(businessCode, businessType, expiry));
     }
 
     @GetMapping(value = "/objectUrl")
-    public Result<String> getPresignedObjectUrlById(@Param("id") Long id, @Param("expiry") int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+    public Result<String> getPresignedObjectUrlById(@RequestParam("id") Long id, @RequestParam("expiry") int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
         return Result.ok(storageService.getPresignedObjectUrlById(id, expiry));
     }
 

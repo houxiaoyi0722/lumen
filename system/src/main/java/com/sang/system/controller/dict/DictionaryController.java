@@ -25,7 +25,7 @@ public class DictionaryController {
      * @param dataDictionaryQry
      * @return
      */
-    @GetMapping("/dictionaries")
+    @PostMapping("/dictionaries")
     public PageResult<Dictionary> list(@RequestBody DataDictionaryQry dataDictionaryQry) {
         return PageResult.ok(dictionaryService.dictionaryList(dataDictionaryQry));
     }
