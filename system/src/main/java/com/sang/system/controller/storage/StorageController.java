@@ -1,10 +1,12 @@
 package com.sang.system.controller.storage;
 
 import com.sang.common.domain.storage.entity.Storage;
+import com.sang.common.exception.BusinessException;
 import com.sang.common.response.Result;
 import com.sang.system.service.storage.StorageService;
 import io.lettuce.core.dynamic.annotation.Param;
 import io.minio.errors.MinioException;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,6 +61,15 @@ public class StorageController {
         return Result.ok(storageService.uploadWithOutBusiness(file,bucket));
     }
 
+    @GetMapping("/objectUrl")
+    public Result<String> getPresignedObjectUrlByBusiness(@Param("businessCode")  String businessCode, @Param("businessType")  String businessType, @Param("expiry")  int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+        return Result.ok(storageService.getPresignedObjectUrlByBusiness(businessCode, businessType, expiry));
+    }
+
+    @GetMapping(value = "/objectUrl")
+    public Result<String> getPresignedObjectUrlById(@Param("id") Long id, @Param("expiry") int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+        return Result.ok(storageService.getPresignedObjectUrlById(id, expiry));
+    }
 
 
 

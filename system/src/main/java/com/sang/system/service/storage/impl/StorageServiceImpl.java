@@ -1,8 +1,10 @@
 package com.sang.system.service.storage.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.sang.common.constants.StorageEnum;
 import com.sang.common.constants.StringConst;
 import com.sang.common.domain.storage.entity.Storage;
+import com.sang.common.exception.BusinessException;
 import com.sang.common.snowId.SnowIdGenerator;
 import com.sang.system.domain.storage.repo.StorageRepository;
 import com.sang.system.service.storage.StorageService;
@@ -89,33 +91,33 @@ public class StorageServiceImpl implements StorageService {
 
 
     @Override
-    public String getPresignedObjectUrlByBusiness(String businessCode, String businessType, int expiry) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+    public String getPresignedObjectUrlByBusiness(String businessCode, String businessType, int expiry) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException, BusinessException {
 
         Storage storage = storageRepository.findByBusiness(businessCode, businessType);
 
-        // todo 定义baseexception 定义业务异常
-
-        return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
-                .method(Method.GET)
-                .bucket(storage.getStorageBucket())
-                .object(storage.getObject())
-                .expiry(expiry == -1 ? 60 * 60 * 24 : expiry) // 默认超时时间一天
-                .build());
+        return getPresignedObjectUrl(expiry, storage);
     }
 
     @Override
-    public String getPresignedObjectUrlById(Long id, int expiry) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+    public String getPresignedObjectUrlById(Long id, int expiry) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException, BusinessException {
 
         Storage storage = storageRepository.findById(id);
+
+        return getPresignedObjectUrl(expiry, storage);
+    }
+
+
+    private String getPresignedObjectUrl(int expiry, Storage storage) throws ErrorResponseException, InsufficientDataException, InternalException, InvalidKeyException, InvalidResponseException, IOException, NoSuchAlgorithmException, XmlParserException, ServerException, BusinessException {
+        if (storage == null)
+            throw BusinessException.builder().code(StorageEnum.FILE_NOT_EXIST.getCode()).message(StorageEnum.FILE_NOT_EXIST.getMessage()).build();
 
         return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .method(Method.GET)
                 .bucket(storage.getStorageBucket())
                 .object(storage.getObject())
-                .expiry(expiry == -1 ? 60 * 60 * 24 : expiry) // 默认超时时间一天
+                .expiry(expiry == -1 || expiry == 0 ? 60 * 60 * 24 : expiry) // 默认超时时间一天
                 .build());
     }
-
 
     private String checkBucket(String bucket) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
         if (StrUtil.isNotBlank(bucket)) {

@@ -1,6 +1,7 @@
 package com.sang.system.service.storage;
 
 import com.sang.common.domain.storage.entity.Storage;
+import com.sang.common.exception.BusinessException;
 import io.minio.errors.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,7 +49,7 @@ public interface StorageService {
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeyException
      */
-    String getPresignedObjectUrlByBusiness(String businessCode, String businessType, int expiry) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException;
+    String getPresignedObjectUrlByBusiness(String businessCode, String businessType, int expiry) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException, BusinessException;
 
     /**
      * 通过id获取下载链接
@@ -60,5 +61,5 @@ public interface StorageService {
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeyException
      */
-    String getPresignedObjectUrlById(Long id, int expiry) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException;
+    String getPresignedObjectUrlById(Long id, int expiry) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException, BusinessException;
 }
