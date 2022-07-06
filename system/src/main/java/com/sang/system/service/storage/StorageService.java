@@ -2,7 +2,7 @@ package com.sang.system.service.storage;
 
 import com.sang.common.domain.storage.entity.Storage;
 import com.sang.common.exception.BusinessException;
-import io.minio.errors.*;
+import io.minio.errors.MinioException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -62,4 +62,18 @@ public interface StorageService {
      * @throws InvalidKeyException
      */
     String getPresignedObjectUrlById(Long id, int expiry) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException, BusinessException;
+
+    /**
+     * 下载文件获取输入流
+     * @param businessCode
+     * @param businessType
+     * @return
+     */
+    void getObjectByBusiness(String businessCode, String businessType) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException, BusinessException;
+
+    /**
+     * 下载文件获取输入流
+     * @param id
+     */
+    void getObjectById(Long id) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException, BusinessException;
 }

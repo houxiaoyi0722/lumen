@@ -23,9 +23,6 @@ minio:
     master: my-first-bucket
     second: my-second-bucket
 #spring:
-#  jackson:
-#    date-format: yyyy-MM-dd HH:mm:ss
-#    time-zone: GMT+8
 #    redis:
 #      database: 0
 #      port: 6379
@@ -41,3 +38,6 @@ minio:
 spring:
   profiles:
     active: gs
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8

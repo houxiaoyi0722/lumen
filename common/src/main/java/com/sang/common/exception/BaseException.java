@@ -8,10 +8,9 @@ import lombok.experimental.SuperBuilder;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
 @Setter
 @Getter
 public class BaseException extends Exception {
-    private Integer code;
-    private String message;
+    protected Integer code;
+    protected String message;
 }

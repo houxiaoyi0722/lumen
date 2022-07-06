@@ -2,7 +2,6 @@ package com.sang.common.domain.storage.entity;
 
 
 import com.sang.common.domain.base.entity.BaseModel;
-import com.sang.common.domain.dict.entity.finder.DictionaryFinder;
 import com.sang.common.domain.storage.entity.finder.StorageFinder;
 import io.ebean.annotation.DbComment;
 import lombok.*;
@@ -31,10 +30,10 @@ public class Storage extends BaseModel {
     private String originalFileName;
 
     /**
-     * 原文件名
+     * etag
      */
     @Column(length = 100,nullable = false)
-    @DbComment("原文件名")
+    @DbComment("etag")
     private String etag;
 
     /**
@@ -64,6 +63,13 @@ public class Storage extends BaseModel {
     @Column(length = 50)
     @DbComment("文件类型/后缀名")
     private String suffix;
+
+    /**
+     * ContentType文件类型/请求头
+     */
+    @Column(length = 50)
+    @DbComment("文件类型/请求头")
+    private String contentType;
     /**
      * 版本id
      */

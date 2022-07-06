@@ -58,14 +58,65 @@ public class StorageController {
         return Result.ok(storageService.uploadWithOutBusiness(file,bucket));
     }
 
+    /**
+     * 通过业务代码获取下载链接
+     * @param businessCode 业务代码
+     * @param businessType 业务类型
+     * @param expiry 超时时间（秒）\默认24小时
+     * @return 下载链接
+     * @throws BusinessException
+     * @throws MinioException
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
+     */
     @GetMapping("/objectUrl")
     public Result<String> getPresignedObjectUrlByBusiness(@RequestParam("businessCode")  String businessCode, @RequestParam("businessType")  String businessType, @RequestParam("expiry")  int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
         return Result.ok(storageService.getPresignedObjectUrlByBusiness(businessCode, businessType, expiry));
     }
 
-    @GetMapping(value = "/objectUrl")
+    /**
+     * 通过id获取下载链接
+     * @param id id
+     * @param expiry 超时时间（秒）\默认24小时
+     * @return 下载链接
+     * @throws MinioException
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
+     */
+    @GetMapping(value = "/objectUrlById")
     public Result<String> getPresignedObjectUrlById(@RequestParam("id") Long id, @RequestParam("expiry") int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
         return Result.ok(storageService.getPresignedObjectUrlById(id, expiry));
+    }
+
+    /**
+     * 下载文件
+     * @param businessCode
+     * @param businessType
+     * @throws MinioException
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
+     * @throws BusinessException
+     */
+    @GetMapping("/object")
+    public void getObjectByBusiness(@RequestParam("businessCode")  String businessCode, @RequestParam("businessType")  String businessType) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException, BusinessException {
+        storageService.getObjectByBusiness(businessCode, businessType);
+    }
+
+    /**
+     * 下载文件
+     * @param id
+     * @throws MinioException
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
+     * @throws BusinessException
+     */
+    @GetMapping("/objectById")
+    public void getObjectById(@RequestParam("id") Long id) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException, BusinessException {
+        storageService.getObjectById(id);
     }
 
 

@@ -5,6 +5,7 @@ import com.sang.common.domain.router.entity.Router;
 import com.sang.system.domain.router.repo.RouterRepository;
 import com.sang.system.service.router.RouterService;
 import io.ebean.annotation.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  * @date 2022/1/25 16:01
  **/
 @Service
+@Slf4j
 public class RouterServiceImpl implements RouterService {
 
     @Resource

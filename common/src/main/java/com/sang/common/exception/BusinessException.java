@@ -1,15 +1,16 @@
 package com.sang.common.exception;
 
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 业务异常
  */
 @AllArgsConstructor
-@NoArgsConstructor
 @Setter
 @Getter
-@SuperBuilder
 public class BusinessException extends BaseException{
+    protected Integer code;
+    protected String message;
 }
