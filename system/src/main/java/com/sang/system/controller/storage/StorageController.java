@@ -71,7 +71,7 @@ public class StorageController {
      * @throws InvalidKeyException
      */
     @GetMapping("/objectUrl")
-    public Result<String> getPresignedObjectUrlByBusiness(@RequestParam("businessCode")  String businessCode, @RequestParam("businessType")  String businessType, @RequestParam(value = "expiry",required = false)  int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+    public Result<String> getPresignedObjectUrlByBusiness(@RequestParam("businessCode")  String businessCode, @RequestParam("businessType")  String businessType, @RequestParam(value = "expiry",required = false,defaultValue = "-1")  int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
         return Result.ok(storageService.getPresignedObjectUrlByBusiness(businessCode, businessType, expiry));
     }
 
@@ -86,7 +86,7 @@ public class StorageController {
      * @throws InvalidKeyException
      */
     @GetMapping(value = "/objectUrlById")
-    public Result<String> getPresignedObjectUrlById(@RequestParam("id") Long id, @RequestParam(value = "expiry",required = false) int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+    public Result<String> getPresignedObjectUrlById(@RequestParam("id") Long id, @RequestParam(value = "expiry",required = false,defaultValue = "-1") int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
         return Result.ok(storageService.getPresignedObjectUrlById(id, expiry));
     }
 
