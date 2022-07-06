@@ -24,6 +24,8 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -34,6 +36,7 @@ public class StorageServiceImpl implements StorageService {
     public static final String CONTENT_TYPE = "Content-type";
     public static final String CONTENT_DISPOSITION = "Content-Disposition";
     public static final String ATTACHMENT_FILENAME = "attachment;filename={}";
+    public static final String UTF_8 = "UTF-8";
     @Resource
     private StorageRepository storageRepository;
 
@@ -143,8 +146,8 @@ public class StorageServiceImpl implements StorageService {
             httpServletResponse.setHeader(CONTENT_TYPE, storage.getContentType());
 
             // 设置扩展头，当Content-Type 的类型为要下载的类型时 , 这个信息头会告诉浏览器这个文件的名字和类型。
-            httpServletResponse.setHeader(CONTENT_DISPOSITION, StrUtil.format(ATTACHMENT_FILENAME, storage.getOriginalFileName()));
-
+            httpServletResponse.setCharacterEncoding(UTF_8);
+            httpServletResponse.setHeader(CONTENT_DISPOSITION, StrUtil.format(ATTACHMENT_FILENAME, URLEncoder.encode(storage.getOriginalFileName(), StandardCharsets.UTF_8)));
             IoUtil.copy(objectResponse, outputStream);
         } finally {
             if (objectResponse != null) {

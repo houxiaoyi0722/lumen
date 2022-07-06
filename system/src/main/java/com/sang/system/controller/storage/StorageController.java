@@ -39,7 +39,7 @@ public class StorageController {
      * @throws InvalidKeyException
      */
     @PutMapping("/upload")
-    public Result<Storage> upload(@RequestParam("file") MultipartFile file, @RequestParam("bucket") String bucket, @RequestParam("businessCode") String businessCode, @Param("businessType") String businessType) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
+    public Result<Storage> upload(@RequestParam("file") MultipartFile file, @RequestParam(value = "bucket",required = false) String bucket, @RequestParam("businessCode") String businessCode, @Param("businessType") String businessType) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
         return Result.ok(storageService.upload(file,bucket,businessCode,businessType));
     }
 
@@ -54,7 +54,7 @@ public class StorageController {
      * @throws InvalidKeyException
      */
     @PutMapping("/uploadWithOutBusiness")
-    public Result<Storage> uploadWithOutBusiness(@RequestParam("file") MultipartFile file,@RequestParam("bucket") String bucket) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
+    public Result<Storage> uploadWithOutBusiness(@RequestParam("file") MultipartFile file,@RequestParam(value = "bucket",required = false) String bucket) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
         return Result.ok(storageService.uploadWithOutBusiness(file,bucket));
     }
 
@@ -71,7 +71,7 @@ public class StorageController {
      * @throws InvalidKeyException
      */
     @GetMapping("/objectUrl")
-    public Result<String> getPresignedObjectUrlByBusiness(@RequestParam("businessCode")  String businessCode, @RequestParam("businessType")  String businessType, @RequestParam("expiry")  int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+    public Result<String> getPresignedObjectUrlByBusiness(@RequestParam("businessCode")  String businessCode, @RequestParam("businessType")  String businessType, @RequestParam(value = "expiry",required = false)  int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
         return Result.ok(storageService.getPresignedObjectUrlByBusiness(businessCode, businessType, expiry));
     }
 
@@ -86,7 +86,7 @@ public class StorageController {
      * @throws InvalidKeyException
      */
     @GetMapping(value = "/objectUrlById")
-    public Result<String> getPresignedObjectUrlById(@RequestParam("id") Long id, @RequestParam("expiry") int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+    public Result<String> getPresignedObjectUrlById(@RequestParam("id") Long id, @RequestParam(value = "expiry",required = false) int expiry) throws BusinessException, MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
         return Result.ok(storageService.getPresignedObjectUrlById(id, expiry));
     }
 

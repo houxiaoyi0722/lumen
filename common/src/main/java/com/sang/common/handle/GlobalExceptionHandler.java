@@ -38,6 +38,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Result> handlerBusinessException(BusinessException e, HttpServletRequest request) {
         // 异常发生时，打印ERROR级别的日志信息
+        e.printStackTrace();
         printLog(request, ExceptionUtil.stacktraceToString(e));
 
         return new ResponseEntity<>(Result.error(e.getMessage(), e.getCode()), HttpStatus.OK);
@@ -52,6 +53,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Result> handlerBusinessException(BaseException e, HttpServletRequest request) {
         // 异常发生时，打印ERROR级别的日志信息
+        e.printStackTrace();
         printLog(request, ExceptionUtil.stacktraceToString(e));
 
         return new ResponseEntity<>(Result.error(e.getMessage(), e.getCode()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -66,6 +68,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Result> handlerAllException(Exception e, HttpServletRequest request) {
         // 异常发生时，打印ERROR级别的日志信息
+        e.printStackTrace();
         printLog(request, ExceptionUtil.stacktraceToString(e));
 
         HttpStatus errorStatus = HttpStatus.INTERNAL_SERVER_ERROR;
