@@ -8,15 +8,11 @@ import cn.smallbun.screw.core.execute.DocumentationExecute;
 import cn.smallbun.screw.core.process.ProcessConfig;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
-import com.sang.common.utils.JDBCSSHChannel;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
-import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -46,9 +42,9 @@ public class GenerateDoc {
   // 这个是本地的端口，很重要！！！选取一个没有占用的port即可
   private static final int local_port = 3307;
   // 要访问的mysql所在的host    服务器局域网IP（127.0.0.1也行）
-  private static final String remote_host = "192.168.20.20";
+  private static final String remote_host = "192.168.30.19";
   // 服务器上数据库端口号
-  private static final int remote_port = 3307;
+  private static final int remote_port = 3306;
 
   private Session session = null;
 
@@ -74,8 +70,8 @@ public class GenerateDoc {
   public HikariDataSource dataSourceConfig() {
     HikariConfig hikariConfig = new HikariConfig();
     hikariConfig.setJdbcUrl("jdbc:mysql://localhost:3307/smart_asst?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=GMT%2b8");
-    hikariConfig.setUsername("root");
-    hikariConfig.setPassword("Sap#12345");
+    hikariConfig.setUsername("ydpre");
+    hikariConfig.setPassword("Ydpre!234");
     hikariConfig.setMinimumIdle(5);
     hikariConfig.setPoolName("HikariCP");
     hikariConfig.setIdleTimeout(600000L);
@@ -83,6 +79,7 @@ public class GenerateDoc {
     hikariConfig.setMaxLifetime(1800000L);
     hikariConfig.setConnectionTimeout(30000L);
     hikariConfig.setDriverClassName("com.mysql.jdbc.Driver");
+    hikariConfig.addDataSourceProperty("useInformationSchema", "true");
 
     return new HikariDataSource(hikariConfig);
   }
