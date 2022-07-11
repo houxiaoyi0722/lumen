@@ -144,8 +144,8 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-<!--                <version>${mysql.version}</version>-->
-                <version>5.1.27</version>
+                <version>${mysql.version}</version>
+<!--                <version>5.1.27</version>-->
             </dependency>
             <dependency>
                 <groupId>com.nimbusds</groupId>
