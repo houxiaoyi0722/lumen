@@ -1,4 +1,4 @@
-package com.sang.common.config;
+package com.sang.common.config.minio;
 
 import cn.hutool.core.io.FastByteArrayOutputStream;
 import cn.hutool.core.io.IoUtil;
@@ -16,7 +16,6 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 @CommonsLog
 @AllArgsConstructor
