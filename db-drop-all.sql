@@ -1,5 +1,5 @@
-alter table data_dictionary_item drop foreign key fk_data_dictionary_item_dictionary_id;
-drop index ix_data_dictionary_item_dictionary_id on data_dictionary_item;
+alter table dictionary_item drop foreign key fk_dictionary_item_dictionary_id;
+drop index ix_dictionary_item_dictionary_id on dictionary_item;
 
 alter table role drop foreign key fk_role_parent_id;
 drop index ix_role_parent_id on role;
@@ -31,9 +31,9 @@ drop index ix_user_group_role_user_group on user_group_role;
 alter table user_group_role drop foreign key fk_user_group_role_role;
 drop index ix_user_group_role_role on user_group_role;
 
-drop table if exists data_dictionary;
+drop table if exists dictionary;
 
-drop table if exists data_dictionary_item;
+drop table if exists dictionary_item;
 
 drop table if exists role;
 

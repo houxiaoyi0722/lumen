@@ -9,6 +9,7 @@ import io.ebean.Database;
 import io.ebean.DatabaseFactory;
 import io.ebean.config.DatabaseConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.quartz.QuartzDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -52,7 +53,8 @@ public class EbeanDefaultDatabaseConfig {
         return database;
     }
 
-    @Bean(name = "HikariDataSource")
+    @Bean(name = "hikariDataSource")
+    @QuartzDataSource
     public HikariDataSource dataSourceConfig() {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(ebeanDataSourceConfig.getUrl());

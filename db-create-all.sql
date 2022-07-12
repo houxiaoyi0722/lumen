@@ -1,4 +1,4 @@
-create table data_dictionary (
+create table dictionary (
   id                            bigint not null,
   group_id                      varchar(10) not null comment '组id',
   group_name                    varchar(10) not null comment '组名称',
@@ -9,12 +9,12 @@ create table data_dictionary (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint uq_data_dictionary_group_id unique (group_id),
-  constraint uq_data_dictionary_group_name unique (group_name),
-  constraint pk_data_dictionary primary key (id)
+  constraint uq_dictionary_group_id unique (group_id),
+  constraint uq_dictionary_group_name unique (group_name),
+  constraint pk_dictionary primary key (id)
 ) comment='数据字典';
 
-create table data_dictionary_item (
+create table dictionary_item (
   id                            bigint not null,
   dictionary_id                 bigint not null,
   item_value                    varchar(100) not null comment 'value',
@@ -26,7 +26,7 @@ create table data_dictionary_item (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint pk_data_dictionary_item primary key (id)
+  constraint pk_dictionary_item primary key (id)
 ) comment='数据字典明细';
 
 create table role (
@@ -149,8 +149,8 @@ create table user_group_role (
   constraint pk_user_group_role primary key (user_group_id,role_id)
 );
 
-create index ix_data_dictionary_item_dictionary_id on data_dictionary_item (dictionary_id);
-alter table data_dictionary_item add constraint fk_data_dictionary_item_dictionary_id foreign key (dictionary_id) references data_dictionary (id) on delete restrict on update restrict;
+create index ix_dictionary_item_dictionary_id on dictionary_item (dictionary_id);
+alter table dictionary_item add constraint fk_dictionary_item_dictionary_id foreign key (dictionary_id) references dictionary (id) on delete restrict on update restrict;
 
 create index ix_role_parent_id on role (parent_id);
 alter table role add constraint fk_role_parent_id foreign key (parent_id) references role (id) on delete restrict on update restrict;
