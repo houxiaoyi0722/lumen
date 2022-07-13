@@ -1,11 +1,14 @@
 package com.sang.common.job;
 
 
+import com.sang.common.constants.ResultCodeEnum;
 import com.sang.common.domain.job.JobVo;
+import com.sang.common.exception.BusinessException;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.*;
 import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.impl.matchers.GroupMatcher;
+import org.quartz.spi.MutableTrigger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,11 +35,16 @@ public class QuartzManager {
     @SuppressWarnings("unchecked")
     public void addJob(JobVo job) {
         try {
+
+            // 校验类是否存在以及是否继承job接口
+            Object classobj = Class.forName(job.getBeanClass()).getDeclaredConstructor().newInstance();
+            if(!(classobj instanceof Job))
+                throw new BusinessException(ResultCodeEnum.CLASS_TYPE_NOT_EXTEND_JOB.getCode(),ResultCodeEnum.CLASS_TYPE_NOT_EXTEND_JOB.getMessage());
+
             // 创建jobDetail实例，绑定Job实现类
             // 指明job的名称，所在组的名称，以及绑定job类
-
             JobDetail jobDetail = JobBuilder
-                    .newJob((Class<? extends Job>) (Class.forName(job.getBeanClass()).getDeclaredConstructor().newInstance().getClass()))
+                    .newJob((Class<? extends Job>) classobj.getClass())
                     .withIdentity(job.getJobName(), job.getJobGroup())// 任务名称和组构成任务key
                     .requestRecovery(job.isShouldRecover())
                     .withDescription(job.getDescription())
