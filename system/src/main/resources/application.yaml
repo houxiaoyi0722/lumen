@@ -55,7 +55,7 @@ spring:
           jobStore:
             # 数据源名称
             dataSource: hikariDataSource # 使用的数据源
-            class: org.quartz.impl.jdbcjobstore.JobStoreTX # JobStore 实现类
+#            class: org.quartz.impl.jdbcjobstore.JobStoreTX # JobStore 实现类/使用spring默认实现注释掉，否则会导致找不到数据源（未执行put数据源的操作）
             driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
             tablePrefix: QRTZ_ # Quartz 表前缀
             isClustered: false # 是集群模式
@@ -67,4 +67,4 @@ spring:
             threadPriority: 5 # 线程优先级
             class: org.quartz.simpl.SimpleThreadPool # 线程池类型
     jdbc: # 使用 JDBC 的 JobStore 的时候，JDBC 的配置
-      initialize-schema: never # 是否自动使用 SQL 初始化 Quartz 表结构。这里设置成 never ，我们手动创建表结构。
+      initialize-schema: embedded # 是否自动使用 SQL 初始化 Quartz 表结构。这里设置成 never/always ，我们手动创建表结构。
