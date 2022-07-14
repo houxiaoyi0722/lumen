@@ -1,12 +1,14 @@
 package com.sang.system.controller.job;
 
 import com.sang.common.domain.job.JobVo;
+import com.sang.common.exception.BusinessException;
 import com.sang.common.job.QuartzManager;
 import com.sang.common.response.Result;
 import org.quartz.SchedulerException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -27,7 +29,7 @@ public class JobController {
      * @return
      */
     @PutMapping("/addJob")
-    public Result addJob(@RequestBody JobVo jobVo) {
+    public Result addJob(@RequestBody JobVo jobVo) throws BusinessException, SchedulerException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         quartzManager.addJob(jobVo);
         return Result.ok();
     }
