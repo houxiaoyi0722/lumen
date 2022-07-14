@@ -3,12 +3,12 @@ package com.sang.common.job;
 
 import com.sang.common.constants.ResultCodeEnum;
 import com.sang.common.domain.job.JobVo;
+import com.sang.common.domain.job.TriggerVo;
 import com.sang.common.exception.BusinessException;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.*;
 import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.impl.matchers.GroupMatcher;
-import org.quartz.spi.MutableTrigger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -37,14 +37,14 @@ public class QuartzManager {
         try {
 
             // 校验类是否存在以及是否继承job接口
-            Object classobj = Class.forName(job.getBeanClass()).getDeclaredConstructor().newInstance();
-            if(!(classobj instanceof Job))
+            Object classObj = Class.forName(job.getBeanClass()).getDeclaredConstructor().newInstance();
+            if(!(classObj instanceof Job))
                 throw new BusinessException(ResultCodeEnum.CLASS_TYPE_NOT_EXTEND_JOB.getCode(),ResultCodeEnum.CLASS_TYPE_NOT_EXTEND_JOB.getMessage());
 
             // 创建jobDetail实例，绑定Job实现类
             // 指明job的名称，所在组的名称，以及绑定job类
             JobDetail jobDetail = JobBuilder
-                    .newJob((Class<? extends Job>) classobj.getClass())
+                    .newJob((Class<? extends Job>) classObj.getClass())
                     .withIdentity(job.getJobName(), job.getJobGroup())// 任务名称和组构成任务key
                     .requestRecovery(job.isShouldRecover())
                     .withDescription(job.getDescription())
@@ -53,11 +53,12 @@ public class QuartzManager {
                     .build();
             // 定义调度触发规则
             // 使用cornTrigger规则
-            Trigger trigger = TriggerBuilder.newTrigger().withIdentity(job.getTriggerName(), job.getTriggerGroup())// 触发器key
+            Trigger trigger = TriggerBuilder.newTrigger().withIdentity(job.getJobName(), job.getJobGroup())// 触发器key
                     .startAt(DateBuilder.futureDate(1, IntervalUnit.SECOND))
-                    .withDescription(job.getTriggerDescription())
-                    .withSchedule(CronScheduleBuilder.cronSchedule(job.getCronExpression())).startNow().build();
-
+                    .withDescription(job.getTriggerVo().getTriggerDescription())
+                    .withSchedule(CronScheduleBuilder.cronSchedule(job.getTriggerVo().getCronExpression()))
+                    .forJob(jobDetail)
+                    .startNow().build();
             // 把作业和触发器注册到任务调度中
             scheduler.scheduleJob(jobDetail, trigger);
             // 启动
@@ -77,24 +78,37 @@ public class QuartzManager {
      */
     public List<JobVo> getAllJob() throws SchedulerException {
         GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
+        // 获取job列表
         Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
-        List<JobVo> jobList = new ArrayList<JobVo>();
+        List<JobVo> jobList = new ArrayList<>();
+        // 遍历job
         for (JobKey jobKey : jobKeys) {
+
+            JobVo job = new JobVo();
+            // 获取job明细
+            JobDetail jobDetail = scheduler.getJobDetail(jobKey);
+
+            job.setJobName(jobKey.getName());
+            job.setJobGroup(jobKey.getGroup());
+            job.setBeanClass(jobDetail.getJobClass().getName());
+            job.setDescription(jobDetail.getDescription());
+            job.setShouldRecover(jobDetail.requestsRecovery());
+            // 获取触发器列表
             List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
             for (Trigger trigger : triggers) {
-                JobVo job = new JobVo();
-                job.setJobName(jobKey.getName());
-                job.setJobGroup(jobKey.getGroup());
-                job.setDescription("触发器:" + trigger.getKey());
+                TriggerVo triggerVo = new TriggerVo();
+                // 获取触发器执行状态
                 Trigger.TriggerState triggerState = scheduler.getTriggerState(trigger.getKey());
-                job.setJobStatus(triggerState.name());
+                triggerVo.setJobStatus(triggerState.name());
                 if (trigger instanceof CronTrigger) {
                     CronTrigger cronTrigger = (CronTrigger) trigger;
                     String cronExpression = cronTrigger.getCronExpression();
-                    job.setCronExpression(cronExpression);
+                    triggerVo.setCronExpression(cronExpression);
+                    triggerVo.setTriggerDescription(trigger.getDescription());
                 }
-                jobList.add(job);
+                job.getTriggerVos().add(triggerVo);
             }
+            jobList.add(job);
         }
         return jobList;
     }
@@ -121,7 +135,7 @@ public class QuartzManager {
             if (trigger instanceof CronTrigger) {
                 CronTrigger cronTrigger = (CronTrigger) trigger;
                 String cronExpression = cronTrigger.getCronExpression();
-                job.setCronExpression(cronExpression);
+                job.getTriggerVos().setCronExpression(cronExpression);
             }
             jobList.add(job);
         }
@@ -175,18 +189,18 @@ public class QuartzManager {
     /**
      * 更新job时间表达式
      *
-     * @param task
+     * @param job
      * @throws SchedulerException
      */
-    public void updateJobCron(JobVo task) throws SchedulerException {
+    public void updateJobCron(JobVo job) throws SchedulerException {
 
-        TriggerKey triggerKey = TriggerKey.triggerKey(task.getJobName(), task.getJobGroup());
+        TriggerKey triggerKey = TriggerKey.triggerKey(job.getJobName(), job.getJobGroup());
 
         CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
 
-        CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(task.getCronExpression());
+        CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(job.getTriggerVos().getCronExpression());
 
-        trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
+        trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).withDescription(job.getTriggerVos().getTriggerDescription()).build();
 
         scheduler.rescheduleJob(triggerKey, trigger);
     }

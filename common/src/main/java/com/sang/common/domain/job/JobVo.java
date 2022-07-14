@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.quartz.JobDataMap;
 
+import java.util.List;
+
 /**
  * task
  */
@@ -23,33 +25,13 @@ public class JobVo {
      */
     private String jobGroup;
     /**
-     * trigger name
-     */
-    private String triggerName;
-    /**
-     * trigger分组
-     */
-    private String triggerGroup;
-    /**
      * 描述
      */
     private String description;
     /**
-     * 描述
-     */
-    private String triggerDescription;
-    /**
-     * cron
-     */
-    private String cronExpression;
-    /**
      * 执行类全限定名
      */
     private String beanClass;
-    /**
-     * job状态
-     */
-    private String jobStatus;
     /**
      * 启用/停用
      */
@@ -59,12 +41,22 @@ public class JobVo {
      */
     private boolean shouldRecover;
     /**
-     * job在无关联出发器时是否保留
+     * job在无关联触发器时是否保留
      */
     private boolean durability;
     /**
      * 要传给job 的参数
      */
     private JobDataMap jobDataMap;
+
+    /**
+     * trigger相关
+     */
+    private TriggerVo triggerVo;
+
+    /**
+     * trigger相关
+     */
+    private List<TriggerVo> triggerVos;
 
 }
