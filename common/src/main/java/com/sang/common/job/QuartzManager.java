@@ -11,8 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import org.quartz.*;
 import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.impl.matchers.GroupMatcher;
-import org.quartz.impl.matchers.NameMatcher;
-import org.quartz.impl.matchers.StringMatcher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -138,7 +136,7 @@ public class QuartzManager {
 
         GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
         if (StrUtil.isNotBlank(jobVo.getJobGroup())) {
-            matcher = GroupMatcher.jobGroupContains(jobVo.getJobGroup());
+            matcher = GroupMatcher.jobGroupEquals(jobVo.getJobGroup());
         }
 
         // 获取job列表
