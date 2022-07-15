@@ -1,6 +1,7 @@
 package com.sang.common.job;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.sang.common.constants.ResultCodeEnum;
 import com.sang.common.domain.job.JobVo;
 import com.sang.common.domain.job.TriggerVo;
@@ -10,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import org.quartz.*;
 import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.impl.matchers.GroupMatcher;
+import org.quartz.impl.matchers.NameMatcher;
+import org.quartz.impl.matchers.StringMatcher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,7 +39,7 @@ public class QuartzManager {
      * @throws SchedulerException
      */
     @SuppressWarnings("unchecked")
-    public void addJob(JobVo job) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, BusinessException, SchedulerException {
+    public void saveJob(JobVo job) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, BusinessException, SchedulerException {
         // 校验类是否存在以及是否继承job接口
         Object classObj = Class.forName(job.getBeanClass()).getDeclaredConstructor().newInstance();
         if(!(classObj instanceof Job))
@@ -117,7 +120,13 @@ public class QuartzManager {
         }
     }
 
-
+    /**
+     * 获取job组名称
+     * @return
+     */
+    public List<String> jobGroupList() throws SchedulerException {
+        return scheduler.getJobGroupNames();
+    }
 
     /**
      * 获取所有计划中的任务列表
@@ -125,16 +134,20 @@ public class QuartzManager {
      * @return
      * @throws SchedulerException
      */
-    // todo 搜索job
-    public List<JobVo> getAllJob() throws SchedulerException {
+    public List<JobVo> getJobList(JobVo jobVo) throws SchedulerException {
+
         GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
+        if (StrUtil.isNotBlank(jobVo.getJobGroup())) {
+            matcher = GroupMatcher.jobGroupContains(jobVo.getJobGroup());
+        }
+
         // 获取job列表
+        // todo 添加监听器 scheduler.getListenerManager().addJobListener();
         Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
         List<JobVo> jobList = new ArrayList<>();
         // 遍历job
         for (JobKey jobKey : jobKeys) {
-            JobVo job = buildJobDetail(scheduler.getJobDetail(jobKey));
-            jobList.add(job);
+            jobList.add(buildJobDetail(scheduler.getJobDetail(jobKey)));
         }
         return jobList;
     }
