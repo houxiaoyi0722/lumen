@@ -6,15 +6,16 @@ import com.sang.common.constants.ResultCodeEnum;
 import com.sang.common.domain.job.JobVo;
 import com.sang.common.domain.job.TriggerVo;
 import com.sang.common.exception.BusinessException;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
 import org.quartz.*;
 import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.impl.matchers.GroupMatcher;
+import org.quartz.impl.matchers.KeyMatcher;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -37,11 +38,12 @@ public class QuartzManager {
      * @throws SchedulerException
      */
     @SuppressWarnings("unchecked")
-    public void saveJob(JobVo job) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, BusinessException, SchedulerException {
+    @SneakyThrows
+    public void saveJob(JobVo job) {
         // 校验类是否存在以及是否继承job接口
         Object classObj = Class.forName(job.getBeanClass()).getDeclaredConstructor().newInstance();
         if(!(classObj instanceof Job))
-            throw new BusinessException(ResultCodeEnum.CLASS_TYPE_NOT_EXTEND_JOB.getCode(),ResultCodeEnum.CLASS_TYPE_NOT_EXTEND_JOB.getMessage());
+            throw new BusinessException(ResultCodeEnum.CLASS_TYPE_NOT_EXTEND_JOB.getCode(),StrUtil.format(ResultCodeEnum.CLASS_TYPE_NOT_EXTEND_JOB.getMessage(),job.getBeanClass()));
 
         // 创建jobDetail实例，绑定Job实现类
         // 指明job的名称，所在组的名称，以及绑定job类
@@ -76,13 +78,52 @@ public class QuartzManager {
     public void addTriggersForJob(JobVo job) throws SchedulerException {
         // 添加所有触发器
         for (TriggerVo triggerVo : job.getTriggerVos()) {
+            CronScheduleBuilder schedBuilder = CronScheduleBuilder.cronSchedule(triggerVo.getCronExpression());
+            // .withMisfireHandlingInstructionFireAndProceed() 描述如果错过触发时间如何处理
             scheduler.scheduleJob(TriggerBuilder.newTrigger().withIdentity(triggerVo.getTriggerName(), triggerVo.getTriggerGroup())// 触发器key
                     .startAt(DateBuilder.futureDate(1, IntervalUnit.SECOND))
                     .withDescription(triggerVo.getTriggerDescription())
-                    .withSchedule(CronScheduleBuilder.cronSchedule(triggerVo.getCronExpression()))
+                    .withSchedule(schedBuilder)
                     .forJob(JobKey.jobKey(job.getJobName(), job.getJobGroup()))
                     .startNow().build());
         }
+    }
+
+    /**
+     * 为job添加监听器
+     * @param job
+     * @throws SchedulerException
+     */
+    @SneakyThrows
+    public void addListenerForJob(JobVo job) {
+        ListenerManager listenerManager = scheduler.getListenerManager();
+        Matcher<JobKey> matcher = KeyMatcher.keyEquals(JobKey.jobKey(job.getJobName(),job.getJobGroup()));
+
+        // 获取类示例检查类型，转换类型
+        Object listener = Class.forName(job.getJobListener()).getDeclaredConstructor().newInstance();
+        if(!(listener instanceof JobListener))
+            throw new BusinessException(ResultCodeEnum.CLASS_TYPE_NOT_EXTEND_JOB_LISTENER.getCode(),StrUtil.format(ResultCodeEnum.CLASS_TYPE_NOT_EXTEND_JOB_LISTENER.getMessage(),job.getJobListener()));
+        // 添加监听器到对应的job上
+        listenerManager.addJobListener((JobListener) listener,matcher);
+    }
+
+    /**
+     * 为job解除监听器
+     * @param job
+     */
+    public boolean unListenerForJob(JobVo job) throws SchedulerException {
+        ListenerManager listenerManager = scheduler.getListenerManager();
+        return listenerManager.removeJobListener(job.getJobListener());
+    }
+
+    /**
+     * todo 获取job监听器
+     * @param job
+     * @throws SchedulerException
+     */
+    public void getListenerForJob(JobVo job) throws SchedulerException {
+//        ListenerManager listenerManager = scheduler.getListenerManager();
+//        JobListener jobListener = listenerManager.getJobListener("");
     }
 
     /**

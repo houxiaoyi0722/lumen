@@ -150,13 +150,34 @@ public class JobController {
     /**
      * 立即执行一个job
      * @param jobVo
-     * @return
      * @throws SchedulerException
      */
     @PutMapping("/job/run")
     public Result runJobNow(@RequestBody JobVo jobVo) throws SchedulerException {
         quartzManager.runJobNow(jobVo);
         return Result.ok();
+    }
+
+    /**
+     * todo 添加表管理监听器，并在初始化时添加
+     * 添加job监听器
+     * @param jobVo
+     * @throws SchedulerException
+     */
+    @PutMapping("/job/listener")
+    public Result addListenerForJob(@RequestBody JobVo jobVo) throws SchedulerException {
+        quartzManager.addListenerForJob(jobVo);
+        return Result.ok();
+    }
+
+    /**
+     * 删除job监听器
+     * @param jobVo
+     * @throws SchedulerException
+     */
+    @DeleteMapping("/job/listener")
+    public Result<Boolean> unListenerForJob(@RequestBody JobVo jobVo) throws SchedulerException {
+        return Result.ok(quartzManager.unListenerForJob(jobVo));
     }
 
 

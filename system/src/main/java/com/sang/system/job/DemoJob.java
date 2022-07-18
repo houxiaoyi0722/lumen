@@ -2,16 +2,14 @@ package com.sang.system.job;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.DisallowConcurrentExecution;
-import org.quartz.JobDataMap;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import org.quartz.*;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 /**
  * demo
  */
 @Slf4j
+// 禁用并行
 @DisallowConcurrentExecution
 public class DemoJob extends QuartzJobBean {
 

@@ -45,4 +45,9 @@ public class JobVo {
      */
     private List<TriggerVo> triggerVos;
 
+    /**
+     * job 监听器
+     */
+    private String jobListener;
+
 }

@@ -45,6 +45,8 @@
         <screw.version>1.0.5</screw.version>
         <japidocs.version>1.4.4</japidocs.version>
         <minio.version>8.4.2</minio.version>
+        <jcraft.version>0.1.54</jcraft.version>
+        <okhttp.version>4.9.1</okhttp.version>
     </properties>
     <modules>
         <module>common</module>
@@ -150,7 +152,6 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
-<!--                <version>5.1.27</version>-->
             </dependency>
             <dependency>
                 <groupId>com.nimbusds</groupId>
@@ -196,12 +197,12 @@
             <dependency>
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>
-                <version>4.9.1</version>
+                <version>${okhttp.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.jcraft</groupId>
                 <artifactId>jsch</artifactId>
-                <version>0.1.53</version>
+                <version>${jcraft.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
