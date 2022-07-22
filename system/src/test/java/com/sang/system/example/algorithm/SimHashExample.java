@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+/**
+ * SimHash 一种比较文本相似度的Hash算法
+ */
 public class SimHashExample {
 
     /**
