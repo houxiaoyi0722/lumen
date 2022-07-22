@@ -1,9 +1,6 @@
 package com.sang.common.domain.job;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.quartz.JobDataMap;
 
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class JobVo {
     /**
      * job名称

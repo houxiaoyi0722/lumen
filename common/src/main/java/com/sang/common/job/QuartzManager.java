@@ -96,6 +96,7 @@ public class QuartzManager {
      */
     @SneakyThrows
     public void addListenerForJob(JobVo job) {
+        log.info("添加JOB监听器：jobName：{} jobGroup：{} jobListener：{}", job.getJobName(), job.getJobGroup(), job.getJobListener());
         ListenerManager listenerManager = scheduler.getListenerManager();
         Matcher<JobKey> matcher = KeyMatcher.keyEquals(JobKey.jobKey(job.getJobName(),job.getJobGroup()));
 
