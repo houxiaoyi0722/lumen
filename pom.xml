@@ -47,6 +47,7 @@
         <minio.version>8.4.2</minio.version>
         <jcraft.version>0.1.54</jcraft.version>
         <okhttp.version>4.9.1</okhttp.version>
+        <micrometer-prometheus.version>1.9.0</micrometer-prometheus.version>
     </properties>
     <modules>
         <module>common</module>
@@ -59,16 +60,16 @@
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${spring.boot}</version>
             </dependency>
-            <dependency>
+<!--            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-freemarker</artifactId>
                 <version>${spring.boot}</version>
-            </dependency>
-            <dependency>
+            </dependency>-->
+<!--            <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-quartz</artifactId>
@@ -204,6 +205,12 @@
                 <artifactId>jsch</artifactId>
                 <version>${jcraft.version}</version>
             </dependency>
+            <!-- Micrometer 对 Prometheus 的支持 -->
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-prometheus</artifactId>
+                <version>${micrometer-prometheus.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -259,16 +266,6 @@
                         </annotationProcessorPaths>
                     </configuration>
                 </plugin>
-<!--                此插件有助于查找模块的最新插件或依赖版本。打开终端并执行以下命令，查找必须更新的插件版本：
-                mvn versions:display-plugin-updates-->
-<!--                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>versions-maven-plugin</artifactId>
-                    <version>2.5</version>
-                    <configuration>
-                        <generateBackupPoms>false</generateBackupPoms>
-                    </configuration>
-                </plugin>-->
             </plugins>
         </pluginManagement>
     </build>

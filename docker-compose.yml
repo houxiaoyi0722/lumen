@@ -2,12 +2,13 @@ version: "3.7"
 
 services:
   mysql:
+    container_name: lumen-mysql
     image: mysql:latest
 #    restart: always
     ports:
       - "13306:3306"
     volumes:
-      - /opt/mysql-data:/var/lib/mysql
+      - ./to/mysql/data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: w7s6bi
     command:
@@ -16,11 +17,12 @@ services:
       --explicit_defaults_for_timestamp=true
       --lower_case_table_names=1
   redis:
+    container_name: lumen-redis
     image: redis:latest
     ports:
       - "6379:6379"
     volumes:
-      - /docker/host/dir:/data
+      - ./to/redis/data:/data
   minio:
     container_name: lumen-minio
     image: docker.io/bitnami/minio:2022
@@ -28,36 +30,28 @@ services:
       - '9000:9000'
       - '9001:9001'
     volumes:
-      - ./minio/data:/data
-      - ./minio/config:/root/.minio
+      - ./to/minio/data:/data
+      - ./to/minio/config:/root/.minio
     environment:
       - MINIO_ROOT_USER=minio-root-user
       - MINIO_ROOT_PASSWORD=minio-root-password
       - MINIO_DEFAULT_BUCKETS=my-first-bucket,my-second-bucket
       - TZ=Asia/Shanghai
+  prometheus:
+    container_name: lumen-prometheus
+    image: bitnami/prometheus:2.37.0
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./to/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./to/prometheus/data:/prometheus
+  grafana: # dashboard ids : 4701 12900
+    image: grafana/grafana:9.0.4
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./to/grafana/data:/var/lib/grafana
+      - ./to/grafana/config/grafana.ini:/etc/grafana/grafana.ini
 
-
-#  influx:
-#    image: influxdb:1.7
-#    ports:
-#      - "8086:8086"
-#    volumes:
-#      - influxdb:/var/lib/influxdb
-#      - influxconf:/etc/influxdb
-#  chronograf:
-#    image: chronograf:1.7
-#    ports:
-#      - "8888:8888"
-#    volumes:
-#      - chronograf:/var/lib/chronograf
-#  grafana:
-#    image: grafana:8.3.3
-#    ports:
-#      - "3000:3000"
-#    volumes:
-#      - grafana:/var/lib/grafana
-#volumes:
-#  influxdb:
-#  influxconf:
-#  chronograf:
-#  grafana:

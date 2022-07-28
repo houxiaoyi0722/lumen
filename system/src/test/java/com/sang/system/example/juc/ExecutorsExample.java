@@ -1,14 +1,11 @@
 package com.sang.system.example.juc;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ExecutorsExample {
 
-    void ExecutorsExample() throws InterruptedException {
+    void ExecutorsExample() throws InterruptedException, ExecutionException {
 
         ExecutorService studentThreadPool = Executors.newFixedThreadPool(10);
 
@@ -25,6 +22,13 @@ public class ExecutorsExample {
             }
             countDownLatch.countDown();
         });
+
+/*        Future<String> submit = studentThreadPool.submit(() -> {
+            System.out.printf(String.valueOf(atomicInteger.incrementAndGet()));
+            countDownLatch.countDown();
+            return "1";
+        });
+        System.out.println(submit.get());*/
 
         boolean await = countDownLatch.await(30, TimeUnit.SECONDS);
 

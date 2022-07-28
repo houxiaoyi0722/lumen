@@ -22,20 +22,9 @@ minio:
   bucket:
     master: my-first-bucket
     second: my-second-bucket
-#spring:
-#    redis:
-#      database: 0
-#      port: 6379
-#      host: 127.0.0.1
-#      #    password:
-#      timeout: 2000
-#      jedis:
-#        pool:
-#          max-active: 50
-#          max-idle: 50
-#          min-idle: 0
-#          max-wait: 2000
 spring:
+  application:
+    name: lumen
   profiles:
     active: gs
   jackson:
@@ -68,3 +57,25 @@ spring:
             class: org.quartz.simpl.SimpleThreadPool # 线程池类型
     jdbc: # 使用 JDBC 的 JobStore 的时候，JDBC 的配置
       initialize-schema: embedded # 是否自动使用 SQL 初始化 Quartz 表结构。这里设置成 never/always ，我们手动创建表结构。
+management:
+  endpoints:
+    # Actuator HTTP 配置项，对应 WebEndpointProperties 配置类
+    web:
+      exposure:
+        include: '*' # 需要开放的端点。默认值只打开 health 和 info 两个端点。通过设置 * ，可以开放所有端点。
+  metrics:
+    tags: # 通用标签
+      application: ${spring.application.name}
+#spring:
+#    redis:
+#      database: 0
+#      port: 6379
+#      host: 127.0.0.1
+#      #    password:
+#      timeout: 2000
+#      jedis:
+#        pool:
+#          max-active: 50
+#          max-idle: 50
+#          min-idle: 0
+#          max-wait: 2000
