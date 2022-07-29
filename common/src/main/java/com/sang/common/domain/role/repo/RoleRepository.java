@@ -1,4 +1,4 @@
-package com.sang.system.domain.role.repo;
+package com.sang.common.domain.role.repo;
 
 import com.sang.common.domain.role.entity.Role;
 import com.sang.common.domain.role.entity.query.QRole;

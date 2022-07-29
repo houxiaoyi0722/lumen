@@ -7,7 +7,7 @@ import com.sang.common.constants.StringConst;
 import com.sang.common.domain.storage.entity.Storage;
 import com.sang.common.exception.BusinessException;
 import com.sang.common.snowId.SnowIdGenerator;
-import com.sang.system.domain.storage.repo.StorageRepository;
+import com.sang.common.domain.storage.repo.StorageRepository;
 import com.sang.system.service.storage.StorageService;
 import io.ebean.annotation.Transactional;
 import io.minio.*;

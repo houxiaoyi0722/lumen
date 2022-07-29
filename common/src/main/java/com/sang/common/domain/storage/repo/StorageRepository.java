@@ -1,4 +1,4 @@
-package com.sang.system.domain.storage.repo;
+package com.sang.common.domain.storage.repo;
 
 import com.sang.common.domain.storage.entity.Storage;
 import com.sang.common.domain.storage.entity.query.QStorage;

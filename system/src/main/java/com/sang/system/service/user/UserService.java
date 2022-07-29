@@ -1,7 +1,7 @@
 package com.sang.system.service.user;
 
 import com.sang.common.domain.user.entity.User;
-import com.sang.system.domain.user.param.UserQry;
+import com.sang.common.domain.user.param.UserQry;
 import io.ebean.PagedList;
 import org.springframework.security.core.userdetails.UserDetails;
 

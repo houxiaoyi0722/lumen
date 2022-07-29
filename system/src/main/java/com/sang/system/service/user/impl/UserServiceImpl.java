@@ -1,8 +1,8 @@
 package com.sang.system.service.user.impl;
 
 import com.sang.common.domain.user.entity.User;
-import com.sang.system.domain.user.param.UserQry;
-import com.sang.system.domain.user.repo.UserRepository;
+import com.sang.common.domain.user.param.UserQry;
+import com.sang.common.domain.user.repo.UserRepository;
 import com.sang.system.service.user.UserService;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;

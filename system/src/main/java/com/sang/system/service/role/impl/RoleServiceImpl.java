@@ -1,7 +1,7 @@
 package com.sang.system.service.role.impl;
 
 import com.sang.common.domain.role.entity.Role;
-import com.sang.system.domain.role.repo.RoleRepository;
+import com.sang.common.domain.role.repo.RoleRepository;
 import com.sang.system.service.role.RoleService;
 import io.ebean.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;

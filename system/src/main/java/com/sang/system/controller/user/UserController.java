@@ -3,7 +3,7 @@ package com.sang.system.controller.user;
 import com.sang.common.domain.user.entity.User;
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
-import com.sang.system.domain.user.param.UserQry;
+import com.sang.common.domain.user.param.UserQry;
 import com.sang.system.service.user.UserService;
 import org.springframework.web.bind.annotation.*;
 

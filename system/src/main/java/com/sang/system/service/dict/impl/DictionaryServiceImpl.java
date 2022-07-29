@@ -1,8 +1,8 @@
 package com.sang.system.service.dict.impl;
 
 import com.sang.common.domain.dict.entity.Dictionary;
-import com.sang.system.domain.dict.param.DataDictionaryQry;
-import com.sang.system.domain.dict.repo.DictionaryRepository;
+import com.sang.common.domain.dict.param.DataDictionaryQry;
+import com.sang.common.domain.dict.repo.DictionaryRepository;
 import com.sang.system.service.dict.DictionaryService;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;

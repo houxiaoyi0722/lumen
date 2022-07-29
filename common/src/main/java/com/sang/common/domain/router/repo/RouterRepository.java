@@ -1,7 +1,6 @@
-package com.sang.system.domain.router.repo;
+package com.sang.common.domain.router.repo;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.sang.common.domain.role.entity.Role;
 import com.sang.common.domain.role.entity.query.QRole;
 import com.sang.common.domain.router.dto.RouterDto;
 import com.sang.common.domain.router.entity.Router;

@@ -3,8 +3,8 @@ package com.sang.system.service.dict.impl;
 
 import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.common.domain.dict.entity.DictionaryItem;
-import com.sang.system.domain.dict.param.DataDictionaryQry;
-import com.sang.system.domain.dict.repo.DictionaryRepository;
+import com.sang.common.domain.dict.param.DataDictionaryQry;
+import com.sang.common.domain.dict.repo.DictionaryRepository;
 import io.ebean.PagedList;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -67,27 +67,11 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Resource
     private UserDetailsService userDetailsService;
 
-
     @Value("${jwt.public.key}")
-    RSAPublicKey key;
+    private RSAPublicKey key;
 
     @Value("${jwt.private.key}")
-    RSAPrivateKey priv;
-
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        // 允许对于网站静态资源的无授权访问
-//        web.ignoring().antMatchers(
-//                "/*.html",
-//                "/favicon.ico",
-//                "/**/*.html",
-//                "/swagger-ui.html",
-//                "/**/*.css",
-//                "/**/*.js",
-//                "/swagger-resources/**",
-//                "/v2/api-docs/**",
-//                "/webjars/**");
-//    }
+    private RSAPrivateKey priv;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

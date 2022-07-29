@@ -3,7 +3,7 @@ package com.sang.system.service.router.impl;
 
 import com.sang.common.domain.router.dto.RouterDto;
 import com.sang.common.domain.router.entity.Router;
-import com.sang.system.domain.router.repo.RouterRepository;
+import com.sang.common.domain.router.repo.RouterRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

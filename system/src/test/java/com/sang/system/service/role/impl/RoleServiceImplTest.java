@@ -2,7 +2,7 @@
 package com.sang.system.service.role.impl;
 
 import com.sang.common.domain.role.entity.Role;
-import com.sang.system.domain.role.repo.RoleRepository;
+import com.sang.common.domain.role.repo.RoleRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

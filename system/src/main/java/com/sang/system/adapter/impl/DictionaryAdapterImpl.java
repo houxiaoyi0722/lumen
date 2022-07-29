@@ -2,9 +2,8 @@ package com.sang.system.adapter.impl;
 
 import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.system.adapter.DictionaryAdapter;
-import com.sang.system.domain.dict.repo.DictionaryRepository;
+import com.sang.common.domain.dict.repo.DictionaryRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
