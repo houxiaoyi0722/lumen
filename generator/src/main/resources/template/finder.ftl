@@ -1,14 +1,14 @@
 package com.sang.common.domain.${domain}.entity.finder;
 
-import com.sang.common.domain.${domain}.entity.${domain};
+import com.sang.common.domain.${domain}.entity.${model};
 import io.ebean.Finder;
 import lombok.Builder;
 
 /**
-* ${comment}
-* ${auther}
-* ${createDate?string("yyyy-MM-dd HH:mm:ss")}
-*/
+ * ${fileComment}
+ * ${author}
+ * ${createDate?string("yyyy-MM-dd HH:mm:ss")}
+ */
 @Builder
 public class ${model}Finder extends Finder<Long, ${model}> {
 

@@ -6,11 +6,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
-* 分页查询对象
-* ${comment}
-* ${auther}
-* ${createDate?string("yyyy-MM-dd HH:mm:ss")}
-*/
+ * 分页查询对象
+ * ${fileComment}
+ * ${author}
+ * ${createDate?string("yyyy-MM-dd HH:mm:ss")}
+ */
 @Getter
 @Setter
 @AllArgsConstructor

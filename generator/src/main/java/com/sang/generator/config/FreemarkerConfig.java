@@ -13,7 +13,7 @@ public class FreemarkerConfig {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
         // Specify the source where the template files come from. Here I set a
         // plain directory for it, but non-file-system sources are possible too:
-        cfg.setTemplateLoader(new ClassTemplateLoader(FreemarkerConfig.class, "../template"));
+        cfg.setTemplateLoader(new ClassTemplateLoader(FreemarkerConfig.class, "../../../../template"));
         cfg.setDefaultEncoding("UTF-8");
         // Sets how errors will appear.
         // During web page *development* TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.

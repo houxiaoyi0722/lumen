@@ -1,0 +1,42 @@
+{
+  "dataModel": {
+    "domain": "test",
+    "model": "Test",
+    "author": "hxy",
+    "dbComment": "test"
+  },
+  "templates": [
+    {
+      "name": "entity.ftl",
+      "fileTypeName": "",
+      "output": "common/src/main/java/com/sang/common/domain/{domain}/entity/",
+      "exDataModel": {
+        "fileComment": "entity"
+      }
+    },
+    {
+      "name": "finder.ftl",
+      "fileTypeName": "{model}Finder.java",
+      "output": "common/src/main/java/com/sang/common/domain/{domain}/entity/finder/",
+      "exDataModel": {
+        "fileComment": "finder"
+      }
+    },
+    {
+      "name": "repo.ftl",
+      "fileTypeName": "{model}Repository.java",
+      "output": "common/src/main/java/com/sang/common/domain/{domain}/repo/",
+      "exDataModel": {
+        "fileComment": "11"
+      }
+    },
+    {
+      "name": "Qry.ftl",
+      "fileTypeName": "{model}Qry.java",
+      "output": "common/src/main/java/com/sang/common/domain/{domain}/param/",
+      "exDataModel": {
+        "fileComment": "11"
+      }
+    }
+  ]
+}

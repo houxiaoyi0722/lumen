@@ -4,14 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.${domain}.entity.finder.${model}Finder;
 import io.ebean.annotation.DbComment;
+import lombok.*;
 
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
 
 /**
-* ${comment}
-* ${auther}
-* ${createDate?string("yyyy-MM-dd HH:mm:ss")}
-*/
+ * ${fileComment}
+ * ${author}
+ * ${createDate?string("yyyy-MM-dd HH:mm:ss")}
+ */
 @Setter
 @Getter
 @Builder
@@ -20,7 +23,7 @@ import java.util.List;
 @MappedSuperclass
 @Entity
 @Table
-@DbComment("${comment}")
+@DbComment("${dbComment}")
 public class ${model} extends BaseModel {
 
     public static final ${model}Finder finder = ${model}Finder.builder().build();

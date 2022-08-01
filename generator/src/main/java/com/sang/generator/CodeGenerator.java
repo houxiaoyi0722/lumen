@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class CodeGenerator {
     // controller
 
     public static void main(String[] args) throws IOException, TemplateException {
-        GenerateConfig generateConfig = JSONUtil.readJSON(new File("../config/config.json"), StandardCharsets.UTF_8).toBean(GenerateConfig.class);
+        GenerateConfig generateConfig = JSONUtil.readJSON(new File(CodeGenerator.class.getResource("/config.json").getPath()), StandardCharsets.UTF_8).toBean(GenerateConfig.class);
         Configuration cfg = FreemarkerConfig.build();
 
         Map<String, Object> dataModel = generateConfig.getDataModel();
@@ -43,10 +44,16 @@ public class CodeGenerator {
 
             Template template = cfg.getTemplate(templateConfig.getName());
 
-            FileWriter out = new FileWriter(StrUtil.format(dataModel.get("output").toString(),priDataModel),StandardCharsets.UTF_8);
-            template.process(dataModel, out);
+            String format = StrUtil.format(templateConfig.getOutput(), priDataModel);
+            File path = new File(format);
+            if (!path.exists()) {
+                path.mkdirs();
+            }
+
+            FileWriter out = new FileWriter(format.concat(StrUtil.format(templateConfig.getFileTypeName(),priDataModel)),StandardCharsets.UTF_8);
+            template.process(priDataModel, out);
             out.close();
-            log.info("template:{}输出成功",templateConfig.getName());
+            log.info("template:{}输出成功 目录：{}",templateConfig.getName(),path.getAbsolutePath());
         }
 
     }

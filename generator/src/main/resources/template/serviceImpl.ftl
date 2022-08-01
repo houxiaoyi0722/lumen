@@ -13,10 +13,10 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
-* ${comment}
-* ${auther}
-* ${createDate?string("yyyy-MM-dd HH:mm:ss")}
-*/
+ * ${fileComment}
+ * ${author}
+ * ${createDate?string("yyyy-MM-dd HH:mm:ss")}
+ */
 @Slf4j
 @Service
 public class ${model}ServiceImpl implements ${model}Service {
@@ -25,7 +25,7 @@ public class ${model}ServiceImpl implements ${model}Service {
     private ${model}Repository repository;
 
     @Override
-    public PagedList<${model}> ${model}${"domain"?replace("([a-z])([A-Z]+)","$1_$2","r")?lower_case}List(${model}Qry qry) {
+    public PagedList<${model}> ${model?lower_case}List(${model}Qry qry) {
         return repository.getPage(qry);
     }
 
@@ -36,26 +36,26 @@ public class ${model}ServiceImpl implements ${model}Service {
 
     @Override
     @Transactional
-    public void save(${model} ${model}) {
-        ${model}.save();
+    public void save(${model} ${model?lower_case}) {
+        ${model?lower_case}.save();
     }
 
     @Override
     @Transactional
-    public void insert(${model} ${model}) {
-        ${model}.insert();
+    public void insert(${model} ${model?lower_case}) {
+        ${model?lower_case}.insert();
     }
 
     @Override
     @Transactional
-    public void update(${model} ${model}) {
-        ${model}.update();
+    public void update(${model} ${model?lower_case}) {
+        ${model?lower_case}.update();
     }
 
     @Override
     @Transactional
-    public void delete(${model} ${model}) {
-        repository.delete(${model});
+    public void delete(${model} ${model?lower_case}) {
+        repository.delete(${model?lower_case});
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ${model}ServiceImpl implements ${model}Service {
 
     @Override
     @Transactional
-    public void deleteAll(List<${model}> ${model}s) {
-        repository.deleteAll(${model}s);
+    public void deleteAll(List<${model}> ${model?lower_case}s) {
+        repository.deleteAll(${model?lower_case}s);
     }
 }
