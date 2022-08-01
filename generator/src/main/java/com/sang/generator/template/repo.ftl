@@ -1,17 +1,33 @@
 package com.sang.common.domain.${domain}.repo;
 
-import com.sang.common.domain.${domain}.entity.${domain};
+import com.sang.common.domain.${domain}.entity.${model};
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+* ${comment}
+* ${auther}
+* ${createDate?string("yyyy-MM-dd HH:mm:ss")}
+*/
 @Repository
-public class ${domain}Repository extends BeanRepository<Long, ${domain}> {
+public class ${model}Repository extends BeanRepository<Long, ${model}> {
 
-    protected ${domain}Repository(Database server) {
-        super(${domain}.class, server);
+    protected ${model}Repository(Database server) {
+        super(${model}.class, server);
+    }
+
+    public PagedList<${model}> getPage(${model}Qry qry) {
+        Q${model} alice = Q${model}.alias();
+
+        return new QDictionary()
+            .select()
+            .setFirstRow(qry.getStartPosition())
+            .setMaxRows(qry.getEndPosition())
+            .orderBy().whenCreated.desc()
+            .findPagedList();
     }
 
 

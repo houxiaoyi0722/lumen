@@ -4,14 +4,19 @@ import com.sang.common.domain.${domain}.entity.${domain};
 import io.ebean.Finder;
 import lombok.Builder;
 
+/**
+* ${comment}
+* ${auther}
+* ${createDate?string("yyyy-MM-dd HH:mm:ss")}
+*/
 @Builder
-public class ${domain}Finder extends Finder<Long, ${domain}> {
+public class ${model}Finder extends Finder<Long, ${model}> {
 
     /**
     * Construct using the default EbeanServer.
     */
-    public ${domain}Finder() {
-        super(${domain}.class);
+    public ${model}Finder() {
+        super(${model}.class);
     }
 
 }
