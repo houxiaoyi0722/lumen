@@ -14,6 +14,7 @@ import java.util.Map;
 public class TemplateConfig {
 
     private String name;
+    private Boolean enable;
     private String fileTypeName;
     private String output;
     private Map<String,Object> exDataModel;

@@ -1,16 +1,16 @@
-package com.sang.common.domain.${domain}.repo;
+package com.sang.common.domain.${domain?lower_case}.repo;
 
-import com.sang.common.domain.${domain}.entity.${model};
+import com.sang.common.domain.${domain?lower_case}.entity.${model};
+import com.sang.common.domain.${domain?lower_case}.param.${model}Qry;
+import com.sang.common.domain.${domain?lower_case}.entity.query.Q${model};
 import io.ebean.BeanRepository;
 import io.ebean.Database;
+import io.ebean.PagedList;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * ${fileComment}
- * ${author}
- * ${createDate?string("yyyy-MM-dd HH:mm:ss")}
+ * ${author} ${createDate?string("yyyy-MM-dd HH:mm:ss")}
  */
 @Repository
 public class ${model}Repository extends BeanRepository<Long, ${model}> {

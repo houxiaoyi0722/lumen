@@ -18,12 +18,17 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * 代码生成器-ebean
  */
 @Slf4j
 public class CodeGenerator {
+    public static final String DOMAIN = "domain";
+    public static final String MODEL = "model";
+    public static final String UPPER_PATTERN = "^([A-Z][a-z0-9]+)+";
+    public static final String LOWER_PATTERN = "^([a-z0-9]+)+";
 
     // entity
     // finder
@@ -32,13 +37,26 @@ public class CodeGenerator {
     // controller
 
     public static void main(String[] args) throws IOException, TemplateException {
-        GenerateConfig generateConfig = JSONUtil.readJSON(new File(CodeGenerator.class.getResource("/config.json").getPath()), StandardCharsets.UTF_8).toBean(GenerateConfig.class);
+        GenerateConfig generateConfig = initConfig();
         Configuration cfg = FreemarkerConfig.build();
 
+
         Map<String, Object> dataModel = generateConfig.getDataModel();
+
+        if (!Pattern.matches(UPPER_PATTERN, dataModel.get(MODEL).toString())) {
+            throw new IllegalArgumentException("MODEL 必须为大驼峰");
+        }
+
+        if (!Pattern.matches(LOWER_PATTERN, dataModel.get(DOMAIN).toString())) {
+            throw new IllegalArgumentException("DOMAIN 必须为小驼峰");
+        }
+
         dataModel.put("createDate",new Date());
 
         for (TemplateConfig templateConfig : generateConfig.getTemplates()) {
+            if (!templateConfig.getEnable())
+                continue;
+
             Map<String, Object> priDataModel = new HashMap<>(dataModel);
             priDataModel.putAll(templateConfig.getExDataModel());
 
@@ -56,6 +74,10 @@ public class CodeGenerator {
             log.info("template:{}输出成功 目录：{}",templateConfig.getName(),path.getAbsolutePath());
         }
 
+    }
+
+    private static GenerateConfig initConfig() {
+        return JSONUtil.readJSON(new File(CodeGenerator.class.getResource("/config.json").getPath()), StandardCharsets.UTF_8).toBean(GenerateConfig.class);
     }
 
 
