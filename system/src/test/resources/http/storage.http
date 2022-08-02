@@ -1,0 +1,3 @@
+###
+PUT {{protocol}}{{domain}}/lumen/storage/upload
+Authorization: {{token}}

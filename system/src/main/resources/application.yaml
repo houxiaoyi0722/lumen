@@ -1,11 +1,3 @@
-ebean:
-  ## run migrations when the EbeanServer starts
-  migration:
-    run: true
-  db:
-    ddl:
-      generate: true
-#      run: true
 logging:
   level:
     io:

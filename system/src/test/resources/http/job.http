@@ -1,0 +1,158 @@
+###
+PUT {{protocol}}{{domain}}/lumen/task/job
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "jobName": "demo2",
+  "jobGroup": "demo2",
+  "description": "",
+  "beanClass": "com.sang.system.job.BadJob",
+  "shouldRecover": false,
+  "jobDataMap": {
+    "test" : 1,
+    "test2" : 2,
+    "test3" : "3"
+  }
+}
+
+
+###
+DELETE {{protocol}}{{domain}}/lumen/task/job
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "jobName": "demo2",
+  "jobGroup": "demo2"
+}
+
+###
+PUT {{protocol}}{{domain}}/lumen/task/job/run
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "jobName": "demo1",
+  "jobGroup": "demo"
+}
+
+
+###
+POST {{protocol}}{{domain}}/lumen/task/triggers
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "jobName": "demo1",
+  "jobGroup": "demo",
+  "triggerVos": [
+    {
+      "triggerName": "demo1",
+      "triggerGroup": "demo",
+      "triggerDescription": "",
+      "cronExpression": "0/3 * * * * ?"
+    }
+  ]
+}
+
+###
+DELETE {{protocol}}{{domain}}/lumen/task/triggers
+Authorization: {{token}}
+Content-Type: application/json
+
+[
+    {
+      "triggerName": "demo1",
+      "triggerGroup": "demo"
+    }
+]
+
+###
+PUT {{protocol}}{{domain}}/lumen/task/triggers
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "jobName": "demo1",
+  "jobGroup": "demo",
+  "triggerVos": [
+    {
+      "triggerName": "demo1",
+      "triggerGroup": "demo",
+      "triggerDescription": "",
+      "cronExpression": "0/10 * * * * ?"
+    }
+  ]
+}
+
+
+###
+GET {{protocol}}{{domain}}/lumen/task/job/groups
+Authorization: {{token}}
+
+###
+GET {{protocol}}{{domain}}/lumen/task/getJobList
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "jobName": "demo1",
+  "jobGroup": "demo"
+}
+
+
+###
+POST {{protocol}}{{domain}}/lumen/task/job/triggers
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "jobName": "demo1",
+  "jobGroup": "demo"
+}
+
+###
+GET {{protocol}}{{domain}}/lumen/task/running/job
+Authorization: {{token}}
+
+###
+PUT {{protocol}}{{domain}}/lumen/task/job/pause
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "jobName": "demo1",
+  "jobGroup": "demo"
+}
+
+###
+PUT {{protocol}}{{domain}}/lumen/task/job/resume
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "jobName": "demo1",
+  "jobGroup": "demo"
+}
+
+
+###
+PUT {{protocol}}{{domain}}/lumen/task/job/listener
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "jobName": "demo1",
+  "jobGroup": "demo",
+  "jobListener": "com.sang.system.job.listener.DemoJobListener"
+}
+
+###
+DELETE {{protocol}}{{domain}}/lumen/task/job/listener
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "jobListener": "demoListener1"
+}
