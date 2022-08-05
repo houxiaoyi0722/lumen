@@ -1,0 +1,79 @@
+### 分页查询
+POST {{protocol}}{{domain}}/lumen/dict/dictionaries
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "pageNumber": 0,
+  "pageSize": 10,
+  "orders": [
+    {
+      "field": "",
+      "direction": "ASC"
+    }
+  ]
+}
+
+
+### 通过id更新
+PUT {{protocol}}{{domain}}/lumen/dict/dictionary
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "groupId": "test3",
+  "groupName": "test3",
+  "comment": "test3",
+  "id": 427893957394632704,
+  "dictionaryItems": [
+    {
+      "id": 427894882758758400,
+      "itemValue": "test3",
+      "itemKey": "123",
+      "comment": "test3"
+    }
+  ]
+}
+
+### 保存
+POST {{protocol}}{{domain}}/lumen/dict/dictionary
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "groupId": "test4",
+  "groupName": "test4",
+  "comment": "test4",
+  "dictionaryItems": [
+    {
+      "itemValue": "test4",
+      "itemKey": "4",
+      "comment": "test4"
+    }
+  ]
+}
+
+### 通过id查询
+GET {{protocol}}{{domain}}/lumen/dict/dictionary?id=427893957394632704
+Authorization: Bearer {{token}}
+
+### 通过id删除
+DELETE {{protocol}}{{domain}}/lumen/dict/dictionary
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+
+### 列表批量删除
+DELETE {{protocol}}{{domain}}/lumen/dict/dictionaries
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+[
+  {
+    "id": 0
+  },
+  {
+    "id": 0
+  }
+
+]

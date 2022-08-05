@@ -1,0 +1,30 @@
+###
+POST {{protocol}}{{domain}}/lumen/test/test
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "id": "427821948161691648",
+  "groupName": "fake25",
+  "comment": "fake_data 25"
+}
+
+###
+POST {{protocol}}{{domain}}/lumen/test/tests
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+
+}
+
+
+###
+PUT {{protocol}}{{domain}}/lumen/test/test
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "id": "427821948161691648",
+  "groupName": "fake26"
+}

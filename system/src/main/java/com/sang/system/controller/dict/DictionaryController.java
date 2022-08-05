@@ -1,9 +1,9 @@
 package com.sang.system.controller.dict;
 
-import com.sang.common.response.PageResult;
-import com.sang.common.response.Result;
 import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.common.domain.dict.param.DataDictionaryQry;
+import com.sang.common.response.PageResult;
+import com.sang.common.response.Result;
 import com.sang.system.service.dict.DictionaryService;
 import org.springframework.web.bind.annotation.*;
 

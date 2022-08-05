@@ -1,6 +1,7 @@
 package com.sang.common.domain.dict.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.dict.entity.finder.DictionaryFinder;
 import io.ebean.annotation.DbComment;
@@ -14,21 +15,19 @@ import static javax.persistence.CascadeType.PERSIST;
 /**
  * 数据字典 组
  */
-@Setter
-@Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@MappedSuperclass
-@Entity
+@Setter @Getter @Builder @NoArgsConstructor @AllArgsConstructor @MappedSuperclass @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "dictionary")
 @DbComment("数据字典")
 public class Dictionary extends BaseModel {
 
     public static final DictionaryFinder finder = DictionaryFinder.builder().build();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "dictionary", cascade = PERSIST)
+    /**
+     * @JsonIgnore
+     */
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "dictionary", cascade = PERSIST, fetch = FetchType.LAZY)
     private List<DictionaryItem> dictionaryItems;
 
     /**

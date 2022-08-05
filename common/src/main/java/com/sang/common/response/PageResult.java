@@ -56,7 +56,7 @@ public class PageResult<T> {
         return new PageResult<>(ResultCodeEnum.SUCCESS.getMessage(),
                 ResultCodeEnum.SUCCESS.getCode(),
                 pagedList.getList(),
-                pagedList.getPageIndex()/pagedList.getPageSize() + 1, // todo 验证
+                pagedList.getPageIndex()/pagedList.getPageSize(),
                 pagedList.getPageSize(),
                 pagedList.getTotalPageCount(),
                 pagedList.getTotalCount()

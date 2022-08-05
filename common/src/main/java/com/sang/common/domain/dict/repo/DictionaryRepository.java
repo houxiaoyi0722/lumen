@@ -25,10 +25,7 @@ public class DictionaryRepository extends BeanRepository<Long, Dictionary> {
         QDictionary dataDictionary = QDictionary.alias();
 
         return new QDictionary()
-                .select(dataDictionary.groupId,
-                        dataDictionary.groupName,
-                        dataDictionary.comment)
-                .deleted.isFalse()
+                .select()
                 .setFirstRow(dataDictionaryQry.getStartPosition())
                 .setMaxRows(dataDictionaryQry.getEndPosition())
                 .orderBy().whenCreated.desc()
