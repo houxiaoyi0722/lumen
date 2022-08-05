@@ -1,9 +1,8 @@
-package com.sang.common.domain.auth.entity;
+package com.sang.common.domain.auth.authorization.token.entity;
 
 import com.sang.common.domain.base.entity.BaseModel;
-import com.sang.common.domain.role.entity.Role;
+import com.sang.common.domain.auth.authentication.role.entity.Role;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 

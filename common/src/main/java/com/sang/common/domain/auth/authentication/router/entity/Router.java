@@ -1,10 +1,10 @@
-package com.sang.common.domain.router.entity;
+package com.sang.common.domain.auth.authentication.router.entity;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
-import com.sang.common.domain.role.entity.Role;
-import com.sang.common.domain.router.dto.RouterDto;
+import com.sang.common.domain.auth.authentication.role.entity.Role;
+import com.sang.common.domain.auth.authentication.router.dto.RouterDto;
 import io.ebean.annotation.DbComment;
 import lombok.*;
 

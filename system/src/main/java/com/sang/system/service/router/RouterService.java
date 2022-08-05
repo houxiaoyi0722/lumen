@@ -1,7 +1,7 @@
 package com.sang.system.service.router;
 
-import com.sang.common.domain.router.dto.RouterDto;
-import com.sang.common.domain.router.entity.Router;
+import com.sang.common.domain.auth.authentication.router.dto.RouterDto;
+import com.sang.common.domain.auth.authentication.router.entity.Router;
 
 import java.util.List;
 

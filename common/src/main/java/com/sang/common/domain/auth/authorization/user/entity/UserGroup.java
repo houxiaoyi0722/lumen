@@ -1,11 +1,10 @@
-package com.sang.common.domain.user.entity;
+package com.sang.common.domain.auth.authorization.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
-import com.sang.common.domain.role.entity.Role;
+import com.sang.common.domain.auth.authentication.role.entity.Role;
 import io.ebean.annotation.DbComment;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;

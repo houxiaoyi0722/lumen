@@ -1,4 +1,4 @@
-package com.sang.common.domain.router.dto;
+package com.sang.common.domain.auth.authentication.router.dto;
 
 import lombok.*;
 

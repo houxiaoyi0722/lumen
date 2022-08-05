@@ -1,8 +1,8 @@
-package com.sang.common.domain.user.repo;
+package com.sang.common.domain.auth.authorization.user.repo;
 
-import com.sang.common.domain.user.entity.User;
-import com.sang.common.domain.user.entity.query.QUser;
-import com.sang.common.domain.user.param.UserQry;
+import com.sang.common.domain.auth.authorization.user.entity.User;
+import com.sang.common.domain.auth.authorization.user.entity.query.QUser;
+import com.sang.common.domain.auth.authorization.user.param.UserQry;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;

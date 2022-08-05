@@ -1,11 +1,11 @@
 /*
 package com.sang.system.service.user.impl;
 
-import com.sang.common.domain.role.entity.Role;
-import com.sang.common.domain.user.entity.User;
-import com.sang.common.domain.user.entity.UserGroup;
-import com.sang.common.domain.user.param.UserQry;
-import com.sang.common.domain.user.repo.UserRepository;
+import com.sang.common.domain.auth.authentication.role.entity.Role;
+import com.sang.common.domain.auth.authorization.user.entity.User;
+import com.sang.common.domain.auth.authorization.user.entity.UserGroup;
+import com.sang.common.domain.auth.authorization.user.param.UserQry;
+import com.sang.common.domain.auth.authorization.user.repo.UserRepository;
 import io.ebean.PagedList;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

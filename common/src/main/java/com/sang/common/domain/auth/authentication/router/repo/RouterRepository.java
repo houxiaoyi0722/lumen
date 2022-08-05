@@ -1,10 +1,9 @@
-package com.sang.common.domain.router.repo;
+package com.sang.common.domain.auth.authentication.router.repo;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.sang.common.domain.role.entity.query.QRole;
-import com.sang.common.domain.router.dto.RouterDto;
-import com.sang.common.domain.router.entity.Router;
-import com.sang.common.domain.router.entity.query.QRouter;
+import com.sang.common.domain.auth.authentication.router.dto.RouterDto;
+import com.sang.common.domain.auth.authentication.router.entity.Router;
+import com.sang.common.domain.auth.authentication.router.entity.query.QRouter;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import org.springframework.stereotype.Repository;

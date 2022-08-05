@@ -1,6 +1,6 @@
 package com.sang.system.controller.role;
 
-import com.sang.common.domain.role.entity.Role;
+import com.sang.common.domain.auth.authentication.role.entity.Role;
 import com.sang.common.response.Result;
 import com.sang.system.service.role.RoleService;
 import org.springframework.web.bind.annotation.*;

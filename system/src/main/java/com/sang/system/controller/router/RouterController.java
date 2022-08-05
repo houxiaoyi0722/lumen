@@ -1,16 +1,12 @@
 package com.sang.system.controller.router;
 
-import com.sang.common.domain.router.dto.RouterDto;
-import com.sang.common.domain.router.entity.Router;
+import com.sang.common.domain.auth.authentication.router.dto.RouterDto;
+import com.sang.common.domain.auth.authentication.router.entity.Router;
 import com.sang.common.response.Result;
 import com.sang.system.service.router.RouterService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.List;
 
 /**

@@ -1,8 +1,8 @@
 package com.sang.system.service.router.impl;
 
-import com.sang.common.domain.router.dto.RouterDto;
-import com.sang.common.domain.router.entity.Router;
-import com.sang.common.domain.router.repo.RouterRepository;
+import com.sang.common.domain.auth.authentication.router.dto.RouterDto;
+import com.sang.common.domain.auth.authentication.router.entity.Router;
+import com.sang.common.domain.auth.authentication.router.repo.RouterRepository;
 import com.sang.system.service.router.RouterService;
 import io.ebean.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;

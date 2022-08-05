@@ -1,4 +1,4 @@
-package com.sang.common.domain.auth.dto;
+package com.sang.common.domain.auth.authorization.token.dto;
 
 import lombok.Builder;
 import lombok.Data;

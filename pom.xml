@@ -35,6 +35,7 @@
         <enhancement.version>12.8.0</enhancement.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <querybean-generator.version>12.12.1</querybean-generator.version>
+        <ebean-persistence-api.version>2.2.5</ebean-persistence-api.version>
         <jsr305.version>3.0.2</jsr305.version>
         <ebean.migration>12.4.0</ebean.migration>
         <nimbus.jose.jwt>9.7</nimbus.jose.jwt>
@@ -48,6 +49,7 @@
         <jcraft.version>0.1.54</jcraft.version>
         <okhttp.version>4.9.1</okhttp.version>
         <micrometer-prometheus.version>1.9.0</micrometer-prometheus.version>
+        <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
     </properties>
     <modules>
         <module>common</module>
@@ -156,6 +158,11 @@
                 <version>${nimbus.jose.jwt}</version>
             </dependency>
             <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${org.mapstruct.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>cn.edu.hfut.dmic.webcollector</groupId>
                 <artifactId>WebCollector</artifactId>
                 <version>${webcollector.version}</version>
@@ -251,12 +258,17 @@
                             <path>
                                 <groupId>io.ebean</groupId>
                                 <artifactId>persistence-api</artifactId>
-                                <version>2.2.5</version>
+                                <version>${ebean-persistence-api.version}</version>
                             </path>
                             <path>
                                 <groupId>org.projectlombok</groupId>
                                 <artifactId>lombok</artifactId>
                                 <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${org.mapstruct.version}</version>
                             </path>
                             <!-- other annotation processors -->
                         </annotationProcessorPaths>

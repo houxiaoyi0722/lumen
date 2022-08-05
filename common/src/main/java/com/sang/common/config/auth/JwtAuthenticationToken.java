@@ -1,7 +1,6 @@
 package com.sang.common.config.auth;
 
-import com.nimbusds.jwt.JWT;
-import com.sang.common.domain.auth.dto.TokenDto;
+import com.sang.common.domain.auth.authorization.token.dto.TokenDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;

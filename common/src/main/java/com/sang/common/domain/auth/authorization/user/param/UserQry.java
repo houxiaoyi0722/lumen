@@ -1,4 +1,4 @@
-package com.sang.common.domain.user.param;
+package com.sang.common.domain.auth.authorization.user.param;
 
 import cn.hutool.db.Page;
 import lombok.AllArgsConstructor;

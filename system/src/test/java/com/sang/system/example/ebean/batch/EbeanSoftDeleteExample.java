@@ -1,8 +1,7 @@
 package com.sang.system.example.ebean.batch;
 
-import com.sang.common.domain.user.entity.User;
+import com.sang.common.domain.auth.authorization.user.entity.User;
 import io.ebean.DB;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author hxy

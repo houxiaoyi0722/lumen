@@ -1,7 +1,7 @@
-package com.sang.common.domain.role.repo;
+package com.sang.common.domain.auth.authentication.role.repo;
 
-import com.sang.common.domain.role.entity.Role;
-import com.sang.common.domain.role.entity.query.QRole;
+import com.sang.common.domain.auth.authentication.role.entity.Role;
+import com.sang.common.domain.auth.authentication.role.entity.query.QRole;
 import io.ebean.BeanRepository;
 import io.ebean.DB;
 import io.ebean.Database;

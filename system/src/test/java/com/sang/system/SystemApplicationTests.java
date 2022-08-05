@@ -2,12 +2,10 @@ package com.sang.system;
 
 import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.common.domain.dict.entity.DictionaryItem;
-import com.sang.common.domain.user.entity.User;
+import com.sang.common.domain.auth.authorization.user.entity.User;
 import io.ebean.DB;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.sang.common.domain.role.dto;
+package com.sang.common.domain.auth.authentication.role.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

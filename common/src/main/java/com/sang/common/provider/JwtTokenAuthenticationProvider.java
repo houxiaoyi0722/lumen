@@ -2,7 +2,7 @@ package com.sang.common.provider;
 
 import cn.hutool.core.util.StrUtil;
 import com.sang.common.config.auth.JwtAuthenticationToken;
-import com.sang.common.domain.auth.dto.TokenDto;
+import com.sang.common.domain.auth.authorization.token.dto.TokenDto;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +14,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.jwt.*;
 
-import javax.annotation.Resource;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
