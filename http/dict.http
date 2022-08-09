@@ -62,6 +62,13 @@ DELETE {{protocol}}{{domain}}/lumen/dict/dictionary
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
+{
+  "id": 427893957394632704,
+  "groupId": "test3",
+  "groupName": "test3",
+  "comment": "test3"
+}
+
 
 ### 列表批量删除
 DELETE {{protocol}}{{domain}}/lumen/dict/dictionaries
