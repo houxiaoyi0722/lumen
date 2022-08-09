@@ -16,4 +16,9 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ${model}Dto {
 
+    /**
+     * id
+    */
+    private Long id;
+
 }

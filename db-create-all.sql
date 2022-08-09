@@ -96,17 +96,14 @@ create table storage (
 
 create table test (
   id                            bigint not null,
-  group_name                    varchar(10) not null comment '组名称',
-  comment                       varchar(50) comment '备注',
   version                       bigint not null,
   when_created                  datetime(6) not null,
   created_by                    varchar(255) not null,
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint uq_test_group_name unique (group_name),
   constraint pk_test primary key (id)
-) comment='test';
+) comment='test测试模型';
 
 create table user (
   id                            bigint not null,

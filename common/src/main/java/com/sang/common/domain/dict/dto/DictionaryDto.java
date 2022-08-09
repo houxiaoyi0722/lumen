@@ -14,6 +14,10 @@ import lombok.Setter;
 public class DictionaryDto {
 
     /**
+     * id
+     */
+    private Long id;
+    /**
      * 组id
      */
     private String groupId;
