@@ -7,6 +7,8 @@ import io.ebean.PagedList;
 import java.util.List;
 
 /**
+ * ${domainComment}
+ * ${modelComment}
  * ${fileComment}
  * ${author} ${createDate?string("yyyy-MM-dd HH:mm:ss")}
  */

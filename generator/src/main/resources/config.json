@@ -3,7 +3,9 @@
     "domain": "test",
     "model": "Test",
     "author": "hxy",
-    "dbComment": "test"
+    "dbComment": "test测试模型",
+    "domainComment": "领域测试注释",
+    "modelComment": "实体测试注释"
   },
   "templates": [
     {
@@ -12,7 +14,7 @@
       "fileTypeName": "{model}.java",
       "output": "common/src/main/java/com/sang/common/domain/{domain}/entity/",
       "exDataModel": {
-        "fileComment": "entity"
+        "fileComment": "数据模型"
       }
     },
     {
@@ -30,16 +32,34 @@
       "fileTypeName": "{model}Repository.java",
       "output": "common/src/main/java/com/sang/common/domain/{domain}/repo/",
       "exDataModel": {
-        "fileComment": "11"
+        "fileComment": "Repository"
       }
     },
     {
-      "name": "Qry.ftl",
+      "name": "qry.ftl",
       "enable": true,
       "fileTypeName": "{model}Qry.java",
       "output": "common/src/main/java/com/sang/common/domain/{domain}/param/",
       "exDataModel": {
-        "fileComment": "11"
+        "fileComment": "查询参数对象"
+      }
+    },
+    {
+      "name": "dto.ftl",
+      "enable": true,
+      "fileTypeName": "{model}Dto.java",
+      "output": "common/src/main/java/com/sang/common/domain/{domain}/dto/",
+      "exDataModel": {
+        "fileComment": "数据传输对象"
+      }
+    },
+    {
+      "name": "mapper.ftl",
+      "enable": true,
+      "fileTypeName": "{model}Mapper.java",
+      "output": "common/src/main/java/com/sang/common/domain/{domain}/mapper/",
+      "exDataModel": {
+        "fileComment": "模型映射类"
       }
     },
     {
@@ -48,7 +68,7 @@
       "fileTypeName": "{model}Service.java",
       "output": "system/src/main/java/com/sang/system/service/{domain}/",
       "exDataModel": {
-        "fileComment": "11"
+        "fileComment": ""
       }
     },
     {
@@ -57,7 +77,7 @@
       "fileTypeName": "{model}ServiceImpl.java",
       "output": "system/src/main/java/com/sang/system/service/{domain}/impl/",
       "exDataModel": {
-        "fileComment": "11"
+        "fileComment": ""
       }
     },
     {
@@ -66,7 +86,7 @@
       "fileTypeName": "{model}Controller.java",
       "output": "system/src/main/java/com/sang/system/controller/{domain}/",
       "exDataModel": {
-        "fileComment": "11"
+        "fileComment": ""
       }
     }
   ]

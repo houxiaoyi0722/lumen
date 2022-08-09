@@ -5,6 +5,8 @@ import io.ebean.Finder;
 import lombok.Builder;
 
 /**
+ * ${domainComment}
+ * ${modelComment}
  * ${fileComment}
  * ${author} ${createDate?string("yyyy-MM-dd HH:mm:ss")}
  */

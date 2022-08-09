@@ -33,10 +33,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
-        <!-- 实现对数据库连接池的自动化配置 -->
+        <!-- 实现对quartz数据库连接池的自动化配置 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -199,20 +203,15 @@
                                 <artifactId>lombok</artifactId>
                                 <version>${lombok.version}</version>
                             </path>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${org.mapstruct.version}</version>
+                            </path>
                             <!-- other annotation processors -->
                         </annotationProcessorPaths>
                     </configuration>
                 </plugin>
-                <!--                此插件有助于查找模块的最新插件或依赖版本。打开终端并执行以下命令，查找必须更新的插件版本：
-                                mvn versions:display-plugin-updates-->
-                <!--                <plugin>
-                                    <groupId>org.codehaus.mojo</groupId>
-                                    <artifactId>versions-maven-plugin</artifactId>
-                                    <version>2.5</version>
-                                    <configuration>
-                                        <generateBackupPoms>false</generateBackupPoms>
-                                    </configuration>
-                                </plugin>-->
             </plugins>
         </pluginManagement>
     </build>

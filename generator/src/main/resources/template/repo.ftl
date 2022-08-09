@@ -9,6 +9,8 @@ import io.ebean.PagedList;
 import org.springframework.stereotype.Repository;
 
 /**
+ * ${domainComment}
+ * ${modelComment}
  * ${fileComment}
  * ${author} ${createDate?string("yyyy-MM-dd HH:mm:ss")}
  */

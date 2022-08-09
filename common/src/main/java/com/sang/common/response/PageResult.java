@@ -63,6 +63,17 @@ public class PageResult<T> {
         );
     }
 
+    public static <T,E> PageResult<E> ok(List<E> data, PagedList<T> pagedList) {
+        return new PageResult<>(ResultCodeEnum.SUCCESS.getMessage(),
+                ResultCodeEnum.SUCCESS.getCode(),
+                data,
+                pagedList.getPageIndex() / pagedList.getPageSize(),
+                pagedList.getPageSize(),
+                pagedList.getTotalPageCount(),
+                pagedList.getTotalCount()
+        );
+    }
+
     public static <T> PageResult<T> ok(List<T> data,Integer page,Integer pageSize,Integer total) {
         pageSize = Math.max(pageSize, 1);
         return new PageResult<T>(ResultCodeEnum.SUCCESS.getMessage(),

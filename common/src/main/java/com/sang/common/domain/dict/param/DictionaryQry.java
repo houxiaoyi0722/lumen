@@ -11,6 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class DataDictionaryQry extends Page {
+public class DictionaryQry extends Page {
 
 }

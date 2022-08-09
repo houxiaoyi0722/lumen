@@ -1,10 +1,13 @@
 package com.sang.system.controller.dict;
 
+import com.sang.common.domain.dict.dto.DictionaryDto;
 import com.sang.common.domain.dict.entity.Dictionary;
-import com.sang.common.domain.dict.param.DataDictionaryQry;
+import com.sang.common.domain.dict.mapper.DictionaryMapper;
+import com.sang.common.domain.dict.param.DictionaryQry;
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
 import com.sang.system.service.dict.DictionaryService;
+import io.ebean.PagedList;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -20,14 +23,17 @@ public class DictionaryController {
     @Resource
     private DictionaryService dictionaryService;
 
+    private DictionaryMapper mapper = DictionaryMapper.mapper;
+
     /**
      * 分页查询
      * @param dataDictionaryQry
      * @return
      */
     @PostMapping("/dictionaries")
-    public PageResult<Dictionary> list(@RequestBody DataDictionaryQry dataDictionaryQry) {
-        return PageResult.ok(dictionaryService.dictionaryList(dataDictionaryQry));
+    public PageResult<DictionaryDto> list(@RequestBody DictionaryQry dataDictionaryQry) {
+        PagedList<Dictionary> pagedList = dictionaryService.dictionaryList(dataDictionaryQry);
+        return PageResult.ok(mapper.dictionaryToDto(pagedList.getList()), pagedList);
     }
 
     /**

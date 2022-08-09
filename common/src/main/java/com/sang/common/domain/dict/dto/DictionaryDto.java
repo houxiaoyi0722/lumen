@@ -1,14 +1,32 @@
 package com.sang.common.domain.dict.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.sang.common.domain.dict.entity.Dictionary;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * dictDto
  */
 @Getter @Setter
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DictionaryDto extends Dictionary {
-    
+public class DictionaryDto {
+
+    /**
+     * 组id
+     */
+    private String groupId;
+
+    /**
+     * 组名称
+     */
+    private String groupName;
+
+    /**
+     * 备注
+     */
+    private String comment;
+
+
 }

@@ -13,6 +13,8 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
+ * ${domainComment}
+ * ${modelComment}
  * ${fileComment}
  * ${author} ${createDate?string("yyyy-MM-dd HH:mm:ss")}
  */

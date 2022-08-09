@@ -1,7 +1,7 @@
 package com.sang.system.service.dict.impl;
 
 import com.sang.common.domain.dict.entity.Dictionary;
-import com.sang.common.domain.dict.param.DataDictionaryQry;
+import com.sang.common.domain.dict.param.DictionaryQry;
 import com.sang.common.domain.dict.repo.DictionaryRepository;
 import com.sang.system.service.dict.DictionaryService;
 import io.ebean.PagedList;
@@ -24,7 +24,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     private DictionaryRepository dictionaryRepository;
 
     @Override
-    public PagedList<Dictionary> dictionaryList(DataDictionaryQry dataDictionaryQry) {
+    public PagedList<Dictionary> dictionaryList(DictionaryQry dataDictionaryQry) {
         return dictionaryRepository.getDictionaryList(dataDictionaryQry);
     }
 

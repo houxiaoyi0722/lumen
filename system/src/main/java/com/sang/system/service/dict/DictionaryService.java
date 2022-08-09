@@ -1,14 +1,14 @@
 package com.sang.system.service.dict;
 
 import com.sang.common.domain.dict.entity.Dictionary;
-import com.sang.common.domain.dict.param.DataDictionaryQry;
+import com.sang.common.domain.dict.param.DictionaryQry;
 import io.ebean.PagedList;
 
 import java.util.List;
 
 public interface DictionaryService {
 
-    PagedList<Dictionary> dictionaryList(DataDictionaryQry dataDictionaryQry);
+    PagedList<Dictionary> dictionaryList(DictionaryQry dictionaryQry);
 
     Dictionary findOne(Long id);
 
