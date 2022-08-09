@@ -2,10 +2,13 @@ package com.sang.system.controller.${domain?lower_case};
 
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
+import com.sang.common.domain.${domain?lower_case}.mapper.${model}Mapper;
 import com.sang.common.domain.${domain?lower_case}.entity.${model};
 import com.sang.common.domain.${domain?lower_case}.param.${model}Qry;
 import com.sang.system.service.${domain?lower_case}.${model}Service;
+import com.sang.common.domain.${domain?lower_case}.dto.${model}Dto;
 import org.springframework.web.bind.annotation.*;
+import io.ebean.PagedList;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -23,6 +26,8 @@ public class ${model}Controller {
     @Resource
     private ${model}Service ${model?lower_case}Service;
 
+    private ${model}Mapper mapper = ${model}Mapper.mapper;
+
     /**
      * 分页查询
      *
@@ -30,8 +35,10 @@ public class ${model}Controller {
      * @return
      */
     @PostMapping("/${model?lower_case}s")
-    public PageResult<${model}> list(@RequestBody ${model}Qry qry) {
-        return PageResult.ok(${model?lower_case}Service.${model?lower_case}List(qry));
+    public PageResult<${model}Dto> list(@RequestBody ${model}Qry qry) {
+        PagedList<${model}> pagedList = ${model?lower_case}Service.${model?lower_case}List(qry);
+        // 查询全部字段时可不转换直接给pagedList
+        return PageResult.ok(mapper.${model?lower_case}ToDto(pagedList.getList()), pagedList);
     }
 
     /**
@@ -77,7 +84,7 @@ public class ${model}Controller {
      */
     @DeleteMapping("/${model?lower_case}")
     public Result<Boolean> delete(@RequestBody ${model} ${model?lower_case}) {
-            ${model?lower_case}Service.delete(${model?lower_case});
+        ${model?lower_case}Service.delete(${model?lower_case});
         return Result.ok();
     }
 
