@@ -15,6 +15,10 @@ public interface DictionaryMapper {
 
     DictionaryMapper mapper = Mappers.getMapper( DictionaryMapper.class );
 
-    List<DictionaryDto> dictionaryToDto(List<Dictionary> list);
+    List<DictionaryDto> dictionaryToDtoList(List<Dictionary> list);
+
+    List<Dictionary> dtoToDictionaryList(List<DictionaryDto> list);
+
+    Dictionary dtoToDictionary(DictionaryDto dictionaryDto);
 
 }
