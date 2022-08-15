@@ -13,7 +13,11 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 public enum DictionaryEnum implements IntArrayValuable{
-    EMPTY(1,null,"","");
+    EMPTY(1,null,"",""),
+
+    GENDER(1,null,"性别",""),
+    MAN(0,1,"男",""),
+    WOMAN(1,1,"女","");
 
     private Integer code;
     private Integer parentCode;

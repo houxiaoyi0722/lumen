@@ -6,6 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,7 @@ public class InEnumValidator implements ConstraintValidator<InEnum, Integer> {
         if (values.length == 0) {
             this.values = Collections.emptySet();
         } else {
-            this.values = Arrays.stream(values[0].array(parentCode)).boxed().collect(Collectors.toSet());
+            this.values = new HashSet<>(values[0].array(parentCode));
         }
     }
 

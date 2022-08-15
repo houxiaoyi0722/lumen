@@ -1,8 +1,10 @@
 package com.sang.common.domain.dict.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sang.common.constants.DictionaryEnum;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
+import com.sang.common.validate.InEnum;
 import com.sang.common.validate.Update;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,6 +36,7 @@ public class DictionaryDto {
     /**
      * 组名称
      */
+    @InEnum(value = DictionaryEnum.class, parentCode = "")
     @NotNull(message = "组名称不能为空",groups = {Create.class})
     @Length(max = 10,message = "组名称长度不能大于10",groups = {Update.class,Create.class})
     private String groupName;
