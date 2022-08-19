@@ -3,6 +3,7 @@ package com.sang.system.aspect;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -10,8 +11,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -21,37 +22,37 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Component
 @Aspect
 public class RequestLogAspect {
-    private final static Logger LOGGER = LoggerFactory.getLogger(RequestLogAspect.class);
     // 非public的方法不记录日志
-    @Pointcut("execution(public * com.sang.*.controller.*.*(..))")
+    @Pointcut("execution(* com.sang.*.controller.*.*(..))")
     public void requestServer() {
     }
-
+    // todo 切面未生效？
     @Around("requestServer()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        String deviceId = request.getHeader("deviceId");
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         //从Header中获取用户信息
 //        JinsJwtInfo jwtInfo = LoginUserUtil.getCurrentUser();
 
         Object result = proceedingJoinPoint.proceed();
         RequestInfo requestInfo = new RequestInfo();
-//        requestInfo.setIp(request.getRemoteAddr());
 //        requestInfo.setUserName(jwtInfo.getUserName());
         requestInfo.setUrl(request.getRequestURL().toString());
         requestInfo.setHttpMethod(request.getMethod());
-        requestInfo.setDeviceId(deviceId);
         requestInfo.setClassMethod(String.format("%s.%s", proceedingJoinPoint.getSignature().getDeclaringTypeName(),
                 proceedingJoinPoint.getSignature().getName()));
         requestInfo.setRequestParams(getRequestParamsByProceedingJoinPoint(proceedingJoinPoint));
-//        requestInfo.setResult(result);
+        requestInfo.setResult(result);
         requestInfo.setTimeCost(System.currentTimeMillis() - start);
-        LOGGER.info("Request Info      : {}", JSONUtil.toJsonStr(requestInfo));
+        log.info("Request Info      : {}", JSONUtil.toJsonStr(requestInfo));
         return result;
     }
 
@@ -64,7 +65,7 @@ public class RequestLogAspect {
 //        JinsJwtInfo jwtInfo = LoginUserUtil.getCurrentUser();
 
         RequestErrorInfo requestErrorInfo = new RequestErrorInfo();
-        // requestErrorInfo.setIp(request.getRemoteAddr());
+         requestErrorInfo.setIp(request.getRemoteAddr());
 //        requestErrorInfo.setUserName(jinsJwtInfo.getUserName());
         requestErrorInfo.setUrl(request.getRequestURL().toString());
         requestErrorInfo.setHttpMethod(request.getMethod());
@@ -72,7 +73,7 @@ public class RequestLogAspect {
                 joinPoint.getSignature().getName()));
         requestErrorInfo.setRequestParams(getRequestParamsByJoinPoint(joinPoint));
         requestErrorInfo.setException(ExceptionUtil.stacktraceToOneLineString(e));
-        LOGGER.error("Error Request Info      : {}", JSONUtil.toJsonStr(requestErrorInfo));
+        log.error("Error Request Info      : {}", JSONUtil.toJsonStr(requestErrorInfo));
     }
 
     /**
@@ -126,7 +127,6 @@ public class RequestLogAspect {
         private Object requestParams;
         private Object result;
         private Long timeCost;
-        private String deviceId;
     }
 
     @Data
