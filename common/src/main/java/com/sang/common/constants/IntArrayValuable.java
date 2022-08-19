@@ -10,6 +10,6 @@ public interface IntArrayValuable {
     /**
      * @return int 数组
      */
-    List<Integer> array(String parentCode);
+    List<String> array(String parentCode);
 
 }

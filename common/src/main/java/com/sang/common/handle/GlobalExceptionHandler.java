@@ -1,25 +1,22 @@
 package com.sang.common.handle;
 
-import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.json.JSONUtil;
+import com.sang.common.constants.ResultCodeEnum;
+import com.sang.common.constants.StringConst;
 import com.sang.common.exception.BaseException;
 import com.sang.common.exception.BusinessException;
 import com.sang.common.response.Result;
-import lombok.Data;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.stream.Collectors;
 
 /**
  * 全局异常处理
@@ -28,25 +25,37 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice(annotations = RestController.class)
 @Slf4j
 public class GlobalExceptionHandler {
+
+    private ObjectError item;
+
     /**
-     * BusinessException 异常发生时，打印日志信息, 请求状态200
+     * BusinessException 异常发生时，打印日志信息
      * @param e 异常
-     * @param request 请求信息
      */
     @ExceptionHandler(BusinessException.class)
     @ResponseBody
-    public ResponseEntity<Result> handlerBusinessException(BusinessException e, HttpServletRequest request) {
+    public ResponseEntity<Result> handlerBusinessException(BusinessException e) {
         return new ResponseEntity<>(Result.error(e.getMessage(), e.getCode()), HttpStatus.OK);
+    }
+
+    /**
+     * BusinessException 异常发生时，打印日志信息
+     * @param e 异常
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseBody
+    public ResponseEntity<Result> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        String message = e.getBindingResult().getFieldErrors().stream().map(item -> item.getField() + " : " + item.getDefaultMessage()).collect(Collectors.joining(StringConst.COMMA));
+        return new ResponseEntity<>(Result.error(message, ResultCodeEnum.METHOD_ARGUMENT_NOT_VALID.getCode()), HttpStatus.OK);
     }
 
     /**
      * BaseException 异常发生时，打印日志信息
      * @param e 异常
-     * @param request 请求信息
      */
     @ExceptionHandler(BaseException.class)
     @ResponseBody
-    public ResponseEntity<Result> handlerBusinessException(BaseException e, HttpServletRequest request) {
+    public ResponseEntity<Result> handlerBusinessException(BaseException e) {
         return new ResponseEntity<>(Result.error(e.getMessage(), e.getCode()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

@@ -1,14 +1,10 @@
 package com.sang.common.domain.dict.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.sang.common.constants.DictionaryEnum;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
-import com.sang.common.validate.InEnum;
 import com.sang.common.validate.Update;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
@@ -18,6 +14,8 @@ import javax.validation.constraints.NotNull;
  */
 @Getter @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DictionaryDto {
 
@@ -36,7 +34,7 @@ public class DictionaryDto {
     /**
      * 组名称
      */
-    @InEnum(value = DictionaryEnum.class, parentCode = "")
+//    @InEnum(value = DictionaryEnum.class, parentCode = "1", groups = {Create.class,Update.class})
     @NotNull(message = "组名称不能为空",groups = {Create.class})
     @Length(max = 10,message = "组名称长度不能大于10",groups = {Update.class,Create.class})
     private String groupName;

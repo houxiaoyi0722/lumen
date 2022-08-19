@@ -30,7 +30,7 @@ public @interface InEnum {
     /**
      * @return 提示内容
      */
-    String message() default "必须在指定范围 {value}";
+    String message() default "必须在指定范围 {}";
 
     /**
      * @return 分组
