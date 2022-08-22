@@ -3,7 +3,7 @@ package com.sang.system.aspect;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -11,7 +11,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -22,29 +21,25 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-@Slf4j
+@Log4j2
 @Component
 @Aspect
 public class RequestLogAspect {
-    // 非public的方法不记录日志
-    @Pointcut("execution(* com.sang.*.controller.*.*(..))")
+    // 非public的方法不记录日志 com.sang.system.controller
+    @Pointcut("execution(public * com.sang.*.controller.*.*.*(..))")
     public void requestServer() {
     }
-    // todo 切面未生效？
+    
     @Around("requestServer()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         //从Header中获取用户信息
-//        JinsJwtInfo jwtInfo = LoginUserUtil.getCurrentUser();
-
         Object result = proceedingJoinPoint.proceed();
         RequestInfo requestInfo = new RequestInfo();
-//        requestInfo.setUserName(jwtInfo.getUserName());
+        requestInfo.setUserName(SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "");
         requestInfo.setUrl(request.getRequestURL().toString());
         requestInfo.setHttpMethod(request.getMethod());
         requestInfo.setClassMethod(String.format("%s.%s", proceedingJoinPoint.getSignature().getDeclaringTypeName(),
@@ -61,12 +56,10 @@ public class RequestLogAspect {
     public void doAfterThrow(JoinPoint joinPoint, RuntimeException e) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        //从Header中获取用户信息
-//        JinsJwtInfo jwtInfo = LoginUserUtil.getCurrentUser();
 
         RequestErrorInfo requestErrorInfo = new RequestErrorInfo();
-         requestErrorInfo.setIp(request.getRemoteAddr());
-//        requestErrorInfo.setUserName(jinsJwtInfo.getUserName());
+        requestErrorInfo.setIp(request.getRemoteAddr());
+        requestErrorInfo.setUserName(SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "");
         requestErrorInfo.setUrl(request.getRequestURL().toString());
         requestErrorInfo.setHttpMethod(request.getMethod());
         requestErrorInfo.setClassMethod(String.format("%s.%s", joinPoint.getSignature().getDeclaringTypeName(),
