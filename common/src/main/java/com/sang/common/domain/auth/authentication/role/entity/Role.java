@@ -24,7 +24,6 @@ import static javax.persistence.CascadeType.PERSIST;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Builder
 @Table(name = "role")
 @DbComment("角色表")
 public class Role extends BaseModel {

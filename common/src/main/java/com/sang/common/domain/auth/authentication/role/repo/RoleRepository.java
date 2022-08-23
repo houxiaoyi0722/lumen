@@ -19,7 +19,10 @@ public class RoleRepository extends BeanRepository<Long, Role> {
     public RoleRepository(Database server) {super(Role.class, server);}
 
     public List<Role> findTopRoles() {
-        return new QRole().parentId.isEmpty().orderBy().id.asc().findList();
+        return new QRole()
+                .parentId.isNull()
+                .orderBy().whenCreated.asc()
+                .findList();
     }
 
     public List<Role> rolesByParentId(Long parentId) {

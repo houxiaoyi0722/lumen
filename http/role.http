@@ -1,0 +1,70 @@
+### 保存对象
+POST http://localhost:8080/lumen/role/role
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "roleName": "admin2",
+  "roleCode": "admin1",
+  "comment": "超级管理员1",
+  "parentId": {"id" : 435165139135348736}
+}
+
+### 按照id更新
+PUT http://localhost:8080/lumen/role/role
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 435171606257188864,
+  "roleName": "超级管理员超级管理员超级管理员超级管理员",
+  "roleCode": "admin1",
+  "comment": "超级管理员1",
+  "parentId": {
+    "id" : 435165139135348736
+  }
+
+}
+
+
+### 批量保存
+POST http://localhost:8080/lumen/role/roles
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+[
+  {
+  "roleName": "admin3",
+  "roleCode": "admin3",
+  "comment": "超级管理员3",
+  "parentId": {"id" : 435165139135348736}
+},
+  {
+    "roleName": "admin4",
+    "roleCode": "admin4",
+    "comment": "超级管理员4",
+    "parentId": {"id" : 435165139135348736}
+  }
+]
+
+### 按id删除
+DELETE http://localhost:8080/lumen/role/role
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{"id" : 435181148802105344}
+
+### 批量删除
+DELETE http://localhost:8080/lumen/role/roles
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+[{"id" : 435181148793716736},{"id" : 435181148802105344}]
+
+### 查询顶级角色
+GET http://localhost:8080/lumen/role/topRoles
+Authorization: Bearer {{token}}
+
+### 根据父角色id获取子角色列表，为null获取顶级角色
+GET http://localhost:8080/lumen/role/childRoles?parentId=435165139135348736
+Authorization: Bearer {{token}}

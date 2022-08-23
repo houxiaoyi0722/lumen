@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -48,7 +49,7 @@ public class DictionaryController {
      * @return
      */
     @GetMapping("/dictionary")
-    public Result<Dictionary> findOne(@RequestParam("id") @Min(value = 1L,message = "编号必须大于1") Long id) {
+    public Result<Dictionary> findOne(@RequestParam("id") @NotNull(message = "id不能为空") @Min(value = 1L,message = "编号必须大于1") Long id) {
         return Result.ok(dictionaryService.findOne(id));
     }
 

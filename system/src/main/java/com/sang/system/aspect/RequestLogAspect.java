@@ -1,7 +1,8 @@
 package com.sang.system.aspect;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
@@ -17,6 +18,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +27,10 @@ import java.util.Map;
 @Component
 @Aspect
 public class RequestLogAspect {
+
+    @Resource
+    private ObjectMapper objectMapper;
+
     // 非public的方法不记录日志 com.sang.system.controller
     @Pointcut("execution(public * com.sang.*.controller.*.*.*(..))")
     public void requestServer() {
@@ -47,13 +53,13 @@ public class RequestLogAspect {
         requestInfo.setRequestParams(getRequestParamsByProceedingJoinPoint(proceedingJoinPoint));
         requestInfo.setResult(result);
         requestInfo.setTimeCost(System.currentTimeMillis() - start);
-        log.info("Request Info      : {}", JSONUtil.toJsonStr(requestInfo));
+        log.info("Request Info      : {}", objectMapper.writeValueAsString(requestInfo));
         return result;
     }
 
 
     @AfterThrowing(pointcut = "requestServer()", throwing = "e")
-    public void doAfterThrow(JoinPoint joinPoint, RuntimeException e) {
+    public void doAfterThrow(JoinPoint joinPoint, RuntimeException e) throws JsonProcessingException {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
@@ -66,7 +72,7 @@ public class RequestLogAspect {
                 joinPoint.getSignature().getName()));
         requestErrorInfo.setRequestParams(getRequestParamsByJoinPoint(joinPoint));
         requestErrorInfo.setException(ExceptionUtil.stacktraceToOneLineString(e));
-        log.error("Error Request Info      : {}", JSONUtil.toJsonStr(requestErrorInfo));
+        log.error("Error Request Info      : {}", objectMapper.writeValueAsString(requestErrorInfo));
     }
 
     /**

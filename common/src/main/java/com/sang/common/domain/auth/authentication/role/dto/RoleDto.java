@@ -1,9 +1,15 @@
 package com.sang.common.domain.auth.authentication.role.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sang.common.domain.auth.authentication.role.entity.Role;
+import com.sang.common.validate.Create;
+import com.sang.common.validate.Delete;
+import com.sang.common.validate.Update;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
-import java.util.List;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author hxy
@@ -14,22 +20,34 @@ import java.util.List;
 public class RoleDto {
 
     /**
+     * id 主键
+     */
+    @NotNull(message = "id不能为空",groups = {Delete.class})
+    private Long id;
+
+    /**
      * 角色名称
      */
+    @NotBlank(message = "角色名称不能为空",groups = {Create.class})
+    @Length(max = 20,message = "角色名称长度在1-20之间",groups = {Create.class, Update.class})
     private String roleName;
 
     /**
      * 角色代码
      */
+    @NotBlank(message = "角色代码不能为空",groups = {Create.class})
+    @Length(max = 20,message = "角色代码长度在1-20之间",groups = {Create.class, Update.class})
     private String roleCode;
 
     /**
      * 备注
      */
+    @Length(max = 200,message = "备注长度不能超过200",groups = {Create.class, Update.class})
     private String comment;
 
     /**
-     * 子列表
+     * @JsonIgnore
+     * parentId
      */
-    private List<RoleDto> childList;
+    private RoleDto parentId;
 }
