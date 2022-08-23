@@ -1,7 +1,6 @@
 package com.sang.common.filter;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sang.common.constants.StringConst;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,11 +11,13 @@ import org.springframework.util.Assert;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -28,6 +29,10 @@ public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthentica
     public JsonUsernamePasswordAuthenticationFilter(String pattern, String httpMethod) {
         super(new AntPathRequestMatcher(pattern, httpMethod));
     }
+
+
+    @Resource
+    private ObjectMapper objectMapper;
 
     public static final String SPRING_SECURITY_FORM_USERNAME_KEY = "username";
 
@@ -50,9 +55,9 @@ public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthentica
         String username = null;
         String password = null;
         if (StringUtils.hasText(body)) {
-            JSONObject jsonObject = JSONUtil.parseObj(body);
-            username = jsonObject.getStr(usernameParameter);
-            password = jsonObject.getStr(passwordParameter);
+            Map map = objectMapper.readValue(body, Map.class);
+            username = map.get(usernameParameter).toString();
+            password = map.get(passwordParameter).toString();
         }
         username = Optional.ofNullable(username).orElse(StringConst.EMPTY).trim();
         password = Optional.ofNullable(password).orElse(StringConst.EMPTY);

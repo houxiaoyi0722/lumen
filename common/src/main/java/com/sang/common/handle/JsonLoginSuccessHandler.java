@@ -2,7 +2,7 @@ package com.sang.common.handle;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sang.common.domain.auth.authorization.token.dto.TokenDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -40,6 +40,9 @@ public class JsonLoginSuccessHandler implements AuthenticationSuccessHandler {
     public long REFRESH_EXPIRY;
 
     @Resource
+    private ObjectMapper objectMapper;
+
+    @Resource
     private JwtEncoder encoder;
 
     @Override
@@ -53,7 +56,7 @@ public class JsonLoginSuccessHandler implements AuthenticationSuccessHandler {
         String id = UUID.randomUUID().toString().replaceAll("-", "");
 
         response.setHeader("Content-Type", "application/json;charset=UTF-8");
-        response.getWriter().write(JSONUtil.toJsonStr(getToken(authentication, now, scope, id)));
+        response.getWriter().write(objectMapper.writeValueAsString(getToken(authentication, now, scope, id)));
     }
 
     private TokenDto getToken(Authentication authentication, Instant now, String scope, String id) {

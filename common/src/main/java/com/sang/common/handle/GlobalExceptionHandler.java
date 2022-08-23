@@ -56,6 +56,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BaseException.class)
     @ResponseBody
     public ResponseEntity<Result> handlerBusinessException(BaseException e) {
+        log.error("",e);
         return new ResponseEntity<>(Result.error(e.getMessage(), e.getCode()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -67,6 +68,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResponseEntity<Result> handlerAllException(Exception e, HttpServletRequest request) {
+        log.error("",e);
         HttpStatus errorStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         return new ResponseEntity<>(Result.error(e.getMessage(), errorStatus.value()), errorStatus);
     }
