@@ -2,15 +2,18 @@ package com.sang.system.controller.job;
 
 import com.sang.common.domain.job.JobVo;
 import com.sang.common.domain.job.TriggerVo;
-import com.sang.common.exception.BusinessException;
 import com.sang.common.job.QuartzManager;
 import com.sang.common.response.Result;
-import org.quartz.Job;
+import com.sang.common.validate.Create;
+import com.sang.common.validate.Delete;
+import com.sang.common.validate.Update;
+import com.sang.common.validate.job.TriggerSave;
+import com.sang.common.validate.job.TriggerDelete;
 import org.quartz.SchedulerException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -18,6 +21,7 @@ import java.util.List;
  * @author hxy
  * @date 2021/12/31 17:57
  **/
+@Validated
 @RestController
 @RequestMapping("/lumen/task")
 public class JobController {
@@ -31,7 +35,7 @@ public class JobController {
      * @return
      */
     @PutMapping("/job")
-    public Result saveJob(@RequestBody JobVo jobVo) throws BusinessException, SchedulerException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public Result saveJob(@RequestBody @Validated({Create.class, Update.class}) JobVo jobVo) {
         quartzManager.saveJob(jobVo);
         return Result.ok();
     }
@@ -43,7 +47,7 @@ public class JobController {
      * @throws SchedulerException
      */
     @DeleteMapping("/job")
-    public Result deleteJob(@RequestBody JobVo jobVo) throws SchedulerException {
+    public Result deleteJob(@RequestBody @Validated(Delete.class) JobVo jobVo) throws SchedulerException {
         quartzManager.deleteJob(jobVo);
         return Result.ok();
     }
@@ -55,7 +59,7 @@ public class JobController {
      * @throws SchedulerException
      */
     @PostMapping("/triggers")
-    public Result addTriggersForJob(@RequestBody JobVo jobVo) throws SchedulerException {
+    public Result addTriggersForJob(@RequestBody @Validated(TriggerSave.class) JobVo jobVo) throws SchedulerException {
         quartzManager.addTriggersForJob(jobVo);
         return Result.ok();
     }
@@ -67,7 +71,7 @@ public class JobController {
      * @throws SchedulerException
      */
     @DeleteMapping("/triggers")
-    public Result unScheduleJob(@RequestBody List<TriggerVo> triggerVos) throws SchedulerException {
+    public Result unScheduleJob(@RequestBody @Validated(TriggerDelete.class) List<TriggerVo> triggerVos) throws SchedulerException {
         quartzManager.unScheduleJob(triggerVos);
         return Result.ok();
     }
@@ -79,7 +83,7 @@ public class JobController {
      * @throws SchedulerException
      */
     @PutMapping("/triggers")
-    public Result reScheduleJob(@RequestBody JobVo jobVo) throws SchedulerException {
+    public Result reScheduleJob(@RequestBody @Validated(TriggerSave.class) JobVo jobVo) throws SchedulerException {
         quartzManager.reScheduleJob(jobVo);
         return Result.ok();
     }
@@ -164,7 +168,7 @@ public class JobController {
      * @throws SchedulerException
      */
     @PutMapping("/job/listener")
-    public Result addListenerForJob(@RequestBody JobVo jobVo) throws SchedulerException {
+    public Result addListenerForJob(@RequestBody @Validated JobVo jobVo) {
         quartzManager.addListenerForJob(jobVo);
         return Result.ok();
     }

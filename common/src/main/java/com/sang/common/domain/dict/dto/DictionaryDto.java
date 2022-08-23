@@ -7,6 +7,7 @@ import com.sang.common.validate.Update;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -27,7 +28,7 @@ public class DictionaryDto {
     /**
      * 组id
      */
-    @NotNull(message = "组编号不能为空",groups = {Create.class})
+    @NotBlank(message = "组编号不能为空",groups = {Create.class})
     @Length(max = 10,message = "组编号长度不能大于10",groups = {Update.class,Create.class})
     private String groupId;
 
@@ -35,7 +36,7 @@ public class DictionaryDto {
      * 组名称
      */
 //    @InEnum(value = DictionaryEnum.class, parentCode = "1", groups = {Create.class,Update.class})
-    @NotNull(message = "组名称不能为空",groups = {Create.class})
+    @NotBlank(message = "组名称不能为空",groups = {Create.class})
     @Length(max = 10,message = "组名称长度不能大于10",groups = {Update.class,Create.class})
     private String groupName;
 
