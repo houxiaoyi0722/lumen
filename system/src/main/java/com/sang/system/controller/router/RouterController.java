@@ -31,31 +31,55 @@ public class RouterController {
         return Result.ok(routerService.routerTree());
     }
 
-
+    /**
+     * 保存
+     * @param router
+     * @return
+     */
     @PostMapping("/router")
     public Result<Boolean> save(@RequestBody Router router) {
         routerService.save(router);
         return Result.ok();
     }
 
+    /**
+     * 通过id更新
+     * @param router
+     * @return
+     */
     @PutMapping("/router")
     public Result<Boolean> update(@RequestBody Router router) {
         routerService.update(router);
         return Result.ok();
     }
 
+    /**
+     * 批量保存
+     * @param routers
+     * @return
+     */
     @PostMapping("/routers")
     public Result<Boolean> saveAll(@RequestBody List<Router> routers) {
         routerService.saveAll(routers);
         return Result.ok();
     }
 
+    /**
+     * 通过id删除
+     * @param router
+     * @return
+     */
     @DeleteMapping("/router")
     public Result<Boolean> delete(@RequestBody Router router) {
         routerService.delete(router);
         return Result.ok();
     }
 
+    /**
+     * 批量删除
+     * @param routers
+     * @return
+     */
     @DeleteMapping("/routers")
     public Result<Boolean> deleteAll(@RequestBody List<Router> routers) {
         routerService.deleteAll(routers);

@@ -1,0 +1,29 @@
+### 根据当前用户返回路由列表
+GET http://localhost:8080/lumen/router/routerTree
+Authorization: Bearer {{token}}
+
+### 保存
+POST http://localhost:8080/lumen/router/router
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### 通过id更新
+PUT http://localhost:8080/lumen/router/router
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### 批量保存
+POST http://localhost:8080/lumen/router/routers
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### 通过id删除
+DELETE http://localhost:8080/lumen/router/router
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### 批量删除
+DELETE http://localhost:8080/lumen/router/routers
+Content-Type: application/json
+Authorization: Bearer {{token}}
