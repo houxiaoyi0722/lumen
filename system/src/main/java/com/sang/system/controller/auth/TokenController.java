@@ -37,6 +37,12 @@ public class TokenController {
 	@Resource
 	private JwtEncoder encoder;
 
+	/**
+	 * 已废弃
+	 * @param authentication
+	 * @return
+	 */
+	@Deprecated
 	@PostMapping("/login")
 	public TokenDto token(Authentication authentication) {
 		Instant now = Instant.now();
