@@ -5,8 +5,7 @@ import com.sang.common.handle.HttpStatusLoginFailureHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 public class JwtTokenLoginConfigurer<T extends JwtTokenLoginConfigurer<T, B>, B extends HttpSecurityBuilder<B>> extends AbstractHttpConfigurer<T, B> {
@@ -31,9 +30,9 @@ public class JwtTokenLoginConfigurer<T extends JwtTokenLoginConfigurer<T, B>, B 
 		return this;
 	}
 
-//	public JwtTokenLoginConfigurer<T, B> tokenValidSuccessHandler(AuthenticationSuccessHandler successHandler){
-//		authFilter.setAuthenticationSuccessHandler(successHandler);
-//		return this;
-//	}
+	public JwtTokenLoginConfigurer<T, B> tokenValidSuccessHandler(AuthenticationSuccessHandler successHandler){
+		authFilter.setAuthenticationSuccessHandler(successHandler);
+		return this;
+	}
 
 }

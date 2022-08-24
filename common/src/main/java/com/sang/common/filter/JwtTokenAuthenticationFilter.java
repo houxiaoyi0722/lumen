@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.BadJwtException;
+import org.springframework.security.oauth2.jwt.JwtValidationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -24,7 +25,6 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,10 +43,6 @@ import static com.sang.common.constants.AuthConst.TOKEN_HEADER;
 @Getter
 @Setter
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
-
-
-    @Resource
-    private ObjectMapper objectMapper;
 
     private RequestMatcher requiresAuthenticationRequestMatcher;
     private List<RequestMatcher> permissiveRequestMatchers;
@@ -86,6 +82,8 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         try {
             JwtAuthenticationToken jwtAuthenticationToken = getAuthentication(request, response);
             authentication = this.getAuthenticationManager().authenticate(jwtAuthenticationToken);
+        } catch (JwtValidationException e) {
+            failed = new InsufficientAuthenticationException(e.getMessage(), e);
         } catch (BadJwtException e) {
             logger.error(e.getMessage(), e);
             failed = new InsufficientAuthenticationException(e.getMessage(), e);
@@ -120,7 +118,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                 // 去除 tokenHeader
                 jwtStr = jwtStr.replace(TOKEN_HEADER, StringConst.EMPTY);
                 if (StrUtil.isNotEmpty(jwtStr)) {
-                    TokenDto tokenDto = objectMapper.readValue(jwtStr, TokenDto.class);
+                    TokenDto tokenDto = new ObjectMapper().readValue(jwtStr, TokenDto.class);
                     return new JwtAuthenticationToken(tokenDto);
                 } else {
                     throw new InsufficientAuthenticationException("JWT is Empty");

@@ -30,10 +30,6 @@ public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthentica
         super(new AntPathRequestMatcher(pattern, httpMethod));
     }
 
-
-    @Resource
-    private ObjectMapper objectMapper;
-
     public static final String SPRING_SECURITY_FORM_USERNAME_KEY = "username";
 
     public static final String SPRING_SECURITY_FORM_PASSWORD_KEY = "password";
@@ -55,7 +51,7 @@ public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthentica
         String username = null;
         String password = null;
         if (StringUtils.hasText(body)) {
-            Map map = objectMapper.readValue(body, Map.class);
+            Map map = new ObjectMapper().readValue(body, Map.class);
             username = map.get(usernameParameter).toString();
             password = map.get(passwordParameter).toString();
         }
