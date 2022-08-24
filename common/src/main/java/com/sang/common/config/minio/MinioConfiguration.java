@@ -13,7 +13,6 @@ import org.springframework.util.ResourceUtils;
 
 import javax.annotation.Resource;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 @CommonsLog
 @AllArgsConstructor
@@ -29,11 +28,6 @@ public class MinioConfiguration {
     @Resource
     private ObjectMapper objectMapper;
 
-    private String url;
-    private String accessKey;
-    private String secretKey;
-    private String api;
-    private String path;
 
     @SneakyThrows
     @Bean
@@ -41,11 +35,11 @@ public class MinioConfiguration {
 //         使用MinIO服务的URL，端口，Access key和Secret key创建一个MinioClient对象
         FastByteArrayOutputStream read = null;
         FileInputStream fileInputStream = null;
-        MinioConfiguration minioConfig;
+        MinioConfig minioConfig;
         try {
             fileInputStream = new FileInputStream(ResourceUtils.getFile(credentials));
             read = IoUtil.read(fileInputStream);
-            minioConfig = objectMapper.readValue(read.toString(), MinioConfiguration.class);
+            minioConfig = objectMapper.readValue(read.toString(), MinioConfig.class);
         } finally {
             IoUtil.close(fileInputStream);
             IoUtil.close(read);
