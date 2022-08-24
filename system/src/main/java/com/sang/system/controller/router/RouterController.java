@@ -1,9 +1,14 @@
 package com.sang.system.controller.router;
 
-import com.sang.common.domain.auth.authentication.router.dto.RouterDto;
-import com.sang.common.domain.auth.authentication.router.entity.Router;
+import com.sang.common.domain.router.dto.RouterDto;
+import com.sang.common.domain.router.mapper.RouterMapper;
+import com.sang.common.domain.router.vo.RouterVo;
 import com.sang.common.response.Result;
+import com.sang.common.validate.Create;
+import com.sang.common.validate.Delete;
+import com.sang.common.validate.Update;
 import com.sang.system.service.router.RouterService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -14,9 +19,12 @@ import java.util.List;
  * @author hxy
  * @date 2022/1/25 16:01
  **/
+@Validated
 @RequestMapping("/lumen/router")
 @RestController
 public class RouterController {
+
+    private final RouterMapper routerMapper = RouterMapper.mapper;
 
     @Resource
     private RouterService routerService;
@@ -27,19 +35,8 @@ public class RouterController {
      * @return
      */
     @GetMapping("/routerTree")
-    public Result<List<RouterDto>> routerTree() {
+    public Result<List<RouterVo>> routerTree() {
         return Result.ok(routerService.routerTree());
-    }
-
-    /**
-     * 保存
-     * @param router
-     * @return
-     */
-    @PostMapping("/router")
-    public Result<Boolean> save(@RequestBody Router router) {
-        routerService.save(router);
-        return Result.ok();
     }
 
     /**
@@ -48,8 +45,19 @@ public class RouterController {
      * @return
      */
     @PutMapping("/router")
-    public Result<Boolean> update(@RequestBody Router router) {
-        routerService.update(router);
+    public Result<Boolean> update(@RequestBody @Validated(Update.class) RouterDto router) {
+        routerService.update(routerMapper.dtoToRouter(router));
+        return Result.ok();
+    }
+
+    /**
+     * 保存
+     * @param router
+     * @return
+     */
+    @PostMapping("/router")
+    public Result<Boolean> save(@RequestBody @Validated(Create.class) RouterDto router) {
+        routerService.save(routerMapper.dtoToRouter(router));
         return Result.ok();
     }
 
@@ -59,8 +67,8 @@ public class RouterController {
      * @return
      */
     @PostMapping("/routers")
-    public Result<Boolean> saveAll(@RequestBody List<Router> routers) {
-        routerService.saveAll(routers);
+    public Result<Boolean> saveAll(@RequestBody @Validated(Create.class) List<RouterDto> routers) {
+        routerService.saveAll(routerMapper.dtoToRouterList(routers));
         return Result.ok();
     }
 
@@ -70,8 +78,8 @@ public class RouterController {
      * @return
      */
     @DeleteMapping("/router")
-    public Result<Boolean> delete(@RequestBody Router router) {
-        routerService.delete(router);
+    public Result<Boolean> delete(@RequestBody @Validated(Delete.class) RouterDto router) {
+        routerService.delete(routerMapper.dtoToRouter(router));
         return Result.ok();
     }
 
@@ -81,8 +89,8 @@ public class RouterController {
      * @return
      */
     @DeleteMapping("/routers")
-    public Result<Boolean> deleteAll(@RequestBody List<Router> routers) {
-        routerService.deleteAll(routers);
+    public Result<Boolean> deleteAll(@RequestBody @Validated(Delete.class) List<RouterDto> routers) {
+        routerService.deleteAll(routerMapper.dtoToRouterList(routers));
         return Result.ok();
     }
 

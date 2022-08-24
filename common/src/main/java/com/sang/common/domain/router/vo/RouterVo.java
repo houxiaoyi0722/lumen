@@ -1,4 +1,4 @@
-package com.sang.common.domain.auth.authentication.router.dto;
+package com.sang.common.domain.router.vo;
 
 import lombok.*;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-public class RouterDto {
+public class RouterVo {
 
     /**
      * id
@@ -61,7 +61,7 @@ public class RouterDto {
      */
     private Integer orderBy;
 
-    private List<RouterDto> children = new ArrayList<>();
+    private List<RouterVo> children = new ArrayList<>();
 
 
 }

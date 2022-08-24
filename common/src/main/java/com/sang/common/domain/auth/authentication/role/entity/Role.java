@@ -2,7 +2,7 @@ package com.sang.common.domain.auth.authentication.role.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
-import com.sang.common.domain.auth.authentication.router.entity.Router;
+import com.sang.common.domain.router.entity.Router;
 import com.sang.common.domain.auth.authorization.user.entity.User;
 import com.sang.common.domain.auth.authorization.user.entity.UserGroup;
 import io.ebean.annotation.DbComment;

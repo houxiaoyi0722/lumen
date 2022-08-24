@@ -7,23 +7,117 @@ POST http://localhost:8080/lumen/router/router
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
+{
+  "name": "菜单管理1",
+  "path": "/router/menu1",
+  "redirect": "/",
+  "component": "/menage/router1",
+  "mate": "{\"id\": 0}",
+  "description": "",
+  "hidden": false,
+  "alwaysShow": true,
+  "orderBy": 2,
+  "parentId" : {
+    "id": 435576735858933760
+  },
+  "roles": [
+    {
+      "id": 435165139135348736
+    }
+  ]
+}
 
 ### 通过id更新
 PUT http://localhost:8080/lumen/router/router
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
+{
+  "id": 435587805562519552,
+  "name": "菜单管理2",
+  "path": "/router/menu2",
+  "redirect": "/",
+  "component": "/menage/router1",
+  "mate": "{\"id\": 0}",
+  "description": "",
+  "hidden": false,
+  "alwaysShow": true,
+  "orderBy": 2,
+  "parentId" : {
+    "id": 435576735858933760
+  },
+  "roles": [
+    {
+      "id": 435165139135348736
+    }
+  ]
+}
+
 ### 批量保存
 POST http://localhost:8080/lumen/router/routers
 Content-Type: application/json
 Authorization: Bearer {{token}}
+
+[
+  {
+    "name": "菜单管理3",
+    "path": "/router/menu3",
+    "redirect": "/",
+    "component": "/menage/router3",
+    "mate": "{\"id\": 0}",
+    "description": "",
+    "hidden": false,
+    "alwaysShow": true,
+    "orderBy": 2,
+    "parentId" : {
+      "id": 435576735858933760
+    },
+    "roles": [
+      {
+        "id": 435165139135348736
+      }
+    ]
+  },
+  {
+    "name": "菜单管理4",
+    "path": "/router/menu4",
+    "redirect": "/",
+    "component": "/menage/router4",
+    "mate": "{\"id\": 0}",
+    "description": "",
+    "hidden": false,
+    "alwaysShow": true,
+    "orderBy": 2,
+    "parentId" : {
+      "id": 435576735858933760
+    },
+    "roles": [
+      {
+        "id": 435165139135348736
+      }
+    ]
+  }
+]
 
 ### 通过id删除
 DELETE http://localhost:8080/lumen/router/router
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
+{
+  "id": 435588650966433792
+}
+
 ### 批量删除
 DELETE http://localhost:8080/lumen/router/routers
 Content-Type: application/json
 Authorization: Bearer {{token}}
+
+[
+  {
+    "id": 435588650966433792
+  },
+  {
+    "id": 435588650970628096
+  }
+]

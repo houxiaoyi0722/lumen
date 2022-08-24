@@ -1,7 +1,7 @@
 package com.sang.system.service.router;
 
-import com.sang.common.domain.auth.authentication.router.dto.RouterDto;
-import com.sang.common.domain.auth.authentication.router.entity.Router;
+import com.sang.common.domain.router.vo.RouterVo;
+import com.sang.common.domain.router.entity.Router;
 
 import java.util.List;
 
@@ -22,5 +22,5 @@ public interface RouterService {
 
     void deleteAll(List<Router> routers);
 
-    List<RouterDto> routerTree();
+    List<RouterVo> routerTree();
 }

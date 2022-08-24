@@ -22,20 +22,20 @@ public class RoleDto {
     /**
      * id 主键
      */
-    @NotNull(message = "id不能为空",groups = {Delete.class})
+    @NotNull(message = "id不能为空",groups = {Delete.class,Update.class})
     private Long id;
 
     /**
      * 角色名称
      */
-    @NotBlank(message = "角色名称不能为空",groups = {Create.class})
+    @NotBlank(message = "角色名称不能为空",groups = {Create.class,Update.class})
     @Length(max = 20,message = "角色名称长度在1-20之间",groups = {Create.class, Update.class})
     private String roleName;
 
     /**
      * 角色代码
      */
-    @NotBlank(message = "角色代码不能为空",groups = {Create.class})
+    @NotBlank(message = "角色代码不能为空",groups = {Create.class,Update.class})
     @Length(max = 20,message = "角色代码长度在1-20之间",groups = {Create.class, Update.class})
     private String roleCode;
 

@@ -1,15 +1,15 @@
 package com.sang.common.domain.auth.authorization.token.dto;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 /**
  * @author hxy
  * @date 2022/1/17 10:56
  **/
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class TokenDto {
     /**

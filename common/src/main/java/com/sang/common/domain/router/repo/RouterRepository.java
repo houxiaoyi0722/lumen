@@ -1,9 +1,9 @@
-package com.sang.common.domain.auth.authentication.router.repo;
+package com.sang.common.domain.router.repo;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.sang.common.domain.auth.authentication.router.dto.RouterDto;
-import com.sang.common.domain.auth.authentication.router.entity.Router;
-import com.sang.common.domain.auth.authentication.router.entity.query.QRouter;
+import com.sang.common.domain.router.vo.RouterVo;
+import com.sang.common.domain.router.entity.Router;
+import com.sang.common.domain.router.entity.query.QRouter;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import org.springframework.stereotype.Repository;
@@ -22,7 +22,7 @@ public class RouterRepository extends BeanRepository<Long, Router> {
     }
 
 
-    public List<RouterDto> routerListByRoleCodes(List<String> roleCodes) {
+    public List<RouterVo> routerListByRoleCodes(List<String> roleCodes) {
         QRouter router = QRouter.alias();
 
         QRouter select = new QRouter().select(
@@ -35,6 +35,6 @@ public class RouterRepository extends BeanRepository<Long, Router> {
             select = select.roles.roleCode.in(roleCodes);
         }
 
-        return select.asDto(RouterDto.class).findList();
+        return select.asDto(RouterVo.class).findList();
     }
 }
