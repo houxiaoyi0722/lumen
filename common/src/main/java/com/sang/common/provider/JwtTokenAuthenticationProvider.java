@@ -13,7 +13,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.jwt.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,8 +61,12 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
             Collection<OAuth2Error> errors = e.getErrors();
             errors.forEach(oAuth2Error -> log.error(oAuth2Error.getErrorCode()));
             freshToken = getFreshToken(Instant.now(), principal);
-            // todo jwt过期刷新
-//            response.setHeader(AUTHORIZATION,freshToken.getTokenValue());
+
+            // todo  jwt过期刷新 记录 更新 添加redis 存储管理jwt 单点登录
+
+            HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+            // jwt过期刷新
+            response.setHeader(AUTHORIZATION,freshToken.getTokenValue());
         }
         return getUsernamePasswordAuthenticationToken(principal, freshToken);
     }
@@ -73,7 +80,6 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
         Jwt refreshToken = jwtDecoder.decode(tokenDto.getRefreshToken());
 
         JwtClaimsSet freshClaims = JwtClaimsSet.builder()
-                .issuer(refreshToken.getIssuer().toString())
                 .id(refreshToken.getId())
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(EXPIRY))

@@ -118,16 +118,6 @@ public class QuartzManager {
     }
 
     /**
-     * todo 获取job监听器
-     * @param job
-     * @throws SchedulerException
-     */
-    public void getListenerForJob(JobVo job) throws SchedulerException {
-//        ListenerManager listenerManager = scheduler.getListenerManager();
-//        JobListener jobListener = listenerManager.getJobListener("");
-    }
-
-    /**
      * 接触job触发器绑定，从调度程序中删除指示的Trigger
      * @param triggerVos
      * @throws SchedulerException
@@ -182,7 +172,6 @@ public class QuartzManager {
         }
 
         // 获取job列表
-        // todo 添加监听器 scheduler.getListenerManager().addJobListener();
         Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
         List<JobVo> jobList = new ArrayList<>();
         // 遍历job

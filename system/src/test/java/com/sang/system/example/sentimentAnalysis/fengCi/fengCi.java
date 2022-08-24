@@ -24,7 +24,6 @@ public class fengCi {
 
 
     public fengCi(InputStream Commemt, String setCode) {
-        // TODO Auto-generated constructor stub
         this.jdCommemt = Commemt;
         this.setCode = setCode;
     }
