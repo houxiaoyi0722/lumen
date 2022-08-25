@@ -63,4 +63,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         return userDetails.get();
     }
+
+    @Override
+    public void resetPassWord(User dtoToUser) {
+        userRepository.resetPassWord(dtoToUser);
+    }
 }

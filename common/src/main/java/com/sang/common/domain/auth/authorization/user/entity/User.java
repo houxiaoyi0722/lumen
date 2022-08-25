@@ -42,7 +42,7 @@ public class User extends BaseModel implements UserDetails {
     private String userName;
 
     @DbComment("密码")
-    @Column(length = 100,nullable = false,unique = true)
+    @Column(length = 100,nullable = false,unique = true,updatable = false)
     private String password;
 
     @DbComment("电话")

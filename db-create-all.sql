@@ -154,12 +154,6 @@ create table user_group (
   constraint pk_user_group primary key (id)
 ) comment='用户组';
 
-create table user_group_role (
-  user_group_id                 bigint not null,
-  role_id                       bigint not null,
-  constraint pk_user_group_role primary key (user_group_id,role_id)
-);
-
 create index ix_dictionary_item_dictionary_id on dictionary_item (dictionary_id);
 alter table dictionary_item add constraint fk_dictionary_item_dictionary_id foreign key (dictionary_id) references dictionary (id) on delete restrict on update restrict;
 
@@ -186,10 +180,4 @@ alter table user_role add constraint fk_user_role_role foreign key (role_id) ref
 
 create index ix_user_group_parent_id on user_group (parent_id);
 alter table user_group add constraint fk_user_group_parent_id foreign key (parent_id) references user_group (id) on delete restrict on update restrict;
-
-create index ix_user_group_role_user_group on user_group_role (user_group_id);
-alter table user_group_role add constraint fk_user_group_role_user_group foreign key (user_group_id) references user_group (id) on delete restrict on update restrict;
-
-create index ix_user_group_role_role on user_group_role (role_id);
-alter table user_group_role add constraint fk_user_group_role_role foreign key (role_id) references role (id) on delete restrict on update restrict;
 

@@ -25,12 +25,6 @@ drop index ix_user_role_role on user_role;
 alter table user_group drop foreign key fk_user_group_parent_id;
 drop index ix_user_group_parent_id on user_group;
 
-alter table user_group_role drop foreign key fk_user_group_role_user_group;
-drop index ix_user_group_role_user_group on user_group_role;
-
-alter table user_group_role drop foreign key fk_user_group_role_role;
-drop index ix_user_group_role_role on user_group_role;
-
 drop table if exists dictionary;
 
 drop table if exists dictionary_item;
@@ -50,6 +44,4 @@ drop table if exists user;
 drop table if exists user_role;
 
 drop table if exists user_group;
-
-drop table if exists user_group_role;
 

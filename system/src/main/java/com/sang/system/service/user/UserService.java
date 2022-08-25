@@ -19,4 +19,6 @@ public interface UserService {
     void deleteAll(List<User> users);
 
     UserDetails loadUserByUsername(String username);
+
+    void resetPassWord(User dtoToUser);
 }

@@ -1,0 +1,91 @@
+### 用户分页查询
+POST {{protocol}}{{domain}}/lumen/user/users
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "pageNumber": 0,
+  "pageSize": 10,
+  "orders": [
+    {
+      "field": "",
+      "direction": "ASC"
+    }
+  ]
+}
+
+### 保存用户
+POST {{protocol}}{{domain}}/lumen/user/user
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "admin",
+  "userName": "admin",
+  "password": "123456",
+  "phone": "13522939671",
+  "mobilePhone": "13522939671",
+  "address": "12315132",
+  "email": "",
+  "enabled": true,
+  "accountNonExpired": true,
+  "accountNonLocked": false,
+  "credentialsNonExpired": true,
+  "roles": [{"id": 435165139135348736},{"id": 435171606257188864}],
+  "userGroup": {"id": 0}
+}
+
+### 按id更新
+PUT {{protocol}}{{domain}}/lumen/user/user
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "name": "",
+  "userName": "",
+  "password": "",
+  "phone": "",
+  "mobilePhone": "",
+  "address": "",
+  "email": "",
+  "enabled": false,
+  "accountNonExpired": false,
+  "accountNonLocked": false,
+  "credentialsNonExpired": false,
+  "roles": [{"id": 0}],
+  "userGroup": {"id": 0}
+}
+
+### 更新密码
+PUT http://localhost:8080/lumen/user/password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "password": ""
+}
+
+### 按id删除
+DELETE {{protocol}}{{domain}}/lumen/user/user
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "id": 0
+}
+
+### 批量删除
+DELETE {{protocol}}{{domain}}/lumen/user/users
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+[
+  {
+    "id": 0
+  },
+  {
+    "id": 0
+  }
+]

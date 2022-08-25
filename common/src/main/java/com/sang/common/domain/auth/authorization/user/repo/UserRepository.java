@@ -37,17 +37,26 @@ public class UserRepository extends BeanRepository<Long, User> {
     }
 
 
+    private final QUser qUser = QUser.alias();
+
+
     public PagedList<User> userList(UserQry userQry) {
-        QUser qUser = QUser.alias();
         return new QUser()
-                .deleted.isFalse()
+                .select(qUser.id, qUser.userName, qUser.name, qUser.mobilePhone, qUser.phone,
+                        qUser.enabled, qUser.address, qUser.email, qUser.accountNonExpired, qUser.accountNonLocked,
+                        qUser.credentialsNonExpired, qUser.whenCreated, qUser.whenModified
+                )
                 .setFirstRow(userQry.getStartPosition())
                 .setMaxRows(userQry.getEndPosition())
-                .orderBy().id.asc()
+                .orderBy().whenCreated.asc()
                 .findPagedList();
     }
 
     public UserDetails loadUserByUsername(String username) {
-        return new QUser().deleted.isFalse().userName.eq(username).findOne();
+        return new QUser().userName.eq(username).findOne();
+    }
+
+    public void resetPassWord(User user) {
+        new QUser().id.eq(user.getId()).asUpdate().set(qUser.password.toString(),user.getPassword());
     }
 }
