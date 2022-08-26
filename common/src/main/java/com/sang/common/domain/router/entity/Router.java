@@ -2,8 +2,8 @@ package com.sang.common.domain.router.entity;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.auth.authentication.role.entity.Role;
+import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.router.vo.RouterVo;
 import io.ebean.annotation.DbComment;
 import lombok.*;
@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static javax.persistence.CascadeType.PERSIST;
 
 /**
  * 路由管理
@@ -96,7 +94,9 @@ public class Router extends BaseModel {
     private Integer orderBy;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "parentId",cascade = PERSIST)
+    // 默认无级联操作，设置级联操作时会更新关联表，无级联时只会更新关联关系
+//    @OneToMany(fetch = FetchType.LAZY,mappedBy = "parentId",cascade = PERSIST)
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "parentId")
     private List<Router> children = new ArrayList<>();
 
     /**

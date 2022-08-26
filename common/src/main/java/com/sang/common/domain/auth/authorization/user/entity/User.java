@@ -1,8 +1,9 @@
 package com.sang.common.domain.auth.authorization.user.entity;
 
+import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.auth.authentication.role.entity.Role;
+import com.sang.common.domain.base.entity.BaseModel;
 import io.ebean.annotation.DbComment;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,8 +16,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static javax.persistence.CascadeType.PERSIST;
 
 /**
  * 用户
@@ -78,7 +77,7 @@ public class User extends BaseModel implements UserDetails {
     private Boolean credentialsNonExpired = true;
 
     @JsonIgnore
-    @ManyToMany(cascade = PERSIST,fetch=FetchType.LAZY)
+    @ManyToMany(fetch=FetchType.LAZY)
     private List<Role> roles;
 
     @ManyToOne(fetch=FetchType.LAZY)
@@ -120,7 +119,9 @@ public class User extends BaseModel implements UserDetails {
     }
 
     public void setPassword(String password) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        this.password = bCryptPasswordEncoder.encode(password);
+        if (StrUtil.isNotBlank(password)) {
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            this.password = bCryptPasswordEncoder.encode(password);
+        }
     }
 }

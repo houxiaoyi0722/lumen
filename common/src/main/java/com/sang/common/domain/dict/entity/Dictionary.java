@@ -10,8 +10,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-import static javax.persistence.CascadeType.PERSIST;
-
 /**
  * 数据字典 组
  */
@@ -27,7 +25,7 @@ public class Dictionary extends BaseModel {
      * @JsonIgnore
      */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "dictionary", cascade = PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "dictionary", fetch = FetchType.LAZY)
     private List<DictionaryItem> dictionaryItems;
 
     /**

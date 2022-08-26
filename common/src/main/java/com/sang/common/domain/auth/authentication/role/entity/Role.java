@@ -1,18 +1,18 @@
 package com.sang.common.domain.auth.authentication.role.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sang.common.domain.auth.authorization.user.entity.User;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.router.entity.Router;
-import com.sang.common.domain.auth.authorization.user.entity.User;
-import com.sang.common.domain.auth.authorization.user.entity.UserGroup;
 import io.ebean.annotation.DbComment;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static javax.persistence.CascadeType.PERSIST;
 
 /**
  * 角色
@@ -51,7 +51,7 @@ public class Role extends BaseModel {
 
     @DbComment("上级角色id")
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "parentId",cascade = PERSIST)
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "parentId")
     private List<Role> children = new ArrayList<>();
 
     @JsonIgnore
@@ -60,11 +60,11 @@ public class Role extends BaseModel {
     private Role parentId;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "roles", cascade = PERSIST,fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
     private List<User> users;
 
     @JsonIgnore
-    @ManyToMany(fetch=FetchType.LAZY,cascade = PERSIST,mappedBy = "roles")
+    @ManyToMany(fetch=FetchType.LAZY,mappedBy = "roles")
     private List<Router> routers;
 
 }

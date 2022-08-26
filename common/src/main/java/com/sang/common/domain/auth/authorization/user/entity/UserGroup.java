@@ -2,14 +2,11 @@ package com.sang.common.domain.auth.authorization.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
-import com.sang.common.domain.auth.authentication.role.entity.Role;
 import io.ebean.annotation.DbComment;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-
-import static javax.persistence.CascadeType.PERSIST;
 
 /**
  * 用户组
@@ -43,12 +40,12 @@ public class UserGroup extends BaseModel {
     private List<UserGroup> children;
 
     @JsonIgnore
-    @ManyToOne(fetch=FetchType.LAZY, cascade = PERSIST)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="PARENT_ID")
     private UserGroup parentId;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userGroup", cascade = PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userGroup",fetch = FetchType.LAZY)
     private List<User> userList;
 
 }
