@@ -22,4 +22,6 @@ public interface DictionaryMapper {
 
     Dictionary dtoToDictionary(DictionaryDto dictionaryDto);
 
+    DictionaryDto dictionaryToDto(Dictionary dictionary);
+
 }

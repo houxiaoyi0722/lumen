@@ -1,6 +1,5 @@
 package com.sang.common.domain.${domain?lower_case}.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.${domain?lower_case}.entity.finder.${model}Finder;
 import io.ebean.annotation.DbComment;
@@ -19,6 +18,8 @@ import javax.persistence.Table;
 @Setter
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @MappedSuperclass
 @Entity
 @Table
