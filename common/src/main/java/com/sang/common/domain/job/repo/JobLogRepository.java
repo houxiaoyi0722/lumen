@@ -6,7 +6,10 @@ import com.sang.common.domain.job.entity.query.QJobLog;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
+import org.quartz.JobDataMap;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 
 /**
  * Job管理
@@ -33,4 +36,8 @@ public class JobLogRepository extends BeanRepository<Long, JobLog> {
     }
 
 
+    public void updateJobStatus(JobDataMap jobDataMap, Object result, Date endTime, long jobRunTime, String stateDeleted) {
+
+
+    }
 }

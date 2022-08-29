@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Validated
 @RestController
-@RequestMapping("/lumen/job/joblog")
+@RequestMapping("/lumen/job/log")
 public class JobLogController {
 
     private final JobLogMapper joblogMapper = JobLogMapper.mapper;
@@ -55,41 +55,6 @@ public class JobLogController {
     @GetMapping("/joblog")
     public Result<JobLog> findOne(@RequestParam("id") Long id) {
         return Result.ok(joblogService.findOne(id));
-    }
-
-    /**
-     * 保存
-     *
-     * @param joblog
-     * @return
-     */
-    @PostMapping("/joblog")
-    public Result<Boolean> save(@RequestBody @Validated(Create.class) JobLogDto joblog) {
-        joblogService.save(joblogMapper.dtoToJobLog(joblog));
-        return Result.ok();
-    }
-
-    /**
-    * 批量保存
-    * @param joblogs
-    * @return
-    */
-    @PostMapping("/joblogs")
-    public Result<Boolean> saveAll(@RequestBody @Validated(Create.class) List<JobLogDto> joblogs) {
-        joblogService.saveAll(joblogMapper.dtoToJobLogList(joblogs));
-        return Result.ok();
-    }
-
-    /**
-     * 通过id更新
-     *
-     * @param joblog
-     * @return
-     */
-    @PutMapping("/joblog")
-    public Result<Boolean> update(@RequestBody @Validated(Update.class) JobLogDto joblog) {
-        joblogService.update(joblogMapper.dtoToJobLog(joblog));
-        return Result.ok();
     }
 
     /**

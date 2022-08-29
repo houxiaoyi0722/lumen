@@ -23,6 +23,9 @@ public class ApplicationReadyEventListener implements ApplicationListener<Applic
     @Resource
     private Scheduler scheduler;
 
+    @Resource
+    private GlobalJobListener globalJobListener;
+
     @SneakyThrows
     @Override
     public void onApplicationEvent(@NotNull ApplicationReadyEvent event) {
@@ -31,6 +34,6 @@ public class ApplicationReadyEventListener implements ApplicationListener<Applic
         List<JobVo> jobVos = List.of(JobVo.builder().jobName("demo1").jobGroup("demo").jobListener("com.sang.system.job.listener.DemoJobListener").build());
         jobVos.forEach(quartzManager::addListenerForJob);
         // 全局监听器
-        scheduler.getListenerManager().addJobListener(new GlobalJobListener());
+        scheduler.getListenerManager().addJobListener(globalJobListener);
     }
 }

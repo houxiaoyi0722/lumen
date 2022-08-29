@@ -29,6 +29,8 @@ drop table if exists dictionary;
 
 drop table if exists dictionary_item;
 
+drop table if exists job_log;
+
 drop table if exists role;
 
 drop table if exists router;
@@ -37,11 +39,12 @@ drop table if exists router_role;
 
 drop table if exists storage;
 
-drop table if exists test;
-
 drop table if exists user;
 
 drop table if exists user_role;
 
 drop table if exists user_group;
 
+drop index ix_job_log_job_name on job_log;
+drop index ix_job_log_job_group on job_log;
+drop index ix_job_log_status on job_log;

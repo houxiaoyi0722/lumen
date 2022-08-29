@@ -29,6 +29,28 @@ create table dictionary_item (
   constraint pk_dictionary_item primary key (id)
 ) comment='数据字典明细';
 
+create table job_log (
+  id                            bigint not null,
+  job_name                      varchar(190) comment 'job名称',
+  job_group                     varchar(190) comment 'job分组',
+  bean_class                    varchar(250) comment '执行类全限定名',
+  job_data_map                  json comment '执行类全限定名',
+  cron_expression               varchar(120) comment 'cron',
+  status                        varchar(30) comment '状态',
+  start_time                    datetime(6) comment '开始时间',
+  end_time                      datetime(6) comment '结束时间',
+  may_fire_again                tinyint(1) comment '触发器是否会再次触发',
+  job_run_time                  bigint comment 'job执行时间,以毫秒为单位',
+  result                        varchar(500) comment 'job执行结果/错误结果',
+  version                       bigint not null,
+  when_created                  datetime(6) not null,
+  created_by                    varchar(255) not null,
+  modified_by                   varchar(255) not null,
+  when_modified                 datetime(6) not null,
+  deleted                       tinyint(1) default 0 not null,
+  constraint pk_job_log primary key (id)
+) comment='JobLog执行日志表';
+
 create table role (
   id                            bigint not null,
   role_name                     varchar(20) not null comment '角色名称',
@@ -94,17 +116,6 @@ create table storage (
   constraint pk_storage primary key (id)
 ) comment='对象存储管理';
 
-create table test (
-  id                            bigint not null,
-  version                       bigint not null,
-  when_created                  datetime(6) not null,
-  created_by                    varchar(255) not null,
-  modified_by                   varchar(255) not null,
-  when_modified                 datetime(6) not null,
-  deleted                       tinyint(1) default 0 not null,
-  constraint pk_test primary key (id)
-) comment='test测试模型';
-
 create table user (
   id                            bigint not null,
   name                          varchar(100) not null comment '姓名',
@@ -154,6 +165,9 @@ create table user_group (
   constraint pk_user_group primary key (id)
 ) comment='用户组';
 
+create index ix_job_log_job_name on job_log (job_name);
+create index ix_job_log_job_group on job_log (job_group);
+create index ix_job_log_status on job_log (status);
 create index ix_dictionary_item_dictionary_id on dictionary_item (dictionary_id);
 alter table dictionary_item add constraint fk_dictionary_item_dictionary_id foreign key (dictionary_id) references dictionary (id) on delete restrict on update restrict;
 

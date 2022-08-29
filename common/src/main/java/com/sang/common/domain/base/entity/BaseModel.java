@@ -15,8 +15,6 @@ import java.time.Instant;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @MappedSuperclass
 public class BaseModel extends Model {
 

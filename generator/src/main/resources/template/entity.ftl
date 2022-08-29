@@ -19,6 +19,7 @@ import javax.persistence.Table;
 @Getter
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @MappedSuperclass
 @Entity
 @Table
