@@ -271,8 +271,8 @@
         </pluginManagement>
     </build>
 
-    <repositories>
-        <!--阿里云仓库-->
+<!--    <repositories>
+        &lt;!&ndash;阿里云仓库&ndash;&gt;
         <repository>
             <id>nexus-aliyun</id>
             <name>Nexus aliyun</name>
@@ -285,6 +285,6 @@
                 <enabled>true</enabled>
             </releases>
         </repository>
-    </repositories>
+    </repositories>-->
 
 </project>
