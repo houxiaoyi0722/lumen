@@ -1,4 +1,4 @@
-package com.sang.common.domain.${model?lower_case}.param;
+package com.sang.common.domain.${domain?lower_case}.param;
 
 import cn.hutool.db.Page;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.sang.common.domain.joblog.param;
+package com.sang.common.domain.job.param;
 
 import cn.hutool.db.Page;
 import lombok.AllArgsConstructor;
