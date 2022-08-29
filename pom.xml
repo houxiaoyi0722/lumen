@@ -69,11 +69,13 @@
                 <artifactId>freemarker</artifactId>
                 <version>${freemarker.version}</version>
             </dependency>
+            <!-- quartz -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-quartz</artifactId>
                 <version>${spring.boot}</version>
             </dependency>
+            <!-- quartz原生表生成 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-jdbc</artifactId>
@@ -129,25 +131,13 @@
                 <artifactId>validation-api</artifactId>
                 <version>${validation.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.google.code.findbugs</groupId>
-                <artifactId>jsr305</artifactId>
-                <version>${jsr305.version}</version>
-            </dependency>
             <!--hutool 工具包-->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
-<!--            <dependency>
-                <groupId>com.microsoft.sqlserver</groupId>
-                <artifactId>mssql-jdbc</artifactId>
-            </dependency>-->
-<!--            <dependency>
-                <groupId>com.oracle.database.jdbc</groupId>
-                <artifactId>ojdbc8</artifactId>
-            </dependency>-->
+            <!-- mysql驱动依赖，可迁移至其他db，例如postgresql? -->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
@@ -163,6 +153,7 @@
                 <artifactId>mapstruct</artifactId>
                 <version>${org.mapstruct.version}</version>
             </dependency>
+            <!-- 基于java的爬虫框架 -->
             <dependency>
                 <groupId>cn.edu.hfut.dmic.webcollector</groupId>
                 <artifactId>WebCollector</artifactId>
@@ -204,6 +195,7 @@
                 <artifactId>okhttp</artifactId>
                 <version>${okhttp.version}</version>
             </dependency>
+            <!-- 基于java的ssh隧道 -->
             <dependency>
                 <groupId>com.jcraft</groupId>
                 <artifactId>jsch</artifactId>
@@ -279,8 +271,8 @@
         </pluginManagement>
     </build>
 
-<!--    <repositories>
-        &lt;!&ndash;阿里云仓库&ndash;&gt;
+    <repositories>
+        <!--阿里云仓库-->
         <repository>
             <id>nexus-aliyun</id>
             <name>Nexus aliyun</name>
@@ -293,6 +285,6 @@
                 <enabled>true</enabled>
             </releases>
         </repository>
-    </repositories>-->
+    </repositories>
 
 </project>
