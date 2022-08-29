@@ -1,11 +1,11 @@
 {
   "dataModel": {
-    "domain": "test",
-    "model": "Test",
+    "domain": "job",
+    "model": "JobLog",
     "author": "hxy",
-    "dbComment": "test测试模型",
-    "domainComment": "领域测试注释",
-    "modelComment": "实体测试注释"
+    "dbComment": "JobLog执行日志表",
+    "domainComment": "Job管理",
+    "modelComment": "Job执行日志"
   },
   "templates": [
     {

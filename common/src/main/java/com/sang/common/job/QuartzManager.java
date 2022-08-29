@@ -3,8 +3,8 @@ package com.sang.common.job;
 
 import cn.hutool.core.util.StrUtil;
 import com.sang.common.constants.ResultCodeEnum;
-import com.sang.common.domain.job.JobVo;
-import com.sang.common.domain.job.TriggerVo;
+import com.sang.common.domain.job.vo.JobVo;
+import com.sang.common.domain.job.vo.TriggerVo;
 import com.sang.common.exception.BusinessException;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;

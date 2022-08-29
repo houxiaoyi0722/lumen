@@ -1,4 +1,4 @@
-package com.sang.common.domain.job;
+package com.sang.common.domain.job.vo;
 
 import com.sang.common.validate.job.TriggerSave;
 import com.sang.common.validate.job.TriggerDelete;

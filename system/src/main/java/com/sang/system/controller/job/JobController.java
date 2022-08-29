@@ -1,7 +1,7 @@
 package com.sang.system.controller.job;
 
-import com.sang.common.domain.job.JobVo;
-import com.sang.common.domain.job.TriggerVo;
+import com.sang.common.domain.job.vo.JobVo;
+import com.sang.common.domain.job.vo.TriggerVo;
 import com.sang.common.job.QuartzManager;
 import com.sang.common.response.Result;
 import com.sang.common.validate.Create;

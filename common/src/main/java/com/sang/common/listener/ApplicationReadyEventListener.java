@@ -1,6 +1,6 @@
 package com.sang.common.listener;
 
-import com.sang.common.domain.job.JobVo;
+import com.sang.common.domain.job.vo.JobVo;
 import com.sang.common.job.QuartzManager;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
