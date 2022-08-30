@@ -1,11 +1,11 @@
 {
   "dataModel": {
-    "domain": "job",
-    "model": "JobLog",
+    "domain": "router",
+    "model": "Button",
     "author": "hxy",
-    "dbComment": "JobLog执行日志表",
-    "domainComment": "Job管理",
-    "modelComment": "Job执行日志"
+    "dbComment": "页面按钮维护",
+    "domainComment": "页面按钮维护",
+    "modelComment": "页面按钮维护"
   },
   "templates": [
     {
