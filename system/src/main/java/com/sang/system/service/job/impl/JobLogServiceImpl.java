@@ -70,4 +70,18 @@ public class JobLogServiceImpl implements JobLogService {
     public void deleteAll(List<JobLog> joblogs) {
         repository.deleteAll(joblogs);
     }
+
+    @Override
+    public int limitJobLogSize() {
+        int num = repository.findCount();
+
+        if (num > 1000000) {
+            JobLog jobLog = repository.findByLimit(1000000);
+            if (jobLog != null) {
+                return repository.deleteIfCreateBeforeDate(jobLog.getWhenCreated());
+            }
+
+        }
+        return 0;
+    }
 }

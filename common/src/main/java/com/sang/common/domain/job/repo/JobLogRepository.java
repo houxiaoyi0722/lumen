@@ -10,6 +10,7 @@ import io.ebean.PagedList;
 import org.quartz.JobDataMap;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -45,5 +46,17 @@ public class JobLogRepository extends BeanRepository<Long, JobLog> {
                 .set(alias.status.toString(),state)
                 .set(alias.result.toString(),result)
                 .update();
+    }
+
+    public int findCount() {
+        return new QJobLog().findCount();
+    }
+
+    public JobLog findByLimit(int limit) {
+        return new QJobLog().setFirstRow(limit-1).setMaxRows(limit).orderBy().whenCreated.desc().findOne();
+    }
+
+    public int deleteIfCreateBeforeDate(Instant whenCreated) {
+        return new QJobLog().whenCreated.before(whenCreated).delete();
     }
 }

@@ -168,8 +168,11 @@ create table user_group (
 create index ix_job_log_job_name on job_log (job_name);
 create index ix_job_log_job_group on job_log (job_group);
 create index ix_job_log_status on job_log (status);
+create index storage_bucket on storage (storage_bucket);
+create index suffix on storage (suffix);
+create index business_type on storage (business_type);
+create index business_code on storage (business_code);
 create index user_name on user (user_name);
-create index user_group_id on user (user_group_id);
 create index group_code on user_group (group_code);
 create index ix_dictionary_item_dictionary_id on dictionary_item (dictionary_id);
 alter table dictionary_item add constraint fk_dictionary_item_dictionary_id foreign key (dictionary_id) references dictionary (id) on delete restrict on update restrict;
@@ -186,6 +189,7 @@ alter table router_role add constraint fk_router_role_router foreign key (router
 create index ix_router_role_role on router_role (role_id);
 alter table router_role add constraint fk_router_role_role foreign key (role_id) references role (id) on delete restrict on update restrict;
 
+create index ix_user_user_group_id on user (user_group_id);
 alter table user add constraint fk_user_user_group_id foreign key (user_group_id) references user_group (id) on delete restrict on update restrict;
 
 create index ix_user_role_user on user_role (user_id);

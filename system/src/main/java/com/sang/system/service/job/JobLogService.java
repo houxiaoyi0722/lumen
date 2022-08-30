@@ -29,4 +29,7 @@ public interface JobLogService {
     void delete(JobLog joblog);
 
     void deleteAll(List<JobLog> joblogs);
+
+    int limitJobLogSize();
+
 }
