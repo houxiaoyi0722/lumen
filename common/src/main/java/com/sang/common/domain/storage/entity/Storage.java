@@ -4,6 +4,7 @@ package com.sang.common.domain.storage.entity;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.storage.entity.finder.StorageFinder;
 import io.ebean.annotation.DbComment;
+import io.ebean.annotation.Index;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -14,6 +15,10 @@ import javax.persistence.Table;
 @Getter
 @Entity
 @Builder
+@Index(name = "storage_bucket",columnNames = "storage_bucket")
+@Index(name = "suffix",columnNames = "suffix")
+@Index(name = "business_type",columnNames = "business_type")
+@Index(name = "business_code",columnNames = "business_code")
 @Table(name = "storage")
 @DbComment("对象存储管理")
 @NoArgsConstructor
