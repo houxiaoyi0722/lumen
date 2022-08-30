@@ -1,8 +1,9 @@
 package com.sang.common.domain.job.repo;
 
+import com.sang.common.constants.StringConst;
 import com.sang.common.domain.job.entity.JobLog;
-import com.sang.common.domain.job.param.JobLogQry;
 import com.sang.common.domain.job.entity.query.QJobLog;
+import com.sang.common.domain.job.param.JobLogQry;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;
@@ -36,8 +37,13 @@ public class JobLogRepository extends BeanRepository<Long, JobLog> {
     }
 
 
-    public void updateJobStatus(JobDataMap jobDataMap, Object result, Date endTime, long jobRunTime, String stateDeleted) {
-
-
+    public void updateJobStatus(JobDataMap jobDataMap, Object result, Date endTime, long jobRunTime, String state) {
+        QJobLog alias = QJobLog.alias();
+        new QJobLog().id.eq(jobDataMap.getLong(StringConst.JOB_LOG_ID)).asUpdate()
+                .set(alias.endTime.toString(),endTime)
+                .set(alias.jobRunTime.toString(),jobRunTime)
+                .set(alias.status.toString(),state)
+                .set(alias.result.toString(),result)
+                .update();
     }
 }

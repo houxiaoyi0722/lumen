@@ -81,7 +81,7 @@ Content-Type: application/json
       "triggerName": "demo1",
       "triggerGroup": "demo",
       "triggerDescription": "",
-      "cronExpression": "0/20 * * * * ?"
+      "cronExpression": "0 20 * * * ?"
     }
   ]
 }

@@ -3,6 +3,7 @@ package com.sang.common.domain.auth.authorization.user.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.base.entity.BaseModel;
 import io.ebean.annotation.DbComment;
+import io.ebean.annotation.Index;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "user_group")
+@Index(name = "group_code",columnNames = "group_code")
 @DbComment("用户组")
 public class UserGroup extends BaseModel {
 

@@ -109,6 +109,6 @@ public class JobLog extends BaseModel {
      * job执行结果\错误结果
      */
     @DbComment("job执行结果/错误结果")
-    @Column(length = 500)
-    private String Result;
+    @DbJson
+    private Object result;
 }

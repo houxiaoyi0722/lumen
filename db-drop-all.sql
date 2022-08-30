@@ -14,7 +14,6 @@ alter table router_role drop foreign key fk_router_role_role;
 drop index ix_router_role_role on router_role;
 
 alter table user drop foreign key fk_user_user_group_id;
-drop index ix_user_user_group_id on user;
 
 alter table user_role drop foreign key fk_user_role_user;
 drop index ix_user_role_user on user_role;
@@ -48,3 +47,6 @@ drop table if exists user_group;
 drop index ix_job_log_job_name on job_log;
 drop index ix_job_log_job_group on job_log;
 drop index ix_job_log_status on job_log;
+drop index user_name on user;
+drop index user_group_id on user;
+drop index group_code on user_group;

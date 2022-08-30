@@ -41,7 +41,7 @@ create table job_log (
   end_time                      datetime(6) comment '结束时间',
   may_fire_again                tinyint(1) comment '触发器是否会再次触发',
   job_run_time                  bigint comment 'job执行时间,以毫秒为单位',
-  result                        varchar(500) comment 'job执行结果/错误结果',
+  result                        json comment 'job执行结果/错误结果',
   version                       bigint not null,
   when_created                  datetime(6) not null,
   created_by                    varchar(255) not null,
@@ -168,6 +168,9 @@ create table user_group (
 create index ix_job_log_job_name on job_log (job_name);
 create index ix_job_log_job_group on job_log (job_group);
 create index ix_job_log_status on job_log (status);
+create index user_name on user (user_name);
+create index user_group_id on user (user_group_id);
+create index group_code on user_group (group_code);
 create index ix_dictionary_item_dictionary_id on dictionary_item (dictionary_id);
 alter table dictionary_item add constraint fk_dictionary_item_dictionary_id foreign key (dictionary_id) references dictionary (id) on delete restrict on update restrict;
 
@@ -183,7 +186,6 @@ alter table router_role add constraint fk_router_role_router foreign key (router
 create index ix_router_role_role on router_role (role_id);
 alter table router_role add constraint fk_router_role_role foreign key (role_id) references role (id) on delete restrict on update restrict;
 
-create index ix_user_user_group_id on user (user_group_id);
 alter table user add constraint fk_user_user_group_id foreign key (user_group_id) references user_group (id) on delete restrict on update restrict;
 
 create index ix_user_role_user on user_role (user_id);

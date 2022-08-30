@@ -19,5 +19,9 @@ public class DemoJob extends QuartzJobBean {
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
         Thread.sleep(3000);
         log.info("demo print");
+//        int i = 1/0;
+        context.setResult("执行成功");
+//        throw new JobExecutionException();
+
     }
 }

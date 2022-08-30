@@ -17,9 +17,10 @@
 
 package com.sang.common.listener;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
+import com.sang.common.constants.StringConst;
 import com.sang.common.domain.job.entity.JobLog;
 import com.sang.common.domain.job.repo.JobLogRepository;
-import com.sang.common.job.QuartzManager;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.jdbcjobstore.Constants;
@@ -63,9 +64,8 @@ public class GlobalJobListener implements JobListener {
 
             jobLogRepository.insert(jobLog);
 
-
             JobDataMap jobDataMap = inContext.getJobDetail().getJobDataMap();
-            jobDataMap.put("jobLogId",jobLog.getId());
+            jobDataMap.put(StringConst.JOB_LOG_ID,jobLog.getId());
         } catch (Exception e) {
             log.error("全局job监听器保存报错",e);
         }
@@ -73,19 +73,24 @@ public class GlobalJobListener implements JobListener {
 
     public void jobExecutionVetoed(JobExecutionContext inContext) {
         try {
-            jobLogRepository.updateJobStatus(inContext.getJobDetail().getJobDataMap(), inContext.getResult(),inContext.getTrigger().getEndTime(),inContext.getJobRunTime(), Constants.STATE_DELETED);
+            jobLogRepository.updateJobStatus(inContext.getJobDetail().getJobDataMap(), inContext.getResult(),inContext.getTrigger().getEndTime(),inContext.getJobRunTime(), "VETOED");
             log.info("Job1Listener says: Job {} : {} Execution was vetoed.",inContext.getJobDetail().getKey().getGroup(), inContext.getJobDetail().getKey().getName());
         } catch (Exception e) {
-            log.error("全局job监听器异常后处理报错",e);
+            log.error("全局job监听器禁止执行处理报错",e);
         }
     }
 
     public void jobWasExecuted(JobExecutionContext inContext, JobExecutionException inException) {
         try {
-            jobLogRepository.updateJobStatus(inContext.getJobDetail().getJobDataMap(), inContext.getResult(),inContext.getTrigger().getEndTime(),inContext.getJobRunTime(), Constants.STATE_COMPLETE);
+            if (inException == null) {
+                jobLogRepository.updateJobStatus(inContext.getJobDetail().getJobDataMap(), inContext.getResult(),inContext.getTrigger().getEndTime(),inContext.getJobRunTime(), Constants.STATE_COMPLETE);
+            } else {
+                jobLogRepository.updateJobStatus(inContext.getJobDetail().getJobDataMap(), ExceptionUtil.stacktraceToString(inException),inContext.getTrigger().getEndTime(),inContext.getJobRunTime(), Constants.STATE_ERROR);
+            }
+
             log.info("Job1Listener says: Job {} : {} was executed." ,inContext.getJobDetail().getKey().getGroup(), inContext.getJobDetail().getKey().getName());
         } catch (Exception e) {
-            log.error("全局job监听器异常后处理报错",e);
+            log.error("全局job监听器结束后处理报错",e);
         }
     }
 
