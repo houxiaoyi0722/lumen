@@ -27,6 +27,7 @@ import org.quartz.impl.jdbcjobstore.Constants;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @author hxy
@@ -51,7 +52,7 @@ public class GlobalJobListener implements JobListener {
             JobLog jobLog = JobLog.builder()
                     .jobName(jobDetail.getKey().getName()).jobGroup(jobDetail.getKey().getGroup())
                     .beanClass(jobDetail.getJobClass().getName()).jobDataMap(jobDetail.getJobDataMap())
-                    .status(Constants.STATE_EXECUTING).startTime(inContext.getTrigger().getStartTime())
+                    .status(Constants.STATE_EXECUTING).startTime(new Date())
                     .mayFireAgain(inContext.getTrigger().mayFireAgain())
                     .build();
 
@@ -83,9 +84,9 @@ public class GlobalJobListener implements JobListener {
     public void jobWasExecuted(JobExecutionContext inContext, JobExecutionException inException) {
         try {
             if (inException == null) {
-                jobLogRepository.updateJobStatus(inContext.getJobDetail().getJobDataMap(), inContext.getResult(),inContext.getTrigger().getEndTime(),inContext.getJobRunTime(), Constants.STATE_COMPLETE);
+                jobLogRepository.updateJobStatus(inContext.getJobDetail().getJobDataMap(), inContext.getResult(),new Date(),inContext.getJobRunTime(), Constants.STATE_COMPLETE);
             } else {
-                jobLogRepository.updateJobStatus(inContext.getJobDetail().getJobDataMap(), ExceptionUtil.stacktraceToString(inException),inContext.getTrigger().getEndTime(),inContext.getJobRunTime(), Constants.STATE_ERROR);
+                jobLogRepository.updateJobStatus(inContext.getJobDetail().getJobDataMap(), ExceptionUtil.stacktraceToString(inException),new Date(),inContext.getJobRunTime(), Constants.STATE_ERROR);
             }
 
             log.info("Job1Listener says: Job {} : {} was executed." ,inContext.getJobDetail().getKey().getGroup(), inContext.getJobDetail().getKey().getName());
