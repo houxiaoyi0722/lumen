@@ -1,3 +1,19 @@
+create table button (
+  id                            bigint not null,
+  button_code                   varchar(255),
+  button_name                   varchar(255),
+  description                   varchar(255),
+  role_id                       bigint,
+  router_id                     bigint,
+  version                       bigint not null,
+  when_created                  datetime(6) not null,
+  created_by                    varchar(255) not null,
+  modified_by                   varchar(255) not null,
+  when_modified                 datetime(6) not null,
+  deleted                       tinyint(1) default 0 not null,
+  constraint pk_button primary key (id)
+) comment='页面按钮维护';
+
 create table dictionary (
   id                            bigint not null,
   group_id                      varchar(10) not null comment '组id',
@@ -174,6 +190,12 @@ create index business_type on storage (business_type);
 create index business_code on storage (business_code);
 create index user_name on user (user_name);
 create index group_code on user_group (group_code);
+create index ix_button_role_id on button (role_id);
+alter table button add constraint fk_button_role_id foreign key (role_id) references role (id) on delete restrict on update restrict;
+
+create index ix_button_router_id on button (router_id);
+alter table button add constraint fk_button_router_id foreign key (router_id) references router (id) on delete restrict on update restrict;
+
 create index ix_dictionary_item_dictionary_id on dictionary_item (dictionary_id);
 alter table dictionary_item add constraint fk_dictionary_item_dictionary_id foreign key (dictionary_id) references dictionary (id) on delete restrict on update restrict;
 

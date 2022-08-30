@@ -39,7 +39,7 @@ public class ButtonController {
      * @param qry
      * @return
      */
-    @PostMapping("/buttons")
+    @PostMapping("/buttons/qry")
     public PageResult<ButtonDto> list(@RequestBody ButtonQry qry) {
         PagedList<Button> pagedList = buttonService.buttonList(qry);
         // 查询全部字段时可不转换直接给pagedList

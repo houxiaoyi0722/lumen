@@ -39,7 +39,7 @@ public class ${model}Controller {
      * @param qry
      * @return
      */
-    @PostMapping("/${model?lower_case}s")
+    @PostMapping("/${model?lower_case}s/qry")
     public PageResult<${model}Dto> list(@RequestBody ${model}Qry qry) {
         PagedList<${model}> pagedList = ${model?lower_case}Service.${model?lower_case}List(qry);
         // 查询全部字段时可不转换直接给pagedList
