@@ -27,7 +27,7 @@ class SystemApplicationTests {
     void addUser() {
 
         final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        // TODO user保存加密
+
         User build = User.builder().userName("hxy").name("hxy").password(bCryptPasswordEncoder.encode("123456"))
                 .accountNonExpired(true)
                 .credentialsNonExpired(true)

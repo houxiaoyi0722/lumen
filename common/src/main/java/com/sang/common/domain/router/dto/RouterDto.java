@@ -14,6 +14,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 路由管理
@@ -63,9 +64,7 @@ public class RouterDto {
     /**
      * 元数据 json格式
      */
-    @NotBlank(message = "元数据不能为空",groups = {Create.class,Update.class})
-    @Length(max = 500,message = "元数据长度在1-500之间",groups = {Create.class, Update.class})
-    private String mate;
+    private Map<String,Object> mate;
 
     /**
      * 描述

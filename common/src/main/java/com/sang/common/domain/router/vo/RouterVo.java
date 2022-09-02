@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author hxy
@@ -39,7 +40,7 @@ public class RouterVo {
     /**
      * 元数据 json格式
      */
-    private String mate;
+    private Map<String,Object> mate;
     /**
      * 描述
      */

@@ -6,6 +6,7 @@ import com.sang.common.domain.auth.authentication.role.entity.Role;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.router.vo.RouterVo;
 import io.ebean.annotation.DbComment;
+import io.ebean.annotation.DbJson;
 import lombok.*;
 
 import javax.persistence.*;
@@ -60,10 +61,9 @@ public class Router extends BaseModel {
     /**
      * 元数据 json格式
      */
-    // todo ebean json
     @DbComment("元数据 json格式")
-    @Column(length = 500)
-    private String mate;
+    @DbJson
+    private Map<String,Object> mate;
 
     /**
      * 描述
