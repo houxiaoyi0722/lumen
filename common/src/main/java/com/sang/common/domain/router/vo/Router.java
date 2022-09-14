@@ -1,5 +1,6 @@
 package com.sang.common.domain.router.vo;
 
+import io.ebean.annotation.DbJson;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.Map;
 @Builder
 @Getter
 @Setter
-public class RouterVo {
+public class Router {
 
     /**
      * id
@@ -40,6 +41,7 @@ public class RouterVo {
     /**
      * 元数据 json格式
      */
+    @DbJson
     private Map<String,Object> mate;
     /**
      * 描述
@@ -56,13 +58,13 @@ public class RouterVo {
     /**
      * 上级路由id
      */
-    private Long parentId;
+    private com.sang.common.domain.router.entity.Router parentId;
     /**
      * 排序
      */
     private Integer orderBy;
 
-    private List<RouterVo> children = new ArrayList<>();
+    private List<Router> children = new ArrayList<>();
 
 
 }

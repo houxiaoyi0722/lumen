@@ -1,6 +1,5 @@
 package com.sang.system.service.router.impl;
 
-import com.sang.common.domain.router.vo.RouterVo;
 import com.sang.common.domain.router.entity.Router;
 import com.sang.common.domain.router.repo.RouterRepository;
 import com.sang.system.service.router.RouterService;
@@ -30,41 +29,41 @@ public class RouterServiceImpl implements RouterService {
 
     @Override
     @Transactional
-    public void save(Router router) {
+    public void save(com.sang.common.domain.router.entity.Router router) {
         router.save();
     }
 
     @Override
     @Transactional
-    public void update(Router router) {
+    public void update(com.sang.common.domain.router.entity.Router router) {
         router.update();
     }
 
     @Override
     @Transactional
-    public void saveAll(List<Router> routers) {
+    public void saveAll(List<com.sang.common.domain.router.entity.Router> routers) {
         routerRepository.saveAll(routers);
     }
 
     @Override
     @Transactional
-    public void delete(Router router) {
+    public void delete(com.sang.common.domain.router.entity.Router router) {
         router.delete();
     }
 
     @Override
     @Transactional
-    public void deleteAll(List<Router> routers) {
+    public void deleteAll(List<com.sang.common.domain.router.entity.Router> routers) {
         routerRepository.deleteAll(routers);
     }
 
     @Override
-    public List<RouterVo> routerTree() {
+    public List<Router> routerTree() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<String> roleCodes = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
-        List<RouterVo> routers = routerRepository.routerListByRoleCodes(roleCodes);
+        List<Router> routers = routerRepository.routerListByRoleCodes(roleCodes);
 
         return Router.getRootNodeRouterTree(routers);
     }

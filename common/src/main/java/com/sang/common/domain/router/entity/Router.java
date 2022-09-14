@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.auth.authentication.role.entity.Role;
 import com.sang.common.domain.base.entity.BaseModel;
-import com.sang.common.domain.router.vo.RouterVo;
 import io.ebean.annotation.DbComment;
 import io.ebean.annotation.DbJson;
 import lombok.*;
@@ -116,14 +115,14 @@ public class Router extends BaseModel {
     private List<Button> buttons;
 
 
-    public static List<RouterVo> getRootNodeRouterTree(List<RouterVo> routers) {
+    public static List<Router> getRootNodeRouterTree(List<Router> routers) {
 
         //是否是根节点
-        List<RouterVo> rootNode = routers.stream()
-                .filter(r -> r.getParentId() ==null || r.getParentId() == 0)
+        List<Router> rootNode = routers.stream()
+                .filter(r -> r.getParentId() ==null || r.getParentId().getId() == 0)
                 .collect(Collectors.toList());
 
-        Map<Long, List<RouterVo>> branchs = routers.stream().filter(r -> r.getParentId() != null && r.getParentId() != 0).collect(Collectors.groupingBy(RouterVo::getParentId));
+        Map<Long, List<Router>> branchs = routers.stream().filter(r -> r.getParentId() != null && r.getParentId().getId() != 0).collect(Collectors.groupingBy(item -> item.getParentId().getId()));
 
         // 构建路由树
         return getRouterTree(rootNode, branchs);
@@ -133,11 +132,11 @@ public class Router extends BaseModel {
      * 获取路由树
      * @return 路由
      */
-    private static List<RouterVo> getRouterTree(List<RouterVo> parentRouters, Map<Long, List<RouterVo>> routers){
+    private static List<Router> getRouterTree(List<Router> parentRouters, Map<Long, List<Router>> routers){
 
-        for (RouterVo router : parentRouters) {
+        for (Router router : parentRouters) {
             //字路由
-            List<RouterVo> childRouter = routers.get(router.getId());
+            List<Router> childRouter = routers.get(router.getId());
             //递归边界: 子路由为空
             if (CollectionUtil.isEmpty(childRouter)) {
                 continue;

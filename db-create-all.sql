@@ -90,7 +90,7 @@ create table router (
   path                          varchar(200) comment '访问路径',
   redirect                      varchar(200) comment '相对路径 根目录开始',
   component                     varchar(200) comment 'component组件',
-  mate                          varchar(500) comment '元数据 json格式',
+  mate                          json comment '元数据 json格式',
   description                   varchar(300) comment '描述',
   hidden                        tinyint(1) comment '是否隐藏',
   always_show                   tinyint(1) comment 'alwaysShow',
