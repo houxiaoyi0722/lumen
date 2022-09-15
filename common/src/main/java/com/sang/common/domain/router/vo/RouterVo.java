@@ -16,7 +16,7 @@ import java.util.Map;
 @Builder
 @Getter
 @Setter
-public class Router {
+public class RouterVo {
 
     /**
      * id
@@ -41,7 +41,6 @@ public class Router {
     /**
      * 元数据 json格式
      */
-    @DbJson
     private Map<String,Object> mate;
     /**
      * 描述
@@ -58,13 +57,13 @@ public class Router {
     /**
      * 上级路由id
      */
-    private com.sang.common.domain.router.entity.Router parentId;
+    private Long parentId;
     /**
      * 排序
      */
     private Integer orderBy;
 
-    private List<Router> children = new ArrayList<>();
+    private List<RouterVo> children;
 
 
 }

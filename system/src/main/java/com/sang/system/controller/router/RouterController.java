@@ -1,8 +1,8 @@
 package com.sang.system.controller.router;
 
 import com.sang.common.domain.router.dto.RouterDto;
-import com.sang.common.domain.router.entity.Router;
 import com.sang.common.domain.router.mapper.RouterMapper;
+import com.sang.common.domain.router.vo.RouterVo;
 import com.sang.common.response.Result;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
@@ -35,7 +35,7 @@ public class RouterController {
      * @return
      */
     @GetMapping("/routerTree")
-    public Result<List<Router>> routerTree() {
+    public Result<List<RouterVo>> routerTree() {
         return Result.ok(routerService.routerTree());
     }
 

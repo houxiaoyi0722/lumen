@@ -1,7 +1,9 @@
 package com.sang.system.service.router.impl;
 
 import com.sang.common.domain.router.entity.Router;
+import com.sang.common.domain.router.mapper.RouterMapper;
 import com.sang.common.domain.router.repo.RouterRepository;
+import com.sang.common.domain.router.vo.RouterVo;
 import com.sang.system.service.router.RouterService;
 import io.ebean.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class RouterServiceImpl implements RouterService {
+
+    private final RouterMapper routerMapper = RouterMapper.mapper;
 
     @Resource
     private RouterRepository routerRepository;
@@ -58,13 +62,13 @@ public class RouterServiceImpl implements RouterService {
     }
 
     @Override
-    public List<Router> routerTree() {
+    public List<RouterVo> routerTree() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<String> roleCodes = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
-        List<Router> routers = routerRepository.routerListByRoleCodes(roleCodes);
+        List<RouterVo> routerVos = routerMapper.routerToVoList(routerRepository.routerListByRoleCodes(roleCodes));
 
-        return Router.getRootNodeRouterTree(routers);
+        return Router.getRootNodeRouterTree(routerVos);
     }
 }

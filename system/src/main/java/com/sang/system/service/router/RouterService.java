@@ -1,6 +1,6 @@
 package com.sang.system.service.router;
 
-import com.sang.common.domain.router.entity.Router;
+import com.sang.common.domain.router.vo.RouterVo;
 
 import java.util.List;
 
@@ -21,5 +21,5 @@ public interface RouterService {
 
     void deleteAll(List<com.sang.common.domain.router.entity.Router> routers);
 
-    List<Router> routerTree();
+    List<RouterVo> routerTree();
 }
