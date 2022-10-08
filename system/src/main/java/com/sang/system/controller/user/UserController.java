@@ -3,14 +3,16 @@ package com.sang.system.controller.user;
 import com.sang.common.domain.auth.authorization.user.dto.UserDto;
 import com.sang.common.domain.auth.authorization.user.entity.User;
 import com.sang.common.domain.auth.authorization.user.mapper.UserMapper;
+import com.sang.common.domain.auth.authorization.user.param.UserQry;
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
-import com.sang.common.domain.auth.authorization.user.param.UserQry;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
 import com.sang.common.validate.user.ResetPassword;
 import com.sang.system.service.user.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,6 +53,17 @@ public class UserController {
     public Result<Boolean> save(@RequestBody @Validated(Create.class) UserDto user) {
         userService.save(userMapper.dtoToUser(user));
         return Result.ok();
+    }
+
+    /**
+     * 按jwt获取用户详情
+     * @return
+     */
+    @GetMapping("/userinfo")
+    public Result<UserDto> userinfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return Result.ok(userMapper.userToDto(userService.userinfo(username)));
     }
 
     /**

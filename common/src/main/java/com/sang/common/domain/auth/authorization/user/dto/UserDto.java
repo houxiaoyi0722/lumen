@@ -79,25 +79,25 @@ public class UserDto {
      * 是否启用
      */
     @NotNull(message = "是否启用不能为空",groups = {Create.class, Update.class})
-    private Boolean enabled = true;
+    private Boolean enabled;
 
     /**
      * 账户未过期
      */
     @NotNull(message = "账户未过期不能为空",groups = {Create.class, Update.class})
-    private Boolean accountNonExpired = true;
+    private Boolean accountNonExpired;
 
     /**
      * 账户锁定
      */
     @NotNull(message = "账户锁定不能为空",groups = {Create.class, Update.class})
-    private Boolean accountNonLocked = false;
+    private Boolean accountNonLocked;
 
     /**
      * 凭证未过期
      */
     @NotNull(message = "凭证未过期不能为空",groups = {Create.class, Update.class})
-    private Boolean credentialsNonExpired = true;
+    private Boolean credentialsNonExpired;
 
     /**
      * @JsonIgnore

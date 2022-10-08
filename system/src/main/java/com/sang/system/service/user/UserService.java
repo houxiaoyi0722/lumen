@@ -21,4 +21,6 @@ public interface UserService {
     UserDetails loadUserByUsername(String username);
 
     void resetPassWord(User dtoToUser);
+
+    User userinfo(String username);
 }
