@@ -67,8 +67,9 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
             HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
             // jwt过期刷新
             response.setHeader(AUTHORIZATION,freshToken.getTokenValue());
+            throw e;
         }
-        return getUsernamePasswordAuthenticationToken(principal, freshToken);
+//        return getUsernamePasswordAuthenticationToken(principal, freshToken);
     }
 
     @Override

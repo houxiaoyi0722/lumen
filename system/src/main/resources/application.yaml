@@ -7,7 +7,7 @@ logging:
 jwt:
   private.key: classpath:app.key
   public.key: classpath:app.pub
-  expire: 36000
+  expire: 3600
   refresh-expiry: 72000
 minio:
   credentials: classpath:credentials.json
