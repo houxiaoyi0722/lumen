@@ -89,3 +89,8 @@ Content-Type: application/json
     "id": 436243035648110592
   }
 ]
+
+###
+GET {{protocol}}{{domain}}/lumen/user/userinfo
+Authorization: Bearer {{token}}
+Content-Type: application/json

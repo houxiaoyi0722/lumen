@@ -1,6 +1,7 @@
 package com.sang.common.domain.auth.authorization.user.mapper;
 
 import com.sang.common.domain.auth.authorization.user.dto.UserDto;
+import com.sang.common.domain.auth.authorization.user.dto.UserInfoDto;
 import com.sang.common.domain.auth.authorization.user.entity.User;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
@@ -20,5 +21,7 @@ public interface UserMapper {
     User dtoToUser(UserDto roleDto);
 
     UserDto userToDto(User roleDto);
+
+    UserInfoDto userToInfoDto(User roleDto);
 
 }

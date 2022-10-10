@@ -1,6 +1,7 @@
 package com.sang.system.controller.user;
 
 import com.sang.common.domain.auth.authorization.user.dto.UserDto;
+import com.sang.common.domain.auth.authorization.user.dto.UserInfoDto;
 import com.sang.common.domain.auth.authorization.user.entity.User;
 import com.sang.common.domain.auth.authorization.user.mapper.UserMapper;
 import com.sang.common.domain.auth.authorization.user.param.UserQry;
@@ -60,10 +61,9 @@ public class UserController {
      * @return
      */
     @GetMapping("/userinfo")
-    public Result<UserDto> userinfo() {
+    public Result<UserInfoDto> userinfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        return Result.ok(userMapper.userToDto(userService.userinfo(username)));
+        return Result.ok(userMapper.userToInfoDto(userService.userinfo(authentication.getName())));
     }
 
     /**
