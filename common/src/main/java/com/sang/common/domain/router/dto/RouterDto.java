@@ -50,7 +50,7 @@ public class RouterDto {
     /**
      * 相对路径 根目录开始
      */
-    @NotBlank(message = "相对路径不能为空",groups = {Create.class,Update.class})
+//    @NotBlank(message = "相对路径不能为空",groups = {Create.class,Update.class})
     @Length(max = 200,message = "相对路径长度在1-200之间",groups = {Create.class, Update.class})
     private String redirect;
 

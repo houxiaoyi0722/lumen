@@ -21,5 +21,5 @@ public interface RouterService {
 
     void deleteAll(List<com.sang.common.domain.router.entity.Router> routers);
 
-    List<RouterVo> routerTree();
+    List<RouterVo> routerTree(List<String> roleCodes);
 }

@@ -8,11 +8,15 @@ import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
 import com.sang.system.service.router.RouterService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 路由管理
@@ -36,7 +40,10 @@ public class RouterController {
      */
     @GetMapping("/routerTree")
     public Result<List<RouterVo>> routerTree() {
-        return Result.ok(routerService.routerTree());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<String> roleCodes = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+
+        return Result.ok(routerService.routerTree(roleCodes));
     }
 
     /**
