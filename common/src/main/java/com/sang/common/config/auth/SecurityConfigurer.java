@@ -80,7 +80,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         // 接口权限
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()//跨域请求会先进行一次options请求
-                .antMatchers("/login").permitAll() //白名单
+                .antMatchers("/login","/authorizations").permitAll() //白名单
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll() //放行所有健康检查请求
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()

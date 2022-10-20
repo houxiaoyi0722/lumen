@@ -34,10 +34,6 @@ public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthentica
 
     public static final String SPRING_SECURITY_FORM_PASSWORD_KEY = "password";
 
-    private String usernameParameter = SPRING_SECURITY_FORM_USERNAME_KEY;
-
-    private String passwordParameter = SPRING_SECURITY_FORM_PASSWORD_KEY;
-
     @Override
     public void afterPropertiesSet() {
         Assert.notNull(getAuthenticationManager(), "authenticationManager must be specified");
@@ -52,8 +48,8 @@ public class JsonUsernamePasswordAuthenticationFilter extends AbstractAuthentica
         String password = null;
         if (StringUtils.hasText(body)) {
             Map map = new ObjectMapper().readValue(body, Map.class);
-            username = map.get(usernameParameter).toString();
-            password = map.get(passwordParameter).toString();
+            username = map.get(SPRING_SECURITY_FORM_USERNAME_KEY).toString();
+            password = map.get(SPRING_SECURITY_FORM_PASSWORD_KEY).toString();
         }
         username = Optional.ofNullable(username).orElse(StringConst.EMPTY).trim();
         password = Optional.ofNullable(password).orElse(StringConst.EMPTY);

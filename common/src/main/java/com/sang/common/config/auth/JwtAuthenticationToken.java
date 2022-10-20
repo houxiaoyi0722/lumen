@@ -22,15 +22,15 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     private UserDetails principal;
     private String credentials;
-    private TokenDto token;
+    private String token;
 
-    public JwtAuthenticationToken(UserDetails principal, TokenDto token, Collection<? extends GrantedAuthority> authorities) {
+    public JwtAuthenticationToken(UserDetails principal, String token, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
         this.token = token;
     }
 
-    public JwtAuthenticationToken(TokenDto token) {
+    public JwtAuthenticationToken(String token) {
         super(Collections.emptyList());
         this.token = token;
     }

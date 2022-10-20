@@ -48,28 +48,9 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
-        TokenDto principal = ((JwtAuthenticationToken)authentication).getToken();
-        Jwt token = null;
-        Jwt freshToken = null;
-        try {
-            token = jwtDecoder.decode(principal.getToken());
-            return getUsernamePasswordAuthenticationToken(principal, token);
-        } catch (JwtValidationException e) {
-            // jwt 签名验证通过后,如果过期(默认只有过期校验)或者其他类型验证错误会抛出该异常
-            // 过期后验证refreshToken是否过期,未过期重新签发签名给客户端
-            Collection<OAuth2Error> errors = e.getErrors();
-            errors.forEach(oAuth2Error -> log.error(oAuth2Error.getErrorCode()));
-            freshToken = getFreshToken(Instant.now(), principal);
-
-            // todo  jwt过期刷新 记录 更新 添加redis 存储管理jwt 单点登录
-
-            HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-            // jwt过期刷新
-            response.setHeader(AUTHORIZATION,freshToken.getTokenValue());
-            throw e;
-        }
-//        return getUsernamePasswordAuthenticationToken(principal, freshToken);
+        String principal = ((JwtAuthenticationToken)authentication).getToken();
+        Jwt token = jwtDecoder.decode(principal);
+        return getUsernamePasswordAuthenticationToken(principal, token);
     }
 
     @Override
@@ -77,21 +58,7 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
         return authentication.isAssignableFrom(JwtAuthenticationToken.class);
     }
 
-    private Jwt getFreshToken(Instant now, TokenDto tokenDto) {
-        Jwt refreshToken = jwtDecoder.decode(tokenDto.getRefreshToken());
-
-        JwtClaimsSet freshClaims = JwtClaimsSet.builder()
-                .id(refreshToken.getId())
-                .issuedAt(now)
-                .expiresAt(now.plusSeconds(EXPIRY))
-                .subject(refreshToken.getSubject())
-                .claim(ROLES, refreshToken.getClaim(ROLES))
-                .build();
-        return jwtEncoder.encode(JwtEncoderParameters.from(freshClaims));
-    }
-
-
-    private UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(TokenDto tokenDto, Jwt token) {
+    private UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(String jwt, Jwt token) {
         if (StrUtil.isNotEmpty(token.getSubject())) {
             // 从Token中解密获取用户角色
             String rolsStr = token.getClaim(ROLES).toString();
@@ -102,7 +69,7 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
                     authorities.add(new SimpleGrantedAuthority(s));
                 }
             }
-            return new UsernamePasswordAuthenticationToken(token.getSubject(), tokenDto.getToken(), authorities);
+            return new UsernamePasswordAuthenticationToken(token.getSubject(), jwt, authorities);
         }
         return null;
     }

@@ -118,8 +118,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                 // 去除 tokenHeader
                 jwtStr = jwtStr.replace(TOKEN_HEADER, StringConst.EMPTY);
                 if (StrUtil.isNotEmpty(jwtStr)) {
-                    TokenDto tokenDto = new ObjectMapper().readValue(jwtStr, TokenDto.class);
-                    return new JwtAuthenticationToken(tokenDto);
+                    return new JwtAuthenticationToken(jwtStr);
                 } else {
                     throw new InsufficientAuthenticationException("JWT is Empty");
                 }

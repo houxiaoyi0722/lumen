@@ -2,15 +2,15 @@ package com.sang.system.controller.auth;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
+import com.sang.common.constants.StringConst;
 import com.sang.common.domain.auth.authorization.token.dto.TokenDto;
+import com.sang.common.response.Result;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -36,6 +36,9 @@ public class TokenController {
 
 	@Resource
 	private JwtEncoder encoder;
+
+	@Resource
+	private JwtDecoder decoder;
 
 	/**
 	 * 已废弃
@@ -84,4 +87,26 @@ public class TokenController {
 				.build();
 	}
 
+	@PostMapping("/authorizations")
+	public Result<String> refreshToken(@RequestHeader String authorization) {
+		authorization = authorization.replace(TOKEN_HEADER, StringConst.EMPTY);
+
+		// jwt过期刷新
+		Jwt freshToken = getFreshToken(Instant.now(), authorization);
+		// todo  jwt过期刷新 记录 更新 添加redis 存储管理jwt 单点登录
+		return Result.ok(freshToken.getTokenValue());
+	}
+
+	private Jwt getFreshToken(Instant now, String tokenDto) {
+		Jwt refreshToken = decoder.decode(tokenDto);
+
+		JwtClaimsSet freshClaims = JwtClaimsSet.builder()
+				.id(refreshToken.getId())
+				.issuedAt(now)
+				.expiresAt(now.plusSeconds(EXPIRY))
+				.subject(refreshToken.getSubject())
+				.claim(ROLES, refreshToken.getClaim(ROLES))
+				.build();
+		return encoder.encode(JwtEncoderParameters.from(freshClaims));
+	}
 }
