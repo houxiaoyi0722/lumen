@@ -8,11 +8,11 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "菜单管理1",
-  "path": "/router/menu1",
+  "name": "菜单管理8",
+  "path": "/router/menu8",
   "redirect": "/",
-  "component": "/menage/router1",
-  "mate": "{\"id\": 0}",
+  "component": "/menage/router8",
+  "mate": {"title": "菜单管理8","icon":"Sunset"},
   "description": "",
   "hidden": false,
   "alwaysShow": true,
