@@ -1,11 +1,11 @@
 {
   "dataModel": {
-    "domain": "router",
-    "model": "Button",
+    "domain": "userExt",
+    "model": "UserExt",
     "author": "hxy",
-    "dbComment": "页面按钮维护",
-    "domainComment": "页面按钮维护",
-    "modelComment": "页面按钮维护"
+    "dbComment": "用户扩展信息表",
+    "domainComment": "用户模块",
+    "modelComment": "用户扩展信息"
   },
   "templates": [
     {

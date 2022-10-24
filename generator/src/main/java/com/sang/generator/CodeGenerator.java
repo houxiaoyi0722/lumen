@@ -26,8 +26,8 @@ import java.util.regex.Pattern;
 public class CodeGenerator {
     public static final String DOMAIN = "domain";
     public static final String MODEL = "model";
-    public static final String UPPER_PATTERN = "^([A-Z][a-z0-9]+)+";
-    public static final String LOWER_PATTERN = "^([a-z0-9]+)+";
+    public static final String UPPER_PATTERN = "^([A-Z][a-zA-Z]+)+";
+    public static final String LOWER_PATTERN = "^([a-z][a-zA-Z]+)+";
 
 
     public static void main(String[] args) throws IOException, TemplateException {
