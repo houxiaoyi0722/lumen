@@ -1,3 +1,4 @@
+-- apply changes
 create table button (
   id                            bigint not null,
   button_code                   varchar(255),
@@ -168,7 +169,7 @@ create table user_role (
 
 create table user_ext (
   id                            bigint not null,
-  avatar                        varchar(500) comment '用户头像',
+  avatar                        varchar(100) comment '用户头像',
   intro                         varchar(200) comment '简介',
   user_id                       bigint,
   version                       bigint not null,

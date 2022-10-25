@@ -68,4 +68,9 @@ public class UserInfoDto {
      */
     private UserGroupDto userGroup;
 
+    /**
+     * 用户头像
+     */
+    private String avatar;
+
 }

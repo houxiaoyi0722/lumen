@@ -63,7 +63,7 @@ public class UserRepository extends BeanRepository<Long, User> {
     public User userinfo(String username) {
         QUser alias = QUser.alias();
         return new QUser().select(alias.userName,alias.userGroup,alias.name,
-                alias.phone,alias.mobilePhone,alias.email, alias.address, alias.email, alias.roles)
+                alias.phone,alias.mobilePhone,alias.email, alias.address, alias.email, alias.roles, alias.userExt.avatar)
                 .userName.eq(username)
                 .findOne();
     }

@@ -22,11 +22,15 @@ drop index ix_router_role_role on router_role;
 alter table user drop foreign key fk_user_user_group_id;
 drop index ix_user_user_group_id on user;
 
+alter table user drop foreign key fk_user_user_ext_id;
+
 alter table user_role drop foreign key fk_user_role_user;
 drop index ix_user_role_user on user_role;
 
 alter table user_role drop foreign key fk_user_role_role;
 drop index ix_user_role_role on user_role;
+
+alter table user_ext drop foreign key fk_user_ext_user_id;
 
 alter table user_group drop foreign key fk_user_group_parent_id;
 drop index ix_user_group_parent_id on user_group;
@@ -50,6 +54,8 @@ drop table if exists storage;
 drop table if exists user;
 
 drop table if exists user_role;
+
+drop table if exists user_ext;
 
 drop table if exists user_group;
 

@@ -85,6 +85,9 @@ public class User extends BaseModel implements UserDetails {
     @ManyToOne(fetch=FetchType.LAZY)
     private UserGroup userGroup;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private UserExt userExt;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<String> authorities = this.roles.stream().map(Role::getRoleCode).collect(Collectors.toList());

@@ -63,7 +63,8 @@ public class UserController {
     @GetMapping("/userinfo")
     public Result<UserInfoDto> userinfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return Result.ok(userMapper.userToInfoDto(userService.userinfo(authentication.getName())));
+        User userinfo = userService.userinfo(authentication.getName());
+        return Result.ok(userMapper.userToInfoDto(userinfo));
     }
 
     /**
