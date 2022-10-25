@@ -133,3 +133,7 @@ Authorization: Bearer {{token}}
     "id": 457616854480531456
   }
 ]
+
+### 根据当前用户返回路由列表
+GET http://localhost:8080/lumen/router/routers
+Authorization: Bearer {{token}}

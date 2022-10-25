@@ -23,4 +23,6 @@ public interface RouterService {
     void deleteAll(List<Router> routers);
 
     List<RouterVo> routerTree(List<String> roleCodes);
+
+    List<Router> routerList();
 }

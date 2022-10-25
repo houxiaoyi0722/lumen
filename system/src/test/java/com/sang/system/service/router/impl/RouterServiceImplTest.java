@@ -1,7 +1,7 @@
 /*
 package com.sang.system.service.router.impl;
 
-import com.sang.common.domain.router.dto.RouterDto;
+import com.sang.common.domain.router.param.RouterDto;
 import com.sang.common.domain.router.entity.Router;
 import com.sang.common.domain.router.repo.RouterRepository;
 import org.junit.jupiter.api.Test;

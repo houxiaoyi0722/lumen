@@ -23,6 +23,7 @@ public interface RouterMapper {
     List<RouterVo> routerToVoList(List<Router> list);
 
     @Mapping(source = "parentId.id",target = "parentId")
+    @Mapping(target = "children",ignore = true)
     RouterVo routerToVo(Router router);
 
     List<Router> dtoToRouterList(List<RouterDto> list);

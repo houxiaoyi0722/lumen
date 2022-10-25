@@ -1,12 +1,9 @@
 package com.sang.common.domain.router.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.ebean.annotation.DbJson;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +58,7 @@ public class RouterVo {
     /**
      * 上级路由id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long parentId;
     /**
      * 排序

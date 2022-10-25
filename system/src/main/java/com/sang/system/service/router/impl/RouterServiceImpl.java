@@ -71,4 +71,9 @@ public class RouterServiceImpl implements RouterService {
 
         return Router.getRootNodeRouterTree(routerVos);
     }
+
+    @Override
+    public List<Router> routerList() {
+        return routerRepository.findAll();
+    }
 }
