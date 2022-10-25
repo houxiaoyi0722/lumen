@@ -1,6 +1,8 @@
 package com.sang.common.domain.auth.authorization.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
 
 @Builder
@@ -11,6 +13,7 @@ import lombok.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserGroupDto {
 
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     /**
      * 用户组名称

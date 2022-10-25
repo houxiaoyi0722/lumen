@@ -1,5 +1,6 @@
 package com.sang.system.service.router;
 
+import com.sang.common.domain.router.entity.Router;
 import com.sang.common.domain.router.vo.RouterVo;
 
 import java.util.List;
@@ -11,15 +12,15 @@ import java.util.List;
  **/
 public interface RouterService {
 
-    void save(com.sang.common.domain.router.entity.Router router);
+    void save(Router router);
 
-    void update(com.sang.common.domain.router.entity.Router router);
+    void update(Router router);
 
-    void saveAll(List<com.sang.common.domain.router.entity.Router> routers);
+    void saveAll(List<Router> routers);
 
-    void delete(com.sang.common.domain.router.entity.Router router);
+    void delete(Router router);
 
-    void deleteAll(List<com.sang.common.domain.router.entity.Router> routers);
+    void deleteAll(List<Router> routers);
 
     List<RouterVo> routerTree(List<String> roleCodes);
 }

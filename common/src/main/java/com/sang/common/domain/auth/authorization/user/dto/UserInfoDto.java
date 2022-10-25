@@ -1,6 +1,8 @@
 package com.sang.common.domain.auth.authorization.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.sang.common.constants.RegexConst;
 import com.sang.common.domain.auth.authentication.role.dto.RoleDto;
 import com.sang.common.validate.Create;
@@ -27,6 +29,7 @@ public class UserInfoDto {
     /**
      * id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     /**
      * 姓名

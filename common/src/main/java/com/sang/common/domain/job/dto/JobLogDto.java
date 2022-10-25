@@ -1,6 +1,8 @@
 package com.sang.common.domain.job.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
 import lombok.Builder;
@@ -27,6 +29,7 @@ public class JobLogDto {
     /**
      * id
     */
+    @JsonSerialize(using = ToStringSerializer.class)
     @NotNull(message = "id不能为空",groups = {Delete.class,Update.class})
     private Long id;
 

@@ -27,6 +27,7 @@ public class ${model}Dto {
     /**
      * id
     */
+    @JsonSerialize(using = ToStringSerializer.class)
     @NotNull(message = "id不能为空",groups = {Delete.class,Update.class})
     private Long id;
 

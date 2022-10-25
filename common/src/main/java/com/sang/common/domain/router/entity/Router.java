@@ -45,9 +45,9 @@ public class Router extends BaseModel {
     private String path;
 
     /**
-     * 相对路径 根目录开始
+     * 跳转路径
      */
-    @DbComment("相对路径 根目录开始")
+    @DbComment("跳转路径")
     @Column(length = 200)
     private String redirect;
 
@@ -61,7 +61,7 @@ public class Router extends BaseModel {
     /**
      * 元数据 json格式
      */
-    @DbComment("元数据 json格式")
+    @DbComment("元数据 对象传入,json格式存储")
     @DbJson
     private Map<String,Object> mate;
 

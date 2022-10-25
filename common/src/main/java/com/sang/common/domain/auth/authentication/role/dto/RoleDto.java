@@ -1,6 +1,8 @@
 package com.sang.common.domain.auth.authentication.role.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.sang.common.domain.auth.authentication.role.entity.Role;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
@@ -22,6 +24,7 @@ public class RoleDto {
     /**
      * id 主键
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     @NotNull(message = "id不能为空",groups = {Delete.class,Update.class})
     private Long id;
 
