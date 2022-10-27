@@ -25,4 +25,6 @@ public interface RouterService {
     List<RouterVo> routerTree(List<String> roleCodes);
 
     List<Router> routerList();
+
+    void updateAll(List<Router> dtoToRouterList);
 }

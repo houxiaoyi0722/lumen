@@ -3,6 +3,8 @@ package com.sang.system.controller.role;
 import com.sang.common.domain.auth.authentication.role.dto.RoleDto;
 import com.sang.common.domain.auth.authentication.role.entity.Role;
 import com.sang.common.domain.auth.authentication.role.mapper.RoleMapper;
+import com.sang.common.domain.auth.authentication.role.vo.RoleVo;
+import com.sang.common.domain.base.dto.CommonKeyValueDto;
 import com.sang.common.response.Result;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
@@ -47,6 +49,15 @@ public class RoleController {
     @GetMapping("/childRoles")
     public Result<List<Role>> roles(@RequestParam @NotNull(message = "parentId不能为空") Long parentId) {
         return Result.ok(roleService.rolesByParentId(parentId));
+    }
+
+    /**
+     * 获取全部角色树
+     * @return
+     */
+    @GetMapping("/rolesTree")
+    public Result<List<CommonKeyValueDto>> rolesTree() {
+        return Result.ok(roleMapper.toKeyValueList(roleService.findTopRoles()));
     }
 
     /**

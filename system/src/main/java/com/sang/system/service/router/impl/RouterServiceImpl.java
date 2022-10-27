@@ -76,4 +76,10 @@ public class RouterServiceImpl implements RouterService {
     public List<Router> routerList() {
         return routerRepository.findAll();
     }
+
+    @CacheEvict(value = "routerTree", key = "'*'")
+    @Override
+    public void updateAll(List<Router> routers) {
+        routers.forEach(routerRepository::update);
+    }
 }

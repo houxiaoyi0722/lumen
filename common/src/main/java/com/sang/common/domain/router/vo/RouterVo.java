@@ -2,6 +2,7 @@ package com.sang.common.domain.router.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.sang.common.domain.base.dto.CommonIdDto;
 import lombok.*;
 
 import java.util.List;
@@ -67,5 +68,6 @@ public class RouterVo {
 
     private List<RouterVo> children;
 
+    private List<CommonIdDto> roles;
 
 }

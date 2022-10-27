@@ -68,3 +68,9 @@ Authorization: Bearer {{token}}
 ### 根据父角色id获取子角色列表，为null获取顶级角色
 GET http://localhost:8080/lumen/role/childRoles?parentId=435165139135348736
 Authorization: Bearer {{token}}
+
+
+
+###
+GET http://localhost:8080/lumen/role/rolesTree
+Authorization: Bearer {{token}}

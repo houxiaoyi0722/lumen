@@ -1,6 +1,8 @@
 package com.sang.system.controller.router;
 
+import cn.hutool.core.collection.CollUtil;
 import com.sang.common.domain.router.dto.RouterDto;
+import com.sang.common.domain.router.dto.TableDataDto;
 import com.sang.common.domain.router.entity.Router;
 import com.sang.common.domain.router.mapper.RouterMapper;
 import com.sang.common.domain.router.vo.RouterVo;
@@ -9,6 +11,7 @@ import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
 import com.sang.system.service.router.RouterService;
+import io.ebean.annotation.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -100,6 +103,17 @@ public class RouterController {
     }
 
     /**
+     * 通过id更新
+     * @param routers
+     * @return
+     */
+    @PutMapping("/routers")
+    public Result<Boolean> updateAll(@RequestBody @Validated(Update.class) List<RouterDto> routers) {
+        routerService.updateAll(routerMapper.dtoToRouterList(routers));
+        return Result.ok();
+    }
+
+    /**
      * 通过id删除
      * @param router
      * @return
@@ -120,6 +134,28 @@ public class RouterController {
         routerService.deleteAll(routerMapper.dtoToRouterList(routers));
         return Result.ok();
     }
+
+    /**
+     * 批量保存/更新/删除数据
+     * @param tableDataDto
+     * @return
+     */
+    @Transactional
+    @PostMapping("/routerUpdate")
+    public Result<Boolean> routerUpdate(@RequestBody @Validated TableDataDto tableDataDto) {
+
+        if (CollUtil.isNotEmpty(tableDataDto.getInsertList())) {
+            routerService.saveAll(routerMapper.dtoToRouterList(tableDataDto.getInsertList()));
+        }
+        if (CollUtil.isNotEmpty(tableDataDto.getUpdateList())) {
+            routerService.updateAll(routerMapper.dtoToRouterList(tableDataDto.getUpdateList()));
+        }
+        if (CollUtil.isNotEmpty(tableDataDto.getRemoveList())) {
+            routerService.deleteAll(routerMapper.dtoToRouterList(tableDataDto.getRemoveList()));
+        }
+        return Result.ok();
+    }
+
 
 
 }
