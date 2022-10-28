@@ -36,8 +36,13 @@ public class RoleVo {
     private String roleCode;
 
     /**
-     * @JsonIgnore
+     * 描述
+     */
+    private String comment;
+
+    /**
      * parentId
      */
-    private List<RoleVo> children;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long parentId;
 }

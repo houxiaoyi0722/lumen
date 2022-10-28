@@ -21,6 +21,9 @@ public interface RoleMapper {
 
     List<RoleVo> roleToVoList(List<Role> list);
 
+    @Mapping(target = "parentId",source = "parentId.id")
+    RoleVo roleToVo(Role role);
+
     List<Role> dtoToRoleList(List<RoleDto> list);
 
     Role dtoToRole(RoleDto roleDto);

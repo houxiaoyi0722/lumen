@@ -33,14 +33,14 @@ public class Role extends BaseModel {
      * 角色名称
      */
     @DbComment("角色名称")
-    @Column(length = 20,nullable = false,unique = true)
+    @Column(length = 20,nullable = false)
     private String roleName;
 
     /**
      * 角色代码
      */
     @DbComment("角色代码")
-    @Column(length = 20,nullable = false,unique = true)
+    @Column(length = 20,nullable = false)
     private String roleCode;
 
     /**

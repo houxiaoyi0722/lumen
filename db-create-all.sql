@@ -79,8 +79,6 @@ create table role (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint uq_role_role_name unique (role_name),
-  constraint uq_role_role_code unique (role_code),
   constraint pk_role primary key (id)
 ) comment='角色表';
 

@@ -69,4 +69,15 @@ public class RoleServiceImpl implements RoleService {
     public void deleteAll(List<Role> roles) {
         roleRepository.deleteAll(roles);
     }
+
+    @Override
+    public List<Role> findAll() {
+        return roleRepository.findAll();
+    }
+
+    @Transactional
+    @Override
+    public void updateAll(List<Role> dtoToRoleList) {
+        dtoToRoleList.forEach(roleRepository::update);
+    }
 }

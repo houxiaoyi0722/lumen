@@ -1,6 +1,8 @@
 package com.sang.system.controller.role;
 
+import cn.hutool.core.collection.CollUtil;
 import com.sang.common.domain.auth.authentication.role.dto.RoleDto;
+import com.sang.common.domain.auth.authentication.role.dto.RoleTableDataDto;
 import com.sang.common.domain.auth.authentication.role.entity.Role;
 import com.sang.common.domain.auth.authentication.role.mapper.RoleMapper;
 import com.sang.common.domain.auth.authentication.role.vo.RoleVo;
@@ -10,6 +12,7 @@ import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
 import com.sang.system.service.role.RoleService;
+import io.ebean.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,13 +55,23 @@ public class RoleController {
     }
 
     /**
-     * 获取全部角色树
+     * 获取键值对角色树
+     * @return
+     */
+    @GetMapping("/rolesKVTree")
+    public Result<List<CommonKeyValueDto>> rolesKVTree() {
+        return Result.ok(roleMapper.toKeyValueList(roleService.findTopRoles()));
+    }
+
+    /**
+     * 查询角色树
      * @return
      */
     @GetMapping("/rolesTree")
-    public Result<List<CommonKeyValueDto>> rolesTree() {
-        return Result.ok(roleMapper.toKeyValueList(roleService.findTopRoles()));
+    public Result<List<RoleVo>> rolesTree() {
+        return Result.ok(roleMapper.roleToVoList(roleService.findAll()));
     }
+
 
     /**
      * 保存对象
@@ -112,6 +125,27 @@ public class RoleController {
     @DeleteMapping("/roles")
     public Result<Boolean> deleteAll(@RequestBody @Validated(Delete.class) List<RoleDto> roles) {
         roleService.deleteAll(roleMapper.dtoToRoleList(roles));
+        return Result.ok();
+    }
+
+    /**
+     * 批量保存/更新/删除数据 配合 vxe table
+     * @param tableDataDto
+     * @return
+     */
+    @Transactional
+    @PostMapping("/roleListUpdate")
+    public Result<Boolean> roleListUpdate(@RequestBody @Validated RoleTableDataDto tableDataDto) {
+        if (CollUtil.isNotEmpty(tableDataDto.getInsertList())) {
+            roleService.saveAll(roleMapper.dtoToRoleList(tableDataDto.getInsertList()));
+        }
+        if (CollUtil.isNotEmpty(tableDataDto.getUpdateList())) {
+            roleService.updateAll(roleMapper.dtoToRoleList(tableDataDto.getUpdateList()));
+        }
+        if (CollUtil.isNotEmpty(tableDataDto.getRemoveList())) {
+            roleService.deleteAll(roleMapper.dtoToRoleList(tableDataDto.getRemoveList()));
+        }
+
         return Result.ok();
     }
 

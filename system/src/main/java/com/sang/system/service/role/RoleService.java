@@ -24,4 +24,8 @@ public interface RoleService {
     void delete(Role role);
 
     void deleteAll(List<Role> roles);
+
+    List<Role> findAll();
+
+    void updateAll(List<Role> dtoToRoleList);
 }
