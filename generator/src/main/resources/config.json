@@ -1,16 +1,16 @@
 {
   "dataModel": {
-    "domain": "userExt",
-    "model": "UserExt",
+    "domain": "userGroup",
+    "model": "UserGroup",
     "author": "hxy",
-    "dbComment": "用户扩展信息表",
+    "dbComment": "用户组",
     "domainComment": "用户模块",
-    "modelComment": "用户扩展信息"
+    "modelComment": "用户组"
   },
   "templates": [
     {
       "name": "entity.ftl",
-      "enable": true,
+      "enable": false,
       "fileTypeName": "{model}.java",
       "output": "common/src/main/java/com/sang/common/domain/{domain}/entity/",
       "exDataModel": {

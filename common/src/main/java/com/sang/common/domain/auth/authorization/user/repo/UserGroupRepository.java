@@ -1,0 +1,36 @@
+package com.sang.common.domain.auth.authorization.user.repo;
+
+import com.sang.common.domain.auth.authorization.user.entity.UserGroup;
+import com.sang.common.domain.auth.authorization.user.entity.query.QUserGroup;
+import com.sang.common.domain.auth.authorization.user.param.UserGroupQry;
+import io.ebean.BeanRepository;
+import io.ebean.Database;
+import io.ebean.PagedList;
+import org.springframework.stereotype.Repository;
+
+/**
+ * 用户模块
+ * 用户组
+ * Repository
+ * hxy 2022-11-02 17:04:18
+ */
+@Repository
+public class UserGroupRepository extends BeanRepository<Long, UserGroup> {
+
+    protected UserGroupRepository(Database server) {
+        super(UserGroup.class, server);
+    }
+
+    public PagedList<UserGroup> getPage(UserGroupQry qry) {
+        QUserGroup alice = QUserGroup.alias();
+
+        return new QUserGroup()
+            .select()
+            .setFirstRow(qry.getStartPosition())
+            .setMaxRows(qry.getEndPosition())
+            .orderBy().whenCreated.desc()
+            .findPagedList();
+    }
+
+
+}

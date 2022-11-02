@@ -30,7 +30,7 @@ public class UserGroup extends BaseModel {
     private String groupName;
 
     @DbComment("用户组代码")
-    @Column(length = 10,nullable = false,unique = true)
+    @Column(length = 20,nullable = false,unique = true)
     private String groupCode;
 
     @Column(length = 200)
