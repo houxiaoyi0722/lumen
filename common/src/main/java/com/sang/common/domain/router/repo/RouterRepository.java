@@ -29,7 +29,7 @@ public class RouterRepository extends BeanRepository<Long, Router> {
                 router.component, router.mate, router.description,
                 router.hidden, router.alwaysShow, router.parentId,
                 router.orderBy
-        );
+        ).orderBy().orderBy.asc();
         if (CollectionUtil.isNotEmpty(roleCodes)) {
             select = select.roles.roleCode.in(roleCodes);
         }
