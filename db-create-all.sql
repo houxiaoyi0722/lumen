@@ -182,7 +182,7 @@ create table user_ext (
 create table user_group (
   id                            bigint not null,
   group_name                    varchar(10) not null comment '用户组名称',
-  group_code                    varchar(10) not null comment '用户组代码',
+  group_code                    varchar(20) not null comment '用户组代码',
   comment                       varchar(200) comment '备注',
   parent_id                     bigint,
   version                       bigint not null,
