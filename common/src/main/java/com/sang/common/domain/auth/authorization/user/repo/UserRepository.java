@@ -42,10 +42,7 @@ public class UserRepository extends BeanRepository<Long, User> {
 
     public PagedList<User> userList(UserQry userQry) {
         return new QUser()
-                .select(qUser.id, qUser.userName, qUser.name, qUser.mobilePhone, qUser.phone,
-                        qUser.enabled, qUser.address, qUser.email, qUser.accountNonExpired, qUser.accountNonLocked,
-                        qUser.credentialsNonExpired, qUser.whenCreated, qUser.whenModified
-                )
+                .select(qUser.id, qUser.userName, qUser.name, qUser.enabled, qUser.whenCreated, qUser.whenModified)
                 .setFirstRow(userQry.getStartPosition())
                 .setMaxRows(userQry.getEndPosition())
                 .orderBy().whenCreated.asc()
@@ -62,8 +59,7 @@ public class UserRepository extends BeanRepository<Long, User> {
 
     public User userinfo(String username) {
         QUser alias = QUser.alias();
-        return new QUser().select(alias.userName,alias.userGroup,alias.name,
-                alias.phone,alias.mobilePhone,alias.email, alias.address, alias.email, alias.roles, alias.userExt.avatar)
+        return new QUser().select(alias.userName,alias.userGroup,alias.name, alias.roles, alias.userExt.avatar)
                 .userName.eq(username)
                 .findOne();
     }

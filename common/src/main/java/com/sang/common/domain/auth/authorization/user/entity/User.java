@@ -46,45 +46,35 @@ public class User extends BaseModel implements UserDetails {
     @Column(length = 100,nullable = false,unique = true,updatable = false)
     private String password;
 
-    @DbComment("电话")
-    @Column(length = 20)
-    private String phone;
-
-    @DbComment("移动电话")
-    @Column(length = 20)
-    private String mobilePhone;
-
-    @DbComment("地址")
-    @Column(length = 200)
-    private String address;
-
-    @DbComment("邮箱地址")
-    @Column(length = 50)
-    private String email;
-
     @DbComment("是否启用")
     @Column
+    @Builder.Default
     private Boolean enabled = true;
 
     @DbComment("账户未过期")
     @Column
+    @Builder.Default
     private Boolean accountNonExpired = true;
 
     @DbComment("账户锁定")
     @Column
+    @Builder.Default
     private Boolean accountNonLocked = false;
 
     @DbComment("凭证未过期")
     @Column
+    @Builder.Default
     private Boolean credentialsNonExpired = true;
 
     @JsonIgnore
     @ManyToMany(fetch=FetchType.LAZY)
     private List<Role> roles;
 
+    @JsonIgnore
     @ManyToOne(fetch=FetchType.LAZY)
     private UserGroup userGroup;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     private UserExt userExt;
 

@@ -81,4 +81,9 @@ public class UserGroupServiceImpl implements UserGroupService {
     public void updateAll(List<UserGroup> userGroupList) {
         userGroupList.forEach(repository::update);
     }
+
+    @Override
+    public List<UserGroup> findTop() {
+        return repository.findTop();
+    }
 }

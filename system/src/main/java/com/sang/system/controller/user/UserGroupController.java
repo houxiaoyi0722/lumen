@@ -7,6 +7,7 @@ import com.sang.common.domain.auth.authorization.user.dto.UserGroupDto;
 import com.sang.common.domain.auth.authorization.user.dto.UserGroupTableDataDto;
 import com.sang.common.domain.auth.authorization.user.entity.UserGroup;
 import com.sang.common.domain.auth.authorization.user.vo.UserGroupVo;
+import com.sang.common.domain.base.dto.CommonKeyValueDto;
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
 import com.sang.common.domain.auth.authorization.user.mapper.UserGroupMapper;
@@ -59,6 +60,15 @@ public class UserGroupController {
     @GetMapping("/userGroupTree")
     public Result<List<UserGroupVo>> userGroupTree() {
         return Result.ok(userGroupMapper.userGroupToVoList(userGroupService.findAll()));
+    }
+
+    /**
+     * 获取键值对角色树
+     * @return
+     */
+    @GetMapping("/userGroupKVTree")
+    public Result<List<CommonKeyValueDto>> rolesKVTree() {
+        return Result.ok(userGroupMapper.toKeyValueList(userGroupService.findTop()));
     }
 
     /**

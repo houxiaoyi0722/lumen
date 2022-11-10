@@ -23,6 +23,6 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
         #宿主机网络地址(宿主机（windows为wsl）网卡ip地址)
-      - targets: [ '192.168.128.1:8080' ]
+      - targets: [ '192.168.16.1:8080' ]
         labels:
           group: 'lumen'

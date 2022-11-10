@@ -1,3 +1,6 @@
+ebean:
+  ddl:
+    seedSql: seedData.sql
 logging:
   level:
     io:

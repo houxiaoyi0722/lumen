@@ -28,13 +28,28 @@ public class UserExt extends BaseModel {
 
 
     @DbComment("用户头像")
-    @Column(length = 500)
+    @Column(length = 1024)
     private String avatar;
 
     @DbComment("简介")
     @Column(length = 200)
     private String intro;
 
+    @DbComment("电话")
+    @Column(length = 20)
+    private String phone;
+
+    @DbComment("移动电话")
+    @Column(length = 20)
+    private String mobilePhone;
+
+    @DbComment("地址")
+    @Column(length = 200)
+    private String address;
+
+    @DbComment("邮箱地址")
+    @Column(length = 50)
+    private String email;
 
     @OneToOne(fetch= FetchType.LAZY)
     private User user;

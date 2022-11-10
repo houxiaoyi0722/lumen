@@ -3,6 +3,7 @@ package com.sang.common.domain.auth.authorization.user.mapper;
 import com.sang.common.domain.auth.authorization.user.dto.UserGroupDto;
 import com.sang.common.domain.auth.authorization.user.entity.UserGroup;
 import com.sang.common.domain.auth.authorization.user.vo.UserGroupVo;
+import com.sang.common.domain.base.dto.CommonKeyValueDto;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -34,5 +35,11 @@ public interface UserGroupMapper {
     UserGroup dtoToUserGroup(UserGroupDto userGroupDto);
 
     UserGroupDto userGroupToDto(UserGroup userGroup);
+
+    @Mapping(target = "label",source = "userGroup.groupName")
+    @Mapping(target = "value",source = "userGroup.id")
+    CommonKeyValueDto toKeyValue(UserGroup userGroup);
+
+    List<CommonKeyValueDto> toKeyValueList(List<UserGroup> list);
 
 }

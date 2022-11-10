@@ -8,6 +8,8 @@ import io.ebean.Database;
 import io.ebean.PagedList;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 用户模块
  * 用户组
@@ -33,4 +35,7 @@ public class UserGroupRepository extends BeanRepository<Long, UserGroup> {
     }
 
 
+    public List<UserGroup> findTop() {
+        return new QUserGroup().parentId.isNull().findList();
+    }
 }

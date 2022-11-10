@@ -5,6 +5,7 @@ import com.sang.common.domain.auth.authorization.user.dto.UserInfoDto;
 import com.sang.common.domain.auth.authorization.user.entity.User;
 import com.sang.common.domain.auth.authorization.user.mapper.UserMapper;
 import com.sang.common.domain.auth.authorization.user.param.UserQry;
+import com.sang.common.domain.auth.authorization.user.vo.UserVo;
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
 import com.sang.common.validate.Create;
@@ -12,6 +13,7 @@ import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
 import com.sang.common.validate.user.ResetPassword;
 import com.sang.system.service.user.UserService;
+import io.ebean.PagedList;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
@@ -41,8 +43,9 @@ public class UserController {
      * @return
      */
     @PostMapping("/users")
-    public PageResult<User> list(@RequestBody UserQry userQry) {
-        return PageResult.ok(userService.userList(userQry));
+    public PageResult<UserVo> list(@RequestBody UserQry userQry) {
+        PagedList<User> userPagedList = userService.userList(userQry);
+        return PageResult.ok(userMapper.userToVoList(userPagedList.getList()), userPagedList);
     }
 
     /**

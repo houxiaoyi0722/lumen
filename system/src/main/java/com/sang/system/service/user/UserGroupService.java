@@ -33,4 +33,6 @@ public interface UserGroupService {
     List<UserGroup> findAll();
 
     void updateAll(List<UserGroup> userGroupList);
+
+    List<UserGroup> findTop();
 }
