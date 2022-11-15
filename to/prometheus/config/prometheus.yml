@@ -26,3 +26,12 @@ scrape_configs:
       - targets: [ '192.168.16.1:8080' ]
         labels:
           group: 'lumen'
+  - job_name: 'msp'
+    metrics_path: '/msp/actuator/prometheus'
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+    static_configs:
+      #宿主机网络地址(宿主机（windows为wsl）网卡ip地址)
+      - targets: [ '192.168.16.1:8981' ]
+        labels:
+          group: 'msp'

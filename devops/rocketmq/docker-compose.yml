@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+  rocketmq-namesrv:
+    image: apache/rocketmq:4.7.1
+    container_name: rocketmq-namesrv
+    volumes:
+      - ../../to/rocketmq/namesrv/logs:/root/logs
+      - ../../to/rocketmq/namesrv/store:/root/store
+    ports:
+      - "9876:9876"
+    environment:
+      MAX_POSSIBLE_HEAP: 100000000
+    command: sh mqnamesrv
+  rocketmq-mqbroker:
+    image: apache/rocketmq:4.7.1
+    container_name: rocketmq-mqbroker
+    links:
+      - rocketmq-namesrv
+    volumes:
+      - ../../to/rocketmq/mqbroker/logs:/root/logs
+      - ../../to/rocketmq/mqbroker/store:/root/store
+      - ../../to/rocketmq/conf/:/home/rocketmq/rocketmq-4.7.1/conf/
+    ports:
+      - "10911:10911"
+      - "10909:10909"
+      - "10912:10912"
+    environment:
+      NAMESRV_ADDR: rocketmq-namesrv:9876
+      MAX_POSSIBLE_HEAP: 200000000
+    command: sh mqbroker
+  rocketmq-dashboard:
+    image: apacherocketmq/rocketmq-dashboard:latest
+    container_name: rocketmq-dashboard
+    restart: always
+    ports:
+      - "8081:8080"
+    environment:
+      JAVA_OPTS: -Drocketmq.namesrv.addr=rocketmq-namesrv:9876
