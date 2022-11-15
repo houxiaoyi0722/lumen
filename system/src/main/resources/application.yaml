@@ -74,3 +74,15 @@ management:
   metrics:
     tags: # 通用标签
       application: ${spring.application.name}
+
+#rocketmq:
+#  #  name-server: 47.103.123.107:31303
+#  name-server: localhost:9876
+#  producer:
+#    group: ${spring.application.name}
+#    send-message-timeout: 15000 #生产者发送消息超时时间,默认3s
+#    compress-message-body-threshold: 4096 #生产者消息压缩大小,默认达到4KB启用消息压缩
+#    max-message-size: 4194304 #生产者发送消息最大字节数,默认4MB
+#    retry-times-when-send-async-failed: 0 #生产者发送异步消息失败后重试次数,默认0次
+#    retry-next-server: true #生产者消息失败容错策略,默认false不开启,生产环境建议开启
+#    retry-times-when-send-failed: 2 #生产者发送同步消息失败后重试次数,默认2次
