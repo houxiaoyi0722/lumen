@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void update(User user) {
-        user.update();
+        userRepository.updateUserInfo(user);
     }
 
     @Override
