@@ -28,7 +28,7 @@ class SystemApplicationTests {
 
         final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-        User build = User.builder().userName("hxy").name("hxy").password(bCryptPasswordEncoder.encode("123456"))
+        User build = User.builder().username("hxy").name("hxy").password(bCryptPasswordEncoder.encode("123456"))
                 .accountNonExpired(true)
                 .credentialsNonExpired(true)
                 .accountNonLocked(true)

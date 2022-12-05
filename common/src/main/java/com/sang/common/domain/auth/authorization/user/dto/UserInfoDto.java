@@ -39,7 +39,7 @@ public class UserInfoDto {
     /**
      * 用户名
      */
-    private String userName;
+    private String username;
 
     /**
      * 电话

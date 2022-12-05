@@ -47,7 +47,7 @@ public class UserRepository extends BeanRepository<Long, User> {
 
     public PagedList<User> userList(UserQry userQry) {
         QUser select = new QUser()
-                .select(qUser.id, qUser.userName, qUser.name,
+                .select(qUser.id, qUser.username, qUser.name,
                         qUser.enabled, qUser.whenCreated, qUser.whenModified
                 )
                 .roles.fetch(qRole.id)
@@ -57,8 +57,8 @@ public class UserRepository extends BeanRepository<Long, User> {
             select.name.eq(userQry.getName());
         }
 
-        if (StrUtil.isNotBlank(userQry.getUserName())) {
-            select.userName.eq(userQry.getUserName());
+        if (StrUtil.isNotBlank(userQry.getUsername())) {
+            select.username.eq(userQry.getUsername());
         }
 
         if (userQry.getEnabled() != null) {
@@ -81,17 +81,17 @@ public class UserRepository extends BeanRepository<Long, User> {
     }
 
     public UserDetails loadUserByUsername(String username) {
-        return new QUser().userName.eq(username).findOne();
+        return new QUser().username.eq(username).findOne();
     }
 
     public void resetPassWord(User user) {
-        new QUser().id.eq(user.getId()).asUpdate().set(qUser.userName.toString(),user.getUsername()).set(qUser.password.toString(),user.getPassword()).update();
+        new QUser().id.eq(user.getId()).asUpdate().set(qUser.username.toString(),user.getUsername()).set(qUser.password.toString(),user.getPassword()).update();
     }
 
     public User userinfo(String username) {
         QUser alias = QUser.alias();
-        return new QUser().select(alias.userName,alias.userGroup,alias.name, alias.roles, alias.userExt.avatar)
-                .userName.eq(username)
+        return new QUser().select(alias.username,alias.userGroup,alias.name, alias.roles, alias.userExt.avatar)
+                .username.eq(username)
                 .findOne();
     }
 
@@ -104,7 +104,7 @@ public class UserRepository extends BeanRepository<Long, User> {
                 .id.eq(user.getId())
                 .asUpdate()
                 .set(qUser.name.toString(), user.getName())
-                .set(qUser.userName.toString(), user.getUsername())
+                .set(qUser.username.toString(), user.getUsername())
                 .set(qUser.enabled.toString(), user.getEnabled())
                 .set(qUser.roles.toString(), user.getRoles())
                 .set(qUser.userGroup.toString(), user.getUserGroup())

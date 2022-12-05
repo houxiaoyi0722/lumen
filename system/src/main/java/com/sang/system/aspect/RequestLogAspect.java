@@ -45,7 +45,7 @@ public class RequestLogAspect {
         //从Header中获取用户信息
         Object result = proceedingJoinPoint.proceed();
         RequestInfo requestInfo = new RequestInfo();
-        requestInfo.setUserName(SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "");
+        requestInfo.setUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "");
         requestInfo.setUrl(request.getRequestURL().toString());
         requestInfo.setHttpMethod(request.getMethod());
         requestInfo.setClassMethod(String.format("%s.%s", proceedingJoinPoint.getSignature().getDeclaringTypeName(),
@@ -65,7 +65,7 @@ public class RequestLogAspect {
 
         RequestErrorInfo requestErrorInfo = new RequestErrorInfo();
         requestErrorInfo.setIp(request.getRemoteAddr());
-        requestErrorInfo.setUserName(SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "");
+        requestErrorInfo.setUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "");
         requestErrorInfo.setUrl(request.getRequestURL().toString());
         requestErrorInfo.setHttpMethod(request.getMethod());
         requestErrorInfo.setClassMethod(String.format("%s.%s", joinPoint.getSignature().getDeclaringTypeName(),
@@ -119,7 +119,7 @@ public class RequestLogAspect {
     @Data
     public class RequestInfo {
         private String ip;
-        private String userName;
+        private String username;
         private String url;
         private String httpMethod;
         private String classMethod;
@@ -131,7 +131,7 @@ public class RequestLogAspect {
     @Data
     public class RequestErrorInfo {
         private String ip;
-        private String userName;
+        private String username;
         private String url;
         private String httpMethod;
         private String classMethod;

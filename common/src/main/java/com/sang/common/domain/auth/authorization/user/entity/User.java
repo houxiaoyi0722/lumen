@@ -40,7 +40,7 @@ public class User extends BaseModel implements UserDetails {
 
     @DbComment("用户名")
     @Column(length = 100,nullable = false,unique = true)
-    private String userName;
+    private String username;
 
     @DbComment("密码")
     @Column(length = 100,nullable = false,unique = true,updatable = false)
@@ -90,7 +90,7 @@ public class User extends BaseModel implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.userName;
+        return this.username;
     }
 
     @Override

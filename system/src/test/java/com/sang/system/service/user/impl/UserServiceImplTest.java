@@ -58,7 +58,7 @@ class UserServiceImplTest {
     @Test
     void testSave() {
         // Setup
-        final User user = new User("name", "userName", "password", "phone", "mobilePhone", "address", "email", false, false, false, false, List.of(new Role()), new UserGroup());
+        final User user = new User("name", "username", "password", "phone", "mobilePhone", "address", "email", false, false, false, false, List.of(new Role()), new UserGroup());
 
         // Run the test
         userServiceImplUnderTest.save(user);
@@ -69,7 +69,7 @@ class UserServiceImplTest {
     @Test
     void testUpdate() {
         // Setup
-        final User user = new User("name", "userName", "password", "phone", "mobilePhone", "address", "email", false, false, false, false, List.of(new Role()), new UserGroup());
+        final User user = new User("name", "username", "password", "phone", "mobilePhone", "address", "email", false, false, false, false, List.of(new Role()), new UserGroup());
 
         // Run the test
         userServiceImplUnderTest.update(user);
@@ -80,7 +80,7 @@ class UserServiceImplTest {
     @Test
     void testDelete() {
         // Setup
-        final User user = new User("name", "userName", "password", "phone", "mobilePhone", "address", "email", false, false, false, false, List.of(new Role()), new UserGroup());
+        final User user = new User("name", "username", "password", "phone", "mobilePhone", "address", "email", false, false, false, false, List.of(new Role()), new UserGroup());
 
         // Run the test
         userServiceImplUnderTest.delete(user);
@@ -91,14 +91,14 @@ class UserServiceImplTest {
     @Test
     void testDeleteAll() {
         // Setup
-        final List<User> users = List.of(new User("name", "userName", "password", "phone", "mobilePhone", "address", "email", false, false, false, false, List.of(new Role()), new UserGroup()));
-        when(mockUserRepository.deleteAll(List.of(new User("name", "userName", "password", "phone", "mobilePhone", "address", "email", false, false, false, false, List.of(new Role()), new UserGroup())))).thenReturn(0);
+        final List<User> users = List.of(new User("name", "username", "password", "phone", "mobilePhone", "address", "email", false, false, false, false, List.of(new Role()), new UserGroup()));
+        when(mockUserRepository.deleteAll(List.of(new User("name", "username", "password", "phone", "mobilePhone", "address", "email", false, false, false, false, List.of(new Role()), new UserGroup())))).thenReturn(0);
 
         // Run the test
         userServiceImplUnderTest.deleteAll(users);
 
         // Verify the results
-        verify(mockUserRepository).deleteAll(List.of(new User("name", "userName", "password", "phone", "mobilePhone", "address", "email", false, false, false, false, List.of(new Role()), new UserGroup())));
+        verify(mockUserRepository).deleteAll(List.of(new User("name", "username", "password", "phone", "mobilePhone", "address", "email", false, false, false, false, List.of(new Role()), new UserGroup())));
     }
 
     @Test

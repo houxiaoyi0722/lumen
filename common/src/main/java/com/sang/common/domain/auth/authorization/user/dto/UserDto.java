@@ -44,7 +44,7 @@ public class UserDto {
      */
     @NotBlank(message = "账号不能为空",groups = {Create.class, Update.class,ResetPassword.class})
     @Length(max = 100,message = "账号长度在1-100之间",groups = {Create.class, Update.class,ResetPassword.class})
-    private String userName;
+    private String username;
 
     /**
      * 密码

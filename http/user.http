@@ -21,7 +21,7 @@ Content-Type: application/json
 
 {
   "name": "admin",
-  "userName": "admin",
+  "username": "admin",
   "password": "123456",
   "phone": "13522939671",
   "mobilePhone": "13522939671",
@@ -43,7 +43,7 @@ Content-Type: application/json
 {
   "id": 436243035648110592,
   "name": "admin",
-  "userName": "admin",
+  "username": "admin",
   "phone": "13522939671",
   "mobilePhone": "13522939671",
   "address": "12315132",
@@ -63,7 +63,7 @@ Content-Type: application/json
 
 {
   "id": 436243035648110592,
-  "userName": "admin",
+  "username": "admin",
   "password": "123456"
 }
 

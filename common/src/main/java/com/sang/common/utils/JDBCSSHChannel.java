@@ -13,20 +13,20 @@ public class JDBCSSHChannel {
      * @param localPort  本地host 建议mysql 3306 redis 6379
      * @param sshHost   ssh host
      * @param sshPort   ssh port
-     * @param sshUserName   ssh 用户名
+     * @param sshUsername   ssh 用户名
      * @param sshPassWord   ssh密码
      * @param remotoHost   远程机器地址
      * @param remotoPort	远程机器端口
      */
     public void goSSH(int localPort, String sshHost, int sshPort,
-                      String sshUserName, String sshPassWord,
+                      String sshUsername, String sshPassWord,
                       String remotoHost, int remotoPort) {
         try {
             JSch jsch = new JSch();
             // 私钥登录时
 //            jsch.addIdentity();
             //登陆跳板机
-            session = jsch.getSession(sshUserName, sshHost, sshPort);
+            session = jsch.getSession(sshUsername, sshHost, sshPort);
             session.setPassword(sshPassWord);
             session.setConfig("StrictHostKeyChecking", "no"); // 对public_key的检查等级设置，默认值StrictHostKeyChecking=ask
 
