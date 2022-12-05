@@ -85,8 +85,9 @@ public class UserController {
      * @param user
      * @return
      */
-    @PutMapping("/password")
+    @PutMapping("/password/reset")
     public Result<Boolean> resetPassWord(@RequestBody @Validated(ResetPassword.class) UserDto user) {
+        user.setPassword("123456");
         userService.resetPassWord(userMapper.dtoToUser(user));
         return Result.ok();
     }

@@ -12,6 +12,9 @@ import io.ebean.PagedList;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 /**
  * @author hxy
  * @date 2022/1/7 15:07
@@ -85,7 +88,10 @@ public class UserRepository extends BeanRepository<Long, User> {
     }
 
     public void resetPassWord(User user) {
-        new QUser().id.eq(user.getId()).asUpdate().set(qUser.username.toString(),user.getUsername()).set(qUser.password.toString(),user.getPassword()).update();
+        new QUser().id.eq(user.getId()).asUpdate()
+                .set(qUser.password.toString(),user.getPassword())
+                .set(qUser.whenModified.toString(), LocalDateTime.now())
+                .update();
     }
 
     public User userinfo(String username) {

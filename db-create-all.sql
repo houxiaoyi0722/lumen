@@ -133,7 +133,7 @@ create table storage (
 create table user (
   id                            bigint not null,
   name                          varchar(100) not null comment '姓名',
-  user_name                     varchar(100) not null comment '用户名',
+  username                      varchar(100) not null comment '用户名',
   password                      varchar(100) not null comment '密码',
   enabled                       tinyint(1) comment '是否启用',
   account_non_expired           tinyint(1) comment '账户未过期',
@@ -148,7 +148,7 @@ create table user (
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
   constraint uq_user_name unique (name),
-  constraint uq_user_user_name unique (user_name),
+  constraint uq_user_username unique (username),
   constraint uq_user_password unique (password),
   constraint uq_user_user_ext_id unique (user_ext_id),
   constraint pk_user primary key (id)

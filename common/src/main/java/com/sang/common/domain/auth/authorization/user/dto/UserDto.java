@@ -42,14 +42,14 @@ public class UserDto {
     /**
      * 用户名
      */
-    @NotBlank(message = "账号不能为空",groups = {Create.class, Update.class,ResetPassword.class})
+    @NotBlank(message = "账号不能为空",groups = {Create.class, Update.class})
     @Length(max = 100,message = "账号长度在1-100之间",groups = {Create.class, Update.class,ResetPassword.class})
     private String username;
 
     /**
      * 密码
      */
-    @NotBlank(message = "密码不能为空",groups = {Create.class, ResetPassword.class})
+    @NotBlank(message = "密码不能为空",groups = {Create.class})
     @Length(max = 100,message = "密码长度在1-100之间",groups = {Create.class, ResetPassword.class})
     private String password;
 
