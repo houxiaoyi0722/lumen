@@ -49,7 +49,7 @@ public class UserDto {
     /**
      * 密码
      */
-    @NotBlank(message = "密码不能为空",groups = {Create.class})
+    @NotBlank(message = "密码不能为空")
     @Length(max = 100,message = "密码长度在1-100之间",groups = {Create.class, ResetPassword.class})
     private String password;
 
@@ -87,20 +87,23 @@ public class UserDto {
     /**
      * 账户未过期
      */
-    @NotNull(message = "账户未过期不能为空",groups = {Create.class, Update.class})
-    private Boolean accountNonExpired;
+    @Builder.Default
+    @NotNull(message = "账户未过期不能为空",groups = {Update.class})
+    private Boolean accountNonExpired = true;
 
     /**
      * 账户锁定
      */
-    @NotNull(message = "账户锁定不能为空",groups = {Create.class, Update.class})
-    private Boolean accountNonLocked;
+    @Builder.Default
+    @NotNull(message = "账户未锁定不能为空",groups = {Update.class})
+    private Boolean accountNonLocked = true;
 
     /**
      * 凭证未过期
      */
-    @NotNull(message = "凭证未过期不能为空",groups = {Create.class, Update.class})
-    private Boolean credentialsNonExpired;
+    @Builder.Default
+    @NotNull(message = "凭证未过期不能为空",groups = {Update.class})
+    private Boolean credentialsNonExpired = true;
 
     /**
      * @JsonIgnore

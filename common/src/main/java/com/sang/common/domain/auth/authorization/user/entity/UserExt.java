@@ -1,11 +1,13 @@
 package com.sang.common.domain.auth.authorization.user.entity;
 
+import com.sang.common.constants.DictionaryEnum;
 import com.sang.common.domain.auth.authorization.user.entity.finder.UserExtFinder;
 import com.sang.common.domain.base.entity.BaseModel;
 import io.ebean.annotation.DbComment;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * 用户模块
@@ -30,6 +32,13 @@ public class UserExt extends BaseModel {
     @DbComment("用户头像")
     @Column(length = 1024)
     private String avatar;
+
+    @DbComment("性别")
+    @Column(length = 20)
+    private DictionaryEnum gender;
+
+    @DbComment("出生日期")
+    private Date birthday;
 
     @DbComment("简介")
     @Column(length = 200)

@@ -1,6 +1,7 @@
 package com.sang.common.constants;
 
 import cn.hutool.core.util.StrUtil;
+import io.ebean.annotation.DbEnumValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,9 +14,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public enum DictionaryEnum implements IntArrayValuable{
 
-    GENDER("1",null,"性别",""),
-    MAN("0","1","男",""),
-    WOMAN("1","1","女","");
+    GENDER("GD",null,"性别",""),
+    MAN("GD0","GD","男",""),
+    WOMAN("GD1","GD","女","");
 
 
     private String code;
@@ -31,5 +32,10 @@ public enum DictionaryEnum implements IntArrayValuable{
                     .map(DictionaryEnum::getCode)
                     .collect(Collectors.toList());
         return Collections.emptyList();
+    }
+
+    @DbEnumValue
+    public String getValue() {
+        return code;
     }
 }

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 import java.time.Instant;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -36,7 +37,7 @@ public class BaseModel extends Model {
      * 创建时间
      */
     @WhenCreated
-    private Instant whenCreated;
+    private Date whenCreated;
 
     /**
      * WhoCreated
@@ -54,7 +55,7 @@ public class BaseModel extends Model {
      * 更新时间
      */
     @WhenModified
-    private Instant whenModified;
+    private Date whenModified;
 
     /**
      * SoftDelete

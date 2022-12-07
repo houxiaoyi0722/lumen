@@ -90,7 +90,7 @@ public class UserRepository extends BeanRepository<Long, User> {
     public void resetPassWord(User user) {
         new QUser().id.eq(user.getId()).asUpdate()
                 .set(qUser.password.toString(),user.getPassword())
-                .set(qUser.whenModified.toString(), LocalDateTime.now())
+                .set(qUser.whenModified.toString(), new Date())
                 .update();
     }
 

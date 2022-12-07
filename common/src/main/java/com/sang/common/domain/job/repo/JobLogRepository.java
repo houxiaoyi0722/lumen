@@ -56,7 +56,7 @@ public class JobLogRepository extends BeanRepository<Long, JobLog> {
         return new QJobLog().setFirstRow(limit-1).setMaxRows(limit).orderBy().whenCreated.desc().findOne();
     }
 
-    public int deleteIfCreateBeforeDate(Instant whenCreated) {
+    public int deleteIfCreateBeforeDate(Date whenCreated) {
         return new QJobLog().whenCreated.before(whenCreated).delete();
     }
 }

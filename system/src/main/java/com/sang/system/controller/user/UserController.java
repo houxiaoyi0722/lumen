@@ -1,5 +1,6 @@
 package com.sang.system.controller.user;
 
+import com.sang.common.constants.AuthConst;
 import com.sang.common.domain.auth.authorization.user.dto.UserDto;
 import com.sang.common.domain.auth.authorization.user.dto.UserInfoDto;
 import com.sang.common.domain.auth.authorization.user.entity.User;
@@ -55,6 +56,7 @@ public class UserController {
      */
     @PostMapping("/user")
     public Result<Boolean> save(@RequestBody @Validated(Create.class) UserDto user) {
+        user.setPassword(AuthConst.DEFAULT_PASSWORD);
         userService.save(userMapper.dtoToUser(user));
         return Result.ok();
     }
@@ -87,7 +89,7 @@ public class UserController {
      */
     @PutMapping("/password/reset")
     public Result<Boolean> resetPassWord(@RequestBody @Validated(ResetPassword.class) UserDto user) {
-        user.setPassword("123456");
+        user.setPassword(AuthConst.DEFAULT_PASSWORD);
         userService.resetPassWord(userMapper.dtoToUser(user));
         return Result.ok();
     }

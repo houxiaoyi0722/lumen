@@ -10,4 +10,5 @@ public class AuthConst {
     public static final String ROLES = "roles";
     public static final String ROLE_SPLIT = ",";
     public static final String SELF = "SELF";
+    public static final String DEFAULT_PASSWORD = "lumen@123";
 }
