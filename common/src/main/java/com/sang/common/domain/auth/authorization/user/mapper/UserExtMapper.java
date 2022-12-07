@@ -4,6 +4,7 @@ import com.sang.common.domain.auth.authorization.user.dto.UserExtDto;
 import com.sang.common.domain.auth.authorization.user.entity.UserExt;
 import org.mapstruct.Mapper;
 import org.mapstruct.Builder;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -26,6 +27,8 @@ public interface UserExtMapper {
 
     UserExt dtoToUserExt(UserExtDto userextDto);
 
+    @Mapping(source = "userext.gender.code",target = "gender")
+    @Mapping(source = "user", target = "user",ignore = true)
     UserExtDto userExtToDto(UserExt userext);
 
 }

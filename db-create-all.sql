@@ -163,6 +163,8 @@ create table user_role (
 create table user_ext (
   id                            bigint not null,
   avatar                        varchar(1024) comment '用户头像',
+  gender                        varchar(20) comment '性别',
+  birthday                      datetime(6) comment '出生日期',
   intro                         varchar(200) comment '简介',
   phone                         varchar(20) comment '电话',
   mobile_phone                  varchar(20) comment '移动电话',

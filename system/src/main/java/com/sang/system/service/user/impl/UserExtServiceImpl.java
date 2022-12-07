@@ -70,4 +70,9 @@ public class UserExtServiceImpl implements UserExtService {
     public void deleteAll(List<UserExt> userExts) {
         repository.deleteAll(userExts);
     }
+
+    @Override
+    public UserExt findByUserId(Long userId) {
+        return repository.findByUserId(userId);
+    }
 }

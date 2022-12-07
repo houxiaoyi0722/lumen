@@ -29,4 +29,6 @@ public interface UserExtService {
     void delete(UserExt userext);
 
     void deleteAll(List<UserExt> userExts);
+
+    UserExt findByUserId(Long userId);
 }

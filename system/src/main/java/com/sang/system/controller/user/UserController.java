@@ -2,8 +2,11 @@ package com.sang.system.controller.user;
 
 import com.sang.common.constants.AuthConst;
 import com.sang.common.domain.auth.authorization.user.dto.UserDto;
+import com.sang.common.domain.auth.authorization.user.dto.UserExtDto;
 import com.sang.common.domain.auth.authorization.user.dto.UserInfoDto;
 import com.sang.common.domain.auth.authorization.user.entity.User;
+import com.sang.common.domain.auth.authorization.user.entity.UserExt;
+import com.sang.common.domain.auth.authorization.user.mapper.UserExtMapper;
 import com.sang.common.domain.auth.authorization.user.mapper.UserMapper;
 import com.sang.common.domain.auth.authorization.user.param.UserQry;
 import com.sang.common.domain.auth.authorization.user.vo.UserVo;
@@ -13,6 +16,7 @@ import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
 import com.sang.common.validate.user.ResetPassword;
+import com.sang.system.service.user.UserExtService;
 import com.sang.system.service.user.UserService;
 import io.ebean.PagedList;
 import org.springframework.security.core.Authentication;
@@ -36,7 +40,11 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private UserExtService userExtService;
+
     private final UserMapper userMapper = UserMapper.mapper;
+    private final UserExtMapper userExtMapper = UserExtMapper.mapper;
 
     /**
      * 用户分页查询
@@ -114,6 +122,22 @@ public class UserController {
     @DeleteMapping("/users")
     public Result<Boolean> delete(@RequestBody @Validated(Delete.class) List<UserDto> users) {
         userService.deleteAll(userMapper.dtoToUserList(users));
+        return Result.ok();
+    }
+
+    @GetMapping("/exData/{userId}")
+    public Result<UserExtDto> getUserExt(@PathVariable("userId") Long userId) {
+        return Result.ok(userExtMapper.userExtToDto(userExtService.findByUserId(userId)));
+    }
+
+    @PutMapping("/exData")
+    public Result<UserExtDto> saveUserExt(@RequestBody UserExtDto userExt) {
+        UserExt userext = userExtMapper.dtoToUserExt(userExt);
+        if (userExt.getId() != null) {
+            userExtService.update(userext);
+        } else {
+            userExtService.insert(userext);
+        }
         return Result.ok();
     }
 

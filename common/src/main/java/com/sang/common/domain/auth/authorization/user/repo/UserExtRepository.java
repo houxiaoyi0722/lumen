@@ -33,4 +33,9 @@ public class UserExtRepository extends BeanRepository<Long, UserExt> {
     }
 
 
+    public UserExt findByUserId(Long userId) {
+        return new QUserExt()
+                .user.id.eq(userId)
+                .findOne();
+    }
 }

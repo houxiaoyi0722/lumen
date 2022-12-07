@@ -13,10 +13,12 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 public enum DictionaryEnum implements IntArrayValuable{
-
-    GENDER("GD",null,"性别",""),
-    MAN("GD0","GD","男",""),
-    WOMAN("GD1","GD","女","");
+    /**
+     * 命名应当于code相同，用于valueof反向映射
+     */
+    GENDER("GENDER",null,"性别",""),
+    MAN("MAN","GENDER","男",""),
+    WOMEN("WOMEN","GENDER","女","");
 
 
     private String code;
