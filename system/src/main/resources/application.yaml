@@ -22,6 +22,10 @@ spring:
     name: lumen
   profiles:
     active: gs
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
   redis:
     database: 0
     port: 6379

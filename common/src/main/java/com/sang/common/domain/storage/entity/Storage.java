@@ -1,16 +1,22 @@
 package com.sang.common.domain.storage.entity;
 
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.storage.entity.finder.StorageFinder;
 import io.ebean.annotation.DbComment;
 import io.ebean.annotation.Index;
+import io.minio.GetPresignedObjectUrlArgs;
+import io.minio.MinioClient;
+import io.minio.http.Method;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+@Slf4j
 @Setter
 @Getter
 @Entity
@@ -103,4 +109,20 @@ public class Storage extends BaseModel {
     @DbComment("业务类型")
     private String businessType;
 
+    public String getDownLoadUrl() {
+
+        MinioClient minioClient = (MinioClient) SpringUtil.getBean(MinioClient.class);
+
+        try {
+            return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                    .method(Method.GET)
+                    .bucket(this.storageBucket)
+                    .object(this.object)
+                    .expiry(60 * 60 * 24) // 默认超时时间一天
+                    .build());
+        } catch (Exception e) {
+            log.error("",e);
+        }
+        return "";
+    }
 }

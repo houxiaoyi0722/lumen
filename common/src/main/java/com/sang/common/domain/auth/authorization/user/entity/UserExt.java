@@ -3,6 +3,7 @@ package com.sang.common.domain.auth.authorization.user.entity;
 import com.sang.common.constants.DictionaryEnum;
 import com.sang.common.domain.auth.authorization.user.entity.finder.UserExtFinder;
 import com.sang.common.domain.base.entity.BaseModel;
+import com.sang.common.domain.storage.entity.Storage;
 import io.ebean.annotation.DbComment;
 import lombok.*;
 
@@ -30,8 +31,8 @@ public class UserExt extends BaseModel {
 
 
     @DbComment("用户头像")
-    @Column(length = 1024)
-    private String avatar;
+    @OneToOne(fetch= FetchType.LAZY)
+    private Storage avatar;
 
     @DbComment("性别")
     @Column(length = 20)

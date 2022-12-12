@@ -1,6 +1,7 @@
 package com.sang.system.controller.storage;
 
-import com.sang.common.domain.storage.entity.Storage;
+import com.sang.common.domain.storage.dto.StorageDto;
+import com.sang.common.domain.storage.mapper.StorageMapper;
 import com.sang.common.exception.BusinessException;
 import com.sang.common.response.Result;
 import com.sang.system.service.storage.StorageService;
@@ -26,21 +27,24 @@ public class StorageController {
     @Resource
     private StorageService storageService;
 
+    private final StorageMapper storageMapper = StorageMapper.mapper;
+
+
     /**
      * 自定义文件上传
      * @param file 文件
      * @param bucket 桶 为空为默认bucket，指定bucket需要先创建才能上传成功
      * @param businessCode 业务代码
      * @param businessType 业务类型
-     * @return
-     * @throws MinioException
-     * @throws IOException
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeyException
+     * @return StorageDto
+     * @throws MinioException minio异常
+     * @throws IOException io异常
+     * @throws NoSuchAlgorithmException 算法异常
+     * @throws InvalidKeyException key异常
      */
     @PutMapping("/upload")
-    public Result<Storage> upload(@RequestParam("file") MultipartFile file, @RequestParam(value = "bucket",required = false) String bucket, @RequestParam("businessCode") String businessCode, @Param("businessType") String businessType) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
-        return Result.ok(storageService.upload(file,bucket,businessCode,businessType));
+    public Result<StorageDto> upload(@RequestParam("file") MultipartFile file, @RequestParam(value = "bucket",required = false) String bucket, @RequestParam("businessCode") String businessCode, @Param("businessType") String businessType) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
+        return Result.ok(storageMapper.storageToDto(storageService.upload(file,bucket,businessCode,businessType)));
     }
 
     /**
@@ -54,8 +58,8 @@ public class StorageController {
      * @throws InvalidKeyException
      */
     @PutMapping("/uploadWithOutBusiness")
-    public Result<Storage> uploadWithOutBusiness(@RequestParam("file") MultipartFile file,@RequestParam(value = "bucket",required = false) String bucket) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
-        return Result.ok(storageService.uploadWithOutBusiness(file,bucket));
+    public Result<StorageDto> uploadWithOutBusiness(@RequestParam("file") MultipartFile file,@RequestParam(value = "bucket",required = false) String bucket) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
+        return Result.ok(storageMapper.storageToDto(storageService.uploadWithOutBusiness(file,bucket)));
     }
 
     /**

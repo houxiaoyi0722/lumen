@@ -30,6 +30,8 @@ drop index ix_user_role_user on user_role;
 alter table user_role drop foreign key fk_user_role_role;
 drop index ix_user_role_role on user_role;
 
+alter table user_ext drop foreign key fk_user_ext_avatar_id;
+
 alter table user_ext drop foreign key fk_user_ext_user_id;
 
 alter table user_group drop foreign key fk_user_group_parent_id;

@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.sang.common.domain.auth.authentication.role.entity.query.QRole;
 import com.sang.common.domain.auth.authorization.user.entity.User;
 import com.sang.common.domain.auth.authorization.user.entity.query.QUser;
+import com.sang.common.domain.auth.authorization.user.entity.query.QUserExt;
 import com.sang.common.domain.auth.authorization.user.entity.query.QUserGroup;
 import com.sang.common.domain.auth.authorization.user.param.UserQry;
 import io.ebean.BeanRepository;
@@ -96,7 +97,7 @@ public class UserRepository extends BeanRepository<Long, User> {
 
     public User userinfo(String username) {
         QUser alias = QUser.alias();
-        return new QUser().select(alias.username,alias.userGroup,alias.name, alias.roles, alias.userExt.avatar)
+        return new QUser().select(alias.username,alias.userGroup,alias.name, alias.roles, alias.userExt)
                 .username.eq(username)
                 .findOne();
     }

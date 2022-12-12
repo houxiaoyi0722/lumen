@@ -162,7 +162,7 @@ create table user_role (
 
 create table user_ext (
   id                            bigint not null,
-  avatar                        varchar(1024) comment '用户头像',
+  avatar_id                     bigint,
   gender                        varchar(20) comment '性别',
   birthday                      datetime(6) comment '出生日期',
   intro                         varchar(200) comment '简介',
@@ -177,6 +177,7 @@ create table user_ext (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
+  constraint uq_user_ext_avatar_id unique (avatar_id),
   constraint uq_user_ext_user_id unique (user_id),
   constraint pk_user_ext primary key (id)
 ) comment='用户扩展信息表';
@@ -238,6 +239,8 @@ alter table user_role add constraint fk_user_role_user foreign key (user_id) ref
 
 create index ix_user_role_role on user_role (role_id);
 alter table user_role add constraint fk_user_role_role foreign key (role_id) references role (id) on delete restrict on update restrict;
+
+alter table user_ext add constraint fk_user_ext_avatar_id foreign key (avatar_id) references storage (id) on delete restrict on update restrict;
 
 alter table user_ext add constraint fk_user_ext_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
 

@@ -27,7 +27,6 @@ public interface UserMapper {
     @Mapping(target = "userGroup",source = "userGroup.id")
     UserVo userToVo(User user);
 
-    @Mapping(target = "avatar", source = "userExt.avatar")
     UserInfoDto userToInfoDto(User userDto);
 
     List<UserVo> userToVoList(List<User> list);

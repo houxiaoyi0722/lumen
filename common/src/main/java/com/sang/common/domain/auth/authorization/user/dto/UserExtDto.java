@@ -4,17 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.sang.common.constants.DictionaryEnum;
+import com.sang.common.domain.storage.dto.StorageDto;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
-import io.ebean.annotation.DbComment;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -41,7 +35,7 @@ public class UserExtDto {
     /**
      * 用户头像
      */
-    private String avatar;
+    private StorageDto avatar;
 
     /**
      * 性别
