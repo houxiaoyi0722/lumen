@@ -40,7 +40,6 @@ public class User extends BaseModel implements UserDetails {
     private String name;
 
     @DbComment("用户名")
-    @DbDefault("")
     @Column(length = 100,nullable = false,unique = true)
     private String username;
 

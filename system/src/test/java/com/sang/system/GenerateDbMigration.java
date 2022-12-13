@@ -24,8 +24,7 @@ public class GenerateDbMigration {
     // generate the migration ddl and xml
 //    dbMigration.setGeneratePendingDrop("1.3");
     // 运行migration更新版本需要设置        databaseConfig.setRunMigration(false);
-//    dbMigration.setStrictMode(false);
-    dbMigration.setVersion("1.1");
+    dbMigration.setVersion("0.0.1");
     dbMigration.generateMigration();
   }
 }
