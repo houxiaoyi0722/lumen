@@ -1,16 +1,16 @@
 {
   "dataModel": {
-    "domain": "userGroup",
-    "model": "UserGroup",
+    "domain": "permissions",
+    "model": "Permissions",
     "author": "hxy",
-    "dbComment": "用户组",
-    "domainComment": "用户模块",
-    "modelComment": "用户组"
+    "dbComment": "操作权限表",
+    "domainComment": "权限管理",
+    "modelComment": "操作权限"
   },
   "templates": [
     {
       "name": "entity.ftl",
-      "enable": false,
+      "enable": true,
       "fileTypeName": "{model}.java",
       "output": "common/src/main/java/com/sang/common/domain/{domain}/entity/",
       "exDataModel": {
