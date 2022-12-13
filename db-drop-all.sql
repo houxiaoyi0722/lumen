@@ -1,9 +1,3 @@
-alter table button drop foreign key fk_button_role_id;
-drop index ix_button_role_id on button;
-
-alter table button drop foreign key fk_button_router_id;
-drop index ix_button_router_id on button;
-
 alter table dictionary_item drop foreign key fk_dictionary_item_dictionary_id;
 drop index ix_dictionary_item_dictionary_id on dictionary_item;
 
@@ -36,8 +30,6 @@ alter table user_ext drop foreign key fk_user_ext_user_id;
 
 alter table user_group drop foreign key fk_user_group_parent_id;
 drop index ix_user_group_parent_id on user_group;
-
-drop table if exists button;
 
 drop table if exists dictionary;
 

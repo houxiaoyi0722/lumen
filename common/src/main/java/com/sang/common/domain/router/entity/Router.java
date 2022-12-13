@@ -111,11 +111,6 @@ public class Router extends BaseModel {
     @ManyToMany(fetch=FetchType.LAZY)
     private List<Role> roles;
 
-    @JsonIgnore
-    @OneToMany(fetch=FetchType.LAZY,mappedBy = "router")
-    private List<Button> buttons;
-
-
     public static List<RouterVo> getRootNodeRouterTree(List<RouterVo> routers) {
 
         //是否是根节点
