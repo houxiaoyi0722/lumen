@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.auth.authentication.role.entity.Role;
 import com.sang.common.domain.base.entity.BaseModel;
 import io.ebean.annotation.DbComment;
+import io.ebean.annotation.DbDefault;
 import io.ebean.annotation.Index;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,6 +40,7 @@ public class User extends BaseModel implements UserDetails {
     private String name;
 
     @DbComment("用户名")
+    @DbDefault("")
     @Column(length = 100,nullable = false,unique = true)
     private String username;
 

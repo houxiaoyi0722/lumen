@@ -2,6 +2,7 @@ package com.sang.common.domain.router.entity;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sang.common.domain.auth.authentication.permissions.entity.Permissions;
 import com.sang.common.domain.auth.authentication.role.entity.Role;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.router.vo.RouterVo;
@@ -110,6 +111,10 @@ public class Router extends BaseModel {
     @JsonIgnore
     @ManyToMany(fetch=FetchType.LAZY)
     private List<Role> roles;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "router")
+    private List<Permissions> permissions;
 
     public static List<RouterVo> getRootNodeRouterTree(List<RouterVo> routers) {
 

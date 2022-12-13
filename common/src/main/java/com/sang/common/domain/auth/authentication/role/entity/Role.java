@@ -65,11 +65,11 @@ public class Role extends BaseModel {
     private List<User> users;
 
     @JsonIgnore
-    @ManyToMany(fetch=FetchType.LAZY,mappedBy = "role")
+    @ManyToMany(fetch=FetchType.LAZY,mappedBy = "roles")
     private List<Router> routers;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "roles")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "role")
     private List<Permissions> permissions;
 
 }
