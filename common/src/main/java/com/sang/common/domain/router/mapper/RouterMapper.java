@@ -1,5 +1,6 @@
 package com.sang.common.domain.router.mapper;
 
+import com.sang.common.domain.base.dto.CommonKeyIdDto;
 import com.sang.common.domain.router.dto.RouterDto;
 import com.sang.common.domain.router.entity.Router;
 import com.sang.common.domain.router.vo.RouterVo;
@@ -16,18 +17,25 @@ import java.util.List;
 @Mapper(builder = @Builder(disableBuilder = true))
 public interface RouterMapper {
 
-    RouterMapper mapper = Mappers.getMapper( RouterMapper.class );
+    RouterMapper mapper = Mappers.getMapper(RouterMapper.class);
 
     List<RouterDto> routerToDtoList(List<Router> list);
 
     List<RouterVo> routerToVoList(List<Router> list);
 
-    @Mapping(source = "parentId.id",target = "parentId")
-    @Mapping(target = "children",ignore = true)
+    @Mapping(source = "parentId.id", target = "parentId")
+    @Mapping(target = "children", ignore = true)
     RouterVo routerToVo(Router router);
 
     List<Router> dtoToRouterList(List<RouterDto> list);
 
     Router dtoToRouter(RouterDto routerDto);
 
+
+    List<CommonKeyIdDto> routerToCommonList(List<Router> routers);
+
+    @Mapping(source = "router.id", target = "id")
+    @Mapping(source = "router.name", target = "label")
+    @Mapping(target = "children", source = "children", ignore = true)
+    CommonKeyIdDto routerToCommonKeyValueDto(Router router);
 }

@@ -73,6 +73,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Value("${jwt.private.key}")
     private RSAPrivateKey priv;
 
+    public static final String LOGIN_URL = "/login";
+    private static final String[] WHITE_LIST = {LOGIN_URL,"/authorizations"};
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -80,7 +83,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         // 接口权限
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()//跨域请求会先进行一次options请求
-                .antMatchers("/login","/authorizations").permitAll() //白名单
+                .antMatchers(WHITE_LIST).permitAll() //白名单
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll() //放行所有健康检查请求
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
@@ -103,8 +106,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.headers().cacheControl();
 
         // 添加自定义jwt过滤器
-        http.apply(new JwtTokenLoginConfigurer<>()).permissiveRequestUrls("/logout");
-        http.apply(new JsonLoginConfigurer<>("/login",HttpMethod.POST.name())).loginSuccessHandler(jsonLoginSuccessHandler());
+        http.apply(new JwtTokenLoginConfigurer<>()).permissiveRequestUrls(WHITE_LIST); // 白名单
+        // 配置登陆接口地址
+        http.apply(new JsonLoginConfigurer<>(LOGIN_URL,HttpMethod.POST.name())).loginSuccessHandler(jsonLoginSuccessHandler());
 
         // logout
         http.logout()

@@ -1,11 +1,14 @@
 alter table dictionary_item drop foreign key fk_dictionary_item_dictionary_id;
 drop index ix_dictionary_item_dictionary_id on dictionary_item;
 
-alter table permissions drop foreign key fk_permissions_role_id;
-drop index ix_permissions_role_id on permissions;
-
 alter table permissions drop foreign key fk_permissions_router_id;
 drop index ix_permissions_router_id on permissions;
+
+alter table permissions_role drop foreign key fk_permissions_role_permissions;
+drop index ix_permissions_role_permissions on permissions_role;
+
+alter table permissions_role drop foreign key fk_permissions_role_role;
+drop index ix_permissions_role_role on permissions_role;
 
 alter table role drop foreign key fk_role_parent_id;
 drop index ix_role_parent_id on role;
@@ -44,6 +47,8 @@ drop table if exists dictionary_item;
 drop table if exists job_log;
 
 drop table if exists permissions;
+
+drop table if exists permissions_role;
 
 drop table if exists role;
 

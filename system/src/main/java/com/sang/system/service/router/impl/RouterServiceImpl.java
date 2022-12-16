@@ -68,7 +68,7 @@ public class RouterServiceImpl implements RouterService {
     public List<RouterVo> routerTree(List<String> roleCodes) {
 
         List<RouterVo> routerVos = routerMapper.routerToVoList(routerRepository.routerListByRoleCodes(roleCodes));
-
+        // todo 考虑是否去除
         return Router.getRootNodeRouterTree(routerVos);
     }
 
@@ -81,5 +81,10 @@ public class RouterServiceImpl implements RouterService {
     @Override
     public void updateAll(List<Router> routers) {
         routers.forEach(routerRepository::update);
+    }
+
+    @Override
+    public List<Router> routerByParentId(Long parentId, String roleCode) {
+        return routerRepository.routerByParentId(parentId,roleCode);
     }
 }

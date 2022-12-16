@@ -56,7 +56,6 @@ create table permissions (
   code                          varchar(100) comment '权限code',
   name                          varchar(100) comment '权限名称',
   comment                       varchar(200) comment '备注',
-  role_id                       bigint,
   router_id                     bigint,
   version                       bigint not null,
   when_created                  datetime(6) not null,
@@ -66,6 +65,12 @@ create table permissions (
   deleted                       tinyint(1) default 0 not null,
   constraint pk_permissions primary key (id)
 ) comment='操作权限表';
+
+create table permissions_role (
+  permissions_id                bigint not null,
+  role_id                       bigint not null,
+  constraint pk_permissions_role primary key (permissions_id,role_id)
+);
 
 create table role (
   id                            bigint not null,
@@ -211,11 +216,14 @@ create index group_code on user_group (group_code);
 create index ix_dictionary_item_dictionary_id on dictionary_item (dictionary_id);
 alter table dictionary_item add constraint fk_dictionary_item_dictionary_id foreign key (dictionary_id) references dictionary (id) on delete restrict on update restrict;
 
-create index ix_permissions_role_id on permissions (role_id);
-alter table permissions add constraint fk_permissions_role_id foreign key (role_id) references role (id) on delete restrict on update restrict;
-
 create index ix_permissions_router_id on permissions (router_id);
 alter table permissions add constraint fk_permissions_router_id foreign key (router_id) references router (id) on delete restrict on update restrict;
+
+create index ix_permissions_role_permissions on permissions_role (permissions_id);
+alter table permissions_role add constraint fk_permissions_role_permissions foreign key (permissions_id) references permissions (id) on delete restrict on update restrict;
+
+create index ix_permissions_role_role on permissions_role (role_id);
+alter table permissions_role add constraint fk_permissions_role_role foreign key (role_id) references role (id) on delete restrict on update restrict;
 
 create index ix_role_parent_id on role (parent_id);
 alter table role add constraint fk_role_parent_id foreign key (parent_id) references role (id) on delete restrict on update restrict;

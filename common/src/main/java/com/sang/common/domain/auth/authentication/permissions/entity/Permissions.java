@@ -53,8 +53,8 @@ public class Permissions extends BaseModel {
     private String comment;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Role role;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Role> roles;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

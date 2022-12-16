@@ -1,9 +1,9 @@
 package com.sang.system.controller.router;
 
 import cn.hutool.core.collection.CollUtil;
+import com.sang.common.domain.base.dto.CommonKeyIdDto;
 import com.sang.common.domain.router.dto.RouterDto;
 import com.sang.common.domain.router.dto.TableDataDto;
-import com.sang.common.domain.router.entity.Router;
 import com.sang.common.domain.router.mapper.RouterMapper;
 import com.sang.common.domain.router.vo.RouterVo;
 import com.sang.common.response.Result;
@@ -49,6 +49,11 @@ public class RouterController {
         List<String> roleCodes = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
         return Result.ok(routerService.routerTree(roleCodes));
+    }
+
+    @GetMapping("/{roleCode}/level")
+    public Result<List<RouterVo>> routerByParentId(@PathVariable("roleCode") String roleCode, @RequestParam(value = "parentId",required = false) Long parentId) {
+        return Result.ok(routerMapper.routerToVoList(routerService.routerByParentId(parentId,roleCode)));
     }
 
     /**

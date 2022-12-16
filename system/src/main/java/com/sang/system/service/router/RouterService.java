@@ -27,4 +27,6 @@ public interface RouterService {
     List<Router> routerList();
 
     void updateAll(List<Router> dtoToRouterList);
+
+    List<Router> routerByParentId(Long parentId, String roleCode);
 }

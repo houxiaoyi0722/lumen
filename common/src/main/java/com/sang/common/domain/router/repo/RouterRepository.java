@@ -20,9 +20,9 @@ public class RouterRepository extends BeanRepository<Long, Router> {
         super(Router.class, server);
     }
 
+    public static final QRouter router = QRouter.alias();
 
     public List<Router> routerListByRoleCodes(List<String> roleCodes) {
-        QRouter router = QRouter.alias();
 
         QRouter select = new QRouter().select(
                 router.name, router.path, router.redirect,
@@ -33,6 +33,14 @@ public class RouterRepository extends BeanRepository<Long, Router> {
         if (CollectionUtil.isNotEmpty(roleCodes)) {
             select = select.roles.roleCode.in(roleCodes);
         }
+
+        return select.findList();
+    }
+
+    public List<Router> routerByParentId(Long parentId, String roleCode) {
+        QRouter select = new QRouter().select(router.id, router.name, router.mate).orderBy().orderBy.asc();
+        select = (parentId == null) ?select.parentId.isNull() : select.parentId.id.eq(parentId);
+        select.roles.roleCode.eq(roleCode);
 
         return select.findList();
     }

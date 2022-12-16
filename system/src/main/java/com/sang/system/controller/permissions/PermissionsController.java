@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * 权限管理
  * 操作权限
- * 
+ *
  * hxy 2022-12-13 14:11:40
  */
 @Validated
@@ -39,7 +39,7 @@ public class PermissionsController {
      * @param qry
      * @return
      */
-    @PostMapping("/permissionss/qry")
+    @PostMapping("/permission/qry")
     public PageResult<PermissionsDto> list(@RequestBody PermissionsQry qry) {
         PagedList<Permissions> pagedList = permissionsService.permissionsList(qry);
         // 查询全部字段时可不转换直接给pagedList
@@ -71,12 +71,12 @@ public class PermissionsController {
 
     /**
     * 批量保存
-    * @param permissionss
+    * @param permissions
     * @return
     */
-    @PostMapping("/permissionss")
-    public Result<Boolean> saveAll(@RequestBody @Validated(Create.class) List<PermissionsDto> permissionss) {
-        permissionsService.saveAll(permissionsMapper.dtoToPermissionsList(permissionss));
+    @PostMapping("/permission")
+    public Result<Boolean> saveAll(@RequestBody @Validated(Create.class) List<PermissionsDto> permissions) {
+        permissionsService.saveAll(permissionsMapper.dtoToPermissionsList(permissions));
         return Result.ok();
     }
 
@@ -107,12 +107,12 @@ public class PermissionsController {
     /**
      * 列表批量删除
      *
-     * @param permissionss
+     * @param permissions
      * @return
      */
-    @DeleteMapping("/permissionss")
-    public Result<Boolean> delete(@RequestBody @Validated(Delete.class) List<PermissionsDto> permissionss) {
-        permissionsService.deleteAll(permissionsMapper.dtoToPermissionsList(permissionss));
+    @DeleteMapping("/permission")
+    public Result<Boolean> delete(@RequestBody @Validated(Delete.class) List<PermissionsDto> permissions) {
+        permissionsService.deleteAll(permissionsMapper.dtoToPermissionsList(permissions));
         return Result.ok();
     }
 }
