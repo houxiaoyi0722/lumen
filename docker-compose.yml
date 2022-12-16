@@ -6,7 +6,7 @@ services:
     image: mysql:latest
 #    restart: always
     ports:
-      - "13306:3306"
+      - "3307:3306"
     volumes:
       - ./to/mysql/data:/var/lib/mysql
     environment:
@@ -46,6 +46,7 @@ services:
       - ./to/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./to/prometheus/data:/prometheus
   grafana: # dashboard ids : 4701 12900
+    container_name: lumen-grafana
     image: grafana/grafana:9.0.4
     environment:
       - TZ=Asia/Shanghai
