@@ -47,7 +47,7 @@ public class EbeanDefaultDatabaseConfig {
         databaseConfig.setDdlRun(false);
         databaseConfig.setDataSource(dataSourceConfig());
 //        databaseConfig.setDataSourceConfig(dataSourceConfig());
-
+        databaseConfig.setDdlInitSql("initData.sql");
         Database database = DatabaseFactory.create(databaseConfig);
         log.info("ebean default database : {}", DB.getDefault().getName());
         return database;
