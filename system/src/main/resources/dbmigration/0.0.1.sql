@@ -207,7 +207,7 @@ create index storage_bucket on storage (storage_bucket);
 create index suffix on storage (suffix);
 create index business_type on storage (business_type);
 create index business_code on storage (business_code);
-create index user_name on user (user_name);
+create index user_name on user (username);
 create index group_code on user_group (group_code);
 create index ix_dictionary_item_dictionary_id on dictionary_item (dictionary_id);
 alter table dictionary_item add constraint fk_dictionary_item_dictionary_id foreign key (dictionary_id) references dictionary (id) on delete restrict on update restrict;

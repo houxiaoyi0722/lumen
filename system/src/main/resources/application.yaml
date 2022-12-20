@@ -15,10 +15,9 @@ minio:
     master: my-first-bucket
     second: my-second-bucket
 spring:
+  profiles.active: dev
   application:
     name: lumen
-  profiles:
-    active: gs
   servlet:
     multipart:
       max-file-size: 50MB
@@ -65,7 +64,7 @@ spring:
             threadPriority: 5 # 线程优先级
             class: org.quartz.simpl.SimpleThreadPool # 线程池类型
     jdbc: # 使用 JDBC 的 JobStore 的时候，JDBC 的配置
-      initialize-schema: embedded # 是否自动使用 SQL 初始化 Quartz 表结构。这里设置成 never/always ，我们手动创建表结构。
+      initialize-schema: embedded # 是否自动使用 SQL 初始化 Quartz 表结构。这里设置成 never/always/embedded ，我们手动创建表结构。
 management:
   endpoints:
     # Actuator HTTP 配置项，对应 WebEndpointProperties 配置类
