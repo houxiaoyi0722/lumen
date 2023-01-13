@@ -8,6 +8,8 @@ import io.ebean.Database;
 import io.ebean.PagedList;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 权限管理
  * 操作权限
@@ -33,4 +35,7 @@ public class PermissionsRepository extends BeanRepository<Long, Permissions> {
     }
 
 
+    public List<Permissions> permissionsListByRoute(PermissionsQry qry) {
+        return new QPermissions().router.id.eq(qry.getRouter().getId()).findList();
+    }
 }

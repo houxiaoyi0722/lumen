@@ -47,6 +47,18 @@ public class PermissionsController {
     }
 
     /**
+     * 查询路由关联的权限列表
+     *
+     * @param qry
+     * @return
+     */
+    @PostMapping("/permission/route")
+    public Result<List<Permissions>> permissionsListByRoute(@RequestBody PermissionsQry qry) {
+        List<Permissions> pagedList = permissionsService.permissionsListByRoute(qry);
+        return Result.ok(pagedList);
+    }
+
+    /**
      * 通过id查询
      *
      * @param id

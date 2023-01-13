@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 权限管理
  * 操作权限
- * 
+ *
  * hxy 2022-12-13 14:11:40
  */
 @Slf4j
@@ -69,5 +69,10 @@ public class PermissionsServiceImpl implements PermissionsService {
     @Transactional
     public void deleteAll(List<Permissions> permissionss) {
         repository.deleteAll(permissionss);
+    }
+
+    @Override
+    public List<Permissions> permissionsListByRoute(PermissionsQry qry) {
+        return repository.permissionsListByRoute(qry);
     }
 }
