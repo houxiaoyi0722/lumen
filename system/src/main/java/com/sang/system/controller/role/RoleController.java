@@ -149,6 +149,18 @@ public class RoleController {
         return Result.ok();
     }
 
+    /**
+     * 更新角色所属权限列表
+     *
+     * @param roleDto
+     * @return
+     */
+    @PutMapping("/permissions")
+    public Result<Boolean> saveRolePermissions(@RequestBody @Validated(Update.class) RoleDto roleDto) {
+        roleService.update(roleMapper.dtoToRole(roleDto));
+        return Result.ok();
+    }
+
 
 
 }

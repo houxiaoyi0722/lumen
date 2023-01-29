@@ -43,7 +43,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public void update(Role role) {
-        roleRepository.update(role);
+        // 只更新有值的字段
+        role.update();
+        // 更新全部字段
+//        roleRepository.update(role);
     }
 
     @Override

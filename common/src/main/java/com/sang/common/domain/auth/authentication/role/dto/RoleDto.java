@@ -3,7 +3,7 @@ package com.sang.common.domain.auth.authentication.role.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.sang.common.domain.auth.authentication.role.entity.Role;
+import com.sang.common.domain.base.dto.CommonIdDto;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author hxy
@@ -53,4 +54,9 @@ public class RoleDto {
      * parentId
      */
     private RoleDto parentId;
+
+    /**
+     * 权限id列表
+     */
+    private List<CommonIdDto> permissions;
 }
