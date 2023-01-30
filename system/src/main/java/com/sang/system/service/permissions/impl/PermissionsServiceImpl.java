@@ -61,18 +61,23 @@ public class PermissionsServiceImpl implements PermissionsService {
 
     @Override
     @Transactional
-    public void saveAll(List<Permissions> Permissionss) {
-        repository.saveAll(Permissionss);
+    public void saveAll(List<Permissions> permissions) {
+        repository.saveAll(permissions);
     }
 
     @Override
     @Transactional
-    public void deleteAll(List<Permissions> permissionss) {
-        repository.deleteAll(permissionss);
+    public void deleteAll(List<Permissions> permissions) {
+        repository.deleteAll(permissions);
     }
 
     @Override
     public List<Permissions> permissionsListByRoute(PermissionsQry qry) {
         return repository.permissionsListByRoute(qry);
+    }
+
+    @Override
+    public List<Permissions> permissionsListByRole(PermissionsQry qry) {
+        return repository.permissionsListByRole(qry);
     }
 }

@@ -38,4 +38,8 @@ public class PermissionsRepository extends BeanRepository<Long, Permissions> {
     public List<Permissions> permissionsListByRoute(PermissionsQry qry) {
         return new QPermissions().router.id.eq(qry.getRouter().getId()).findList();
     }
+
+    public List<Permissions> permissionsListByRole(PermissionsQry qry) {
+        return new QPermissions().roles.id.eq(qry.getRole().getId()).findList();
+    }
 }

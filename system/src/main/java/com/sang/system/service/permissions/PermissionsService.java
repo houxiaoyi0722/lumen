@@ -31,4 +31,6 @@ public interface PermissionsService {
     void deleteAll(List<Permissions> permissionss);
 
     List<Permissions> permissionsListByRoute(PermissionsQry qry);
+
+    List<Permissions> permissionsListByRole(PermissionsQry qry);
 }

@@ -52,10 +52,22 @@ public class PermissionsController {
      * @param qry
      * @return
      */
-    @PostMapping("/permission/route")
+    @PostMapping("/permission/router")
     public Result<List<Permissions>> permissionsListByRoute(@RequestBody PermissionsQry qry) {
-        List<Permissions> pagedList = permissionsService.permissionsListByRoute(qry);
-        return Result.ok(pagedList);
+        List<Permissions> list = permissionsService.permissionsListByRoute(qry);
+        return Result.ok(list);
+    }
+
+    /**
+     * 查询角色关联的权限列表
+     *
+     * @param qry
+     * @return
+     */
+    @PostMapping("/permission/role")
+    public Result<List<Permissions>> permissionsListByRole(@RequestBody PermissionsQry qry) {
+        List<Permissions> list = permissionsService.permissionsListByRole(qry);
+        return Result.ok(list);
     }
 
     /**

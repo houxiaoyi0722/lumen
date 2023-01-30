@@ -1,6 +1,7 @@
 package com.sang.common.domain.auth.authentication.permissions.param;
 
 import cn.hutool.db.Page;
+import com.sang.common.domain.auth.authentication.role.entity.Role;
 import com.sang.common.domain.router.entity.Router;
 import lombok.*;
 
@@ -19,5 +20,6 @@ import lombok.*;
 public class PermissionsQry extends Page {
 
     private Router router;
+    private Role role;
 
 }
