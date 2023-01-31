@@ -147,7 +147,7 @@ public class RouterController {
      */
     @Transactional
     @PostMapping("/routerUpdate")
-    public Result<Boolean> routerUpdate(@RequestBody @Validated TableDataDto tableDataDto) {
+    public Result<Boolean> routerUpdate(@RequestBody @Validated TableDataDto<RouterDto> tableDataDto) {
 
         if (CollUtil.isNotEmpty(tableDataDto.getInsertList())) {
             routerService.saveAll(routerMapper.dtoToRouterList(tableDataDto.getInsertList()));

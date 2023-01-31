@@ -1,18 +1,21 @@
 package com.sang.system.controller.permissions;
 
+import cn.hutool.core.collection.CollUtil;
+import com.sang.common.domain.auth.authentication.permissions.dto.PermissionsDto;
+import com.sang.common.domain.auth.authentication.permissions.entity.Permissions;
+import com.sang.common.domain.auth.authentication.permissions.mapper.PermissionsMapper;
+import com.sang.common.domain.auth.authentication.permissions.param.PermissionsQry;
+import com.sang.common.domain.router.dto.TableDataDto;
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
-import com.sang.common.domain.auth.authentication.permissions.mapper.PermissionsMapper;
-import com.sang.common.domain.auth.authentication.permissions.entity.Permissions;
-import com.sang.common.domain.auth.authentication.permissions.param.PermissionsQry;
-import com.sang.system.service.permissions.PermissionsService;
-import com.sang.common.domain.auth.authentication.permissions.dto.PermissionsDto;
-import org.springframework.web.bind.annotation.*;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
-import org.springframework.validation.annotation.Validated;
+import com.sang.system.service.permissions.PermissionsService;
 import io.ebean.PagedList;
+import io.ebean.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -137,6 +140,27 @@ public class PermissionsController {
     @DeleteMapping("/permission")
     public Result<Boolean> delete(@RequestBody @Validated(Delete.class) List<PermissionsDto> permissions) {
         permissionsService.deleteAll(permissionsMapper.dtoToPermissionsList(permissions));
+        return Result.ok();
+    }
+
+    /**
+     * 批量保存/更新/删除数据
+     * @param tableDataDto
+     * @return
+     */
+    @Transactional
+    @PostMapping("/router/permission")
+    public Result<Boolean> routerUpdate(@RequestBody @Validated TableDataDto<PermissionsDto> tableDataDto) {
+
+        if (CollUtil.isNotEmpty(tableDataDto.getInsertList())) {
+            permissionsService.saveAll(permissionsMapper.dtoToPermissionsList(tableDataDto.getInsertList()));
+        }
+        if (CollUtil.isNotEmpty(tableDataDto.getUpdateList())) {
+            permissionsService.updateAll(permissionsMapper.dtoToPermissionsList(tableDataDto.getUpdateList()));
+        }
+        if (CollUtil.isNotEmpty(tableDataDto.getRemoveList())) {
+            permissionsService.deleteAll(permissionsMapper.dtoToPermissionsList(tableDataDto.getRemoveList()));
+        }
         return Result.ok();
     }
 }

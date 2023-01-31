@@ -3,6 +3,7 @@ package com.sang.system.service.permissions.impl;
 import com.sang.common.domain.auth.authentication.permissions.entity.Permissions;
 import com.sang.common.domain.auth.authentication.permissions.param.PermissionsQry;
 import com.sang.common.domain.auth.authentication.permissions.repo.PermissionsRepository;
+import com.sang.common.domain.router.dto.RouterDto;
 import com.sang.system.service.permissions.PermissionsService;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
@@ -79,5 +80,10 @@ public class PermissionsServiceImpl implements PermissionsService {
     @Override
     public List<Permissions> permissionsListByRole(PermissionsQry qry) {
         return repository.permissionsListByRole(qry);
+    }
+
+    @Override
+    public void updateAll(List<Permissions> updateList) {
+        updateList.forEach(Permissions::update);
     }
 }

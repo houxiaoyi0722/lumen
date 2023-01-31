@@ -2,6 +2,7 @@ package com.sang.system.service.permissions;
 
 import com.sang.common.domain.auth.authentication.permissions.entity.Permissions;
 import com.sang.common.domain.auth.authentication.permissions.param.PermissionsQry;
+import com.sang.common.domain.router.dto.RouterDto;
 import io.ebean.PagedList;
 
 import java.util.List;
@@ -33,4 +34,6 @@ public interface PermissionsService {
     List<Permissions> permissionsListByRoute(PermissionsQry qry);
 
     List<Permissions> permissionsListByRole(PermissionsQry qry);
+
+    void updateAll(List<Permissions> updateList);
 }

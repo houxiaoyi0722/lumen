@@ -1,8 +1,8 @@
 package com.sang.common.domain.auth.authentication.permissions.repo;
 
 import com.sang.common.domain.auth.authentication.permissions.entity.Permissions;
-import com.sang.common.domain.auth.authentication.permissions.param.PermissionsQry;
 import com.sang.common.domain.auth.authentication.permissions.entity.query.QPermissions;
+import com.sang.common.domain.auth.authentication.permissions.param.PermissionsQry;
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;

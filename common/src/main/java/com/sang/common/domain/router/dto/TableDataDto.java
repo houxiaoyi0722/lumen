@@ -16,8 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TableDataDto {
-    private List<RouterDto> insertList;
-    private List<RouterDto> updateList;
-    private List<RouterDto> removeList;
+public class TableDataDto <T> {
+    private List<T> insertList;
+    private List<T> updateList;
+    private List<T> removeList;
+    private Long id;
 }
