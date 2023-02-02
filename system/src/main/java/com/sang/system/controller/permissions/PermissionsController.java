@@ -149,7 +149,7 @@ public class PermissionsController {
      * @return
      */
     @Transactional
-    @PostMapping("/router/permission")
+    @PostMapping("/table/permission")
     public Result<Boolean> routerUpdate(@RequestBody @Validated TableDataDto<PermissionsDto> tableDataDto) {
 
         if (CollUtil.isNotEmpty(tableDataDto.getInsertList())) {
