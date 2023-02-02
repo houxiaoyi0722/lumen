@@ -3,7 +3,7 @@ package com.sang.common.domain.auth.authentication.role.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.sang.common.domain.base.dto.CommonIdDto;
+import com.sang.common.domain.base.dto.CommonCodeIdDto;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
@@ -58,5 +58,5 @@ public class RoleDto {
     /**
      * 权限id列表
      */
-    private List<CommonIdDto> permissions;
+    private List<CommonCodeIdDto> permissions;
 }
