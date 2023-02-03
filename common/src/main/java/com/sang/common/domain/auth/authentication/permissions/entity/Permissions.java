@@ -1,16 +1,16 @@
 package com.sang.common.domain.auth.authentication.permissions.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sang.common.domain.auth.authentication.permissions.entity.finder.PermissionsFinder;
 import com.sang.common.domain.auth.authentication.role.entity.Role;
 import com.sang.common.domain.base.entity.BaseModel;
-import com.sang.common.domain.auth.authentication.permissions.entity.finder.PermissionsFinder;
 import com.sang.common.domain.router.entity.Router;
 import io.ebean.annotation.DbComment;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 权限管理
@@ -60,4 +60,16 @@ public class Permissions extends BaseModel {
     @ManyToOne(fetch = FetchType.LAZY)
     private Router router;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Permissions that = (Permissions) o;
+        return this.getId().equals(that.getId()) && code.equals(that.code) && name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, name, comment);
+    }
 }

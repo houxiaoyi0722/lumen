@@ -1,5 +1,6 @@
 package com.sang.common.domain.auth.authentication.role.entity;
 
+import cn.hutool.core.collection.CollUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sang.common.domain.auth.authentication.permissions.entity.Permissions;
 import com.sang.common.domain.auth.authorization.user.entity.User;
@@ -13,7 +14,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 角色
@@ -71,5 +74,20 @@ public class Role extends BaseModel {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,mappedBy = "roles")
     private List<Permissions> permissions;
+
+    /**
+     * 获取当前角色和上级角色的所有权限列表
+     * @return
+     */
+    public List<Permissions> getPermissions() {
+        return parentPermission(this).stream().distinct().collect(Collectors.toList());
+    }
+
+    private List<Permissions> parentPermission(Role parentId) {
+        if (parentId != null) {
+            return CollUtil.unionAll(parentId.permissions,parentPermission(parentId.getParentId()));
+        }
+        return Collections.emptyList();
+    }
 
 }
