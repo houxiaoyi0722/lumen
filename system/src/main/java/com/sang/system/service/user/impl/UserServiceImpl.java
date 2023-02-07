@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void update(User user) {
-        // 无状态更新（创建一个新bean并调用更新） 空字段不更新
+        // 无状态更新（创建一个新bean并调用更新） 目前看来只更新非关系字段，外键字段为null时不更新
         user.update();
     }
 
