@@ -1,8 +1,8 @@
 package com.sang.system.service.user.impl;
 
-import com.sang.common.domain.auth.authorization.user.entity.UserGroup;
-import com.sang.common.domain.auth.authorization.user.param.UserGroupQry;
-import com.sang.common.domain.auth.authorization.user.repo.UserGroupRepository;
+import com.sang.common.domain.auth.authentication.user.entity.UserGroup;
+import com.sang.common.domain.auth.authentication.user.param.UserGroupQry;
+import com.sang.common.domain.auth.authentication.user.repo.UserGroupRepository;
 import com.sang.system.service.user.UserGroupService;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 用户模块
  * 用户组
- * 
+ *
  * hxy 2022-11-02 17:04:18
  */
 @Slf4j

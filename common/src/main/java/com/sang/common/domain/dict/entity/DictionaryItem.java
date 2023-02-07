@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "dictionary_item")
+@Table(name = "sys_dict_item")
 @DbComment("数据字典明细")
 public class DictionaryItem extends BaseModel {
 

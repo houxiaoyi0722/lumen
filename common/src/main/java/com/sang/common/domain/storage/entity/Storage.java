@@ -25,7 +25,7 @@ import javax.persistence.Table;
 @Index(name = "suffix",columnNames = "suffix")
 @Index(name = "business_type",columnNames = "business_type")
 @Index(name = "business_code",columnNames = "business_code")
-@Table(name = "storage")
+@Table(name = "sys_storage")
 @DbComment("对象存储管理")
 @NoArgsConstructor
 @AllArgsConstructor

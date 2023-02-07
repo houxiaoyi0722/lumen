@@ -1,17 +1,15 @@
 package com.sang.system.controller.user;
 
 import cn.hutool.core.collection.CollUtil;
-import com.sang.common.domain.auth.authentication.role.dto.RoleTableDataDto;
-import com.sang.common.domain.auth.authentication.role.vo.RoleVo;
-import com.sang.common.domain.auth.authorization.user.dto.UserGroupDto;
-import com.sang.common.domain.auth.authorization.user.dto.UserGroupTableDataDto;
-import com.sang.common.domain.auth.authorization.user.entity.UserGroup;
-import com.sang.common.domain.auth.authorization.user.vo.UserGroupVo;
+import com.sang.common.domain.auth.authentication.user.dto.UserGroupDto;
+import com.sang.common.domain.auth.authentication.user.dto.UserGroupTableDataDto;
+import com.sang.common.domain.auth.authentication.user.entity.UserGroup;
+import com.sang.common.domain.auth.authentication.user.vo.UserGroupVo;
 import com.sang.common.domain.base.dto.CommonKeyValueDto;
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
-import com.sang.common.domain.auth.authorization.user.mapper.UserGroupMapper;
-import com.sang.common.domain.auth.authorization.user.param.UserGroupQry;
+import com.sang.common.domain.auth.authentication.user.mapper.UserGroupMapper;
+import com.sang.common.domain.auth.authentication.user.param.UserGroupQry;
 import com.sang.system.service.user.UserGroupService;
 import io.ebean.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +25,7 @@ import java.util.List;
 /**
  * 用户模块
  * 用户组
- * 
+ *
  * hxy 2022-11-02 17:04:18
  */
 @Validated

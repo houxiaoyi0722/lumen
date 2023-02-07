@@ -1,11 +1,11 @@
 package com.sang.system.controller.role;
 
 import cn.hutool.core.collection.CollUtil;
-import com.sang.common.domain.auth.authentication.role.dto.RoleDto;
-import com.sang.common.domain.auth.authentication.role.dto.RoleTableDataDto;
-import com.sang.common.domain.auth.authentication.role.entity.Role;
-import com.sang.common.domain.auth.authentication.role.mapper.RoleMapper;
-import com.sang.common.domain.auth.authentication.role.vo.RoleVo;
+import com.sang.common.domain.auth.authorization.role.dto.RoleDto;
+import com.sang.common.domain.auth.authorization.role.dto.RoleTableDataDto;
+import com.sang.common.domain.auth.authorization.role.entity.Role;
+import com.sang.common.domain.auth.authorization.role.mapper.RoleMapper;
+import com.sang.common.domain.auth.authorization.role.vo.RoleVo;
 import com.sang.common.domain.base.dto.CommonKeyValueDto;
 import com.sang.common.response.Result;
 import com.sang.common.validate.Create;

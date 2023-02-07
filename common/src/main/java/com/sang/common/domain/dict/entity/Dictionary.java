@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Setter @Getter @Builder @NoArgsConstructor @AllArgsConstructor @MappedSuperclass @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Table(name = "dictionary")
+@Table(name = "sys_dict")
 @DbComment("数据字典")
 public class Dictionary extends BaseModel {
 

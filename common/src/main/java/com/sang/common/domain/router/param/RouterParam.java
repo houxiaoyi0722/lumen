@@ -3,7 +3,7 @@ package com.sang.common.domain.router.param;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.sang.common.domain.auth.authentication.role.entity.Role;
+import com.sang.common.domain.auth.authorization.role.entity.Role;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;

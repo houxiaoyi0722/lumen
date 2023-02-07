@@ -2,10 +2,8 @@ package com.sang.common.filter;
 
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sang.common.config.auth.JwtAuthenticationToken;
 import com.sang.common.constants.StringConst;
-import com.sang.common.domain.auth.authorization.token.dto.TokenDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -52,7 +52,7 @@ create table job_log (
   constraint pk_job_log primary key (id)
 ) comment='JobLog执行日志表';
 
-create table permissions (
+create table permission (
   id                            bigint not null,
   code                          varchar(100) comment '权限code',
   name                          varchar(100) comment '权限名称',
@@ -212,11 +212,11 @@ create index group_code on user_group (group_code);
 create index ix_dictionary_item_dictionary_id on dictionary_item (dictionary_id);
 alter table dictionary_item add constraint fk_dictionary_item_dictionary_id foreign key (dictionary_id) references dictionary (id) on delete restrict on update restrict;
 
-create index ix_permissions_role_id on permissions (role_id);
-alter table permissions add constraint fk_permissions_role_id foreign key (role_id) references role (id) on delete restrict on update restrict;
+create index ix_permissions_role_id on permission (role_id);
+alter table permission add constraint fk_permissions_role_id foreign key (role_id) references role (id) on delete restrict on update restrict;
 
-create index ix_permissions_router_id on permissions (router_id);
-alter table permissions add constraint fk_permissions_router_id foreign key (router_id) references router (id) on delete restrict on update restrict;
+create index ix_permissions_router_id on permission (router_id);
+alter table permission add constraint fk_permissions_router_id foreign key (router_id) references router (id) on delete restrict on update restrict;
 
 create index ix_role_parent_id on role (parent_id);
 alter table role add constraint fk_role_parent_id foreign key (parent_id) references role (id) on delete restrict on update restrict;

@@ -1,8 +1,8 @@
 package com.sang.system.service.user.impl;
 
-import com.sang.common.domain.auth.authorization.user.entity.User;
-import com.sang.common.domain.auth.authorization.user.param.UserQry;
-import com.sang.common.domain.auth.authorization.user.repo.UserRepository;
+import com.sang.common.domain.auth.authentication.user.entity.User;
+import com.sang.common.domain.auth.authentication.user.param.UserQry;
+import com.sang.common.domain.auth.authentication.user.repo.UserRepository;
 import com.sang.system.service.user.UserService;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;

@@ -1,15 +1,15 @@
 package com.sang.system.controller.user;
 
 import com.sang.common.constants.AuthConst;
-import com.sang.common.domain.auth.authorization.user.dto.UserDto;
-import com.sang.common.domain.auth.authorization.user.dto.UserExtDto;
-import com.sang.common.domain.auth.authorization.user.dto.UserInfoDto;
-import com.sang.common.domain.auth.authorization.user.entity.User;
-import com.sang.common.domain.auth.authorization.user.entity.UserExt;
-import com.sang.common.domain.auth.authorization.user.mapper.UserExtMapper;
-import com.sang.common.domain.auth.authorization.user.mapper.UserMapper;
-import com.sang.common.domain.auth.authorization.user.param.UserQry;
-import com.sang.common.domain.auth.authorization.user.vo.UserVo;
+import com.sang.common.domain.auth.authentication.user.dto.UserDto;
+import com.sang.common.domain.auth.authentication.user.dto.UserExtDto;
+import com.sang.common.domain.auth.authentication.user.dto.UserInfoDto;
+import com.sang.common.domain.auth.authentication.user.entity.User;
+import com.sang.common.domain.auth.authentication.user.entity.UserExt;
+import com.sang.common.domain.auth.authentication.user.mapper.UserExtMapper;
+import com.sang.common.domain.auth.authentication.user.mapper.UserMapper;
+import com.sang.common.domain.auth.authentication.user.param.UserQry;
+import com.sang.common.domain.auth.authentication.user.vo.UserVo;
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
 import com.sang.common.validate.Create;

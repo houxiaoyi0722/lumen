@@ -1,77 +1,77 @@
-alter table dictionary_item drop foreign key fk_dictionary_item_dictionary_id;
-drop index ix_dictionary_item_dictionary_id on dictionary_item;
+alter table sys_dict_item drop foreign key fk_sys_dict_item_dictionary_id;
+drop index ix_sys_dict_item_dictionary_id on sys_dict_item;
 
-alter table permissions drop foreign key fk_permissions_router_id;
-drop index ix_permissions_router_id on permissions;
+alter table sys_permission drop foreign key fk_sys_permission_router_id;
+drop index ix_sys_permission_router_id on sys_permission;
 
-alter table permissions_role drop foreign key fk_permissions_role_permissions;
-drop index ix_permissions_role_permissions on permissions_role;
+alter table sys_permission_sys_role drop foreign key fk_sys_permission_sys_role_sys_permission;
+drop index ix_sys_permission_sys_role_sys_permission on sys_permission_sys_role;
 
-alter table permissions_role drop foreign key fk_permissions_role_role;
-drop index ix_permissions_role_role on permissions_role;
+alter table sys_permission_sys_role drop foreign key fk_sys_permission_sys_role_sys_role;
+drop index ix_sys_permission_sys_role_sys_role on sys_permission_sys_role;
 
-alter table role drop foreign key fk_role_parent_id;
-drop index ix_role_parent_id on role;
+alter table sys_role drop foreign key fk_sys_role_parent_id;
+drop index ix_sys_role_parent_id on sys_role;
 
-alter table router drop foreign key fk_router_parent_id;
-drop index ix_router_parent_id on router;
+alter table sys_router drop foreign key fk_sys_router_parent_id;
+drop index ix_sys_router_parent_id on sys_router;
 
-alter table router_role drop foreign key fk_router_role_router;
-drop index ix_router_role_router on router_role;
+alter table sys_router_sys_role drop foreign key fk_sys_router_sys_role_sys_router;
+drop index ix_sys_router_sys_role_sys_router on sys_router_sys_role;
 
-alter table router_role drop foreign key fk_router_role_role;
-drop index ix_router_role_role on router_role;
+alter table sys_router_sys_role drop foreign key fk_sys_router_sys_role_sys_role;
+drop index ix_sys_router_sys_role_sys_role on sys_router_sys_role;
 
-alter table user drop foreign key fk_user_user_group_id;
-drop index ix_user_user_group_id on user;
+alter table sys_user drop foreign key fk_sys_user_user_group_id;
+drop index ix_sys_user_user_group_id on sys_user;
 
-alter table user drop foreign key fk_user_user_ext_id;
+alter table sys_user drop foreign key fk_sys_user_user_ext_id;
 
-alter table user_role drop foreign key fk_user_role_user;
-drop index ix_user_role_user on user_role;
+alter table sys_user_sys_role drop foreign key fk_sys_user_sys_role_sys_user;
+drop index ix_sys_user_sys_role_sys_user on sys_user_sys_role;
 
-alter table user_role drop foreign key fk_user_role_role;
-drop index ix_user_role_role on user_role;
+alter table sys_user_sys_role drop foreign key fk_sys_user_sys_role_sys_role;
+drop index ix_sys_user_sys_role_sys_role on sys_user_sys_role;
 
-alter table user_ext drop foreign key fk_user_ext_avatar_id;
+alter table sys_user_ext drop foreign key fk_sys_user_ext_avatar_id;
 
-alter table user_ext drop foreign key fk_user_ext_user_id;
+alter table sys_user_ext drop foreign key fk_sys_user_ext_user_id;
 
-alter table user_group drop foreign key fk_user_group_parent_id;
-drop index ix_user_group_parent_id on user_group;
+alter table sys_user_group drop foreign key fk_sys_user_group_parent_id;
+drop index ix_sys_user_group_parent_id on sys_user_group;
 
-drop table if exists dictionary;
+drop table if exists sys_dict;
 
-drop table if exists dictionary_item;
+drop table if exists sys_dict_item;
 
-drop table if exists job_log;
+drop table if exists sys_job_log;
 
-drop table if exists permissions;
+drop table if exists sys_permission;
 
-drop table if exists permissions_role;
+drop table if exists sys_permission_sys_role;
 
-drop table if exists role;
+drop table if exists sys_role;
 
-drop table if exists router;
+drop table if exists sys_router;
 
-drop table if exists router_role;
+drop table if exists sys_router_sys_role;
 
-drop table if exists storage;
+drop table if exists sys_storage;
 
-drop table if exists user;
+drop table if exists sys_user;
 
-drop table if exists user_role;
+drop table if exists sys_user_sys_role;
 
-drop table if exists user_ext;
+drop table if exists sys_user_ext;
 
-drop table if exists user_group;
+drop table if exists sys_user_group;
 
-drop index ix_job_log_job_name on job_log;
-drop index ix_job_log_job_group on job_log;
-drop index ix_job_log_status on job_log;
-drop index storage_bucket on storage;
-drop index suffix on storage;
-drop index business_type on storage;
-drop index business_code on storage;
-drop index user_name on user;
-drop index group_code on user_group;
+drop index ix_sys_job_log_job_name on sys_job_log;
+drop index ix_sys_job_log_job_group on sys_job_log;
+drop index ix_sys_job_log_status on sys_job_log;
+drop index storage_bucket on sys_storage;
+drop index suffix on sys_storage;
+drop index business_type on sys_storage;
+drop index business_code on sys_storage;
+drop index user_name on sys_user;
+drop index group_code on sys_user_group;

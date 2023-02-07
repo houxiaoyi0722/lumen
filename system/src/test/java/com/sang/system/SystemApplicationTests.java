@@ -2,7 +2,7 @@ package com.sang.system;
 
 import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.common.domain.dict.entity.DictionaryItem;
-import com.sang.common.domain.auth.authorization.user.entity.User;
+import com.sang.common.domain.auth.authentication.user.entity.User;
 import io.ebean.DB;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

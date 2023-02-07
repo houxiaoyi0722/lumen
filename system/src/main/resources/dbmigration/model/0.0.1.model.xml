@@ -46,7 +46,7 @@
             <column name="when_modified" type="timestamp" notnull="true"/>
             <column name="deleted" type="boolean" defaultValue="false" notnull="true"/>
         </createTable>
-        <createTable name="permissions" identityType="external" pkName="pk_permissions" comment="操作权限表">
+        <createTable name="permission" identityType="external" pkName="pk_permissions" comment="操作权限表">
             <column name="id" type="bigint" primaryKey="true" identity="true"/>
             <column name="code" type="varchar(100)" comment="权限code"/>
             <column name="name" type="varchar(100)" comment="权限名称"/>

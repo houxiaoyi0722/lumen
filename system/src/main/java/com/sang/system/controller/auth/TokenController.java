@@ -3,7 +3,7 @@ package com.sang.system.controller.auth;
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import com.sang.common.constants.StringConst;
-import com.sang.common.domain.auth.authorization.token.dto.TokenDto;
+import com.sang.common.domain.auth.authentication.token.dto.TokenDto;
 import com.sang.common.response.Result;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;

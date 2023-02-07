@@ -1,8 +1,8 @@
 package com.sang.common.domain.router.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.sang.common.domain.auth.authentication.permissions.entity.Permissions;
-import com.sang.common.domain.auth.authentication.role.entity.Role;
+import com.sang.common.domain.auth.authorization.permission.entity.Permission;
+import com.sang.common.domain.auth.authorization.role.entity.Role;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
@@ -105,6 +105,6 @@ public class RouterDto {
     /**
      * 路由下权限列表
      */
-    private List<Permissions> permissions;
+    private List<Permission> permissions;
 
 }

@@ -1,6 +1,6 @@
 package com.sang.system.example.ebean.batch;
 
-import com.sang.common.domain.auth.authorization.user.entity.User;
+import com.sang.common.domain.auth.authentication.user.entity.User;
 import io.ebean.DB;
 import io.ebean.QueryIterator;
 import io.ebean.Transaction;

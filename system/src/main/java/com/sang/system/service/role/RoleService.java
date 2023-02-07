@@ -1,6 +1,6 @@
 package com.sang.system.service.role;
 
-import com.sang.common.domain.auth.authentication.role.entity.Role;
+import com.sang.common.domain.auth.authorization.role.entity.Role;
 
 import java.util.List;
 

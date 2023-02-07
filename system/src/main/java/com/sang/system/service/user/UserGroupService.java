@@ -1,7 +1,7 @@
 package com.sang.system.service.user;
 
-import com.sang.common.domain.auth.authorization.user.entity.UserGroup;
-import com.sang.common.domain.auth.authorization.user.param.UserGroupQry;
+import com.sang.common.domain.auth.authentication.user.entity.UserGroup;
+import com.sang.common.domain.auth.authentication.user.param.UserGroupQry;
 import io.ebean.PagedList;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 用户模块
  * 用户组
- * 
+ *
  * hxy 2022-11-02 17:04:18
  */
 public interface UserGroupService {

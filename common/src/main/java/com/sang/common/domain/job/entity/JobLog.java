@@ -34,7 +34,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
+@Table(name = "sys_job_log")
 @Index(columnNames = "job_name")
 @Index(columnNames = "job_group")
 @Index(columnNames = "status")

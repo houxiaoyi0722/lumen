@@ -2,8 +2,8 @@ package com.sang.common.domain.router.entity;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sang.common.domain.auth.authentication.permissions.entity.Permissions;
-import com.sang.common.domain.auth.authentication.role.entity.Role;
+import com.sang.common.domain.auth.authorization.permission.entity.Permission;
+import com.sang.common.domain.auth.authorization.role.entity.Role;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.router.vo.RouterVo;
 import io.ebean.annotation.DbComment;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "router")
+@Table(name = "sys_router")
 @DbComment("路由表")
 public class Router extends BaseModel {
 
@@ -114,7 +114,7 @@ public class Router extends BaseModel {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "router")
-    private List<Permissions> permissions;
+    private List<Permission> permissions;
 
     public static List<RouterVo> getRootNodeRouterTree(List<RouterVo> routers) {
 

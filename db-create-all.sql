@@ -1,4 +1,4 @@
-create table dictionary (
+create table sys_dict (
   id                            bigint not null,
   group_id                      varchar(10) not null comment '组id',
   group_name                    varchar(10) not null comment '组名称',
@@ -9,12 +9,12 @@ create table dictionary (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint uq_dictionary_group_id unique (group_id),
-  constraint uq_dictionary_group_name unique (group_name),
-  constraint pk_dictionary primary key (id)
+  constraint uq_sys_dict_group_id unique (group_id),
+  constraint uq_sys_dict_group_name unique (group_name),
+  constraint pk_sys_dict primary key (id)
 ) comment='数据字典';
 
-create table dictionary_item (
+create table sys_dict_item (
   id                            bigint not null,
   dictionary_id                 bigint not null,
   item_value                    varchar(100) not null comment 'value',
@@ -26,10 +26,10 @@ create table dictionary_item (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint pk_dictionary_item primary key (id)
+  constraint pk_sys_dict_item primary key (id)
 ) comment='数据字典明细';
 
-create table job_log (
+create table sys_job_log (
   id                            bigint not null,
   job_name                      varchar(190) comment 'job名称',
   job_group                     varchar(190) comment 'job分组',
@@ -48,10 +48,10 @@ create table job_log (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint pk_job_log primary key (id)
+  constraint pk_sys_job_log primary key (id)
 ) comment='JobLog执行日志表';
 
-create table permissions (
+create table sys_permission (
   id                            bigint not null,
   code                          varchar(100) comment '权限code',
   name                          varchar(100) comment '权限名称',
@@ -63,16 +63,16 @@ create table permissions (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint pk_permissions primary key (id)
+  constraint pk_sys_permission primary key (id)
 ) comment='操作权限表';
 
-create table permissions_role (
-  permissions_id                bigint not null,
-  role_id                       bigint not null,
-  constraint pk_permissions_role primary key (permissions_id,role_id)
+create table sys_permission_sys_role (
+  sys_permission_id             bigint not null,
+  sys_role_id                   bigint not null,
+  constraint pk_sys_permission_sys_role primary key (sys_permission_id,sys_role_id)
 );
 
-create table role (
+create table sys_role (
   id                            bigint not null,
   role_name                     varchar(20) not null comment '角色名称',
   role_code                     varchar(20) not null comment '角色代码',
@@ -84,10 +84,10 @@ create table role (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint pk_role primary key (id)
+  constraint pk_sys_role primary key (id)
 ) comment='角色表';
 
-create table router (
+create table sys_router (
   id                            bigint not null,
   name                          varchar(100) comment '路由名称',
   path                          varchar(200) comment '访问路径',
@@ -105,16 +105,16 @@ create table router (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint pk_router primary key (id)
+  constraint pk_sys_router primary key (id)
 ) comment='路由表';
 
-create table router_role (
-  router_id                     bigint not null,
-  role_id                       bigint not null,
-  constraint pk_router_role primary key (router_id,role_id)
+create table sys_router_sys_role (
+  sys_router_id                 bigint not null,
+  sys_role_id                   bigint not null,
+  constraint pk_sys_router_sys_role primary key (sys_router_id,sys_role_id)
 );
 
-create table storage (
+create table sys_storage (
   id                            bigint not null,
   original_file_name            varchar(100) not null comment '原文件名',
   etag                          varchar(100) not null comment 'etag',
@@ -132,10 +132,10 @@ create table storage (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint pk_storage primary key (id)
+  constraint pk_sys_storage primary key (id)
 ) comment='对象存储管理';
 
-create table user (
+create table sys_user (
   id                            bigint not null,
   name                          varchar(100) not null comment '姓名',
   username                      varchar(100) not null comment '用户名',
@@ -152,20 +152,20 @@ create table user (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint uq_user_name unique (name),
-  constraint uq_user_username unique (username),
-  constraint uq_user_password unique (password),
-  constraint uq_user_user_ext_id unique (user_ext_id),
-  constraint pk_user primary key (id)
+  constraint uq_sys_user_name unique (name),
+  constraint uq_sys_user_username unique (username),
+  constraint uq_sys_user_password unique (password),
+  constraint uq_sys_user_user_ext_id unique (user_ext_id),
+  constraint pk_sys_user primary key (id)
 ) comment='角色表';
 
-create table user_role (
-  user_id                       bigint not null,
-  role_id                       bigint not null,
-  constraint pk_user_role primary key (user_id,role_id)
+create table sys_user_sys_role (
+  sys_user_id                   bigint not null,
+  sys_role_id                   bigint not null,
+  constraint pk_sys_user_sys_role primary key (sys_user_id,sys_role_id)
 );
 
-create table user_ext (
+create table sys_user_ext (
   id                            bigint not null,
   avatar_id                     bigint,
   gender                        varchar(20) comment '性别',
@@ -182,12 +182,12 @@ create table user_ext (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint uq_user_ext_avatar_id unique (avatar_id),
-  constraint uq_user_ext_user_id unique (user_id),
-  constraint pk_user_ext primary key (id)
+  constraint uq_sys_user_ext_avatar_id unique (avatar_id),
+  constraint uq_sys_user_ext_user_id unique (user_id),
+  constraint pk_sys_user_ext primary key (id)
 ) comment='用户扩展信息表';
 
-create table user_group (
+create table sys_user_group (
   id                            bigint not null,
   group_name                    varchar(10) not null comment '用户组名称',
   group_code                    varchar(20) not null comment '用户组代码',
@@ -199,59 +199,59 @@ create table user_group (
   modified_by                   varchar(255) not null,
   when_modified                 datetime(6) not null,
   deleted                       tinyint(1) default 0 not null,
-  constraint uq_user_group_group_name unique (group_name),
-  constraint uq_user_group_group_code unique (group_code),
-  constraint pk_user_group primary key (id)
+  constraint uq_sys_user_group_group_name unique (group_name),
+  constraint uq_sys_user_group_group_code unique (group_code),
+  constraint pk_sys_user_group primary key (id)
 ) comment='用户组';
 
-create index ix_job_log_job_name on job_log (job_name);
-create index ix_job_log_job_group on job_log (job_group);
-create index ix_job_log_status on job_log (status);
-create index storage_bucket on storage (storage_bucket);
-create index suffix on storage (suffix);
-create index business_type on storage (business_type);
-create index business_code on storage (business_code);
-create index user_name on user (user_name);
-create index group_code on user_group (group_code);
-create index ix_dictionary_item_dictionary_id on dictionary_item (dictionary_id);
-alter table dictionary_item add constraint fk_dictionary_item_dictionary_id foreign key (dictionary_id) references dictionary (id) on delete restrict on update restrict;
+create index ix_sys_job_log_job_name on sys_job_log (job_name);
+create index ix_sys_job_log_job_group on sys_job_log (job_group);
+create index ix_sys_job_log_status on sys_job_log (status);
+create index storage_bucket on sys_storage (storage_bucket);
+create index suffix on sys_storage (suffix);
+create index business_type on sys_storage (business_type);
+create index business_code on sys_storage (business_code);
+create index user_name on sys_user (user_name);
+create index group_code on sys_user_group (group_code);
+create index ix_sys_dict_item_dictionary_id on sys_dict_item (dictionary_id);
+alter table sys_dict_item add constraint fk_sys_dict_item_dictionary_id foreign key (dictionary_id) references sys_dict (id) on delete restrict on update restrict;
 
-create index ix_permissions_router_id on permissions (router_id);
-alter table permissions add constraint fk_permissions_router_id foreign key (router_id) references router (id) on delete restrict on update restrict;
+create index ix_sys_permission_router_id on sys_permission (router_id);
+alter table sys_permission add constraint fk_sys_permission_router_id foreign key (router_id) references sys_router (id) on delete restrict on update restrict;
 
-create index ix_permissions_role_permissions on permissions_role (permissions_id);
-alter table permissions_role add constraint fk_permissions_role_permissions foreign key (permissions_id) references permissions (id) on delete restrict on update restrict;
+create index ix_sys_permission_sys_role_sys_permission on sys_permission_sys_role (sys_permission_id);
+alter table sys_permission_sys_role add constraint fk_sys_permission_sys_role_sys_permission foreign key (sys_permission_id) references sys_permission (id) on delete restrict on update restrict;
 
-create index ix_permissions_role_role on permissions_role (role_id);
-alter table permissions_role add constraint fk_permissions_role_role foreign key (role_id) references role (id) on delete restrict on update restrict;
+create index ix_sys_permission_sys_role_sys_role on sys_permission_sys_role (sys_role_id);
+alter table sys_permission_sys_role add constraint fk_sys_permission_sys_role_sys_role foreign key (sys_role_id) references sys_role (id) on delete restrict on update restrict;
 
-create index ix_role_parent_id on role (parent_id);
-alter table role add constraint fk_role_parent_id foreign key (parent_id) references role (id) on delete restrict on update restrict;
+create index ix_sys_role_parent_id on sys_role (parent_id);
+alter table sys_role add constraint fk_sys_role_parent_id foreign key (parent_id) references sys_role (id) on delete restrict on update restrict;
 
-create index ix_router_parent_id on router (parent_id);
-alter table router add constraint fk_router_parent_id foreign key (parent_id) references router (id) on delete restrict on update restrict;
+create index ix_sys_router_parent_id on sys_router (parent_id);
+alter table sys_router add constraint fk_sys_router_parent_id foreign key (parent_id) references sys_router (id) on delete restrict on update restrict;
 
-create index ix_router_role_router on router_role (router_id);
-alter table router_role add constraint fk_router_role_router foreign key (router_id) references router (id) on delete restrict on update restrict;
+create index ix_sys_router_sys_role_sys_router on sys_router_sys_role (sys_router_id);
+alter table sys_router_sys_role add constraint fk_sys_router_sys_role_sys_router foreign key (sys_router_id) references sys_router (id) on delete restrict on update restrict;
 
-create index ix_router_role_role on router_role (role_id);
-alter table router_role add constraint fk_router_role_role foreign key (role_id) references role (id) on delete restrict on update restrict;
+create index ix_sys_router_sys_role_sys_role on sys_router_sys_role (sys_role_id);
+alter table sys_router_sys_role add constraint fk_sys_router_sys_role_sys_role foreign key (sys_role_id) references sys_role (id) on delete restrict on update restrict;
 
-create index ix_user_user_group_id on user (user_group_id);
-alter table user add constraint fk_user_user_group_id foreign key (user_group_id) references user_group (id) on delete restrict on update restrict;
+create index ix_sys_user_user_group_id on sys_user (user_group_id);
+alter table sys_user add constraint fk_sys_user_user_group_id foreign key (user_group_id) references sys_user_group (id) on delete restrict on update restrict;
 
-alter table user add constraint fk_user_user_ext_id foreign key (user_ext_id) references user_ext (id) on delete restrict on update restrict;
+alter table sys_user add constraint fk_sys_user_user_ext_id foreign key (user_ext_id) references sys_user_ext (id) on delete restrict on update restrict;
 
-create index ix_user_role_user on user_role (user_id);
-alter table user_role add constraint fk_user_role_user foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_sys_user_sys_role_sys_user on sys_user_sys_role (sys_user_id);
+alter table sys_user_sys_role add constraint fk_sys_user_sys_role_sys_user foreign key (sys_user_id) references sys_user (id) on delete restrict on update restrict;
 
-create index ix_user_role_role on user_role (role_id);
-alter table user_role add constraint fk_user_role_role foreign key (role_id) references role (id) on delete restrict on update restrict;
+create index ix_sys_user_sys_role_sys_role on sys_user_sys_role (sys_role_id);
+alter table sys_user_sys_role add constraint fk_sys_user_sys_role_sys_role foreign key (sys_role_id) references sys_role (id) on delete restrict on update restrict;
 
-alter table user_ext add constraint fk_user_ext_avatar_id foreign key (avatar_id) references storage (id) on delete restrict on update restrict;
+alter table sys_user_ext add constraint fk_sys_user_ext_avatar_id foreign key (avatar_id) references sys_storage (id) on delete restrict on update restrict;
 
-alter table user_ext add constraint fk_user_ext_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
+alter table sys_user_ext add constraint fk_sys_user_ext_user_id foreign key (user_id) references sys_user (id) on delete restrict on update restrict;
 
-create index ix_user_group_parent_id on user_group (parent_id);
-alter table user_group add constraint fk_user_group_parent_id foreign key (parent_id) references user_group (id) on delete restrict on update restrict;
+create index ix_sys_user_group_parent_id on sys_user_group (parent_id);
+alter table sys_user_group add constraint fk_sys_user_group_parent_id foreign key (parent_id) references sys_user_group (id) on delete restrict on update restrict;
 
