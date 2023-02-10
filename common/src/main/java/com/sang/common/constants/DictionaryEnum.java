@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 该枚举类为动态字典表类型枚举,固定枚举(代码强耦合,更改后会导致错误)请按照类型自行创建
+ */
 @Getter
 @AllArgsConstructor
 public enum DictionaryEnum implements IntArrayValuable{
