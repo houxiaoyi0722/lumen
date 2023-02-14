@@ -1,22 +1,3 @@
-# todo 多环境配置
-logging:
-  level:
-    io:
-      ebean:
-        SQL: DEBUG
-        TXN: DEBUG
-# todo 多环境配置
-jwt:
-  private.key: classpath:app.key
-  public.key: classpath:app.pub
-  expire: 3600
-  refresh-expiry: 72000
-# todo 多环境配置
-minio:
-  credentials: classpath:credentials.json
-  bucket:
-    master: my-first-bucket
-    second: my-second-bucket
 spring:
   profiles.active: txy
   application:

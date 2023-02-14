@@ -17,6 +17,22 @@ datasource:
     password: w7s6bi
     url: jdbc:mysql://localhost:3307/lumen_server?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     driverClassName: com.mysql.cj.jdbc.Driver
+logging:
+  level:
+    io:
+      ebean:
+        SQL: DEBUG
+        TXN: DEBUG
+jwt:
+  private.key: classpath:app.key
+  public.key: classpath:app.pub
+  expire: 3600
+  refresh-expiry: 72000
+minio:
+  credentials: classpath:credentials.json
+  bucket:
+    master: my-first-bucket
+    second: my-second-bucket
 #management:
 #  metrics:
 #    export:
