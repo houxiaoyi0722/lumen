@@ -15,25 +15,13 @@ minio:
     master: my-first-bucket
     second: my-second-bucket
 spring:
-  profiles.active: dev
+  profiles.active: txy
   application:
     name: lumen
   servlet:
     multipart:
       max-file-size: 50MB
       max-request-size: 100MB
-  redis:
-    database: 0
-    port: 6379
-    host: 127.0.0.1
-    #    password:
-    timeout: 2000
-    jedis:
-      pool:
-        max-active: 50
-        max-idle: 50
-        min-idle: 0
-        max-wait: 2000
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8

@@ -10,70 +10,74 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - yd-mysql-data:/var/lib/mysql
+      - /data/docker/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: w7s6bi
-  mongo:
-    image: mongo:4.4.13
-    container_name: mongo
-    networks:
-      - base_server
-    ports:
-      - "27017:27017"
-    environment:
+#  mongo:
+#    image: mongo:4.4.13
+#    container_name: mongo
+#    networks:
+#      - base_server
+#    ports:
+#      - "27017:27017"
+#    environment:
 #      MONGO_INITDB_ROOT_USERNAME: root
 #      MONGO_INITDB_ROOT_PASSWORD: example
-      TZ: Asia/Shanghai
+#      TZ: Asia/Shanghai
       # 缓存大小配置为使用 1.5GB ， 考虑服务器中还有其他服务需要占用内存，可自定义大小
-      wiredTigerCacheSizeGB: 1.5
-    volumes:
+#      wiredTigerCacheSizeGB: 1.5
+#    volumes:
       # 数据目录
-      - ./data/db:/data/db
-      - /etc/localtime:/etc/localtime
+#      - ./data/db:/data/db
+#      - /etc/localtime:/etc/localtime
     # --auth 开启权限认证 --noauth 关闭权限认证，找回密码时使用此配置重启服务
-    command: mongod --noauth
+#    command: mongod --noauth
   redis:
     image: redis:latest
-    container_name: yd-redis
+    container_name: redis
     restart: always
     networks:
       - base_server
     ports:
       - "6379:6379"
     volumes:
-      - /docker/host/dir:/data
-  mongo-express:
-    image: mongo-express:latest
-    container_name: mongo-express
-    ports:
-      - "8081:8081"
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-  elasticsearch:
-    container_name: elasticsearch
-    image: elasticsearch:7.7.0
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    environment:
-      - cluster.name=docker-cluster #设置集群名称为elasticsearch
-      - discovery.type=single-node #以单一节点模式启动
-      - ES_JAVA_OPTS=-Xms512m -Xmx1024m #设置使用jvm内存大小
-    volumes:
-      - ./elastic/docker-cluster/data:/usr/share/elasticsearch/data
-      - ./elastic/docker-cluster/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-  kibana:
-    image: kibana:7.7.0
-    container_name: elk_kibana
-    volumes:
-      - ./elastic/kibana.yml:/usr/share/kibana/config/kibana.yml
-    ports:
-      - "5601:5601"
-    privileged: true    #环境变量
-volumes:
-  yd-mysql-data:
+      - /data/docker/redis:/data
+#  mongo-express:
+#    image: mongo-express:latest
+#    container_name: mongo-express
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+#      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+#  elasticsearch:
+#    container_name: elasticsearch
+#    image: elasticsearch:7.7.0
+#    networks:
+#      - base_server
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
+#    environment:
+#      - cluster.name=docker-cluster #设置集群名称为elasticsearch
+#      - discovery.type=single-node #以单一节点模式启动
+#      - ES_JAVA_OPTS=-Xms512m -Xmx1024m #设置使用jvm内存大小
+#    volumes:
+#      - /data/docker/elasticsearch/data:/usr/share/elasticsearch/data
+#      - /data/docker/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+#  kibana:
+#    image: kibana:7.7.0
+#    container_name: elk_kibana
+#    networks:
+#      - base_server
+#    volumes:
+#      - ./elastic/kibana.yml:/usr/share/kibana/config/kibana.yml
+#    ports:
+#      - "5601:5601"
+#    privileged: true    #环境变量
+#volumes:
+#  yd-mysql-data:
 networks:
   base_server:
     driver: bridge

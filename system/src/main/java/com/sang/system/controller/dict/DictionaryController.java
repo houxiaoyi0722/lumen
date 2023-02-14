@@ -1,7 +1,10 @@
 package com.sang.system.controller.dict;
 
 import com.sang.common.domain.dict.dto.DictionaryDto;
+import com.sang.common.domain.dict.dto.DictionaryItemDto;
 import com.sang.common.domain.dict.entity.Dictionary;
+import com.sang.common.domain.dict.entity.DictionaryItem;
+import com.sang.common.domain.dict.mapper.DictionaryItemMapper;
 import com.sang.common.domain.dict.mapper.DictionaryMapper;
 import com.sang.common.domain.dict.param.DictionaryQry;
 import com.sang.common.response.PageResult;
@@ -31,6 +34,7 @@ public class DictionaryController {
     private DictionaryService dictionaryService;
 
     private final DictionaryMapper mapper = DictionaryMapper.mapper;
+    private final DictionaryItemMapper itemMapper = DictionaryItemMapper.mapper;
 
     /**
      * 分页查询
@@ -51,6 +55,16 @@ public class DictionaryController {
     @GetMapping("/dictionary")
     public Result<Dictionary> findOne(@RequestParam("id") @NotNull(message = "id不能为空") @Min(value = 1L,message = "编号必须大于1") Long id) {
         return Result.ok(dictionaryService.findOne(id));
+    }
+
+    /**
+     * 通过dictId查询 item列表
+     * @param id
+     * @return
+     */
+    @GetMapping("/items")
+    public Result<List<DictionaryItemDto>> findItemList(@RequestParam("id") @NotNull(message = "id不能为空") @Min(value = 1L,message = "编号必须大于1") Long id) {
+        return Result.ok(itemMapper.dictionaryItemToDtoList(dictionaryService.findOne(id).getDictionaryItems()));
     }
 
     /**
