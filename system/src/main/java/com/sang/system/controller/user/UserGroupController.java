@@ -2,22 +2,22 @@ package com.sang.system.controller.user;
 
 import cn.hutool.core.collection.CollUtil;
 import com.sang.common.domain.auth.authentication.user.dto.UserGroupDto;
-import com.sang.common.domain.auth.authentication.user.dto.UserGroupTableDataDto;
 import com.sang.common.domain.auth.authentication.user.entity.UserGroup;
-import com.sang.common.domain.auth.authentication.user.vo.UserGroupVo;
-import com.sang.common.domain.base.dto.CommonKeyValueDto;
-import com.sang.common.response.PageResult;
-import com.sang.common.response.Result;
 import com.sang.common.domain.auth.authentication.user.mapper.UserGroupMapper;
 import com.sang.common.domain.auth.authentication.user.param.UserGroupQry;
-import com.sang.system.service.user.UserGroupService;
-import io.ebean.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import com.sang.common.domain.auth.authentication.user.vo.UserGroupVo;
+import com.sang.common.domain.base.dto.CommonKeyValueDto;
+import com.sang.common.domain.base.dto.CommonTableDataDto;
+import com.sang.common.response.PageResult;
+import com.sang.common.response.Result;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
-import org.springframework.validation.annotation.Validated;
+import com.sang.system.service.user.UserGroupService;
 import io.ebean.PagedList;
+import io.ebean.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -146,7 +146,7 @@ public class UserGroupController {
      */
     @Transactional
     @PostMapping("/userGroupListUpdate")
-    public Result<Boolean> userGroupListUpdate(@RequestBody @Validated UserGroupTableDataDto tableDataDto) {
+    public Result<Boolean> userGroupListUpdate(@RequestBody @Validated CommonTableDataDto<UserGroupDto> tableDataDto) {
         if (CollUtil.isNotEmpty(tableDataDto.getInsertList())) {
             userGroupService.saveAll(userGroupMapper.dtoToUserGroupList(tableDataDto.getInsertList()));
         }

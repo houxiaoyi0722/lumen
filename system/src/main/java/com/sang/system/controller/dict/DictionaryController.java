@@ -1,5 +1,7 @@
 package com.sang.system.controller.dict;
 
+import cn.hutool.core.collection.CollUtil;
+import com.sang.common.domain.base.dto.CommonTableDataDto;
 import com.sang.common.domain.dict.dto.DictionaryDto;
 import com.sang.common.domain.dict.dto.DictionaryItemDto;
 import com.sang.common.domain.dict.entity.Dictionary;
@@ -12,8 +14,10 @@ import com.sang.common.response.Result;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
+import com.sang.system.service.dict.DictionaryItemService;
 import com.sang.system.service.dict.DictionaryService;
 import io.ebean.PagedList;
+import io.ebean.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +36,9 @@ public class DictionaryController {
 
     @Resource
     private DictionaryService dictionaryService;
+
+    @Resource
+    private DictionaryItemService dictionaryItemService;
 
     private final DictionaryMapper mapper = DictionaryMapper.mapper;
     private final DictionaryItemMapper itemMapper = DictionaryItemMapper.mapper;
@@ -108,6 +115,30 @@ public class DictionaryController {
     @DeleteMapping("/dictionaries")
     public Result<Boolean> delete(@RequestBody @Validated(Delete.class) List<DictionaryDto> dictionaries) {
         dictionaryService.deleteAll(mapper.dtoToDictionaryList(dictionaries));
+        return Result.ok();
+    }
+
+    /**
+     * 字典item 数据更新\新增\删除
+     * @param tableDataDto
+     * @return
+     */
+    @Transactional
+    @PutMapping("/dict/item")
+    public Result<Boolean> dictItemUpdate(@RequestBody @Validated(Delete.class) CommonTableDataDto<DictionaryItemDto> tableDataDto) {
+
+        if (CollUtil.isNotEmpty(tableDataDto.getRemoveList())) {
+            dictionaryItemService.deleteAll(itemMapper.dtoToDictionaryItemList(tableDataDto.getRemoveList()));
+        }
+
+        if (CollUtil.isNotEmpty(tableDataDto.getInsertList())) {
+            dictionaryItemService.saveAll(itemMapper.dtoToDictionaryItemList(tableDataDto.getInsertList()));
+        }
+
+        if (CollUtil.isNotEmpty(tableDataDto.getUpdateList())) {
+            itemMapper.dtoToDictionaryItemList(tableDataDto.getUpdateList()).forEach(DictionaryItem::update);
+        }
+
         return Result.ok();
     }
 

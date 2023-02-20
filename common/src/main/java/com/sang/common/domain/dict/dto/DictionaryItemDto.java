@@ -1,10 +1,9 @@
 package com.sang.common.domain.dict.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.ebean.annotation.DbComment;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
-
-import javax.persistence.Column;
 
 /**
  * dictItemDto
@@ -16,6 +15,10 @@ import javax.persistence.Column;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DictionaryItemDto {
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long id;
+
     /**
      * value
      */
@@ -30,4 +33,6 @@ public class DictionaryItemDto {
      * 备注
      */
     private String comment;
+
+    private DictionaryDto dictionary;
 }

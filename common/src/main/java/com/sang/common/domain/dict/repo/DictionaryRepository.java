@@ -18,10 +18,6 @@ public class DictionaryRepository extends BeanRepository<Long, Dictionary> {
         super(Dictionary.class, server);
     }
 
-    public List<Dictionary> getDictionaryListByGroupIds(List<String> groupIds) {
-        return new QDictionary().groupId.in(groupIds).deleted.isFalse().findList();
-    }
-
     public PagedList<Dictionary> getDictionaryList(DictionaryQry dictionaryQry) {
         QDictionary dataDictionary = QDictionary.alias();
 
