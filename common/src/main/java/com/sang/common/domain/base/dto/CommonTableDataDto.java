@@ -3,6 +3,7 @@ package com.sang.common.domain.base.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -18,14 +19,17 @@ public class CommonTableDataDto<T> {
     /**
      * 新增列表
      */
+    @Valid
     private List<T> insertList;
     /**
      * 更新列表
      */
+    @Valid
     private List<T> updateList;
     /**
      * 删除列表
      */
+    @Valid
     private List<T> removeList;
 
 }

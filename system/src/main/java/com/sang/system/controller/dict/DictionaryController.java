@@ -119,13 +119,14 @@ public class DictionaryController {
     }
 
     /**
+     * todo 删除时参数校验
      * 字典item 数据更新\新增\删除
      * @param tableDataDto
      * @return
      */
     @Transactional
     @PutMapping("/dict/item")
-    public Result<Boolean> dictItemUpdate(@RequestBody @Validated(Delete.class) CommonTableDataDto<DictionaryItemDto> tableDataDto) {
+    public Result<Boolean> dictItemUpdate(@RequestBody @Validated({Create.class, Update.class}) CommonTableDataDto<DictionaryItemDto> tableDataDto) {
 
         if (CollUtil.isNotEmpty(tableDataDto.getRemoveList())) {
             dictionaryItemService.deleteAll(itemMapper.dtoToDictionaryItemList(tableDataDto.getRemoveList()));
@@ -137,6 +138,31 @@ public class DictionaryController {
 
         if (CollUtil.isNotEmpty(tableDataDto.getUpdateList())) {
             itemMapper.dtoToDictionaryItemList(tableDataDto.getUpdateList()).forEach(DictionaryItem::update);
+        }
+
+        return Result.ok();
+    }
+
+    /**
+     * todo 删除时参数校验
+     * 更新字典列表
+     * @param tableDataDto
+     * @return
+     */
+    @Transactional
+    @PutMapping("/dict/listUpdate")
+    public Result<Boolean> dictListUpdate(@RequestBody @Validated({Create.class, Update.class}) CommonTableDataDto<DictionaryDto> tableDataDto) {
+
+        if (CollUtil.isNotEmpty(tableDataDto.getRemoveList())) {
+            dictionaryService.deleteAll(mapper.dtoToDictionaryList(tableDataDto.getRemoveList()));
+        }
+
+        if (CollUtil.isNotEmpty(tableDataDto.getInsertList())) {
+            dictionaryService.saveAll(mapper.dtoToDictionaryList(tableDataDto.getInsertList()));
+        }
+
+        if (CollUtil.isNotEmpty(tableDataDto.getUpdateList())) {
+            mapper.dtoToDictionaryList(tableDataDto.getUpdateList()).forEach(Dictionary::update);
         }
 
         return Result.ok();

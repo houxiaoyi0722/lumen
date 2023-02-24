@@ -3,6 +3,10 @@ package com.sang.common.domain.dict.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.sang.common.domain.dict.entity.DictionaryItem;
+import com.sang.common.validate.Create;
+import com.sang.common.validate.Update;
+import com.sang.common.validate.unique.UniqueValue;
 import lombok.*;
 
 /**
@@ -27,6 +31,7 @@ public class DictionaryItemDto {
     /**
      * key
      */
+    @UniqueValue(targetClass = DictionaryItem.class, column = "itemKey",groups = {Update.class, Create.class})
     private String itemKey;
 
     /**
