@@ -23,28 +23,34 @@ import java.util.Collections;
 public class GenerateDoc {
 
   private static final String FILE_OUTPUT_DIR = "./doc";
-  private static final String DOC_FILE_NAME = "smart_asst数据库文档";
+  private static final String DOC_FILE_NAME = "线索平台数据库文档";
   private static final String DOC_VERSION = "1.0.0";
-  private static final String DOC_DESCRIPTION = "smart_asst数据库文档";
+  private static final String DOC_DESCRIPTION = "线索平台数据库文档";
 
 
   /**
    * ssh通道转发路径，为  本地发送链接请求:端口localhost：local_port  转发到 remote_host：remote_port
    */
-  // 服务器登录名
+  // 代理服务地址
   private static final String user = "hybrisdev001";
-  // 登陆密码
-  private static final String password = "dev001#001";
-  //服务器公网IP
+  // 代理登陆密码
+  private static final String password = "dev001@999";
+  // 代理服务器IP
   private static final String host = "43.254.46.186";
-  // 跳板机ssh开放的接口   默认端口 22
+
+  // 代理跳板机ssh开放的接口   默认端口 22
   private static final int port = 9094;
-  // 这个是本地的端口，很重要！！！选取一个没有占用的port即可
-  private static final int local_port = 3307;
-  // 要访问的mysql所在的host    服务器局域网IP（127.0.0.1也行）
-  private static final String remote_host = "192.168.30.19";
-  // 服务器上数据库端口号
-  private static final int remote_port = 3306;
+  // 这个是本地的端口，很重要！！！选取一个没有占用的port即可,由本地端口转发到目标服务
+  private static final int local_port = 13307;
+  // 目标服务局域网IP（127.0.0.1也行）
+  private static final String remote_host = "192.168.20.20";
+  // 目标服务器端口号
+  private static final int remote_port = 3307;
+
+  // 这里固定访问本地代理端口
+  public static final String URL = "jdbc:mysql://localhost:13307/repurchase?allowMultiQueries=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai";
+  public static final String DATABASE_USERNAME = "root";
+  public static final String DATABASE_PASSWORD = "Sap#12345";
 
   private Session session = null;
 
@@ -69,9 +75,9 @@ public class GenerateDoc {
 
   public HikariDataSource dataSourceConfig() {
     HikariConfig hikariConfig = new HikariConfig();
-    hikariConfig.setJdbcUrl("jdbc:mysql://localhost:3307/smart_asst?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=GMT%2b8");
-    hikariConfig.setUsername("ydpre");
-    hikariConfig.setPassword("Ydpre!234");
+    hikariConfig.setJdbcUrl(URL);
+    hikariConfig.setUsername(DATABASE_USERNAME);
+    hikariConfig.setPassword(DATABASE_PASSWORD);
     hikariConfig.setMinimumIdle(5);
     hikariConfig.setPoolName("HikariCP");
     hikariConfig.setIdleTimeout(600000L);
@@ -79,6 +85,7 @@ public class GenerateDoc {
     hikariConfig.setMaxLifetime(1800000L);
     hikariConfig.setConnectionTimeout(30000L);
     hikariConfig.setDriverClassName("com.mysql.jdbc.Driver");
+//    hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
     hikariConfig.addDataSourceProperty("useInformationSchema", "true");
 
     return new HikariDataSource(hikariConfig);
@@ -126,7 +133,7 @@ public class GenerateDoc {
       session.setPortForwardingL(local_port, remote_host, remote_port);
       log.info("成功建立SSH连接！");
     } catch (Exception e) {
-      log.info("成功建立SSH连接！");
+      log.error("建立SSH连接失败！");
       // do something
     }
   }
