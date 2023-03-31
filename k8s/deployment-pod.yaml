@@ -1,12 +1,95 @@
+# * 代表重要
 apiVersion: v1
 kind: Pod
-metadata:
-  annotations:
+metadata:                                         # 标准的对象元数据。
+  namespace: default                              # *命名空间,默认为default必须
+  name: nginx                                     # *一个字符串，在当前命名空间中唯一标识这个对象。这个值在检索单个对象时被用于路径。
+  annotations:                                    # 一个字符串键和值的映射，可用于组织和分类对象（见标签文档）。
     deployment.kubernetes.io/revision: "1"
-  labels:
-    app: nginx  #123
-  name: nginx
-  namespace: default
-spec:
-  containers:
+  labels:                                         # *标签 一个字符串键和值的映射，可用于组织和分类对象（见标签文档）。
+    app: nginx
+    app1: nginx1
+spec:                                             # 对 Pod预期行为的定义。
+  containers:                                     # *属于 Pod 的容器列表。当前无法添加或删除容器。Pod 中必须至少有一个容器。无法更新。
+    - name: nginx:latest
+      volumeMounts:                               # *卷在容器中的挂载位置
+        - mountPath: /etc                         # hostPath
+          readOnly: true                          # HostPath 卷存在许多安全风险，最佳做法是尽可能避免使用 HostPath。 当必须使用 HostPath 卷时，它的范围应仅限于所需的文件或目录，并以只读方式挂载
+          name: hostPath
+          mountPropagation: None                  # 挂载卷的传播 https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#mount-propagation
+        - mountPath: /var/local/aaa/1.txt
+          name: myfile
+        - mountPath: /etc/config                  #configMap
+          name: config-vol
+        - mountPath: /cache                       # emptyDir
+          name: emptyDir
+        - mountPath: /my-nfs-data                 # nfs
+          name: test-volume
+    - name: mysql                                 # volume sub_path实例
+      image: mysql
+      env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "rootpasswd"
+      volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: site-data
+          subPath: mysql                          # 在单个 Pod 中一个共享卷供多方使用是很有用的。 volumeMounts.subPath 属性可用于指定所引用的卷内的子路径，而不是其根路径。 my-lamp-site-data下子路径/mysql
+    - name: php                                   # volume sub_path实例
+      image: php:7.0-apache
+      volumeMounts:
+        - mountPath: /var/www/html
+          name: site-data
+          subPath: html                           # 在单个 Pod 中一个共享卷供多方使用是很有用的。 volumeMounts.subPath 属性可用于指定所引用的卷内的子路径，而不是其根路径。my-lamp-site-data下子路径/html
+  initContainers:                                 # 属于 Pod 的 Init 容器列表。Init 容器在容器启动之前按顺序执行。 如果任何一个 Init 容器发生故障，则认为该 Pod 失败，并根据其 restartPolicy 处理。 Init 容器或普通容器的名称在所有容器中必须是唯一的。 Init 容器不可以有生命周期操作、就绪态探针、存活态探针或启动探针。 在调度过程中会考虑 Init 容器的资源需求，方法是查找每种资源类型的最高请求/限制， 然后使用该值的最大值或正常容器的资源请求的总和。 对资源限制以类似的方式应用于 Init 容器。当前无法添加或删除 Init 容器。无法更新
+    - name: nginx:latest
+  imagePullSecrets:                               # imagePullSecrets 是对同一名字空间中 Secret 的引用的列表，用于拉取此 Pod 规约中使用的任何镜像，此字段可选。 如果指定，这些 Secret 将被传递给各个镜像拉取组件（Puller）实现供其使用。更多信息： https://kubernetes.io/zh-cn/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod
     - name: aaa
+    - name: bbb
+  enableServiceLinks: true                        # enableServiceLinks 指示是否应将有关服务的信息注入到 Pod 的环境变量中，服务连接的语法与 Docker links 的语法相匹配。可选。默认为 true。
+  os:                                             # 指定 Pod 中容器的操作系统。如果设置了此属性，则某些 Pod 和容器字段会受到限制。
+    name: linux                                   # name 是操作系统的名称。当前支持的值是 linux 和 windows 期望处理附加值并将此字段无法识别时视其为 os: null
+  # 容器中的进程看到的文件系统视图是由它们的容器镜像 的初始内容以及挂载在容器中的卷（如果定义了的话）所组成的。 其中根文件系统同容器镜像的内容相吻合。 任何在该文件系统下的写入操作，如果被允许的话，都会影响接下来容器中进程访问文件系统时所看到的内容。卷挂载在镜像中的指定路径下。
+  # Pod 配置中的每个容器必须独立指定各个卷的挂载位置
+  # 卷类型: (已弃用的类型这里不描述,自行查看文档 https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#volume-types)
+  #   - cephfs: cephfs 卷允许你将现存的 CephFS 卷挂载到 Pod 中。 不像 emptyDir 那样会在 Pod 被删除的同时也会被删除，cephfs 卷的内容在 Pod 被删除时会被保留，只是卷被卸载了。 这意味着 cephfs 卷可以被预先填充数据，且这些数据可以在 Pod 之间共享。同一 cephfs 卷可同时被多个写者挂载. 实例: https://github.com/kubernetes/examples/tree/master/volumes/cephfs/
+  #   - configMap: configMap 卷提供了向 Pod 注入配置数据的方法。 ConfigMap 对象中存储的数据可以被 configMap 类型的卷引用，然后被 Pod 中运行的容器化应用使用。
+  #   - downwardAPI: downwardAPI 卷用于为应用提供 downward API 数据。 在这类卷中，所公开的数据以纯文本格式的只读文件形式存在。
+  #   - emptyDir: 当 Pod 分派到某个节点上时，emptyDir 卷会被创建，并且在 Pod 在该节点上运行期间，卷一直存在。 就像其名称表示的那样，卷最初是空的。 尽管 Pod 中的容器挂载 emptyDir 卷的路径可能相同也可能不同，这些容器都可以读写 emptyDir 卷中相同的文件。 当 Pod 因为某些原因被从节点上删除时，emptyDir 卷中的数据也会被永久删除。
+  #   - fc (光纤通道): fc 卷类型允许将现有的光纤通道块存储卷挂载到 Pod 中。 可以使用卷配置中的参数 targetWWNs 来指定单个或多个目标 WWN（World Wide Names）。 如果指定了多个 WWN，targetWWNs 期望这些 WWN 来自多路径连接。
+  #   - hostPath: hostPath 卷能将主机节点文件系统上的文件或目录挂载到你的 Pod 中。 虽然这不是大多数 Pod 需要的，但是它为一些应用程序提供了强大的逃生舱。!! HostPath 卷存在许多安全风险，最佳做法是尽可能避免使用 HostPath。 https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#hostpath
+  #   - iscsi: iscsi 卷能将 iSCSI (基于 IP 的 SCSI) 卷挂载到你的 Pod 中。 不像 emptyDir 那样会在删除 Pod 的同时也会被删除，iscsi 卷的内容在删除 Pod 时会被保留，卷只是被卸载。 这意味着 iscsi 卷可以被预先填充数据，并且这些数据可以在 Pod 之间共享。 https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#iscsi
+  #   - local: local 卷所代表的是某个被挂载的本地存储设备，例如磁盘、分区或者目录。local 卷只能用作静态创建的持久卷。不支持动态配置。与 hostPath 卷相比，local 卷能够以持久和可移植的方式使用，而无需手动将 Pod 调度到节点。系统通过查看 PersistentVolume 的节点亲和性配置，就能了解卷的节点约束。https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#local
+  #   - nfs: nfs 卷能将 NFS (网络文件系统) 挂载到你的 Pod 中。 不像 emptyDir 那样会在删除 Pod 的同时也会被删除，nfs 卷的内容在删除 Pod 时会被保存，卷只是被卸载。 这意味着 nfs 卷可以被预先填充数据，并且这些数据可以在 Pod 之间共享。
+  #   - secret: secret 卷用来给 Pod 传递敏感信息，例如密码。你可以将 Secret 存储在 Kubernetes API 服务器上，然后以文件的形式挂载到 Pod 中，无需直接与 Kubernetes 耦合。 secret 卷由 tmpfs（基于 RAM 的文件系统）提供存储，因此它们永远不会被写入非易失性（持久化的）存储器。 https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#secret
+
+  # * 挂载卷的传播 https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#mount-propagation
+  # 挂载卷的传播能力允许将容器安装的卷共享到同一 Pod 中的其他容器，甚至共享到同一节点上的其他 Pod。
+  volumes:                                        # *为 Pod 提供的卷
+    - name: hostPath                              # hostPath
+      hostPath:
+        path: /data
+        type: DirectoryOrCreate
+    - name: myfile                                # hostPath
+      hostPath:
+        path: /var/local/aaa/1.txt
+        type: FileOrCreate
+    - name: config-vol                            #configMap
+      configMap:
+        defaultMode: 511                            # 文件权限设置
+        name: log-config                            # log-config ConfigMap 以卷的形式挂载
+        items:
+          - key: log_level                          # 存储在 log_level 条目中的所有内容都被挂载到 Pod 的 /etc/config/log_level 路径下。 请注意，这个路径来源于卷的 mountPath 和 log_level 键对应的 path
+            path: log_level
+            mode: 511                               # 文件权限设置
+    - name: emptyDir
+      emptyDir:
+        medium: ""                                # emptyDir.medium 字段用来控制 emptyDir 卷的存储位置。 默认情况下，emptyDir 卷存储在该节点所使用的介质上； 此处的介质可以是磁盘、SSD 或网络存储，这取决于你的环境。 你可以将 emptyDir.medium 字段设置为 "Memory"
+        sizeLimit: 500Mi                            # 容量限制
+    - name: test-volume                           # nfs
+      nfs:
+        server: my-nfs-server.example.com
+        path: /my-nfs-volume
+        readOnly: true
+    - name: site-data
+      persistentVolumeClaim:
+        claimName: my-lamp-site-data
