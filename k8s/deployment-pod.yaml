@@ -12,7 +12,43 @@ metadata:                                         # 标准的对象元数据。
 spec:                                             # 对 Pod预期行为的定义。
   containers:                                     # *属于 Pod 的容器列表。当前无法添加或删除容器。Pod 中必须至少有一个容器。无法更新。
     - name: nginx:latest
-      volumeMounts:                               # *卷在容器中的挂载位置
+      imagePullPolicy: Always                     # 镜像拉取策略。"Always"、"Never"、"IfNotPresent" 之一。如果指定了 :latest 标签，则默认为 "Always"， 否则默认为 "IfNotPresent"。
+      ports:
+        - containerPort: 80                       # 要在 Pod 的 IP 地址上公开的端口号。这必须是有效的端口号，0 < x < 65536。
+          hostIP: 127.0.0.1                       # 绑定外部端口的主机 IP
+          hostPort: 32080                         # 要在主机上公开的端口号。如果指定，此字段必须是一个有效的端口号，0 < x < 65536。 如果设置了 hostNetwork，此字段值必须与 containerPort 匹配。大多数容器不需要设置此字段。
+          name: nginx-pod                         # 如果设置此字段，这必须是 IANA_SVC_NAME 并且在 Pod 中唯一。 Pod 中的每个命名端口都必须具有唯一的名称。服务可以引用的端口的名称。
+          protocol: TCP                           # 端口协议。必须是 UDP、TCP 或 SCTP。默认为 TCP
+      command:                                    # 入口点数组。不在 Shell 中执行。如果未提供，则使用容器镜像的 ENTRYPOINT。https://kubernetes.io/zh-cn/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+        [ "/bin/echo" ]
+      args:                                       # entrypoint 的参数。如果未提供，则使用容器镜像的 CMD 设置。
+        [ "$(MESSAGE)" ]
+      env:                                        # 要在容器中设置的环境变量列表。无法更新。
+        - name: MESSAGE
+#          value: "hello world"
+          valueFrom:                              # 环境变量值的来源。如果 value 值不为空，则不能使用
+            configMapKeyRef:                      # 选择某个 ConfigMap 的一个主键。
+              key: aa                             # 必需要选择的主键。
+              name: aa                            # 被引用者的名称。更多信息： https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/names/#names
+              optional: true                      # 指定 ConfigMap 或其主键是否必须已经定义
+            fieldRef:
+              fieldPath: metadata.name            # 选择 Pod 的一个字段：支持 metadata.name、metadata.namespace、metadata.labels['<KEY>']、 metadata.annotations['<KEY>']、spec.nodeName、spec.serviceAccountName、status.hostIP status.podIP、status.podIPs。
+            resourceFieldRef:                     # 选择容器的资源：目前仅支持资源限制和请求
+              resource: limits.cpu
+            secretKeyRef:                         # SecretKeySelector 选择一个 Secret 的主键。
+              key: aaa                            # 要选择的 Secret 的主键。必须是有效的主键。
+              name: aaa                           # 被引用 Secret 的名称。更多信息： https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/names/#names
+              optional: true
+      envFrom:                                    # 在容器中填充环境变量的来源列表。在来源中定义的键名必须是 C_IDENTIFIER。 容器启动时，所有无效键都将作为事件报告。当一个键存在于多个来源中时，与最后一个来源关联的值将优先。 如果有重复主键，env 中定义的值将优先。无法更新。
+        - prefix: sang_                           # 要在 ConfigMap 中的每个键前面附加的可选标识符。必须是C_IDENTIFIER。
+        - configMapRef:                           # 要从中选择的 ConfigMap。
+            name: aaa                             # 被引用的 ConfigMap 名称。更多信息： https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/names/#names
+            optional: true
+        - secretRef:                              # SecretEnvSource 选择一个 Secret 来填充环境变量。目标 Secret 的 data 字段的内容将键值对表示为环境变量。
+            name: aaa                             # 被引用 ConfigMap 的名称。更多信息： https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/names/#names
+            optional: true
+#      workingDir: /bin                            # 容器的工作目录。如果未指定，将使用容器运行时的默认值，默认值可能在容器镜像中配置。无法更新。
+      volumeMounts:                               # *卷在容器中的挂载位置 临时容器不允许子路径挂载。无法更新。
         - mountPath: /etc                         # hostPath
           readOnly: true                          # HostPath 卷存在许多安全风险，最佳做法是尽可能避免使用 HostPath。 当必须使用 HostPath 卷时，它的范围应仅限于所需的文件或目录，并以只读方式挂载
           name: hostPath
@@ -25,8 +61,15 @@ spec:                                             # 对 Pod预期行为的定义
           name: emptyDir
         - mountPath: /my-nfs-data                 # nfs
           name: test-volume
+        - mountPath: /var/lib/nginx
+          name: site-data
+          subPath: nginx                          # 在单个 Pod 中一个共享卷供多方使用是很有用的。 volumeMounts.subPath 属性可用于指定所引用的卷内的子路径，而不是其根路径。 my-lamp-site-data下子路径/mysql
+      volumeDevices:                              # volumeDevices 是容器要使用的块设备列表 volumeDevice 描述容器内原始块设备的映射
+        - devicePath: /var/lib/aaa                # devicePath 是设备将被映射到的容器内的路径。
+          name: my-lamp-site-data                 # name 必须与 Pod 中的 persistentVolumeClaim 的名称匹配
     - name: mysql                                 # volume sub_path实例
       image: mysql
+      imagePullPolicy: Always
       env:
         - name: MYSQL_ROOT_PASSWORD
           value: "rootpasswd"
@@ -36,10 +79,13 @@ spec:                                             # 对 Pod预期行为的定义
           subPath: mysql                          # 在单个 Pod 中一个共享卷供多方使用是很有用的。 volumeMounts.subPath 属性可用于指定所引用的卷内的子路径，而不是其根路径。 my-lamp-site-data下子路径/mysql
     - name: php                                   # volume sub_path实例
       image: php:7.0-apache
+      imagePullPolicy: Always
       volumeMounts:
         - mountPath: /var/www/html
           name: site-data
           subPath: html                           # 在单个 Pod 中一个共享卷供多方使用是很有用的。 volumeMounts.subPath 属性可用于指定所引用的卷内的子路径，而不是其根路径。my-lamp-site-data下子路径/html
+#    - terminationMessagePath:                    # 可选字段。挂载到容器文件系统的路径，用于写入容器终止消息的文件。 写入的消息旨在成为简短的最终状态，例如断言失败消息。如果超出 4096 字节，将被节点截断。 所有容器的总消息长度将限制为 12 KB。默认为 /dev/termination-log。无法更新
+#      terminationMessagePolicy:                  # 指示应如何填充终止消息。字段值为 File 表示将使用 terminateMessagePath 的内容来填充成功和失败的容器状态消息。 如果终止消息文件为空并且容器因错误退出，字段值 FallbackToLogsOnError 表示将使用容器日志输出的最后一块。日志输出限制为 2048 字节或 80 行，以较小者为准。 默认为 File。无法更新
   initContainers:                                 # 属于 Pod 的 Init 容器列表。Init 容器在容器启动之前按顺序执行。 如果任何一个 Init 容器发生故障，则认为该 Pod 失败，并根据其 restartPolicy 处理。 Init 容器或普通容器的名称在所有容器中必须是唯一的。 Init 容器不可以有生命周期操作、就绪态探针、存活态探针或启动探针。 在调度过程中会考虑 Init 容器的资源需求，方法是查找每种资源类型的最高请求/限制， 然后使用该值的最大值或正常容器的资源请求的总和。 对资源限制以类似的方式应用于 Init 容器。当前无法添加或删除 Init 容器。无法更新
     - name: nginx:latest
   imagePullSecrets:                               # imagePullSecrets 是对同一名字空间中 Secret 的引用的列表，用于拉取此 Pod 规约中使用的任何镜像，此字段可选。 如果指定，这些 Secret 将被传递给各个镜像拉取组件（Puller）实现供其使用。更多信息： https://kubernetes.io/zh-cn/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod
@@ -93,3 +139,72 @@ spec:                                             # 对 Pod预期行为的定义
     - name: site-data
       persistentVolumeClaim:
         claimName: my-lamp-site-data
+  ### 调度 https://kubernetes.io/zh-cn/docs/reference/kubernetes-api/workload-resources/pod-v1/#%E8%B0%83%E5%BA%A6
+  # nodeSelector:                                   # nodeSelector 是一个选择算符，这些算符必须取值为 true 才能认为 Pod 适合在节点上运行。 选择算符必须与节点的标签匹配，以便在该节点上调度 Pod
+  nodeName: centos-slave-node0                      # nodeName 是将此 Pod 调度到特定节点的请求。 如果字段值不为空，调度器只是直接将这个 Pod 调度到所指定节点上，假设节点符合资源要求。
+  #affinity:                                        # 如果指定了，则作为 Pod 的调度约束。Affinity 是一组亲和性调度规则
+  # nodeAffinity:                                   # 描述 Pod 的节点亲和性调度规则。
+  #  podAffinity:                                   # 描述 Pod 亲和性调度规则（例如，将此 Pod 与其他一些 Pod 放在同一节点、区域等）。
+  #  podAntiAffinity:                               # 描述 Pod 反亲和性调度规则（例如，避免将此 Pod 与其他一些 Pod 放在相同的节点、区域等）。
+  tolerations:                                      # 如果设置了此字段，则作为 Pod 的容忍度。这个 Toleration 所附加到的 Pod 能够容忍任何使用匹配运算符 <operator> 匹配三元组 <key,value,effect> 所得到的污点
+    - key: aaa                                      # key 是容忍度所适用的污点的键名。此字段为空意味着匹配所有的污点键。 如果 key 为空，则 operator 必须为 Exists；这种组合意味着匹配所有值和所有键。
+    - operator: Equal                               # operator 表示 key 与 value 之间的关系。有效的 operator 取值是 Exists 和 Equal。默认为 Equal。 Exists 相当于 value 为某种通配符，因此 Pod 可以容忍特定类别的所有污点。
+    - value: aa                                     # value 是容忍度所匹配的污点值。如果 operator 为 Exists，则此 value 值应该为空， 否则 value 值应该是一个正常的字符串。
+    - effect: NoExecute                             # effect 指示要匹配的污点效果。空值意味著匹配所有污点效果。如果要设置此字段，允许的值为 NoSchedule、PreferNoSchedule 和 NoExecute 之一。
+    - tolerationSeconds: 0                          # tolerationSeconds 表示容忍度（effect 必须是 NoExecute，否则此字段被忽略）容忍污点的时间长度。 默认情况下，此字段未被设置，这意味着会一直能够容忍对应污点（不会发生驱逐操作）。 零值和负值会被系统当做 0 值处理（立即触发驱逐）。
+  schedulerName: aaa                                # 如果设置了此字段，则 Pod 将由指定的调度器调度。如果未指定，则使用默认调度器来调度 Pod。
+  runtimeClassName: node.k8s.io                     # runtimeClassName 引用 node.k8s.io 组中的一个 RuntimeClass 对象，该 RuntimeClass 将被用来运行这个 Pod。 如果没有 RuntimeClass 资源与所设置的类匹配，则 Pod 将不会运行。
+  priorityClassName: aa                             # 如果设置了此字段，则用来标明 Pod 的优先级。 "system-node-critical" 和 "system-cluster-critical" 是两个特殊关键字， 分别用来表示两个最高优先级，前者优先级更高一些。 任何其他名称都必须通过创建具有该名称的 PriorityClass 对象来定义。 如果未指定此字段，则 Pod 优先级将为默认值。如果没有默认值，则为零。
+  priority: 999999                                  # 优先级值。各种系统组件使用该字段来确定 Pod 的优先级。当启用 Priority 准入控制器时， 该控制器会阻止用户设置此字段。准入控制器基于 priorityClassName 设置来填充此字段。 字段值越高，优先级越高。
+  preemptionPolicy: PreemptLowerPriority            # preemptionPolicy 是用来抢占优先级较低的 Pod 的策略。取值为 "Never"、"PreemptLowerPriority" 之一。 如果未设置，则默认为 "PreemptLowerPriority"。
+#  topologySpreadConstraints:
+#    - maxSkew:
+#      topologyKey:
+#      whenUnsatisfiable:
+
+### 生命周期 https://kubernetes.io/zh-cn/docs/reference/kubernetes-api/workload-resources/pod-v1/#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F
+  restartPolicy: Always                             # * Pod 内所有容器的重启策略。Always、OnFailure、Never 之一。默认为 Always。更多信息： https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy
+  terminationGracePeriodSeconds: 20                 # 可选字段，表示 Pod 需要体面终止的所需的时长（以秒为单位）。
+  activeDeadlineSeconds: 10                         # 在系统将主动尝试将此 Pod 标记为已失败并杀死相关容器之前，Pod 可能在节点上活跃的时长； 市场计算基于 startTime 计算间（以秒为单位）。字段值必须是正整数。
+#  readinessGates:                                   # 如果设置了此字段，则将评估所有就绪门控（Readiness Gate）以确定 Pod 就绪状况。 当所有容器都已就绪，并且就绪门控中指定的所有状况的 status 都为 "true" 时，Pod 被视为就绪
+#    - conditionType: aa                             # conditionType 是指 Pod 的状况列表中类型匹配的状况。
+  hostname: centos-node111                          # 指定 Pod 的主机名。如果此字段未指定，则 Pod 的主机名将设置为系统定义的值。
+#  setHostnameAsFQDN: true                           # 如果为 true，则 Pod 的主机名将配置为 Pod 的 FQDN，而不是叶名称（默认值）。 在 Linux 容器中，这意味着将内核的 hostname 字段（struct utsname 的 nodename 字段）设置为 FQDN。 在 Windows 容器中，这意味着将注册表项 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters 的 hostname 键设置为 FQDN。如果 Pod 没有 FQDN，则此字段不起作用。 默认为 false。
+  subdomain: sang-k8s                               # 如果设置了此字段，则完全限定的 Pod 主机名将是 <hostname>.<subdomain>.<Pod 名字空间>.svc.<集群域名>。 如果未设置此字段，则该 Pod 将没有域名。
+  hostAliases:                                      # hostAliases 是一个可选的列表属性，包含要被注入到 Pod 的 hosts 文件中的主机和 IP 地址。 这仅对非 hostNetwork Pod 有效。
+    - hostnames:                                    # HostAlias 结构保存 IP 和主机名之间的映射，这些映射将作为 Pod 的 hosts 文件中的条目注入。
+        - aaa
+        - bbb
+    - ip: 192.168.1.1
+  dnsConfig:                                         # 指定 Pod 的 DNS 参数。此处指定的参数将被合并到基于 dnsPolicy 生成的 DNS 配置中。PodDNSConfig 定义 Pod 的 DNS 参数，这些参数独立于基于 dnsPolicy 生成的参数
+    nameservers:
+      - aaa123
+    options:
+      - name: aaa.com
+      - value: 192.168.1.1
+    searches:
+      - www.aaa.com
+  dnsPolicy:
+    ClusterFirst
+### 主机命名空间
+  hostNetwork: false                                   # 为此 Pod 请求主机层面联网支持。使用主机的网络名字空间。 如果设置了此选项，则必须指定将使用的端口。默认为 false。
+  hostPID: false                                       # 使用主机的 PID 名字空间。可选：默认为 false。
+  hostIPC: false                                       # 使用主机的 IPC 名字空间。可选：默认为 false。
+  shareProcessNamespace: true                          # 在 Pod 中的所有容器之间共享单个进程名字空间。设置了此字段之后，容器将能够查看来自同一 Pod 中其他容器的进程并发出信号， 并且每个容器中的第一个进程不会被分配 PID 1。hostPID 和 shareProcessNamespace 不能同时设置。 可选：默认为 false。
+### 服务账号
+  serviceAccountName: aaa                              # serviceAccountName 是用于运行此 Pod 的服务账号的名称
+  automountServiceAccountToken: true                   # 指示是否应自动挂载服务帐户令牌
+### 安全上下文
+#  securityContext:
+#    runAsUser: 111
+#    runAsNonRoot: true
+#    runAsGroup: 111
+#    supplementalGroups:
+#      - 123
+#      - 22
+#    fsGroup: 123
+#    fsGroupChangePolicy: Always
+### ...
+
+### 容器 https://kubernetes.io/zh-cn/docs/reference/kubernetes-api/workload-resources/pod-v1/#Container
+
