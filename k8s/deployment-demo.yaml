@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:                                         # 标准的对象元数据。
+  namespace: default                              # *命名空间,默认为default必须
+  name: nginx                                     # *一个字符串，在当前命名空间中唯一标识这个对象。这个值在检索单个对象时被用于路径。
+  annotations:                                    # 一个字符串键和值的映射，可用于组织和分类对象（见标签文档）。
+    deployment.kubernetes.io/revision: "1"
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    spec:
+      containers:
+        - name: nginx:latest
+    metadata:
+      labels:
+        aaa: aaa
+  replicas: 2                                     # 预期 Pod 的数量。这是一个指针，用于辨别显式零和未指定的值。默认为 1。
+  minReadySeconds: 0                              # 新建的 Pod 在没有任何容器崩溃的情况下就绪并被系统视为可用的最短秒数。 默认为 0（Pod 就绪后即被视为可用）。
+  strategy:                                       # 描述如何将现有 Pod 替换为新 Pod
+    type: RollingUpdate                           # 部署的类型。取值可以是 “Recreate” 或 “RollingUpdate”。默认为 RollingUpdate
+    rollingUpdate:
+      maxSurge: 30%                               # 滚动更新期间新旧pod同时存在的最大值。超出预期的 Pod 数量之后可以调度的最大 Pod 数量。该值可以是一个绝对数（例如： 5）或一个预期 Pod 的百分比（例如：10%）。如果 MaxUnavailable 为 0，则此字段不能为 0。 通过向上取整计算得出一个百分比绝对数。默认为 25%。
+      maxUnavailable: 30%                         # 滚动更新期间缩容的最大数量。更新期间可能不可用的最大 Pod 数量。该值可以是一个绝对数（例如： 5）或一个预期 Pod 的百分比（例如：10%）。通过向下取整计算得出一个百分比绝对数。 如果 MaxSurge 为 0，则此字段不能为 0。默认为 25%。
+  revisionHistoryLimit: 10                        # 保留允许回滚的旧 ReplicaSet 的数量。这是一个指针，用于辨别显式零和未指定的值。默认为 10。
+  progressDeadlineSeconds: 600                    # Deployment 在被视为失败之前取得进展的最大秒数 默认为 600s。
+

@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: default
+  name: ingress
+  labels:
+    name: ingress
+  annotations:
+    name: kubernetes.io/ingress.class
+spec:
+  defaultBackend:
+    resource:                                   # resource 是对 Ingress 对象所在命名空间中另一个 Kubernetes 资源的引用。 如果指定了 resource，则不得指定 service.name 和 service.port。 此字段是一个与 service 互斥的设置。
+      kind: Service                             # Kind 是被引用的资源的类型
+      name: nginx                               # Name 是被引用的资源的名称
+#      apiGroup: aaa APIGroup 是被引用资源的组。如果不指定 APIGroup，则指定的 Kind 必须在核心 API 组中。对于任何其它第三方类型，都需要 APIGroup
+    service:                                    # service 引用一个 Service 作为后端。此字段是一个与 resource 互斥的设置
+      name: nginx                               # name 是引用的服务。服务必须与 Ingress 对象位于同一命名空间中
+      port:                                     # 所引用的服务的端口。IngressServiceBackend 需要端口名或端口号
+        name: nginx-service                     # name 是服务上的端口名称。此字段是一个与 number 互斥的设置
+        number: 80                              # number 是服务上的数字形式端口号（例如 80）。此字段是一个与 name 互斥的设置
+  ingressClassName: kubernetes.io/ingress.class # IngressClassName 是 IngressClass 集群资源的名称
+  rules:                                        # 用于配置 Ingress 的主机规则列表。如果未指定或没有规则匹配，则所有流量都将发送到默认后端 IngressRule 表示将指定主机下的路径映射到相关后端服务的规则。 传入请求首先评估主机匹配，然后路由到与匹配的 IngressRuleValue 关联的后端
+    - host: foo.bar.com
+    - http:
+        paths:
+          - backend:
+              service:
+                name: nginx
+                port:
+                  name: nginx-service
+            pathType: Prefix
+            path: /demo/

@@ -1,0 +1,25 @@
+# * 代表重要
+apiVersion: v1
+kind: Service                                     # Service 是软件服务（例如 mysql）的命名抽象，包含代理要侦听的本地端口（例如 3306）和一个选择算符， 选择算符用来确定哪些 Pod 将响应通过代理发送的请求。
+metadata:                                         # 标准的对象元数据。
+  namespace: default                              # *命名空间,默认为default必须
+  name: nginx                                     # *一个字符串，在当前命名空间中唯一标识这个对象。这个值在检索单个对象时被用于路径。
+  annotations:                                    # 一个字符串键和值的映射，可用于组织和分类对象（见标签文档）。
+    deployment.kubernetes.io/revision: "1"
+    version: "1.0"
+  labels:                                         # *标签 一个字符串键和值的映射，可用于组织和分类对象（见标签文档）。
+    app-service: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+    - port: 80                                  # Service 将公开的端口
+      targetPort: 32080                           # 在 Service 所针对的 Pod 上要访问的端口号或名称。 编号必须在 1 到 65535 的范围内。名称必须是 IANA_SVC_NAME。 如果此值是一个字符串，将在目标 Pod 的容器端口中作为命名端口进行查找。 如果未指定字段，则使用 "port” 字段的值（直接映射）。 对于 clusterIP 为 None 的服务，此字段将被忽略
+      protocol: TCP
+      name: nginx-service                         # Service 中此端口的名称。这必须是 DNS_LABEL。 ServiceSpec 中的所有端口的名称都必须唯一。 在考虑 Service 的端点时，这一字段值必须与 EndpointPort 中的 name 字段相同。 如果此服务上仅定义一个 ServicePort，则为此字段为可选。
+#      nodePort: 8080                               # 当类型为 NodePort 或 LoadBalancer 时，Service 公开在节点上的端口， 通常由系统分配
+#      appProtocol: mycompany.com/my-custom-protocol
+  type: ClusterIP                                 # type 确定 Service 的公开方式。默认为 ClusterIP。 有效选项为 ExternalName、ClusterIP、NodePort 和 LoadBalancer。 “ClusterIP” 为端点分配一个集群内部 IP 地址用于负载均衡。
+  clusterIP: 192.168.1.1                          # clusterIP 是服务的 IP 地址，通常是随机分配的。 如果地址是手动指定的，在范围内（根据系统配置），且没有被使用，它将被分配给服务，否则创建服务将失败。
+  externalName: demo-service                      # externalName 是发现机制将返回的外部引用，作为此服务的别名（例如 DNS CNAME 记录）。 不涉及代理。必须是小写的 RFC-1123 主机名 (https://tools.ietf.org/html/rfc1123)， 并且要求 type 为 “ExternalName”。
+  healthCheckNodePort: 8080                       # healthCheckNodePort 指定 Service 的健康检查节点端口。 仅适用于 type 为 LoadBalancer 且 externalTrafficPolicy 设置为 Local 的情况。

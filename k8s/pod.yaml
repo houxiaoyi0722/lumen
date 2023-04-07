@@ -10,6 +10,7 @@ metadata:                                         # 标准的对象元数据。
     app: nginx
     app1: nginx1
 spec:                                             # 对 Pod预期行为的定义。
+### 容器 https://kubernetes.io/zh-cn/docs/reference/kubernetes-api/workload-resources/pod-v1/#Container
   containers:                                     # *属于 Pod 的容器列表。当前无法添加或删除容器。Pod 中必须至少有一个容器。无法更新。
     - name: nginx:latest
       imagePullPolicy: Always                     # 镜像拉取策略。"Always"、"Never"、"IfNotPresent" 之一。如果指定了 :latest 标签，则默认为 "Always"， 否则默认为 "IfNotPresent"。
@@ -205,6 +206,4 @@ spec:                                             # 对 Pod预期行为的定义
 #    fsGroup: 123
 #    fsGroupChangePolicy: Always
 ### ...
-
-### 容器 https://kubernetes.io/zh-cn/docs/reference/kubernetes-api/workload-resources/pod-v1/#Container
 
