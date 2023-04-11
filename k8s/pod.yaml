@@ -20,6 +20,15 @@ spec:                                             # 对 Pod预期行为的定义
           hostPort: 32080                         # 要在主机上公开的端口号。如果指定，此字段必须是一个有效的端口号，0 < x < 65536。 如果设置了 hostNetwork，此字段值必须与 containerPort 匹配。大多数容器不需要设置此字段。
           name: nginx-pod                         # 如果设置此字段，这必须是 IANA_SVC_NAME 并且在 Pod 中唯一。 Pod 中的每个命名端口都必须具有唯一的名称。服务可以引用的端口的名称。
           protocol: TCP                           # 端口协议。必须是 UDP、TCP 或 SCTP。默认为 TCP
+      lifecycle:
+        postStart:
+          exec:
+            command: [ "/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message" ]
+        preStop:
+          httpGet:
+            host: 127.0.0.1
+            port: 8080
+            path: /test/stop
       command:                                    # 入口点数组。不在 Shell 中执行。如果未提供，则使用容器镜像的 ENTRYPOINT。https://kubernetes.io/zh-cn/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
         [ "/bin/echo" ]
       args:                                       # entrypoint 的参数。如果未提供，则使用容器镜像的 CMD 设置。

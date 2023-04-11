@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lumen-configmap
+  namespace: lumen-devops
+  annotations:
+    aaa: aaa
+  labels:
+    aaa: aaa
+data:
+  test: test
+binaryData:
+  test1: test1
+immutable: true # 如果 immutable 设为 true， 则确保不会更新 ConfigMap 中存储的数据（只能修改对象元数据）。 如果未设为 true，则可以随时修改此字段。 默认为 nil
