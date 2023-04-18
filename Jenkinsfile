@@ -1,24 +1,29 @@
 pipeline {
   agent any
 
+  environment {
+    PROFILE = "txy"
+    DOCKER_REGISTY = "10.144.233.86:5000"
+    pom = readMavenPom file: 'pom.xml'
+    img_name = "${pom.artifactId}-${pom.version}-${PROFILE}"
+    img_version = "${pom.version}"
+  }
+
   stages {
 
-    stage('准备') {
-      PROFILE = "txy"
-      DOCKER_REGISTY = "10.144.233.86:5000"
-      pom = readMavenPom file: 'pom.xml'
-      img_name = "${pom.artifactId}-${pom.version}-${PROFILE}"
-      img_version = "${pom.version}"
-      echo "img_name: ${img_name}"
+    stage('prepare') {
+      steps {
+        sh 'printenv'
+      }
     }
 
-    stage('编译') {
+    stage('mvn build') {
       steps {
         sh "mvn clean package"
       }
     }
 
-    stage('构建镜像并推送到 Docker 制品库') {
+    stage('image build and push') {
       steps {
         sh "docker build -t ${img_name}:${img_version} -f Dockerfile --build-arg PROFILE=${PROFILE}"
         sh "docker tag ${img_name}:${img_version} ${DOCKER_REGISTY}/${img_name}:${img_version}"
