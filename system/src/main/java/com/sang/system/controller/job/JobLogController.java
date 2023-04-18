@@ -20,8 +20,8 @@ import java.util.List;
 /**
  * Job管理
  * Job执行日志
- * 
- * hxy 2022-08-29 14:25:42
+ * @author hxy
+ * @date 2022-08-29 14:25:42
  */
 @Validated
 @RestController

@@ -35,9 +35,9 @@ public class JobController {
      * @return
      */
     @PutMapping("/job")
-    public Result saveJob(@RequestBody @Validated({Create.class, Update.class}) JobVo jobVo) {
+    public Result<String> saveJob(@RequestBody @Validated({Create.class, Update.class}) JobVo jobVo) {
         quartzManager.saveJob(jobVo);
-        return Result.ok();
+        return Result.ok("成功");
     }
 
     /**
@@ -47,9 +47,9 @@ public class JobController {
      * @throws SchedulerException
      */
     @DeleteMapping("/job")
-    public Result deleteJob(@RequestBody @Validated(Delete.class) JobVo jobVo) throws SchedulerException {
+    public Result<String> deleteJob(@RequestBody @Validated(Delete.class) JobVo jobVo) throws SchedulerException {
         quartzManager.deleteJob(jobVo);
-        return Result.ok();
+        return Result.ok("成功");
     }
 
     /**
@@ -59,9 +59,9 @@ public class JobController {
      * @throws SchedulerException
      */
     @PostMapping("/triggers")
-    public Result addTriggersForJob(@RequestBody @Validated(TriggerSave.class) JobVo jobVo) throws SchedulerException {
+    public Result<String> addTriggersForJob(@RequestBody @Validated(TriggerSave.class) JobVo jobVo) throws SchedulerException {
         quartzManager.addTriggersForJob(jobVo);
-        return Result.ok();
+        return Result.ok("成功");
     }
 
     /**
@@ -71,9 +71,9 @@ public class JobController {
      * @throws SchedulerException
      */
     @DeleteMapping("/triggers")
-    public Result unScheduleJob(@RequestBody @Validated(TriggerDelete.class) List<TriggerVo> triggerVos) throws SchedulerException {
+    public Result<String> unScheduleJob(@RequestBody @Validated(TriggerDelete.class) List<TriggerVo> triggerVos) throws SchedulerException {
         quartzManager.unScheduleJob(triggerVos);
-        return Result.ok();
+        return Result.ok("成功");
     }
 
     /**
@@ -83,9 +83,9 @@ public class JobController {
      * @throws SchedulerException
      */
     @PutMapping("/triggers")
-    public Result reScheduleJob(@RequestBody @Validated(TriggerSave.class) JobVo jobVo) throws SchedulerException {
+    public Result<String> reScheduleJob(@RequestBody @Validated(TriggerSave.class) JobVo jobVo) throws SchedulerException {
         quartzManager.reScheduleJob(jobVo);
-        return Result.ok();
+        return Result.ok("成功");
     }
 
     /**
@@ -134,9 +134,9 @@ public class JobController {
      * @throws SchedulerException
      */
     @PutMapping("/job/pause")
-    public Result pauseJob(@RequestBody JobVo jobVo) throws SchedulerException {
+    public Result<String> pauseJob(@RequestBody JobVo jobVo) throws SchedulerException {
         quartzManager.pauseJob(jobVo);
-        return Result.ok();
+        return Result.ok("成功");
     }
 
     /**
@@ -146,9 +146,9 @@ public class JobController {
      * @throws SchedulerException
      */
     @PutMapping("/job/resume")
-    public Result resumeJob(@RequestBody JobVo jobVo) throws SchedulerException {
+    public Result<String> resumeJob(@RequestBody JobVo jobVo) throws SchedulerException {
         quartzManager.resumeJob(jobVo);
-        return Result.ok();
+        return Result.ok("成功");
     }
 
     /**
@@ -157,9 +157,9 @@ public class JobController {
      * @throws SchedulerException
      */
     @PutMapping("/job/run")
-    public Result runJobNow(@RequestBody JobVo jobVo) throws SchedulerException {
+    public Result<String> runJobNow(@RequestBody JobVo jobVo) throws SchedulerException {
         quartzManager.runJobNow(jobVo);
-        return Result.ok();
+        return Result.ok("成功");
     }
 
     /**
@@ -168,9 +168,9 @@ public class JobController {
      * @throws SchedulerException
      */
     @PutMapping("/job/listener")
-    public Result addListenerForJob(@RequestBody @Validated JobVo jobVo) {
+    public Result<String> addListenerForJob(@RequestBody @Validated JobVo jobVo) {
         quartzManager.addListenerForJob(jobVo);
-        return Result.ok();
+        return Result.ok("成功");
     }
 
     /**

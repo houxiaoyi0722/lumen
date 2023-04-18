@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import static com.sang.common.constants.AuthConst.*;
 
 /**
- * A controller for the token resource.
+ * token controller.
  */
 @RestController
 public class TokenController {

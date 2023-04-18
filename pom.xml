@@ -21,7 +21,7 @@
     </parent>
     <properties>
         <java.version>11</java.version>
-        <hutool.version>5.3.7</hutool.version>
+        <hutool.version>5.8.15</hutool.version>
         <ebean.version>12.8.0</ebean.version>
 <!--        <redisson.version>3.13.5</redisson.version>-->
         <validation.version>2.0.1.Final</validation.version>

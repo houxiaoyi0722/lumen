@@ -23,10 +23,9 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 用户模块
- * 用户组
- *
- * hxy 2022-11-02 17:04:18
+ * 用户模块用户组
+ * @author hxy
+ * @date 2022-11-02 17:04:18
  */
 @Validated
 @RestController

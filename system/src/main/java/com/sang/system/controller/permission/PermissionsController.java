@@ -23,8 +23,8 @@ import java.util.List;
 /**
  * 权限管理
  * 操作权限
- *
- * hxy 2022-12-13 14:11:40
+ * @author hxy
+ * @date 2022-12-13 14:11:40
  */
 @Validated
 @RestController
