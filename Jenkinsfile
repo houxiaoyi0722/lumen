@@ -7,7 +7,6 @@ pipeline {
     pom = readMavenPom file: 'pom.xml'
     img_name = "${pom.artifactId}-${pom.version}-${PROFILE}"
     img_version = "${pom.version}"
-    sh "docker -version"
   }
 
   stages {
@@ -15,6 +14,7 @@ pipeline {
     stage('prepare') {
       steps {
         sh 'printenv'
+        sh "docker -version"
       }
     }
 
