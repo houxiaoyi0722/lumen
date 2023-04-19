@@ -19,6 +19,7 @@ pipeline {
 
     stage('mvn build') {
       steps {
+        sh "java -version"
         sh "mvn -v"
       }
     }
