@@ -14,7 +14,6 @@ pipeline {
     stage('prepare') {
       steps {
         sh 'printenv'
-        sh "docker -version"
       }
     }
 
