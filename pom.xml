@@ -277,8 +277,8 @@
         </pluginManagement>
     </build>
 
-<!--    <repositories>
-        &lt;!&ndash;阿里云仓库&ndash;&gt;
+    <repositories>
+        <!--阿里云仓库-->
         <repository>
             <id>nexus-aliyun</id>
             <name>Nexus aliyun</name>
@@ -291,6 +291,19 @@
                 <enabled>true</enabled>
             </releases>
         </repository>
-    </repositories>-->
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>aliyun-plugin</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
 
 </project>
