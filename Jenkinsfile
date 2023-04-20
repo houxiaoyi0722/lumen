@@ -1,5 +1,11 @@
 pipeline {
-  agent any
+
+  agent {
+    docker {
+      image 'maven:3.8.7-openjdk-18-slim'
+      args '-v /root/.m2:/root/.m2'
+    }
+  }
 
   environment {
     PROFILE = "txy"
