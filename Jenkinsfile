@@ -25,24 +25,23 @@ pipeline {
 
     stage('mvn build') {
       steps {
-        sh "java -version"
-        sh "mvn -v"
+        sh "mvn clean package"
       }
     }
 
-//    stage('image build and push') {
-//      steps {
-//        sh "docker build -t ${img_name}:${img_version} -f Dockerfile --build-arg PROFILE=${PROFILE}"
-//        sh "docker tag ${img_name}:${img_version} ${DOCKER_REGISTY}/${img_name}:${img_version}"
-//        sh "docker push ${DOCKER_REGISTY}/${img_name}:${img_version}"
-////        withCredentials([usernamePassword(credentialsId: 'docker-register', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
-////          sh "docker login -u ${dockerUser} -p ${dockerPassword} docker.***.com"
-////          sh "docker push ${docker_img_name}:latest"
-////          sh "docker push ${docker_img_name}:${pom.version}"
-////          sh "docker push ${docker_img_name}:${build_tag}"
-////        }
-//      }
-//    }
+    stage('image build and push') {
+      steps {
+        sh "docker build -t ${img_name}:${img_version} -f Dockerfile --build-arg PROFILE=${PROFILE}"
+        sh "docker tag ${img_name}:${img_version} ${DOCKER_REGISTY}/${img_name}:${img_version}"
+        sh "docker push ${DOCKER_REGISTY}/${img_name}:${img_version}"
+//        withCredentials([usernamePassword(credentialsId: 'docker-register', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
+//          sh "docker login -u ${dockerUser} -p ${dockerPassword} docker.***.com"
+//          sh "docker push ${docker_img_name}:latest"
+//          sh "docker push ${docker_img_name}:${pom.version}"
+//          sh "docker push ${docker_img_name}:${build_tag}"
+//        }
+      }
+    }
 
     //stage("部署到远端服务") {
     //  steps {
