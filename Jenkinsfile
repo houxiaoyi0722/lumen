@@ -33,9 +33,9 @@ pipeline {
 
     stage('image build and push') {
       steps {
-        sh "docker build -t ${img_name}:${img_version} -f Dockerfile --build-arg PROFILE=${PROFILE} ."
-        sh "docker tag ${img_name}:${img_version} ${DOCKER_REGISTY}/${img_name}:${img_version}"
-        sh "docker push ${DOCKER_REGISTY}/${img_name}:${img_version}"
+        sh "docker build -t ${img_name.toLowerCase()}:${img_version.toLowerCase()} -f Dockerfile --build-arg PROFILE=${PROFILE} ."
+        sh "docker tag ${img_name.toLowerCase()}:${img_version.toLowerCase()} ${DOCKER_REGISTY}/${img_name.toLowerCase()}:${img_version.toLowerCase()}"
+        sh "docker push ${DOCKER_REGISTY}/${img_name.toLowerCase()}:${img_version.toLowerCase()}"
 //        withCredentials([usernamePassword(credentialsId: 'docker-register', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
 //          sh "docker login -u ${dockerUser} -p ${dockerPassword} docker.***.com"
 //          sh "docker push ${docker_img_name}:latest"
