@@ -5,4 +5,4 @@ EXPOSE 8080
 
 ARG budEnv=aaa
 ENV budEnv=${budEnv}
-CMD ["/bin/sh","-c","set -e && java -jar app.jar --spring.profiles.active=${budEnv}"]
+CMD ["/bin/sh","-c","set -e && java -jar app.jar --spring.profiles.active=","${budEnv}"]
