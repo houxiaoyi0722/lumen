@@ -33,7 +33,7 @@ pipeline {
 
     stage('image build and push') {
       steps {
-        sh "docker build -t ${img_name}:${img_version} -f Dockerfile --build-arg PROFILE=${PROFILE}"
+        sh "docker build -t ${img_name}:${img_version} -f Dockerfile --build-arg PROFILE=${PROFILE} ."
         sh "docker tag ${img_name}:${img_version} ${DOCKER_REGISTY}/${img_name}:${img_version}"
         sh "docker push ${DOCKER_REGISTY}/${img_name}:${img_version}"
 //        withCredentials([usernamePassword(credentialsId: 'docker-register', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
