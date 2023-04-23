@@ -9,10 +9,10 @@ import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.ResourceUtils;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.annotation.Resource;
-import java.io.FileInputStream;
+import java.io.InputStream;
 
 @CommonsLog
 @AllArgsConstructor
@@ -33,17 +33,11 @@ public class MinioConfiguration {
     @Bean
     public MinioClient minioClient() {
 //         使用MinIO服务的URL，端口，Access key和Secret key创建一个MinioClient对象
-        FastByteArrayOutputStream read = null;
-        FileInputStream fileInputStream = null;
-        MinioConfig minioConfig;
-        try {
-            fileInputStream = new FileInputStream(ResourceUtils.getFile(credentials));
-            read = IoUtil.read(fileInputStream);
-            minioConfig = objectMapper.readValue(read.toString(), MinioConfig.class);
-        } finally {
-            IoUtil.close(fileInputStream);
-            IoUtil.close(read);
-        }
+        ClassPathResource classPathResource = new ClassPathResource(credentials);
+        InputStream fileInputStream = classPathResource.getInputStream();
+
+        FastByteArrayOutputStream read = IoUtil.read(fileInputStream);
+        MinioConfig minioConfig = objectMapper.readValue(read.toString(), MinioConfig.class);
 
         return MinioClient.builder()
                 .endpoint(minioConfig.getUrl())

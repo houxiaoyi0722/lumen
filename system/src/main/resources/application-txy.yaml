@@ -29,7 +29,7 @@ jwt:
   expire: 3600
   refresh-expiry: 72000
 minio:
-  credentials: classpath:credentials.json
+  credentials: credentials.json
   bucket:
     master: my-first-bucket
     second: my-second-bucket
