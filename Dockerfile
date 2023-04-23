@@ -8,4 +8,4 @@ ARG ACTIVE
 # ENTRYPOINT 只认 ENV 环境变量
 ENV ACTIVE=${ACTIVE}
 
-ENTRYPOINT "/bin/sh -c set -e && java -jar app.jar --spring.profiles.active=${ACTIVE}"
+ENTRYPOINT java -jar app.jar --spring.profiles.active=${ACTIVE}
