@@ -13,7 +13,7 @@ pipeline {
     PROFILE = "txy"
     DOCKER_REGISTY = "10.144.233.86:5000"
     pom = readMavenPom file: 'pom.xml'
-    img_name = "${pom.artifactId}-${pom.version}-${PROFILE}"
+    img_name = "${pom.artifactId}-${PROFILE}"
     img_version = "${pom.version}"
   }
 
