@@ -37,7 +37,7 @@ pipeline {
         sh "docker tag ${img_name.toLowerCase()}:${img_version.toLowerCase()} ${DOCKER_REGISTY}/${img_name.toLowerCase()}:${img_version.toLowerCase()}"
         sh "docker push ${DOCKER_REGISTY}/${img_name.toLowerCase()}:${img_version.toLowerCase()}"
 //        withCredentials([usernamePassword(credentialsId: 'docker-register', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
-//          sh "docker login -u ${dockerUser} -p ${dockerPassword} docker.***.com"
+//          sh "docker login -u ${dockerUser} -p ${dockerPassword} ${DOCKER_REGISTY}"
 //          sh "docker push ${docker_img_name}:latest"
 //          sh "docker push ${docker_img_name}:${pom.version}"
 //          sh "docker push ${docker_img_name}:${build_tag}"
