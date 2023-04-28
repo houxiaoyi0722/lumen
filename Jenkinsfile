@@ -35,6 +35,7 @@ pipeline {
       steps {
         sh "docker build -t ${img_name.toLowerCase()}:${img_version.toLowerCase()} -f Dockerfile --build-arg ACTIVE=${PROFILE} ."
         sh "docker tag ${img_name.toLowerCase()}:${img_version.toLowerCase()} ${DOCKER_REGISTY}/${img_name.toLowerCase()}:${img_version.toLowerCase()}"
+        sh "docker tag ${img_name.toLowerCase()}:${img_version.toLowerCase()} ${DOCKER_REGISTY}/${img_name.toLowerCase()}:latest"
         sh "docker push ${DOCKER_REGISTY}/${img_name.toLowerCase()}:${img_version.toLowerCase()}"
 //        withCredentials([usernamePassword(credentialsId: 'docker-register', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
 //          sh "docker login -u ${dockerUser} -p ${dockerPassword} ${DOCKER_REGISTY}"

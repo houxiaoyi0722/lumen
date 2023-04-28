@@ -4,16 +4,17 @@ metadata:
   annotations:
     deployment.kubernetes.io/revision: "1"
   labels:
-    app: nginx  #123
-  name: nginx
-  namespace: default
+    app: lumen-service
+    group: lumen
+  name: lumen-service
+  namespace: sang-lumen
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: nginx
+      app: lumen-service
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -22,7 +23,7 @@ spec:
   template:
     metadata:
       labels:
-        app: nginx
+        app: lumen-service
     spec:
       containers:
         - image: nginx
