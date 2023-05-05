@@ -11,7 +11,7 @@ pipeline {
 
   environment {
     PROFILE = "txy"
-    DOCKER_REGISTY = "10.144.233.86:5000"
+    DOCKER_REGISTY = "10.144.233.86:8082"
     pom = readMavenPom file: 'pom.xml'
     img_name = "${pom.artifactId}-${PROFILE}"
     img_version = "${pom.version}"
@@ -34,16 +34,13 @@ pipeline {
     stage('image build and push') {
       steps {
         sh "docker build -t ${img_name.toLowerCase()}:${img_version.toLowerCase()} -f Dockerfile --build-arg ACTIVE=${PROFILE} ."
-        sh "docker tag ${img_name.toLowerCase()}:${img_version.toLowerCase()} ${DOCKER_REGISTY}/${img_name.toLowerCase()}:${img_version.toLowerCase()}"
-        sh "docker tag ${img_name.toLowerCase()}:${img_version.toLowerCase()} ${DOCKER_REGISTY}/${img_name.toLowerCase()}:latest"
-        sh "docker push ${DOCKER_REGISTY}/${img_name.toLowerCase()}:${img_version.toLowerCase()}"
-        sh "docker push ${DOCKER_REGISTY}/${img_name.toLowerCase()}:latest"
-//        withCredentials([usernamePassword(credentialsId: 'docker-register', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
-//          sh "docker login -u ${dockerUser} -p ${dockerPassword} ${DOCKER_REGISTY}"
-//          sh "docker push ${docker_img_name}:latest"
-//          sh "docker push ${docker_img_name}:${pom.version}"
-//          sh "docker push ${docker_img_name}:${build_tag}"
-//        }
+        sh "docker tag ${img_name.toLowerCase()}:${img_version.toLowerCase()} ${DOCKER_REGISTY}/sang/${img_name.toLowerCase()}:${img_version.toLowerCase()}"
+        sh "docker tag ${img_name.toLowerCase()}:${img_version.toLowerCase()} ${DOCKER_REGISTY}/sang/${img_name.toLowerCase()}:latest"
+        withCredentials([usernamePassword(credentialsId: 'docker-register', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
+          sh "docker login -u ${dockerUser} -p ${dockerPassword} ${DOCKER_REGISTY}"
+          sh "docker push ${DOCKER_REGISTY}/sang/${img_name.toLowerCase()}:${img_version.toLowerCase()}"
+          sh "docker push ${DOCKER_REGISTY}/sang/${img_name.toLowerCase()}:latest"
+        }
       }
     }
 
