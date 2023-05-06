@@ -18,7 +18,7 @@ spec:
       port:                                     # 所引用的服务的端口。IngressServiceBackend 需要端口名或端口号
         name: nginx-service                     # name 是服务上的端口名称。此字段是一个与 number 互斥的设置
         number: 80                              # number 是服务上的数字形式端口号（例如 80）。此字段是一个与 name 互斥的设置
-  ingressClassName: kubernetes.io/ingress.class # IngressClassName 是 IngressClass 集群资源的名称
+  #ingressClassName: kubernetes.io/ingress.class # IngressClassName 是 IngressClass 集群资源的名称
   rules:                                        # 用于配置 Ingress 的主机规则列表。如果未指定或没有规则匹配，则所有流量都将发送到默认后端 IngressRule 表示将指定主机下的路径映射到相关后端服务的规则。 传入请求首先评估主机匹配，然后路由到与匹配的 IngressRuleValue 关联的后端
     - host: foo.bar.com
     - http:
@@ -27,6 +27,6 @@ spec:
               service:
                 name: nginx
                 port:
-                  name: nginx-service
+                  number: 8080
             pathType: Prefix
             path: /demo/

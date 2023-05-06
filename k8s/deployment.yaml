@@ -23,9 +23,9 @@ spec:
         app: lumen
     spec:
       containers:
-        - image: lumen-service
+        - image: 10.144.233.86:8082/sang/lumen-txy:latest
           imagePullPolicy: Always
-          name: nginx
+          name: lumen-app
           ports:
             - name: tcp-8080
               containerPort: 8080
@@ -68,6 +68,8 @@ spec:
             failureThreshold: 3
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
+      imagePullSecrets:
+        - name: secret-docker-harbor
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -83,6 +85,7 @@ metadata:
   labels:
     app: lumen
 spec:
+  clusterIP: 10.103.93.204
   ports:
     - name: http-8080
       port: 8080
@@ -95,3 +98,26 @@ spec:
   ipFamilies:
     - IPv4
   ipFamilyPolicy: SingleStack
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: sang-lumen
+  name: ingress-lumen
+  labels:
+    name: ingress-lumen
+  annotations:
+    name: kubernetes.io/ingress.class
+spec:
+  # ingressClassName: kubernetes.io/ingress.class # IngressClassName 是 IngressClass 集群资源的名称
+  rules:                                        # 用于配置 Ingress 的主机规则列表。如果未指定或没有规则匹配，则所有流量都将发送到默认后端 IngressRule 表示将指定主机下的路径映射到相关后端服务的规则。 传入请求首先评估主机匹配，然后路由到与匹配的 IngressRuleValue 关联的后端
+    - host: www.sang.lumen.com
+    - http:
+        paths:
+          - backend:
+              service:
+                name: lumen
+                port:
+                  number: 8080
+            pathType: Prefix
+            path: /lumen

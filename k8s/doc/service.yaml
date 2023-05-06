@@ -23,3 +23,26 @@ spec:
   clusterIP: 192.168.1.1                          # clusterIP 是服务的 IP 地址，通常是随机分配的。 如果地址是手动指定的，在范围内（根据系统配置），且没有被使用，它将被分配给服务，否则创建服务将失败。
   externalName: demo-service                      # externalName 是发现机制将返回的外部引用，作为此服务的别名（例如 DNS CNAME 记录）。 不涉及代理。必须是小写的 RFC-1123 主机名 (https://tools.ietf.org/html/rfc1123)， 并且要求 type 为 “ExternalName”。
   healthCheckNodePort: 8080                       # healthCheckNodePort 指定 Service 的健康检查节点端口。 仅适用于 type 为 LoadBalancer 且 externalTrafficPolicy 设置为 Local 的情况。
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default                              # *命名空间,默认为default必须
+  name: service-NodePort                                     # *一个字符串，在当前命名空间中唯一标识这个对象。这个值在检索单个对象时被用于路径。
+  annotations: # 一个字符串键和值的映射，可用于组织和分类对象（见标签文档）。
+    deployment.kubernetes.io/revision: "1"
+    version: "1.0"
+  labels: # *标签 一个字符串键和值的映射，可用于组织和分类对象（见标签文档）。
+    app-service: nginx
+spec:
+    selector:
+      app: my-app
+    type: NodePort                  #NodePort在固定端口号上公开向集群外部暴露服务，它允许从集群外部访问该服务，在集群外部需要使用集群的 IP 地址和NodePort指定的端口才能访问。创建NodePort Service将在集群中的每个Node上开放该端口。Kubernetes会自动将端口流量路由到它所连接的服务。
+    ports:                          # NodePort的定义与ClusterIP Service具有相同的属性。唯一的区别是把类型设置成了："NodePort"。targetPort字段仍然是必需的，因为NodePort由ClusterIP提供支持。创建NodePort Service的同时还会自动创建一个ClusterIP 类型的Service，NodePort会将端口上的流量路由给ClusterIP 类型的 Service。
+      - name: http
+        port: 80
+        targetPort: 8080
+        protocol: TCP
+        nodePort: 8081            # 将会从30000-32767这个范围随机分配一个端口作为NodePort端口，不过我们可以通过设置ports.nodePort字段来手动指定端口
+---
