@@ -1,5 +1,5 @@
 ###
-POST {{protocol}}{{domain}}/login
+POST {{protocol}}{{domain}}/lumen/login
 Content-Type: application/json
 
 {
@@ -8,7 +8,7 @@ Content-Type: application/json
 }
 
 ###
-POST {{protocol}}{{domain}}/login
+POST {{protocol}}{{domain}}/lumen/login
 Content-Type: application/json
 
 {
