@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Validated
 @RestController
-@RequestMapping("/lumen/job/log")
+@RequestMapping("/job/log")
 public class JobLogController {
 
     private final JobLogMapper joblogMapper = JobLogMapper.mapper;

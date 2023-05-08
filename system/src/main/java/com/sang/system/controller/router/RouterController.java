@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * @date 2022/1/25 16:01
  **/
 @Validated
-@RequestMapping("/lumen/router")
+@RequestMapping("/router")
 @RestController
 public class RouterController {
 

@@ -31,7 +31,7 @@ import java.util.List;
  */
 @RestController
 @Validated
-@RequestMapping("/lumen/dict")
+@RequestMapping("/dict")
 public class DictionaryController {
 
     @Resource

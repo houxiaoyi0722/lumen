@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Validated
 @RestController
-@RequestMapping("/lumen/${domain?lower_case}<#if domain?upper_case != model?upper_case>/${model?lower_case}</#if>")
+@RequestMapping("/${domain?lower_case}<#if domain?upper_case != model?upper_case>/${model?lower_case}</#if>")
 public class ${model}Controller {
 
     private final ${model}Mapper ${model?lower_case}Mapper = ${model}Mapper.mapper;

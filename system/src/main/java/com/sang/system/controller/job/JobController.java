@@ -23,7 +23,7 @@ import java.util.List;
  **/
 @Validated
 @RestController
-@RequestMapping("/lumen/task")
+@RequestMapping("/task")
 public class JobController {
 
     @Resource

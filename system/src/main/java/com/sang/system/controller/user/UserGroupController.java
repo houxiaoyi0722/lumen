@@ -29,7 +29,7 @@ import java.util.List;
  */
 @Validated
 @RestController
-@RequestMapping("/lumen/user/group")
+@RequestMapping("/user/group")
 public class UserGroupController {
 
     private final UserGroupMapper userGroupMapper = UserGroupMapper.mapper;

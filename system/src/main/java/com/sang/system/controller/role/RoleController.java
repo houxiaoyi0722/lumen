@@ -27,7 +27,7 @@ import java.util.List;
  **/
 @Validated
 @RestController
-@RequestMapping("/lumen/role")
+@RequestMapping("/role")
 public class RoleController {
 
     private final RoleMapper roleMapper = RoleMapper.mapper;

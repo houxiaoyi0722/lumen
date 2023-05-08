@@ -34,7 +34,7 @@ import java.util.List;
  **/
 @Validated
 @RestController
-@RequestMapping("/lumen/user")
+@RequestMapping("/user")
 public class UserController {
 
     @Resource

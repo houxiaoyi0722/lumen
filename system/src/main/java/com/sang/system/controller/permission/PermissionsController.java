@@ -28,7 +28,7 @@ import java.util.List;
  */
 @Validated
 @RestController
-@RequestMapping("/lumen/permissions")
+@RequestMapping("/permissions")
 public class PermissionsController {
 
     private final PermissionMapper permissionMapper = PermissionMapper.mapper;
