@@ -46,8 +46,8 @@ pipeline {
 
     stage('deploy') {
       steps {
-        sh "sudo cp k8s/deployment.yaml /opt/kubernetes/lumen/deployment-lumen.yaml"
-        sh "sudo kubectl apply -f /opt/kubernetes/lumen/deployment-lumen.yaml"
+        sh "cp k8s/deployment.yaml /opt/kubernetes/lumen/deployment-lumen.yaml"
+        sh "kubectl apply -f /opt/kubernetes/lumen/deployment-lumen.yaml"
       }
     }
 
