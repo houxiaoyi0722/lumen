@@ -44,6 +44,13 @@ pipeline {
       }
     }
 
+    stage('deploy') {
+      steps {
+        sh "cp k8s/deployment.yaml /opt/kubernetes/lumen/deployment-lumen.yaml"
+        sh "kubectl apply -f /opt/kubernetes/lumen/deployment-lumen.yaml"
+      }
+    }
+
     //stage("部署到远端服务") {
     //  steps {
     //    script {
