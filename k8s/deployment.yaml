@@ -85,7 +85,6 @@ metadata:
   labels:
     app: lumen
 spec:
-  clusterIP: 10.103.93.204
   ports:
     - name: http-8080
       port: 8080
