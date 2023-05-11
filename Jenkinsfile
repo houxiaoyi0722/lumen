@@ -57,7 +57,8 @@ pipeline {
             remote.password = "${password}"
             remote.allowAnyHosts = true
           }
-          sshCommand remote: remote, command: "kubectl apply -f /opt/kubernetes/lumen/deployment-lumen.yaml"
+//          sshCommand remote: remote, command: "kubectl apply -f /opt/kubernetes/lumen/deployment-lumen.yaml"
+          sshCommand remote: remote, command: "kubectl get nodes"
         }
       }
     }
