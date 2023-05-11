@@ -51,7 +51,7 @@ spec:
               path: /lumen/actuator/health
               port: 8080
               scheme: HTTP
-            initialDelaySeconds: 10
+            initialDelaySeconds: 15
             timeoutSeconds: 20
             periodSeconds: 20
             successThreshold: 1
@@ -61,7 +61,7 @@ spec:
               path: /lumen/actuator/health
               port: 8080
               scheme: HTTP
-            initialDelaySeconds: 8
+            initialDelaySeconds: 15
             timeoutSeconds: 10
             periodSeconds: 10
             successThreshold: 1
