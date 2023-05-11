@@ -108,9 +108,10 @@ metadata:
   annotations:
     name: kubernetes.io/ingress.class
 spec:
+  ingressClassName: nginx
   rules:
     - host: www.sang.lumen.com
-    - http:
+      http:
         paths:
           - backend:
               service:
