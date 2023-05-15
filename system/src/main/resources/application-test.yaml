@@ -2,8 +2,8 @@ spring:
   redis:
     database: 0
     port: 6379
-    host: 127.0.0.1
-    #    password:
+    host: 10.144.233.86
+    #    password: c5fSVo
     timeout: 2000
     jedis:
       pool:
@@ -14,8 +14,8 @@ spring:
 datasource:
   db:
     username: root
-    password: root
-    url: jdbc:mysql://localhost:3306/ebean-example?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    password: w7s6bi
+    url: jdbc:mysql://10.144.233.86:3307/lumen_server?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     driverClassName: com.mysql.cj.jdbc.Driver
 logging:
   level:
@@ -29,7 +29,7 @@ jwt:
   expire: 3600
   refresh-expiry: 72000
 minio:
-  credentials: classpath:credentials.json
+  credentials: credentials-test.json
   bucket:
     master: my-first-bucket
     second: my-second-bucket

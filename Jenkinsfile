@@ -10,7 +10,7 @@ pipeline {
 //  }
 
   environment {
-    PROFILE = "txy"
+    PROFILE = "test"
     DOCKER_REGISTY = "10.144.233.86:8082"
     pom = readMavenPom file: 'pom.xml'
     img_name = "${pom.artifactId}-${PROFILE}"
