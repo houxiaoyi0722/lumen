@@ -50,12 +50,12 @@
         <okhttp.version>4.9.1</okhttp.version>
         <micrometer-prometheus.version>1.9.0</micrometer-prometheus.version>
         <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
-        <freemarker.version>2.3.31</freemarker.version>
+        <flowable.version>6.8.0</flowable.version>
     </properties>
     <modules>
         <module>common</module>
         <module>system</module>
-        <module>generator</module>
+        <module>flowable</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -63,11 +63,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${spring.boot}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.freemarker</groupId>
-                <artifactId>freemarker</artifactId>
-                <version>${freemarker.version}</version>
             </dependency>
             <!-- quartz -->
             <dependency>
@@ -212,6 +207,11 @@
                 <artifactId>rocketmq-spring-boot-starter</artifactId>
                 <version>2.1.1</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.flowable</groupId>
+                <artifactId>flowable-spring-boot-starter</artifactId>
+                <version>${flowable.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
