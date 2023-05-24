@@ -15,7 +15,7 @@ datasource:
   db:
     username: root
     password: w7s6bi
-    url: jdbc:mysql://10.144.233.86:3307/lumen_server?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.1.33:3307/lumen_server?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     driverClassName: com.mysql.cj.jdbc.Driver
 logging:
   level:
