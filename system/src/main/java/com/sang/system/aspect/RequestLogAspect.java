@@ -35,7 +35,7 @@ public class RequestLogAspect {
     @Pointcut("execution(public * com.sang.*.controller.*.*.*(..))")
     public void requestServer() {
     }
-    
+
     @Around("requestServer()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         long start = System.currentTimeMillis();
@@ -51,7 +51,7 @@ public class RequestLogAspect {
         requestInfo.setClassMethod(String.format("%s.%s", proceedingJoinPoint.getSignature().getDeclaringTypeName(),
                 proceedingJoinPoint.getSignature().getName()));
         requestInfo.setRequestParams(getRequestParamsByProceedingJoinPoint(proceedingJoinPoint));
-        requestInfo.setResult(result);
+//        requestInfo.setResult(result);
         requestInfo.setTimeCost(System.currentTimeMillis() - start);
         log.info("Request Info      : {}", objectMapper.writeValueAsString(requestInfo));
         return result;
