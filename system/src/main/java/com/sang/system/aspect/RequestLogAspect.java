@@ -3,7 +3,7 @@ package com.sang.system.aspect;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Data;
+import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -87,6 +87,9 @@ public class RequestLogAspect {
         //参数值
         Object[] paramValues = proceedingJoinPoint.getArgs();
 
+        if (paramNames == null || paramNames.length == 0)
+            return null;
+
         return buildRequestParam(paramNames, paramValues);
     }
 
@@ -116,7 +119,10 @@ public class RequestLogAspect {
         return requestParams;
     }
 
-    @Data
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public class RequestInfo {
         private String ip;
         private String username;
@@ -128,7 +134,10 @@ public class RequestLogAspect {
         private Long timeCost;
     }
 
-    @Data
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public class RequestErrorInfo {
         private String ip;
         private String username;
