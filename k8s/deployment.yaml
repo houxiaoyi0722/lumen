@@ -23,7 +23,7 @@ spec:
         app: lumen
     spec:
       containers:
-        - image: 10.144.233.86:8082/sang/lumen-txy:latest
+        - image: 10.144.233.86:8082/sang/lumen-test:latest
           imagePullPolicy: Always
           name: lumen-app
           ports:
