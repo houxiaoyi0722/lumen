@@ -1,16 +1,22 @@
 package com.sang.system.example.flowable;
 
+import org.apache.commons.io.FileUtils;
+import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.engine.*;
 import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.engine.impl.cfg.StandaloneProcessEngineConfiguration;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.image.impl.DefaultProcessDiagramGenerator;
 import org.flowable.task.api.Task;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -217,5 +223,16 @@ public class FlowableTest {
         }
 
     }
+
+    @Test
+    public void buildProcessImage() throws IOException {
+        ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().processDefinitionKey("TimeEvent-Example").latestVersion().singleResult();
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(pd.getId());
+        DefaultProcessDiagramGenerator generator = new DefaultProcessDiagramGenerator();
+        InputStream inputStream = generator.generatePngDiagram(bpmnModel, 1.0, true);
+        FileUtils.copyInputStreamToFile(inputStream, new File("D:/1.png"));
+    }
+
+
 
 }
