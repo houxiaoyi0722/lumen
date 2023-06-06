@@ -153,18 +153,8 @@ public class FlowableTest {
 
         // 删除流程定义，如果该流程定义已经有了流程实例启动则删除时报错
         // repositoryService.deleteDeployment("1");
-
-
         // 设置为TRUE 级联删除流程定义，及时流程有实例启动，也可以删除，设置为false 非级联删除操作。
-        repositoryService.deleteDeployment("26ff765d-037f-11ee-aab0-e2d4e83f9995",true);
-        repositoryService.deleteDeployment("3500e87f-036b-11ee-8631-e2d4e83f9995",true);
-        repositoryService.deleteDeployment("3f0808bf-0367-11ee-96e8-e2d4e83f9995",true);
-        repositoryService.deleteDeployment("47d0a02f-0347-11ee-b199-e2d4e83f9995",true);
-        repositoryService.deleteDeployment("729afe9e-0363-11ee-8e43-e2d4e83f9995",true);
-        repositoryService.deleteDeployment("bc65c9a8-012c-11ee-84e7-e2d4e83f9995",true);
-        repositoryService.deleteDeployment("d81bd599-034a-11ee-8697-e2d4e83f9995",true);
-
-
+        repositoryService.deleteDeployment("10163acf-0385-11ee-9936-e2d4e83f9995",true);
     }
 
     /**
