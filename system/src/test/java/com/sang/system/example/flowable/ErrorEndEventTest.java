@@ -4,19 +4,17 @@ import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
-import org.flowable.engine.runtime.Execution;
-import org.flowable.engine.runtime.ProcessInstance;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
-public class ErrorEventTest {
+public class ErrorEndEventTest {
 
 
     @Resource
@@ -39,26 +37,14 @@ public class ErrorEventTest {
     @Test
     public void startProcessInstanceByKey()  throws Exception{
 
-        runtimeService
-                .startProcessInstanceByKey("error-event-example");
-        System.out.println("开始启动的时间：" + LocalDateTime.now().toString());
-        // 需要在此阻塞比等待长的时间
-        TimeUnit.MINUTES.sleep(3);
-    }
-
-    /**
-     * 启动流程实例
-     *
-     */
-    @Test
-    public void startProcessInstanceByKey2()  throws Exception{
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("flag",0);
 
         runtimeService
-                .startProcessInstanceByKey("boundary-error-events-example");
+                .startProcessInstanceByKey("error-end-event",variables);
         System.out.println("开始启动的时间：" + LocalDateTime.now().toString());
-        // 需要在此阻塞比等待长的时间
-        TimeUnit.MINUTES.sleep(1);
     }
+
 
 
 

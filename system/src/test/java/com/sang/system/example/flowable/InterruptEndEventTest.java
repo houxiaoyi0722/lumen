@@ -4,19 +4,17 @@ import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
-import org.flowable.engine.runtime.Execution;
-import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.task.api.Task;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootTest
-public class ErrorEventTest {
+public class InterruptEndEventTest {
 
 
     @Resource
@@ -39,26 +37,34 @@ public class ErrorEventTest {
     @Test
     public void startProcessInstanceByKey()  throws Exception{
 
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("condition",false);
+
         runtimeService
-                .startProcessInstanceByKey("error-event-example");
+                .startProcessInstanceByKey("Interrupt-end-event",variables);
         System.out.println("开始启动的时间：" + LocalDateTime.now().toString());
-        // 需要在此阻塞比等待长的时间
-        TimeUnit.MINUTES.sleep(3);
     }
 
     /**
-     * 启动流程实例
-     *
+     * 完成任务
      */
     @Test
-    public void startProcessInstanceByKey2()  throws Exception{
+    public void completeTask(){
+        Task task = taskService.createTaskQuery()
+                .processDefinitionKey("Interrupt-end-event")
+                .taskAssignee("cc")
+                .singleResult();
 
-        runtimeService
-                .startProcessInstanceByKey("boundary-error-events-example");
-        System.out.println("开始启动的时间：" + LocalDateTime.now().toString());
-        // 需要在此阻塞比等待长的时间
-        TimeUnit.MINUTES.sleep(1);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("condition",false);
+
+        if(task != null){
+            // 完成任务
+            taskService.complete(task.getId(),variables);
+            System.out.println("完成Task");
+        }
     }
+
 
 
 
