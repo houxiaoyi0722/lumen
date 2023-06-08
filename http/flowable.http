@@ -1,0 +1,8 @@
+### 分页查询当前流程定义
+GET {{protocol}}{{domain}}/lumen/flowable/process/page?name=group&startBy=&page=1&size=10
+Authorization: Bearer {{token}}
+
+
+### 我的待办
+GET {{protocol}}{{domain}}/lumen/flowable/task/todo/page?userId=hxy&processDefineId=&page=1&size=10
+Authorization: Bearer {{token}}
