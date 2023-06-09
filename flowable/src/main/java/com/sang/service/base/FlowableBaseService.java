@@ -1,6 +1,7 @@
 package com.sang.service.base;
 
 import cn.hutool.core.bean.BeanUtil;
+import org.flowable.common.engine.impl.identity.Authentication;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
@@ -34,9 +35,10 @@ public abstract class FlowableBaseService<T> {
      * @return
      */
     public ProcessInstance startProcessByKey(T variables, String key, String businessKey) {
+//        Authentication.setAuthenticatedUserId();
         // 启动流程实例，第一个参数是流程定义的id
         return runtimeService
-                .startProcessInstanceByKey(key, businessKey, BeanUtil.copyProperties(variables, Map.class));// 启动流程实例
+                .startProcessInstanceByKey(key, businessKey, BeanUtil.beanToMap(variables));// 启动流程实例
     }
 
 
@@ -49,7 +51,7 @@ public abstract class FlowableBaseService<T> {
     public ProcessInstance startProcessById(T variables, String processDefinitionId, String businessKey) {
         // 启动流程实例，第一个参数是流程定义的id
         return runtimeService
-                .startProcessInstanceById(processDefinitionId, businessKey, BeanUtil.copyProperties(variables, Map.class));// 启动流程实例
+                .startProcessInstanceById(processDefinitionId, businessKey, BeanUtil.beanToMap(variables));// 启动流程实例
     }
 
     /**
@@ -59,7 +61,7 @@ public abstract class FlowableBaseService<T> {
      */
     public void completeTask(String taskId,T variables) {
         // 完成任务
-        taskService.complete(taskId,BeanUtil.copyProperties(variables, Map.class));
+        taskService.complete(taskId,BeanUtil.beanToMap(variables));
     }
 
 

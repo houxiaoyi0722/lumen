@@ -6,3 +6,12 @@ Authorization: Bearer {{token}}
 ### 我的待办
 GET {{protocol}}{{domain}}/lumen/flowable/task/todo/page?userId=hxy&processDefineId=&page=1&size=10
 Authorization: Bearer {{token}}
+
+### 我发起的流程
+GET {{protocol}}{{domain}}/lumen/flowable/process/myProcess/page?userId=hxy&finished=true&page=1&size=10
+Authorization: Bearer {{token}}
+
+
+### 我处理的
+GET {{protocol}}{{domain}}/lumen/flowable/task/myComplete/page?userId=hxy&page=1&size=10
+Authorization: Bearer {{token}}

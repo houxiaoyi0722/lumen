@@ -46,6 +46,8 @@ drop table if exists sys_dict_item;
 
 drop table if exists sys_job_log;
 
+drop table if exists leave_process;
+
 drop table if exists sys_permission;
 
 drop table if exists sys_permission_sys_role;
