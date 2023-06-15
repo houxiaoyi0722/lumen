@@ -33,7 +33,8 @@ public class ProcessDefinitionDto {
 
     private String suspensionState;
 
-    private boolean hasStartFormKey;
+//    private boolean hasStartFormKey;
+    private boolean isGraphicalNotationDefined;
 
     private String derivedFrom;
 

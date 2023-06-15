@@ -15,3 +15,9 @@ Authorization: Bearer {{token}}
 ### 我处理的
 GET {{protocol}}{{domain}}/lumen/flowable/task/myComplete/page?userId=hxy&page=1&size=10
 Authorization: Bearer {{token}}
+
+
+### 获取流程定义xml文件
+GET {{protocol}}{{domain}}/lumen/flowable/processXmlResource?deploymentId=022ae12b-06ac-11ee-a2a2-e2d4e83f9995&resourceName=D:\lumen-repo\lumen\flowable\target\classes\processes\TaskRollback-Three.bpmn20.xml
+Authorization: Bearer {{token}}
+
