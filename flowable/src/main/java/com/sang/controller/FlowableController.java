@@ -1,9 +1,10 @@
 package com.sang.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
+import com.sang.common.constants.StringConst;
 import com.sang.common.response.PageResult;
+import com.sang.common.utils.ResponseUtil;
 import com.sang.dto.ProcessDefinitionDto;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.IdentityService;
@@ -21,22 +22,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static cn.hutool.core.util.CharsetUtil.UTF_8;
-import static cn.hutool.jwt.JWTHeader.CONTENT_TYPE;
-import static org.apache.tomcat.util.http.fileupload.FileUploadBase.CONTENT_DISPOSITION;
 
 @RequestMapping("/flowable")
 @RestController
@@ -107,27 +98,7 @@ public class FlowableController {
             @RequestParam(value = "resourceName",required = false) String resourceName
     ) throws IOException {
         InputStream resourceAsStream = repositoryService.getResourceAsStream(deploymentId,resourceName);
-
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletResponse httpServletResponse = requestAttributes.getResponse();
-        ServletOutputStream outputStream = httpServletResponse.getOutputStream();
-        try {
-            // 设置信息给客户端不解析
-            // 设置CONTENT_TYPE，即告诉客户端所发送的数据属于什么类型
-            httpServletResponse.setHeader(CONTENT_TYPE, "application/xml");
-
-            // 设置扩展头，当Content-Type 的类型为要下载的类型时 , 这个信息头会告诉浏览器这个文件的名字和类型。
-            httpServletResponse.setCharacterEncoding(UTF_8);
-            httpServletResponse.setHeader("Content-Disposition", StrUtil.format("attachment;filename={}", URLEncoder.encode("aaa", StandardCharsets.UTF_8)));
-            IoUtil.copy(resourceAsStream, outputStream);
-        } finally {
-            if (resourceAsStream != null) {
-                IoUtil.close(resourceAsStream);
-            }
-            if (outputStream != null) {
-                IoUtil.close(outputStream);
-            }
-        }
+        ResponseUtil.sendStream(resourceAsStream, StringConst.APPLICATION_XML, StringConst.PROCESS_DEFINE_XML);
     }
 
     /**

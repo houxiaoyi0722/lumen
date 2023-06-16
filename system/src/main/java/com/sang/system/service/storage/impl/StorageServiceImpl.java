@@ -1,13 +1,13 @@
 package com.sang.system.service.storage.impl;
 
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import com.sang.common.constants.StorageEnum;
 import com.sang.common.constants.StringConst;
 import com.sang.common.domain.storage.entity.Storage;
+import com.sang.common.domain.storage.repo.StorageRepository;
 import com.sang.common.exception.BusinessException;
 import com.sang.common.snowId.SnowIdGenerator;
-import com.sang.common.domain.storage.repo.StorageRepository;
+import com.sang.common.utils.ResponseUtil;
 import com.sang.system.service.storage.StorageService;
 import io.ebean.annotation.Transactional;
 import io.minio.*;
@@ -16,16 +16,10 @@ import io.minio.http.Method;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -33,10 +27,6 @@ import java.security.NoSuchAlgorithmException;
 @Service
 public class StorageServiceImpl implements StorageService {
 
-    public static final String CONTENT_TYPE = "Content-type";
-    public static final String CONTENT_DISPOSITION = "Content-Disposition";
-    public static final String ATTACHMENT_FILENAME = "attachment;filename={}";
-    public static final String UTF_8 = "UTF-8";
     @Resource
     private StorageRepository storageRepository;
 
@@ -128,8 +118,6 @@ public class StorageServiceImpl implements StorageService {
     }
 
     private void downloadFile(Storage storage) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException, BusinessException {
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletResponse httpServletResponse = requestAttributes.getResponse();
 
         if (storage == null)
             throw new BusinessException(StorageEnum.FILE_NOT_EXIST.getCode(),StorageEnum.FILE_NOT_EXIST.getMessage());
@@ -139,24 +127,7 @@ public class StorageServiceImpl implements StorageService {
                 .object(storage.getObject())
                 .build());
 
-        ServletOutputStream outputStream = httpServletResponse.getOutputStream();
-        try {
-            // 设置信息给客户端不解析
-            // 设置CONTENT_TYPE，即告诉客户端所发送的数据属于什么类型
-            httpServletResponse.setHeader(CONTENT_TYPE, storage.getContentType());
-
-            // 设置扩展头，当Content-Type 的类型为要下载的类型时 , 这个信息头会告诉浏览器这个文件的名字和类型。
-            httpServletResponse.setCharacterEncoding(UTF_8);
-            httpServletResponse.setHeader(CONTENT_DISPOSITION, StrUtil.format(ATTACHMENT_FILENAME, URLEncoder.encode(storage.getOriginalFileName(), StandardCharsets.UTF_8)));
-            IoUtil.copy(objectResponse, outputStream);
-        } finally {
-            if (objectResponse != null) {
-                IoUtil.close(objectResponse);
-            }
-            if (outputStream != null) {
-                IoUtil.close(outputStream);
-            }
-        }
+        ResponseUtil.sendStream(objectResponse,storage.getContentType(),storage.getOriginalFileName());
     }
 
 
