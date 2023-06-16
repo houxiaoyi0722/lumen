@@ -3,29 +3,37 @@ package com.sang.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.sang.common.constants.StringConst;
+import com.sang.common.domain.storage.dto.StorageDto;
 import com.sang.common.response.PageResult;
+import com.sang.common.response.Result;
 import com.sang.common.utils.ResponseUtil;
 import com.sang.dto.ProcessDefinitionDto;
+import com.sang.param.SuspendedActiveParam;
+import io.minio.errors.MinioException;
+import org.flowable.common.engine.impl.db.SuspensionState;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.IdentityService;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.history.HistoricProcessInstanceQuery;
+import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.flowable.idm.api.Group;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskQuery;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.api.history.HistoricTaskInstanceQuery;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,6 +93,49 @@ public class FlowableController {
         return PageResult.ok(processDefinitions,pageNumber,pageSize,(int) count);
     }
 
+    @PutMapping("/deployProcess")
+    public Result deployProcess(@RequestParam("file") MultipartFile file
+                                ,@RequestParam("resourceName") String resourceName
+                                ,@RequestParam("name") String name
+                                ) throws IOException {
+
+        // 部署流程 获取RepositoryService对象
+        Deployment deployment = repositoryService.createDeployment()// 创建Deployment对象
+                .addInputStream(resourceName,file.getInputStream())// 添加流程部署文件
+                .name(name) // 设置部署流程的名称
+                .deploy(); // 执行部署操作
+        return Result.ok(deployment.getId());
+    }
+
+
+    /**
+     * 挂起或者激活流程
+     * @param suspendedActiveParam
+     */
+    @PutMapping("/suspensionState")
+    public Result<String> suspendedOrActiveProcess(@Validated @RequestBody SuspendedActiveParam suspendedActiveParam) {
+        // 表示被挂起
+        if(SuspensionState.SUSPENDED.getStateCode() == suspendedActiveParam.getSuspensionState()) {
+            // 激活流程定义
+            repositoryService.activateProcessDefinitionById(suspendedActiveParam.getProcessDefinitionId(),true,null);
+        // 表示激活状态
+        }else if (SuspensionState.ACTIVE.getStateCode() == suspendedActiveParam.getSuspensionState()){
+            // 挂起流程
+            repositoryService.suspendProcessDefinitionById(suspendedActiveParam.getProcessDefinitionId(),true,null);
+        }
+        return Result.ok();
+    }
+
+    /**
+     * 级联删除流程
+     * @param deploymentId
+     * @return
+     */
+    @DeleteMapping("/deleteProcess")
+    public Result deleteProcess(@RequestParam(value = "deploymentId") @NotNull(message = "deploymentId不能为空") String deploymentId) {
+        repositoryService.deleteDeployment(deploymentId,true);
+        return Result.ok();
+    }
 
     /**
      * 获取流程定义xml文件
