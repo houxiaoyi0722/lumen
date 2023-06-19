@@ -51,6 +51,25 @@ create table sys_job_log (
   constraint pk_sys_job_log primary key (id)
 ) comment='JobLog执行日志表';
 
+create table leave_process (
+  id                            bigint not null,
+  name                          varchar(50) comment '申请人',
+  day                           varchar(50) comment '请假时长',
+  start_time                    datetime(6) comment '开始时间',
+  end_time                      datetime(6) comment '结束时间',
+  reason                        varchar(500) comment '请假原因',
+  type                          varchar(20) comment '假期类型 年假/事假/育儿假/产假/病假/调休',
+  process_definition_id         varchar(100) comment '流程定义id',
+  process_instance_id           varchar(100) comment '流程实例id',
+  version                       bigint not null,
+  when_created                  datetime(6) not null,
+  created_by                    varchar(255) not null,
+  modified_by                   varchar(255) not null,
+  when_modified                 datetime(6) not null,
+  deleted                       tinyint(1) default 0 not null,
+  constraint pk_leave_process primary key (id)
+) comment='请假流程表';
+
 create table sys_permission (
   id                            bigint not null,
   code                          varchar(100) comment '权限code',

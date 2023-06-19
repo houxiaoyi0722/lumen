@@ -1,0 +1,60 @@
+### 分页查询当前流程定义
+GET {{protocol}}{{domain}}/lumen/flowable/process/page?name=group&startBy=&page=1&size=10
+Authorization: Bearer {{token}}
+
+
+### 我的待办
+GET {{protocol}}{{domain}}/lumen/flowable/task/todo/page?userId=hxy&processDefineId=&page=1&size=10
+Authorization: Bearer {{token}}
+
+### 我发起的流程
+GET {{protocol}}{{domain}}/lumen/flowable/process/myProcess/page?userId=hxy&finished=true&page=1&size=10
+Authorization: Bearer {{token}}
+
+
+### 我处理的
+GET {{protocol}}{{domain}}/lumen/flowable/task/myComplete/page?userId=hxy&page=1&size=10
+Authorization: Bearer {{token}}
+
+
+### 获取流程定义xml文件
+GET {{protocol}}{{domain}}/lumen/flowable/processXmlResource?deploymentId=022ae12b-06ac-11ee-a2a2-e2d4e83f9995&resourceName=D:\lumen-repo\lumen\flowable\target\classes\processes\TaskRollback-Three.bpmn20.xml
+Authorization: Bearer {{token}}
+
+### 挂起或者激活流程
+PUT {{protocol}}{{domain}}/lumen/flowable/suspensionState
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "processDefinitionId": "",
+  "suspensionState": 0
+}
+
+### 级联删除流程
+DELETE {{protocol}}{{domain}}/lumen/flowable/deleteProcess?deploymentId=
+Authorization: Bearer {{token}}
+
+
+### 部署流程
+PUT {{protocol}}{{domain}}/lumen/flowable/deployProcess
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="aaa.xml"
+Content-Type: application/json
+
+< 2023-05-12T134729.502.html
+
+--WebAppBoundary
+Content-Disposition: form-data; name="resourceName"
+Content-Type: text/plain
+
+aaaa
+
+--WebAppBoundary
+Content-Disposition: form-data; name="name"
+Content-Type: text/plain
+
+aaaaa

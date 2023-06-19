@@ -1,11 +1,11 @@
 {
   "dataModel": {
-    "domain": "permissions",
-    "model": "Permissions",
+    "domain": "leaveProcess",
+    "model": "LeaveProcess",
     "author": "hxy",
-    "dbComment": "操作权限表",
-    "domainComment": "权限管理",
-    "modelComment": "操作权限"
+    "dbComment": "请假流程表",
+    "domainComment": "请假流程",
+    "modelComment": "请假流程"
   },
   "templates": [
     {

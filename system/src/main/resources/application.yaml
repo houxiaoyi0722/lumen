@@ -50,7 +50,8 @@ management:
   metrics:
     tags: # 通用标签
       application: ${spring.application.name}
-
+flowable:
+  async-executor-activate: true
 #rocketmq:
 #  #  name-server: 47.103.123.107:31303
 #  name-server: localhost:9876
