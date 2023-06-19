@@ -3,13 +3,13 @@ package com.sang.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.sang.common.constants.StringConst;
-import com.sang.common.domain.storage.dto.StorageDto;
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
 import com.sang.common.utils.ResponseUtil;
 import com.sang.dto.ProcessDefinitionDto;
 import com.sang.param.SuspendedActiveParam;
-import io.minio.errors.MinioException;
+import lombok.extern.slf4j.Slf4j;
+import org.flowable.common.engine.api.FlowableException;
 import org.flowable.common.engine.impl.db.SuspensionState;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.IdentityService;
@@ -32,11 +32,10 @@ import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequestMapping("/flowable")
 @RestController
 public class FlowableController {
@@ -99,11 +98,15 @@ public class FlowableController {
                                 ,@RequestParam("name") String name
                                 ) throws IOException {
 
+        if (!StrUtil.endWith(file.getOriginalFilename(), StringConst.BPMN_20_XML)) {
+             throw new FlowableException("流程定义文件后缀错误");
+        }
         // 部署流程 获取RepositoryService对象
         Deployment deployment = repositoryService.createDeployment()// 创建Deployment对象
                 .addInputStream(resourceName,file.getInputStream())// 添加流程部署文件
                 .name(name) // 设置部署流程的名称
                 .deploy(); // 执行部署操作
+
         return Result.ok(deployment.getId());
     }
 

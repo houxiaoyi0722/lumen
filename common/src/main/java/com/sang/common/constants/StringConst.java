@@ -20,6 +20,8 @@ public class StringConst {
 
     public static final String PROCESS_DEFINE_XML = "processDefine.xml";
 
+    public static final String BPMN_20_XML = "bpmn20.xml";
+
     public static final String SPRING_SECURITY_FORM_USERNAME_KEY = "username";
 
     public static final String SPRING_SECURITY_FORM_PASSWORD_KEY = "password";
