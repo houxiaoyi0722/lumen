@@ -58,3 +58,18 @@ Content-Disposition: form-data; name="name"
 Content-Type: text/plain
 
 aaaaa
+
+
+### 用户列表
+GET {{protocol}}{{domain}}/lumen/flowable/user/list?name=a
+Authorization: Bearer {{token}}
+
+
+### 用户组列表
+GET {{protocol}}{{domain}}/lumen/flowable/group/list?name=a
+Authorization: Bearer {{token}}
+
+
+### 同步用户
+GET {{protocol}}{{domain}}/lumen/flowable/user/sync?username=
+Authorization: Bearer {{token}}
