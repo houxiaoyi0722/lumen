@@ -103,6 +103,14 @@ public class FlowableController {
         return PageResult.ok(processDefinitions,pageNumber,pageSize,(int) count);
     }
 
+    /**
+     * 部署流程
+     * @param file 文件
+     * @param resourceName 资源名称
+     * @param name 流程名称
+     * @return
+     * @throws IOException
+     */
     @PutMapping("/deployProcess")
     public Result deployProcess(@RequestParam("file") MultipartFile file
                                 ,@RequestParam("resourceName") String resourceName
