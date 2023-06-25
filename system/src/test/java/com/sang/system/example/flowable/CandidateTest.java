@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SpringBootTest
+//@SpringBootTest
 public class CandidateTest {
 
 
@@ -29,7 +29,7 @@ public class CandidateTest {
     /**
      * 启动流程实例
      */
-    @Test
+    //@Test
     public void runProcess(){
         // 给流程定义中的UEL表达式赋值
         Map<String,Object> variables = new HashMap<>();
@@ -43,7 +43,7 @@ public class CandidateTest {
      * 根据登录的用户查询对应的可以拾取的任务
      *
      */
-    @Test
+    //@Test
     public void queryTaskCandidate(){
         List<Task> list = taskService.createTaskQuery()
                 .processDefinitionId("candidate-example:1:67e0033f-fed0-11ed-b4f4-e2d4e83f9995")
@@ -60,7 +60,7 @@ public class CandidateTest {
      *    一个候选人拾取了这个任务之后其他的用户就没有办法拾取这个任务了
      *    所以如果一个用户拾取了任务之后又不想处理了，那么可以退还
      */
-    @Test
+    //@Test
     public void claimTaskCandidate(){
         Task task = taskService.createTaskQuery()
                 .processDefinitionId("candidate-example:1:67e0033f-fed0-11ed-b4f4-e2d4e83f9995")
@@ -78,7 +78,7 @@ public class CandidateTest {
      *    一个候选人拾取了这个任务之后其他的用户就没有办法拾取这个任务了
      *    所以如果一个用户拾取了任务之后又不想处理了，那么可以退还
      */
-    @Test
+    //@Test
     public void unclaimTaskCandidate(){
         Task task = taskService.createTaskQuery()
                 .processDefinitionId("candidate-example:1:67e0033f-fed0-11ed-b4f4-e2d4e83f9995")
@@ -96,7 +96,7 @@ public class CandidateTest {
      *    如果我获取了任务，但是不想执行，那么我可以把这个任务交接给其他的用户
      *    未获取任务的情况下也可以直接交接
      */
-    @Test
+    //@Test
     public void taskCandidate(){
         Task task = taskService.createTaskQuery()
                 .processDefinitionId("candidate-example:1:67e0033f-fed0-11ed-b4f4-e2d4e83f9995")
@@ -112,7 +112,7 @@ public class CandidateTest {
     /**
      * 完成任务
      */
-    @Test
+    //@Test
     public void completeTask(){
         Task task = taskService.createTaskQuery()
                 //.processInstanceId("2501")

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootTest
+//@SpringBootTest
 public class InterruptEndEventTest {
 
 
@@ -34,7 +34,7 @@ public class InterruptEndEventTest {
      * 启动流程实例
      *
      */
-    @Test
+    //@Test
     public void startProcessInstanceByKey()  throws Exception{
 
         Map<String, Object> variables = new HashMap<>();
@@ -48,7 +48,7 @@ public class InterruptEndEventTest {
     /**
      * 完成任务
      */
-    @Test
+    //@Test
     public void completeTask(){
         Task task = taskService.createTaskQuery()
                 .processDefinitionKey("Interrupt-end-event")

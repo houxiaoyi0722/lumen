@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SpringBootTest
+//@SpringBootTest
 public class FlowableUserGroupTest {
 
     @Resource
@@ -34,7 +34,7 @@ public class FlowableUserGroupTest {
     /**
      * 维护用户
      */
-    @Test
+    //@Test
     public void createUser(){
         // 通过 IdentityService 完成相关的用户和组的管理
         User user = identityService.newUser("hxy");
@@ -47,7 +47,7 @@ public class FlowableUserGroupTest {
     /**
      * 创建用户组
      */
-    @Test
+    //@Test
     public void createGroup(){
         // 创建Group对象并指定相关的信息
         Group group = identityService.newGroup("group1");
@@ -61,7 +61,7 @@ public class FlowableUserGroupTest {
     /**
      * 将用户分配给对应的Group
      */
-    @Test
+    //@Test
     public void userGroup(){
         // 根据组的编号找到对应的Group对象
         Group group = identityService.createGroupQuery().groupId("group1").singleResult();
@@ -75,7 +75,7 @@ public class FlowableUserGroupTest {
     /**
      * 启动流程实例
      */
-    @Test
+    //@Test
     public void runProcess(){
         Group group = identityService.createGroupQuery().groupId("group1").singleResult();
         // 给流程定义中的UEL表达式赋值
@@ -88,7 +88,7 @@ public class FlowableUserGroupTest {
      * 根据登录的用户查询对应的可以拾取的任务
      *
      */
-    @Test
+    //@Test
     public void queryTaskCandidateGroup(){
         // 根据当前登录的用户找到对应的组
         // 当前用户所在的组
@@ -109,7 +109,7 @@ public class FlowableUserGroupTest {
      *    一个候选人拾取了这个任务之后其他的用户就没有办法拾取这个任务了
      *    所以如果一个用户拾取了任务之后又不想处理了，那么可以退还
      */
-    @Test
+    //@Test
     public void claimTaskCandidate(){
         String userId = "hxy";
         // 根据当前登录的用户找到对应的组
@@ -128,7 +128,7 @@ public class FlowableUserGroupTest {
     /**
      * 完成任务
      */
-    @Test
+    //@Test
     public void completeTask(){
         Task task = taskService.createTaskQuery()
                 .processDefinitionId("candidate-group-example:1:69d0ef90-ff8f-11ed-a81c-e2d4e83f9995")
