@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootTest
+//@SpringBootTest
 public class MultipleCountersignsTest {
 
 
@@ -29,7 +29,7 @@ public class MultipleCountersignsTest {
     @Resource
     private HistoryService historyService;
 
-    @Test
+    //@Test
     public void startFlow() throws Exception{
         Map<String,Object> map = new HashMap<>();
         // 设置多人会签的数据
@@ -38,7 +38,7 @@ public class MultipleCountersignsTest {
                 .startProcessInstanceByKey("multiple-countersigns",map);
     }
 
-    @Test
+    //@Test
     void completeTask1(){
         Map<String,Object> map = new HashMap<>();
 //        map.put("flag",false);

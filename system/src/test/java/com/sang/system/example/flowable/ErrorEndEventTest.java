@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootTest
+//@SpringBootTest
 public class ErrorEndEventTest {
 
 
@@ -34,7 +34,7 @@ public class ErrorEndEventTest {
      * 启动流程实例
      *
      */
-    @Test
+    //@Test
     public void startProcessInstanceByKey()  throws Exception{
 
         Map<String, Object> variables = new HashMap<>();

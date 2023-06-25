@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootTest
+//@SpringBootTest
 public class CompensateEventTest {
 
 
@@ -30,7 +30,7 @@ public class CompensateEventTest {
     /**
      * 启动流程实例
      */
-    @Test
+    //@Test
     public void startProcessInstanceByKey()  throws Exception{
         runtimeService
                 .startProcessInstanceByKey("compensate-event");

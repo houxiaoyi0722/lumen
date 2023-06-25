@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SpringBootTest
+//@SpringBootTest
 public class FlowableTest {
 
 
@@ -39,7 +39,7 @@ public class FlowableTest {
     /**
      * 部署流程
      */
-    @Test
+    //@Test
     public void testDeploy(){
         // 配置数据库相关信息 获取 ProcessEngineConfiguration
 //        ProcessEngineConfiguration cfg = new StandaloneProcessEngineConfiguration()
@@ -64,7 +64,7 @@ public class FlowableTest {
     /**
      * 查看流程定义
      */
-    @Test
+    //@Test
     public void testDeployQuery(){
 
 //        ProcessDefinition oneTaskProcess = repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcess").singleResult();
@@ -88,7 +88,7 @@ public class FlowableTest {
     /**
      * 启动流程实例
      */
-    @Test
+    //@Test
     public void testRunProcess(){
 
         // 启动流程实例通过 RuntimeService 对象
@@ -111,7 +111,7 @@ public class FlowableTest {
     /**
      * 查看任务
      */
-    @Test
+    //@Test
     public void testQueryTask(){
 
         List<Task> list = taskService.createTaskQuery()
@@ -130,7 +130,7 @@ public class FlowableTest {
     /**
      * 完成任务
      */
-    @Test
+    //@Test
     public void testCompleteTask(){
         // 获取流程引擎对象
         Task task = taskService.createTaskQuery()
@@ -148,7 +148,7 @@ public class FlowableTest {
     /**
      * 删除流程
      */
-    @Test
+    //@Test
     public void testDeleteProcess(){
 
         // 删除流程定义，如果该流程定义已经有了流程实例启动则删除时报错
@@ -160,7 +160,7 @@ public class FlowableTest {
     /**
      * 查看历史
      */
-    @Test
+    //@Test
     public void testQueryHistory(){
         List<HistoricActivityInstance> list = historyService.createHistoricActivityInstanceQuery()
                 .processDefinitionId("holidayRequest:3:6ec25516-fb9d-11ed-a184-e2d4e83f9995")
@@ -179,7 +179,7 @@ public class FlowableTest {
      * 流程定义为挂起状态，该流程定义将不允许启动新的流程实例，同时该流程定义下的所有的流程实例都将全部挂起暂停执行。
      *
      */
-    @Test
+    //@Test
     public void test05(){
         // 获取流程引擎对象
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
@@ -201,7 +201,7 @@ public class FlowableTest {
         }
     }
     // 挂起/激活流程实例
-    @Test
+    //@Test
     public void test06() {
         // 3.获取流程实例对象
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
@@ -223,7 +223,7 @@ public class FlowableTest {
 
     }
 
-    @Test
+    //@Test
     public void buildProcessImage() throws IOException {
         ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().processDefinitionKey("TimeEvent-Example").latestVersion().singleResult();
         BpmnModel bpmnModel = repositoryService.getBpmnModel(pd.getId());

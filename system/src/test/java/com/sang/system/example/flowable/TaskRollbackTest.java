@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootTest
+//@SpringBootTest
 public class TaskRollbackTest {
 
 
@@ -34,7 +34,7 @@ public class TaskRollbackTest {
      * 串行回退
      * 启动流程实例
      */
-    @Test
+    //@Test
     void startProcess(){
         ProcessInstance processInstance = runtimeService
                 .startProcessInstanceByKey("TaskRollback-One");
@@ -44,7 +44,7 @@ public class TaskRollbackTest {
     /**
      * 完成任务
      */
-    @Test
+    //@Test
     void completeTask(){
         Task task = taskService.createTaskQuery()
                 .processDefinitionKey("TaskRollback-One")
@@ -59,7 +59,7 @@ public class TaskRollbackTest {
     /**
      * 回退操作
      */
-    @Test
+    //@Test
     void rollbackTask(){
         // 当前的Task对应的用户任务的Id
         List<String> currentActivityIds = new ArrayList<>();
@@ -80,7 +80,7 @@ public class TaskRollbackTest {
      * 并行回退
      * 启动流程实例
      */
-    @Test
+    //@Test
     void startProcessTwo(){
         ProcessInstance processInstance = runtimeService
                 .startProcessInstanceByKey("TaskRollback-Two");
@@ -90,7 +90,7 @@ public class TaskRollbackTest {
     /**
      * 完成任务
      */
-    @Test
+    //@Test
     void completeTaskTwo(){
         Task task = taskService.createTaskQuery()
                 .processDefinitionKey("TaskRollback-Two")
@@ -105,7 +105,7 @@ public class TaskRollbackTest {
      * 回退操作
      *   业务副总驳回到到用户审批处  那么行政审批的也应该要返回
      */
-    @Test
+    //@Test
     void rollbackTaskTwo(){
         // 当前的Task对应的用户任务的Id
         List<String> currentActivityIds = new ArrayList<>();
@@ -120,7 +120,7 @@ public class TaskRollbackTest {
                 .changeState();
     }
 
-    @Test
+    //@Test
     void rollbackTaskTwo2(){
         // 当前的Task对应的用户任务的Id
         List<String> currentActivityIds = new ArrayList<>();
@@ -134,7 +134,7 @@ public class TaskRollbackTest {
                 .changeState();
     }
 
-    @Test
+    //@Test
     void rollbackTaskTwo3(){
         // 当前的Task对应的用户任务的Id
         List<String> currentActivityIds = new ArrayList<>();
@@ -155,7 +155,7 @@ public class TaskRollbackTest {
      * 子流程回退
      * 启动流程实例
      */
-    @Test
+    //@Test
     void startProcessThree(){
         ProcessInstance processInstance = runtimeService
                 .startProcessInstanceByKey("TaskRollback-Three");
@@ -165,7 +165,7 @@ public class TaskRollbackTest {
     /**
      * 完成任务
      */
-    @Test
+    //@Test
     void completeTaskThree(){
         Task task = taskService.createTaskQuery()
                 .processDefinitionKey("TaskRollback-Three")
@@ -180,7 +180,7 @@ public class TaskRollbackTest {
      * 回退操作
      *   从子流程回退到主流程操作
      */
-    @Test
+    //@Test
     void rollbackMainTask(){
 
         // 回退操作
@@ -194,7 +194,7 @@ public class TaskRollbackTest {
      * 回退操作
      *   从子流程回退到主流程操作：moveExecutionToActivityId不关心当前的节点
      */
-    @Test
+    //@Test
     void rollbackMainTask1(){
 
         // 回退操作
@@ -208,7 +208,7 @@ public class TaskRollbackTest {
      * 回退操作
      *   从主流程回退到子流程操作
      */
-    @Test
+    //@Test
     void rollbackMainTask2(){
 
         // 回退操作

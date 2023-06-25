@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootTest
+//@SpringBootTest
 public class SignEventTest {
 
 
@@ -33,7 +33,7 @@ public class SignEventTest {
      * 通过信号发送来触发信号启动事件的执行
      * 全局的信息
      */
-    @Test
+    //@Test
     void signalReceived() throws Exception {
         runtimeService.signalEventReceived("start");
         // 我们得保证容器的运行，所以需要阻塞

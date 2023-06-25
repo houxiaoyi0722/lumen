@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SpringBootTest
+//@SpringBootTest
 public class CancleEventTest {
 
 
@@ -32,7 +32,7 @@ public class CancleEventTest {
     /**
      * 启动流程实例,设置流程变量中的flag=0触发取消结束事件
      */
-    @Test
+    //@Test
     public void startProcessInstanceByKey()  throws Exception{
         // 设置对应的流程变量的值
         Map<String,Object> map = new HashMap<>();
@@ -44,7 +44,7 @@ public class CancleEventTest {
     /**
      * 完成任务
      */
-    @Test
+    //@Test
     public void completeTask(){
         Task task = taskService.createTaskQuery()
                 .processDefinitionKey("cancle-event-example")

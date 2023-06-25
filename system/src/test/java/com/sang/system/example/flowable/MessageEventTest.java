@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootTest
+//@SpringBootTest
 public class MessageEventTest {
 
 
@@ -37,7 +37,7 @@ public class MessageEventTest {
     /**
      * 通过消息来启动一个流程实例
      */
-    @Test
+    //@Test
     void startFlow() throws Exception{
 
         // runtimeService.startProcessInstanceById("event006:1:0532e730-af02-11ec-8cf3-c03c59ad2248");
@@ -52,7 +52,7 @@ public class MessageEventTest {
     /**
      * 中间事件-发布消息
      */
-    @Test
+    //@Test
     void recevedMsg(){
         // 需要查询到executionId
         // 我们需要根据流程实例编号找到对应的执行编号

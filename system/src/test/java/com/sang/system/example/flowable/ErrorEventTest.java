@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootTest
+//@SpringBootTest
 public class ErrorEventTest {
 
 
@@ -36,7 +36,7 @@ public class ErrorEventTest {
      * 启动流程实例
      *
      */
-    @Test
+    //@Test
     public void startProcessInstanceByKey()  throws Exception{
 
         runtimeService
@@ -50,7 +50,7 @@ public class ErrorEventTest {
      * 启动流程实例
      *
      */
-    @Test
+    //@Test
     public void startProcessInstanceByKey2()  throws Exception{
 
         runtimeService

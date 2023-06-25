@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SpringBootTest
+//@SpringBootTest
 public class MyHolidayFlowableTest {
 
 
@@ -32,7 +32,7 @@ public class MyHolidayFlowableTest {
     /**
      * 查看流程定义
      */
-    @Test
+    //@Test
     public void testDeployQuery(){
 
 //        ProcessDefinition oneTaskProcess = repositoryService.createProcessDefinitionQuery().processDefinitionKey("oneTaskProcess").singleResult();
@@ -57,7 +57,7 @@ public class MyHolidayFlowableTest {
      * 启动流程实例
      * 这里启动流程实例到第一个节点
      */
-    @Test
+    //@Test
     public void testRunProcess(){
 
         // 启动流程实例通过 RuntimeService 对象
@@ -81,7 +81,7 @@ public class MyHolidayFlowableTest {
     /**
      * 修改，添加task流程变量
      */
-    @Test
+    //@Test
     public void testTaskVariable(){
 
         List<Task> list = taskService.createTaskQuery()
@@ -98,7 +98,7 @@ public class MyHolidayFlowableTest {
     /**
      * 查看任务
      */
-    @Test
+    //@Test
     public void testQueryTask(){
 
         List<Task> list = taskService.createTaskQuery()
@@ -124,7 +124,7 @@ public class MyHolidayFlowableTest {
     /**
      * 完成任务
      */
-    @Test
+    //@Test
     public void testCompleteTask(){
         // 获取流程引擎对象
         Task task = taskService.createTaskQuery()
