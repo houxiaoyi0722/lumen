@@ -1,7 +1,11 @@
 package com.sang.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.smallbun.screw.core.util.CollectionUtils;
+import com.sang.common.constants.FlowableConst;
 import com.sang.common.constants.StringConst;
 import com.sang.common.domain.auth.authentication.user.repo.UserGroupRepository;
 import com.sang.common.domain.auth.authentication.user.repo.UserRepository;
@@ -11,6 +15,8 @@ import com.sang.common.utils.ResponseUtil;
 import com.sang.dto.ProcessDefinitionDto;
 import com.sang.param.SuspendedActiveParam;
 import lombok.extern.slf4j.Slf4j;
+import org.flowable.bpmn.model.*;
+import org.flowable.bpmn.model.Process;
 import org.flowable.common.engine.api.FlowableException;
 import org.flowable.common.engine.impl.db.SuspensionState;
 import org.flowable.engine.HistoryService;
@@ -38,6 +44,8 @@ import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -96,12 +104,63 @@ public class FlowableController {
                 .latestVersion()
                 .listPage(pageNumber - 1, pageSize).stream()
                 .map(item -> BeanUtil.copyProperties(item, ProcessDefinitionDto.class))
+                .peek(item -> item.setProcessDisposePath(getMainProcessExtendParamByName(item))) // 设置流程处理页面路径
                 .collect(Collectors.toList());
 
         long count = processDefinitionQuery.count();
 
         return PageResult.ok(processDefinitions,pageNumber,pageSize,(int) count);
     }
+
+    private String getMainProcessExtendParamByName(ProcessDefinitionDto item) {
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(item.getId());
+        Process mainProcess = bpmnModel.getMainProcess();
+        Map<String, List<ExtensionAttribute>> attributes = mainProcess.getAttributes();
+        if (MapUtil.isNotEmpty(attributes)) {
+            List<ExtensionAttribute> extensionAttributes = attributes.get(FlowableConst.PROCESS_DISPOSE_PATH);
+            if (CollUtil.isNotEmpty(extensionAttributes)) {
+                return extensionAttributes.get(0).getValue();
+            }
+        }
+
+        return null;
+    }
+
+    @GetMapping("/process/test")
+    public void test () {
+        getCustomProperty("Activity_0bu60pr","Process_1111:15:fa7c76e8-1bdc-11ee-85cd-e2d4e83f9995","bbbb");
+    }
+
+
+    public FlowElement getFlowElementByActivityIdAndProcessDefinitionId(String taskDefinedKey, String processDefinitionId) {
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
+        List<Process> processes = bpmnModel.getProcesses();
+        if (CollectionUtils.isNotEmpty(processes)) {
+            for (Process process : processes) {
+                FlowElement flowElement = process.getFlowElement(taskDefinedKey, true);
+                if (Objects.nonNull(flowElement)) {
+                    return flowElement;
+                }
+            }
+        }
+        return null;
+    }
+
+    public List<ExtensionElement> getCustomProperty(String taskDefinedKey, String processDefinitionId, String customPropertyName) {
+        FlowElement flowElement = this.getFlowElementByActivityIdAndProcessDefinitionId(taskDefinedKey, processDefinitionId);
+        if (flowElement != null && flowElement instanceof UserTask) {
+            UserTask userTask = (UserTask) flowElement;
+            Map<String, List<ExtensionElement>> extensionElements = userTask.getExtensionElements();
+            if (MapUtil.isNotEmpty(extensionElements)) {
+                List<ExtensionElement> values = extensionElements.get(customPropertyName);
+                if (CollectionUtils.isNotEmpty(values)) {
+                    return values;
+                }
+            }
+        }
+        return null;
+    }
+
 
     /**
      * 部署流程
@@ -117,7 +176,7 @@ public class FlowableController {
                                 ,@RequestParam("name") String name
                                 ) throws IOException {
 
-        if (!StrUtil.endWith(file.getOriginalFilename(), StringConst.BPMN_20_XML)) {
+        if (!StrUtil.endWith(file.getOriginalFilename(), FlowableConst.BPMN_20_XML)) {
              throw new FlowableException("流程定义文件后缀错误");
         }
         // 部署流程 获取RepositoryService对象
@@ -171,7 +230,7 @@ public class FlowableController {
             @RequestParam(value = "resourceName",required = false) String resourceName
     ) throws IOException {
         InputStream resourceAsStream = repositoryService.getResourceAsStream(deploymentId,resourceName);
-        ResponseUtil.sendStream(resourceAsStream, StringConst.APPLICATION_XML, StringConst.PROCESS_DEFINE_XML);
+        ResponseUtil.sendStream(resourceAsStream, StringConst.APPLICATION_XML, FlowableConst.PROCESS_DEFINE_XML);
     }
 
     /**

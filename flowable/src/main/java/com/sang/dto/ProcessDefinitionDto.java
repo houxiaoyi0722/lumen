@@ -44,5 +44,10 @@ public class ProcessDefinitionDto {
 
     protected String engineVersion;
 
+    /**
+     * 流程处理页面
+     */
+    protected String processDisposePath;
+
 
 }

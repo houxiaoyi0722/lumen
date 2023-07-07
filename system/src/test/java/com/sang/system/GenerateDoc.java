@@ -34,7 +34,7 @@ public class GenerateDoc {
   // 代理服务地址
   private static final String user = "hybrisdev001";
   // 代理登陆密码
-  private static final String password = "dev001@999";
+  private static final String password = "dev001@96818";
   // 代理服务器IP
   private static final String host = "43.254.46.186";
 
@@ -43,9 +43,9 @@ public class GenerateDoc {
   // 这个是本地的端口，很重要！！！选取一个没有占用的port即可,由本地端口转发到目标服务
   private static final int local_port = 13307;
   // 目标服务局域网IP（127.0.0.1也行）
-  private static final String remote_host = "192.168.20.20";
+  private static final String remote_host = "192.168.0.22";
   // 目标服务器端口号
-  private static final int remote_port = 3307;
+  private static final int remote_port = 27017;
 
   // 这里固定访问本地代理端口
   public static final String URL = "jdbc:mysql://localhost:13307/repurchase?allowMultiQueries=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai";
@@ -53,6 +53,20 @@ public class GenerateDoc {
   public static final String DATABASE_PASSWORD = "Sap#12345";
 
   private Session session = null;
+
+  @Test
+  public void createConnection() throws Exception {
+
+    SSHConnection();
+
+    int i = 10000;
+    while (i != 0) {
+      i--;
+      Thread.sleep(1000);
+    }
+
+    closeSSH();
+  }
 
   @Test
   public void generate() throws Exception {
