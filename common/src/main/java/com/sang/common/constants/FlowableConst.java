@@ -15,7 +15,7 @@ public class FlowableConst {
      */
     public static final String TASK_DISPOSE_PATH = "taskDisposePath";
     /**
-     * 是否批量处理
+     * 是否支持批量处理
      */
     public static final String IS_BATCH_APPROVAL = "isBatchApproval";
 
