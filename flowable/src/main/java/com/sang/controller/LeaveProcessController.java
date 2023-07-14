@@ -128,4 +128,26 @@ public class LeaveProcessController {
         return Result.ok();
     }
 
+    /**
+     * 处理任务
+     * @param leaveProcess
+     * @return
+     */
+    @PostMapping("/completeTask")
+    public Result<Boolean> completeTask(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
+        leaveProcessService.completeTask(leaveProcessMapper.dtoToLeaveProcess(leaveProcess),leaveProcess.getProcessDefinitionId());
+        return Result.ok();
+    }
+
+    /**
+     * 删除任务
+     * @param leaveProcess
+     * @return
+     */
+    @PostMapping("/deleteProcessInstance")
+    public Result<Boolean> deleteProcessInstance(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
+        leaveProcessService.deleteProcessInstance(leaveProcessMapper.dtoToLeaveProcess(leaveProcess),leaveProcess.getProcessDefinitionId(),leaveProcess.getReason());
+        return Result.ok();
+    }
+
 }

@@ -27,7 +27,6 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
     @Resource
     private HistoryService historyService;
 
-
     /**
      * 通过key启动流程
      * @param variables 流程变量
@@ -67,7 +66,6 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
         taskService.complete(taskId,BeanUtil.beanToMap(variables));
     }
 
-
     /**
      * 移动激活节点(做跳过节点或者回退操作)
      * @param processInstanceId 流程实例id
@@ -98,4 +96,10 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
                 .changeState();
     }
 
+
+    @Override
+    public void deleteProcessInstance(T variables, String processInstanceId,String deleteReason) {
+        deleteProcessInstanceBusinessProcessing(variables);
+        runtimeService.deleteProcessInstance(processInstanceId,deleteReason);
+    }
 }

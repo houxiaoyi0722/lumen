@@ -13,7 +13,7 @@ public interface FlowableBaseInterface<T> {
      *
      * @return
      */
-    T startBusinessProcessing(T param);
+    default T startBusinessProcessing(T param) { return param;}
 
     /**
      * 通过key启动流程
@@ -46,9 +46,7 @@ public interface FlowableBaseInterface<T> {
      *
      * @return
      */
-    default T completeTaskBusinessProcessing(T param) {
-        return param;
-    }
+    default T completeTaskBusinessProcessing(T param) { return param; }
 
     /**
      * 移动激活节点(做跳过节点或者回退操作)
@@ -63,9 +61,7 @@ public interface FlowableBaseInterface<T> {
      *
      * @return
      */
-    default T moveActivityBusinessProcessing(T param) {
-        return param;
-    }
+    default T moveActivityBusinessProcessing(T param) { return param; }
 
     /**
      * 移动当前流程激活节点(做跳过节点或者回退操作)
@@ -74,5 +70,20 @@ public interface FlowableBaseInterface<T> {
      * @param activityId 目标节点id
      */
     void moveActivityByExecution(T variables, String processInstanceId, String executionId, String activityId);
+
+    /**
+     * 删除流程实例
+     * @param variables 参数
+     * @param processInstanceId 流程实例id
+     * @param processInstanceId 删除原因
+     */
+    void deleteProcessInstance(T variables, String processInstanceId,String deleteReason);
+
+    /**
+     * 流程实例删除,业务逻辑处理
+     * @param param
+     * @return
+     */
+    default T deleteProcessInstanceBusinessProcessing(T param) {return param;}
 
 }

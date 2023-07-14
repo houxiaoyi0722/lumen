@@ -85,4 +85,14 @@ public class LeaveProcessServiceImpl extends FlowableBaseService<LeaveProcess> i
         return leaveProcess;
     }
 
+    @Override
+    public LeaveProcess moveActivityBusinessProcessing(LeaveProcess param) {
+        return null;
+    }
+
+    @Override
+    public LeaveProcess completeTaskBusinessProcessing(LeaveProcess param) {
+        param.update();
+        return param;
+    }
 }
