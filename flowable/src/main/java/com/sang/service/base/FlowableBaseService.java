@@ -1,6 +1,7 @@
 package com.sang.service.base;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.sang.common.domain.base.entity.BaseModel;
 import org.flowable.common.engine.impl.identity.Authentication;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
@@ -12,7 +13,7 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Map;
 
-public abstract class FlowableBaseService<T> {
+public abstract class FlowableBaseService<T extends BaseModel> implements FlowableBaseInterface<T>{
 
     @Resource
     private RepositoryService repositoryService;
@@ -31,14 +32,14 @@ public abstract class FlowableBaseService<T> {
      * 通过key启动流程
      * @param variables 流程变量
      * @param key 流程key
-     * @param businessKey 业务主键
      * @return
      */
-    public ProcessInstance startProcessByKey(T variables, String key, String businessKey) {
+    public ProcessInstance startProcessByKey(T variables, String key) {
 //        Authentication.setAuthenticatedUserId();
+        T entity = startBusinessProcessing(variables);
         // 启动流程实例，第一个参数是流程定义的id
         return runtimeService
-                .startProcessInstanceByKey(key, businessKey, BeanUtil.beanToMap(variables));// 启动流程实例
+                .startProcessInstanceByKey(key, entity.getId().toString(), BeanUtil.beanToMap(variables));// 启动流程实例
     }
 
 
@@ -48,18 +49,20 @@ public abstract class FlowableBaseService<T> {
      * @param processDefinitionId 流程定义id
      * @return
      */
-    public ProcessInstance startProcessById(T variables, String processDefinitionId, String businessKey) {
+    public ProcessInstance startProcessById(T variables, String processDefinitionId) {
+        T entity = startBusinessProcessing(variables);
         // 启动流程实例，第一个参数是流程定义的id
         return runtimeService
-                .startProcessInstanceById(processDefinitionId, businessKey, BeanUtil.beanToMap(variables));// 启动流程实例
+                .startProcessInstanceById(processDefinitionId, entity.getId().toString(), BeanUtil.beanToMap(variables));// 启动流程实例
     }
 
     /**
      * 完成任务
-     * @param taskId 任务id
      * @param variables 流程变量
+     * @param taskId 任务id
      */
-    public void completeTask(String taskId,T variables) {
+    public void completeTask(T variables,String taskId) {
+        completeTaskBusinessProcessing(variables);
         // 完成任务
         taskService.complete(taskId,BeanUtil.beanToMap(variables));
     }
@@ -71,10 +74,12 @@ public abstract class FlowableBaseService<T> {
      * @param newActivityId 目标节点id
      * @param currentActivityIds 待移动节点列表
      */
-    public void moveActivityById(String processInstanceId, String newActivityId, String... currentActivityIds) {
+    public void moveActivityById(T variables,String processInstanceId, String newActivityId, String... currentActivityIds) {
+        moveActivityBusinessProcessing(variables);
         runtimeService.createChangeActivityStateBuilder()
                 .processInstanceId(processInstanceId)
                 .moveActivityIdsToSingleActivityId(Arrays.asList(currentActivityIds),newActivityId)
+                .processVariables(BeanUtil.beanToMap(variables))
                 .changeState();
     }
 
@@ -84,7 +89,8 @@ public abstract class FlowableBaseService<T> {
      * @param executionId 当前执行id
      * @param activityId 目标节点id
      */
-    public void moveActivityByExecution(String processInstanceId, String executionId, String activityId) {
+    public void moveActivityByExecution(T variables, String processInstanceId, String executionId, String activityId) {
+        moveActivityBusinessProcessing(variables);
         // 回退操作
         runtimeService.createChangeActivityStateBuilder()
                 .processInstanceId(processInstanceId)

@@ -124,7 +124,7 @@ public class LeaveProcessController {
      */
     @PostMapping("/startProcess")
     public Result<Boolean> startProcess(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
-        leaveProcessService.startProcess(leaveProcessMapper.dtoToLeaveProcess(leaveProcess));
+        leaveProcessService.startProcessById(leaveProcessMapper.dtoToLeaveProcess(leaveProcess),leaveProcess.getProcessDefinitionId());
         return Result.ok();
     }
 

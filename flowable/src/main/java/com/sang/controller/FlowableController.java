@@ -112,20 +112,6 @@ public class FlowableController {
         return PageResult.ok(processDefinitions,pageNumber,pageSize,(int) count);
     }
 
-    private String getMainProcessExtendParamByName(ProcessDefinitionDto item) {
-        BpmnModel bpmnModel = repositoryService.getBpmnModel(item.getId());
-        Process mainProcess = bpmnModel.getMainProcess();
-        Map<String, List<ExtensionAttribute>> attributes = mainProcess.getAttributes();
-        if (MapUtil.isNotEmpty(attributes)) {
-            List<ExtensionAttribute> extensionAttributes = attributes.get(FlowableConst.PROCESS_DISPOSE_PATH);
-            if (CollUtil.isNotEmpty(extensionAttributes)) {
-                return extensionAttributes.get(0).getValue();
-            }
-        }
-
-        return null;
-    }
-
     @GetMapping("/process/test")
     public void test () {
         getCustomProperty("Activity_0bu60pr","Process_1111:15:fa7c76e8-1bdc-11ee-85cd-e2d4e83f9995","bbbb");
@@ -255,6 +241,16 @@ public class FlowableController {
                 .taskCandidateOrAssigned(userId)
                 .orderByTaskCreateTime().asc().listPage(pageNumber - 1, pageSize);
 
+        tasks = tasks.stream().peek(item -> {
+            BpmnModel bpmnModel = repositoryService.getBpmnModel(item.getProcessDefinitionId());
+            List<Process> processes = bpmnModel.getProcesses();
+            if (CollectionUtils.isNotEmpty(processes)) {
+                for (Process process : processes) {
+                    FlowElement flowElement = process.getFlowElement(item.getId(), true);
+                }
+            }
+        }).collect(Collectors.toList());
+
         long count = taskQuery.count();
 
         return PageResult.ok(tasks,pageNumber,pageSize,(int)count);
@@ -383,5 +379,22 @@ public class FlowableController {
         }
     }
 
+    /**
+     * 获取流程扩展参数
+     * @param item
+     * @return
+     */
+    private String getMainProcessExtendParamByName(ProcessDefinitionDto item) {
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(item.getId());
+        Process mainProcess = bpmnModel.getMainProcess();
+        Map<String, List<ExtensionAttribute>> attributes = mainProcess.getAttributes();
+        if (MapUtil.isNotEmpty(attributes)) {
+            List<ExtensionAttribute> extensionAttributes = attributes.get(FlowableConst.PROCESS_DISPOSE_PATH);
+            if (CollUtil.isNotEmpty(extensionAttributes)) {
+                return extensionAttributes.get(0).getValue();
+            }
+        }
 
+        return null;
+    }
 }

@@ -3,7 +3,6 @@ package com.sang.service.leaveProcess.impl;
 import com.sang.common.domain.leaveProcess.entity.LeaveProcess;
 import com.sang.common.domain.leaveProcess.param.LeaveProcessQry;
 import com.sang.common.domain.leaveProcess.repo.LeaveProcessRepository;
-import com.sang.dto.FlowableVariableBaseDto;
 import com.sang.service.base.FlowableBaseService;
 import com.sang.service.leaveProcess.LeaveProcessService;
 import io.ebean.PagedList;
@@ -22,7 +21,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class LeaveProcessServiceImpl extends FlowableBaseService<FlowableVariableBaseDto> implements LeaveProcessService {
+public class LeaveProcessServiceImpl extends FlowableBaseService<LeaveProcess> implements LeaveProcessService {
 
     @Resource
     private LeaveProcessRepository repository;
@@ -74,16 +73,16 @@ public class LeaveProcessServiceImpl extends FlowableBaseService<FlowableVariabl
     }
 
     @Override
-    @Transactional
-    public void startProcess(LeaveProcess leaveProcess) {
+    public LeaveProcess startBusinessProcessing(LeaveProcess leaveProcess) {
+
         leaveProcess.save();
-        ProcessInstance processInstance = startProcessById(FlowableVariableBaseDto.builder()
-                .myProperty("hxy0722")
-                .myProperty2("hxyadmin")
-                .build()
+        ProcessInstance processInstance = startProcessById(
+                leaveProcess
                 ,leaveProcess.getProcessDefinitionId()
-                ,leaveProcess.getId().toString());
+        );
         leaveProcess.setProcessInstanceId(processInstance.getProcessInstanceId());
         leaveProcess.update();
+        return leaveProcess;
     }
+
 }
