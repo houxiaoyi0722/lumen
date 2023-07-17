@@ -124,7 +124,7 @@ public class LeaveProcessController {
      */
     @PostMapping("/startProcess")
     public Result<Boolean> startProcess(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
-        leaveProcessService.startProcessById(leaveProcessMapper.dtoToLeaveProcess(leaveProcess),leaveProcess.getProcessDefinitionId());
+        leaveProcessService.startBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess));
         return Result.ok();
     }
 
@@ -135,7 +135,7 @@ public class LeaveProcessController {
      */
     @PostMapping("/completeTask")
     public Result<Boolean> completeTask(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
-        leaveProcessService.completeTask(leaveProcessMapper.dtoToLeaveProcess(leaveProcess),leaveProcess.getProcessDefinitionId());
+        leaveProcessService.completeTaskBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess),leaveProcess.getTaskId());
         return Result.ok();
     }
 
@@ -146,7 +146,7 @@ public class LeaveProcessController {
      */
     @PostMapping("/deleteProcessInstance")
     public Result<Boolean> deleteProcessInstance(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
-        leaveProcessService.deleteProcessInstance(leaveProcessMapper.dtoToLeaveProcess(leaveProcess),leaveProcess.getProcessDefinitionId(),leaveProcess.getReason());
+        leaveProcessService.deleteProcessInstanceBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess));
         return Result.ok();
     }
 

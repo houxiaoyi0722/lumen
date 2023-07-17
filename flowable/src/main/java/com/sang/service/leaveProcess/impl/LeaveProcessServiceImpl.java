@@ -3,6 +3,8 @@ package com.sang.service.leaveProcess.impl;
 import com.sang.common.domain.leaveProcess.entity.LeaveProcess;
 import com.sang.common.domain.leaveProcess.param.LeaveProcessQry;
 import com.sang.common.domain.leaveProcess.repo.LeaveProcessRepository;
+import com.sang.common.snowId.SnowIdGenerator;
+import com.sang.common.utils.SnowIdUtils;
 import com.sang.service.base.FlowableBaseService;
 import com.sang.service.leaveProcess.LeaveProcessService;
 import io.ebean.PagedList;
@@ -75,13 +77,13 @@ public class LeaveProcessServiceImpl extends FlowableBaseService<LeaveProcess> i
     @Override
     public LeaveProcess startBusinessProcessing(LeaveProcess leaveProcess) {
 
-        leaveProcess.save();
-        ProcessInstance processInstance = startProcessById(
-                leaveProcess
-                ,leaveProcess.getProcessDefinitionId()
-        );
+        leaveProcess.setId(SnowIdUtils.uniqueLong());
+        // 发起流程
+        ProcessInstance processInstance = startProcessById(leaveProcess,leaveProcess.getProcessDefinitionId());
+        // 插入流程实例id
         leaveProcess.setProcessInstanceId(processInstance.getProcessInstanceId());
-        leaveProcess.update();
+        /// 保存数据
+        leaveProcess.insert();
         return leaveProcess;
     }
 
@@ -91,8 +93,9 @@ public class LeaveProcessServiceImpl extends FlowableBaseService<LeaveProcess> i
     }
 
     @Override
-    public LeaveProcess completeTaskBusinessProcessing(LeaveProcess param) {
+    public LeaveProcess completeTaskBusinessProcessing(LeaveProcess param, String taskId) {
         param.update();
+        completeTask(param,taskId);
         return param;
     }
 }

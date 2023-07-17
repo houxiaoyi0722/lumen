@@ -2,7 +2,6 @@ package com.sang.service.base;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.sang.common.domain.base.entity.BaseModel;
-import org.flowable.common.engine.impl.identity.Authentication;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
@@ -11,7 +10,6 @@ import org.flowable.engine.runtime.ProcessInstance;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
-import java.util.Map;
 
 public abstract class FlowableBaseService<T extends BaseModel> implements FlowableBaseInterface<T>{
 
@@ -35,10 +33,9 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
      */
     public ProcessInstance startProcessByKey(T variables, String key) {
 //        Authentication.setAuthenticatedUserId();
-        T entity = startBusinessProcessing(variables);
         // 启动流程实例，第一个参数是流程定义的id
         return runtimeService
-                .startProcessInstanceByKey(key, entity.getId().toString(), BeanUtil.beanToMap(variables));// 启动流程实例
+                .startProcessInstanceByKey(key, variables.getId().toString(), BeanUtil.beanToMap(variables));// 启动流程实例
     }
 
 
@@ -49,10 +46,9 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
      * @return
      */
     public ProcessInstance startProcessById(T variables, String processDefinitionId) {
-        T entity = startBusinessProcessing(variables);
         // 启动流程实例，第一个参数是流程定义的id
         return runtimeService
-                .startProcessInstanceById(processDefinitionId, entity.getId().toString(), BeanUtil.beanToMap(variables));// 启动流程实例
+                .startProcessInstanceById(processDefinitionId, variables.getId().toString(), BeanUtil.beanToMap(variables));// 启动流程实例
     }
 
     /**
@@ -61,7 +57,6 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
      * @param taskId 任务id
      */
     public void completeTask(T variables,String taskId) {
-        completeTaskBusinessProcessing(variables);
         // 完成任务
         taskService.complete(taskId,BeanUtil.beanToMap(variables));
     }
@@ -73,7 +68,6 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
      * @param currentActivityIds 待移动节点列表
      */
     public void moveActivityById(T variables,String processInstanceId, String newActivityId, String... currentActivityIds) {
-        moveActivityBusinessProcessing(variables);
         runtimeService.createChangeActivityStateBuilder()
                 .processInstanceId(processInstanceId)
                 .moveActivityIdsToSingleActivityId(Arrays.asList(currentActivityIds),newActivityId)
@@ -88,7 +82,6 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
      * @param activityId 目标节点id
      */
     public void moveActivityByExecution(T variables, String processInstanceId, String executionId, String activityId) {
-        moveActivityBusinessProcessing(variables);
         // 回退操作
         runtimeService.createChangeActivityStateBuilder()
                 .processInstanceId(processInstanceId)
@@ -99,7 +92,6 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
 
     @Override
     public void deleteProcessInstance(T variables, String processInstanceId,String deleteReason) {
-        deleteProcessInstanceBusinessProcessing(variables);
         runtimeService.deleteProcessInstance(processInstanceId,deleteReason);
     }
 }

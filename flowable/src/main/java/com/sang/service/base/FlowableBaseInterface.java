@@ -46,7 +46,7 @@ public interface FlowableBaseInterface<T> {
      *
      * @return
      */
-    default T completeTaskBusinessProcessing(T param) { return param; }
+    default T completeTaskBusinessProcessing(T param, String taskId) { return param; }
 
     /**
      * 移动激活节点(做跳过节点或者回退操作)
