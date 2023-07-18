@@ -21,8 +21,8 @@ logging:
   level:
     io:
       ebean:
-        SQL: DEBUG
-        TXN: DEBUG
+        SQL: INFO
+        TXN: INFO
 jwt:
   private.key: classpath:app.key
   public.key: classpath:app.pub

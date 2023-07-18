@@ -1,5 +1,6 @@
 package com.sang.service.leaveProcess.impl;
 
+import com.sang.common.constants.FlowableStatusEnum;
 import com.sang.common.domain.leaveProcess.entity.LeaveProcess;
 import com.sang.common.domain.leaveProcess.param.LeaveProcessQry;
 import com.sang.common.domain.leaveProcess.repo.LeaveProcessRepository;
@@ -83,6 +84,7 @@ public class LeaveProcessServiceImpl extends FlowableBaseService<LeaveProcess> i
         // 插入流程实例id
         leaveProcess.setProcessInstanceId(processInstance.getProcessInstanceId());
         /// 保存数据
+        leaveProcess.setStatus(FlowableStatusEnum.PENDING.getCode());
         leaveProcess.insert();
         return leaveProcess;
     }
@@ -93,9 +95,21 @@ public class LeaveProcessServiceImpl extends FlowableBaseService<LeaveProcess> i
     }
 
     @Override
-    public LeaveProcess completeTaskBusinessProcessing(LeaveProcess param, String taskId) {
-        param.update();
-        completeTask(param,taskId);
-        return param;
+    public LeaveProcess completeTaskBusinessProcessing(LeaveProcess leaveProcess, String taskId) {
+
+        if (FlowableStatusEnum.PENDING.getCode().equals(leaveProcess.getStatus())) {
+            leaveProcess.setStatus(FlowableStatusEnum.APPROVAL.getCode());
+            leaveProcess.update();
+        }
+
+        completeTask(leaveProcess,taskId);
+        return leaveProcess;
+    }
+
+    @Override
+    public Boolean deleteProcessInstanceBusinessProcessing(LeaveProcess param) {
+        deleteProcessInstance(param,param.getProcessInstanceId(),"test");
+        param.delete();
+        return true;
     }
 }

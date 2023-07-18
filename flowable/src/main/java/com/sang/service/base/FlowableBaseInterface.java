@@ -84,6 +84,6 @@ public interface FlowableBaseInterface<T> {
      * @param param
      * @return
      */
-    default T deleteProcessInstanceBusinessProcessing(T param) {return param;}
+    default Boolean deleteProcessInstanceBusinessProcessing(T param) {return true;}
 
 }

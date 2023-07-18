@@ -49,4 +49,9 @@ public class FlowableVariableDto {
      */
     private String comment;
 
+    /**
+     * 流程处理地址
+     */
+    private String processDisposePath;
+
 }

@@ -60,6 +60,7 @@ create table leave_process (
   reason                        varchar(500) comment '请假原因',
   type                          varchar(20) comment '假期类型 年假/事假/育儿假/产假/病假/调休',
   process_definition_id         varchar(100) comment '流程定义id',
+  status                        varchar(20) comment '状态',
   process_instance_id           varchar(100) comment '流程实例id',
   version                       bigint not null,
   when_created                  datetime(6) not null,

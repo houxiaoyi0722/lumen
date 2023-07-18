@@ -400,8 +400,14 @@ public class FlowableController {
      * @param item
      */
     private void setTaskExtendField(FlowableTaskInfoDto item) {
+
         BpmnModel bpmnModel = repositoryService.getBpmnModel(item.getProcessDefinitionId());
         Process mainProcess = bpmnModel.getMainProcess();
+        // 流程定义相关字段
+        if (CollUtil.isNotEmpty(mainProcess.getAttributes().get(FlowableConst.PROCESS_DISPOSE_PATH)))
+            item.setProcessDisposePath(mainProcess.getAttributes().get(FlowableConst.PROCESS_DISPOSE_PATH).get(0).getValue());
+
+        // task定义相关字段
         FlowElement flowElement = mainProcess.getFlowElement(item.getTaskDefinitionKey(), true);
         Map<String, List<ExtensionAttribute>> attributes = flowElement.getAttributes();
 
@@ -411,14 +417,17 @@ public class FlowableController {
         if (CollUtil.isNotEmpty(attributes.get(FlowableConst.TASK_DISPOSE_PATH)))
             item.setTaskDisposePath(attributes.get(FlowableConst.TASK_DISPOSE_PATH).get(0).getValue());
 
+        // 流程实例相关字段
         List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().processInstanceId(item.getProcessInstanceId()).list();
-
-        List<User> userList = identityService.createUserQuery().userId(list.get(0).getStartUserId()).list();
-        if (CollUtil.isNotEmpty(userList))
-            item.setStartUserName(userList.get(0).getDisplayName());
+        item.setBusinessId(list.get(0).getBusinessKey());
+        item.setBusinessStatus(list.get(0).getBusinessStatus());
 
         item.setStartUserId(list.get(0).getStartUserId());
         item.setStartTime(list.get(0).getStartTime());
         item.setProcessName(list.get(0).getProcessDefinitionName());
+
+        List<User> userList = identityService.createUserQuery().userId(list.get(0).getStartUserId()).list();
+        if (CollUtil.isNotEmpty(userList))
+            item.setStartUserName(userList.get(0).getDisplayName());
     }
 }

@@ -1,6 +1,7 @@
 package com.sang.service.base;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.sang.common.constants.FlowableStatusEnum;
 import com.sang.common.domain.base.entity.BaseModel;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
@@ -34,8 +35,12 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
     public ProcessInstance startProcessByKey(T variables, String key) {
 //        Authentication.setAuthenticatedUserId();
         // 启动流程实例，第一个参数是流程定义的id
-        return runtimeService
-                .startProcessInstanceByKey(key, variables.getId().toString(), BeanUtil.beanToMap(variables));// 启动流程实例
+        ProcessInstance processInstance = runtimeService
+                .startProcessInstanceByKey(key, variables.getId().toString(), BeanUtil.beanToMap(variables));
+
+        runtimeService.updateBusinessStatus(processInstance.getProcessInstanceId(), FlowableStatusEnum.PENDING.getCode());
+
+        return processInstance;// 启动流程实例
     }
 
 
@@ -47,8 +52,12 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
      */
     public ProcessInstance startProcessById(T variables, String processDefinitionId) {
         // 启动流程实例，第一个参数是流程定义的id
-        return runtimeService
-                .startProcessInstanceById(processDefinitionId, variables.getId().toString(), BeanUtil.beanToMap(variables));// 启动流程实例
+        ProcessInstance processInstance = runtimeService
+                .startProcessInstanceById(processDefinitionId, variables.getId().toString(), BeanUtil.beanToMap(variables));
+        // todo 状态更新
+        runtimeService.updateBusinessStatus(processInstance.getProcessInstanceId(), FlowableStatusEnum.PENDING.getCode());
+
+        return processInstance;// 启动流程实例
     }
 
     /**
@@ -92,6 +101,7 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
 
     @Override
     public void deleteProcessInstance(T variables, String processInstanceId,String deleteReason) {
+        long count = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).count();
         runtimeService.deleteProcessInstance(processInstanceId,deleteReason);
     }
 }

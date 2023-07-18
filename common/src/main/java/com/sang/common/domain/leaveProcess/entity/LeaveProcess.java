@@ -58,6 +58,10 @@ public class LeaveProcess extends BaseModel {
     @Column(length = 100)
     private String processDefinitionId;
 
+    @DbComment("状态")
+    @Column(length = 20)
+    private String status;
+
     @DbComment("流程实例id")
     @Column(length = 100)
     private String processInstanceId;

@@ -123,9 +123,9 @@ public class LeaveProcessController {
      * @return
      */
     @PostMapping("/startProcess")
-    public Result<Boolean> startProcess(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
-        leaveProcessService.startBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess));
-        return Result.ok();
+    public Result<LeaveProcess> startProcess(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
+        LeaveProcess process = leaveProcessService.startBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess));
+        return Result.ok(process);
     }
 
     /**
@@ -144,10 +144,9 @@ public class LeaveProcessController {
      * @param leaveProcess
      * @return
      */
-    @PostMapping("/deleteProcessInstance")
+    @DeleteMapping("/deleteProcessInstance")
     public Result<Boolean> deleteProcessInstance(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
-        leaveProcessService.deleteProcessInstanceBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess));
-        return Result.ok();
+        return Result.ok(leaveProcessService.deleteProcessInstanceBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess)));
     }
 
 }

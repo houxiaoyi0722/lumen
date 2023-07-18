@@ -24,10 +24,10 @@ public enum DictionaryEnum implements IntArrayValuable{
     WOMEN("WOMEN","GENDER","女","");
 
 
-    private String code;
-    private String parentCode;
-    private String name;
-    private String comment;
+    private final String code;
+    private final String parentCode;
+    private final String name;
+    private final String comment;
 
     @Override
     public List<String> array(String parentCode) {
