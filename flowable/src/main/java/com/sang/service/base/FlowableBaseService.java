@@ -101,7 +101,6 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
 
     @Override
     public void deleteProcessInstance(T variables, String processInstanceId,String deleteReason) {
-        long count = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).count();
         runtimeService.deleteProcessInstance(processInstanceId,deleteReason);
     }
 }
