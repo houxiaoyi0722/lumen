@@ -6,7 +6,7 @@ import com.sang.common.domain.leaveProcess.param.LeaveProcessQry;
 import com.sang.common.domain.leaveProcess.repo.LeaveProcessRepository;
 import com.sang.common.utils.SnowIdUtils;
 import com.sang.flowable.service.leaveProcess.LeaveProcessService;
-import com.sang.flowable.service.base.FlowableBaseService;
+import com.sang.flowable.service.flowable.impl.FlowableBaseService;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;

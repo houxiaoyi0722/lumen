@@ -1,8 +1,9 @@
-package com.sang.flowable.service.base;
+package com.sang.flowable.service.flowable.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.sang.common.constants.FlowableStatusEnum;
 import com.sang.common.domain.base.entity.BaseModel;
+import com.sang.flowable.service.flowable.FlowableBaseInterface;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
@@ -12,7 +13,7 @@ import org.flowable.engine.runtime.ProcessInstance;
 import javax.annotation.Resource;
 import java.util.Arrays;
 
-public abstract class FlowableBaseService<T extends BaseModel> implements FlowableBaseInterface<T>{
+public abstract class FlowableBaseService<T extends BaseModel> implements FlowableBaseInterface<T> {
 
     @Resource
     private RepositoryService repositoryService;
