@@ -1,7 +1,8 @@
-package com.sang.service.leaveProcess;
+package com.sang.flowable.service.leaveProcess;
 
 import com.sang.common.domain.leaveProcess.entity.LeaveProcess;
 import com.sang.common.domain.leaveProcess.param.LeaveProcessQry;
+import com.sang.flowable.service.flowable.FlowableBaseInterface;
 import io.ebean.PagedList;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * hxy 2023-06-09 14:32:57
  */
-public interface LeaveProcessService {
+public interface LeaveProcessService extends FlowableBaseInterface<LeaveProcess> {
 
     PagedList<LeaveProcess> leaveProcessList(LeaveProcessQry qry);
 
@@ -30,5 +31,4 @@ public interface LeaveProcessService {
 
     void deleteAll(List<LeaveProcess> leaveProcesss);
 
-    void startProcess(LeaveProcess dtoToLeaveProcess);
 }

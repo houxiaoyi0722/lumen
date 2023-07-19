@@ -1,4 +1,4 @@
-package com.sang.dto;
+package com.sang.flowable.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,6 +43,11 @@ public class ProcessDefinitionDto {
     private int derivedVersion;
 
     protected String engineVersion;
+
+    /**
+     * 流程处理页面
+     */
+    protected String processDisposePath;
 
 
 }

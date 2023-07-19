@@ -1,4 +1,4 @@
-package com.sang.controller;
+package com.sang.flowable.controller.leaveProcess;
 
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
@@ -6,7 +6,7 @@ import com.sang.common.domain.leaveProcess.mapper.LeaveProcessMapper;
 import com.sang.common.domain.leaveProcess.entity.LeaveProcess;
 import com.sang.common.domain.leaveProcess.param.LeaveProcessQry;
 import com.sang.common.domain.leaveProcess.dto.LeaveProcessDto;
-import com.sang.service.leaveProcess.LeaveProcessService;
+import com.sang.flowable.service.leaveProcess.LeaveProcessService;
 import org.springframework.web.bind.annotation.*;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
@@ -123,9 +123,30 @@ public class LeaveProcessController {
      * @return
      */
     @PostMapping("/startProcess")
-    public Result<Boolean> startProcess(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
-        leaveProcessService.startProcess(leaveProcessMapper.dtoToLeaveProcess(leaveProcess));
+    public Result<LeaveProcess> startProcess(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
+        LeaveProcess process = leaveProcessService.startBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess));
+        return Result.ok(process);
+    }
+
+    /**
+     * 处理任务
+     * @param leaveProcess
+     * @return
+     */
+    @PostMapping("/completeTask")
+    public Result<Boolean> completeTask(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
+        leaveProcessService.completeTaskBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess),leaveProcess.getTaskId());
         return Result.ok();
+    }
+
+    /**
+     * 删除任务
+     * @param leaveProcess
+     * @return
+     */
+    @DeleteMapping("/deleteProcessInstance")
+    public Result<Boolean> deleteProcessInstance(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
+        return Result.ok(leaveProcessService.deleteProcessInstanceBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess)));
     }
 
 }

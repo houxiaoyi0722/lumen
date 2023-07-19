@@ -1,8 +1,6 @@
 package com.sang.common.domain.dict.mapper;
 
-import com.sang.common.domain.dict.dto.DictionaryDto;
 import com.sang.common.domain.dict.dto.DictionaryItemDto;
-import com.sang.common.domain.dict.entity.Dictionary;
 import com.sang.common.domain.dict.entity.DictionaryItem;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;

@@ -1,11 +1,12 @@
-package com.sang.service.leaveProcess.impl;
+package com.sang.flowable.service.leaveProcess.impl;
 
+import com.sang.common.constants.FlowableStatusEnum;
 import com.sang.common.domain.leaveProcess.entity.LeaveProcess;
 import com.sang.common.domain.leaveProcess.param.LeaveProcessQry;
 import com.sang.common.domain.leaveProcess.repo.LeaveProcessRepository;
-import com.sang.dto.FlowableVariableBaseDto;
-import com.sang.service.base.FlowableBaseService;
-import com.sang.service.leaveProcess.LeaveProcessService;
+import com.sang.common.utils.SnowIdUtils;
+import com.sang.flowable.service.leaveProcess.LeaveProcessService;
+import com.sang.flowable.service.flowable.impl.FlowableBaseService;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class LeaveProcessServiceImpl extends FlowableBaseService<FlowableVariableBaseDto> implements LeaveProcessService {
+public class LeaveProcessServiceImpl extends FlowableBaseService<LeaveProcess> implements LeaveProcessService {
 
     @Resource
     private LeaveProcessRepository repository;
@@ -74,16 +75,34 @@ public class LeaveProcessServiceImpl extends FlowableBaseService<FlowableVariabl
     }
 
     @Override
-    @Transactional
-    public void startProcess(LeaveProcess leaveProcess) {
-        leaveProcess.save();
-        ProcessInstance processInstance = startProcessById(FlowableVariableBaseDto.builder()
-                .myProperty("hxy0722")
-                .myProperty2("hxyadmin")
-                .build()
-                ,leaveProcess.getProcessDefinitionId()
-                ,leaveProcess.getId().toString());
+    public LeaveProcess startBusinessProcessing(LeaveProcess leaveProcess) {
+
+        leaveProcess.setId(SnowIdUtils.uniqueLong());
+        // 发起流程
+        ProcessInstance processInstance = startProcessById(leaveProcess,leaveProcess.getProcessDefinitionId());
+        // 插入流程实例id
         leaveProcess.setProcessInstanceId(processInstance.getProcessInstanceId());
-        leaveProcess.update();
+        /// 保存数据
+        leaveProcess.setStatus(FlowableStatusEnum.APPROVAL.getCode());
+        leaveProcess.insert();
+        return leaveProcess;
+    }
+
+    @Override
+    public LeaveProcess moveActivityBusinessProcessing(LeaveProcess param) {
+        return null;
+    }
+
+    @Override
+    public LeaveProcess completeTaskBusinessProcessing(LeaveProcess leaveProcess, String taskId) {
+        completeTask(leaveProcess,taskId);
+        return leaveProcess;
+    }
+
+    @Override
+    public Boolean deleteProcessInstanceBusinessProcessing(LeaveProcess param) {
+        deleteProcessInstance(param,param.getProcessInstanceId(),"test");
+        param.delete();
+        return true;
     }
 }

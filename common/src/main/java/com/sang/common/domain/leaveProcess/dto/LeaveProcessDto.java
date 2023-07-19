@@ -3,16 +3,16 @@ package com.sang.common.domain.leaveProcess.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.sang.common.domain.flowable.dto.FlowableVariableDto;
 import com.sang.common.validate.Delete;
 import com.sang.common.validate.Update;
-import io.ebean.annotation.DbComment;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -23,11 +23,11 @@ import java.util.Date;
  * hxy 2023-06-09 14:32:57
 */
 @Getter @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class LeaveProcessDto {
+public class LeaveProcessDto extends FlowableVariableDto {
 
     /**
      * id
@@ -60,12 +60,5 @@ public class LeaveProcessDto {
      * 假期类型 年假/事假/育儿假/产假/病假/调休
      */
     private String type;
-    /**
-     * 流程定义id
-     */
-    private String processDefinitionId;
-    /**
-     * 流程实例id
-     */
-    private String processInstanceId;
+
 }
