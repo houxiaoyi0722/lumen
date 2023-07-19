@@ -25,7 +25,7 @@ public class FlowableProcessManageServiceImpl implements FlowableProcessManageSe
     @Resource
     private IdentityService identityService;
 
-    @CacheEvict(value = "processExtend",key = "'*'")
+    @CacheEvict(value = "flowableCache",key = "'*'")
     @Override
     public Deployment getDeployment(MultipartFile file, String resourceName, String name) throws IOException {
         // 部署流程 获取RepositoryService对象
@@ -36,7 +36,7 @@ public class FlowableProcessManageServiceImpl implements FlowableProcessManageSe
         return deployment;
     }
 
-    @CacheEvict(value = "processExtend",key = "'*'")
+    @CacheEvict(value = "flowableCache",key = "'*'")
     @Override
     public void suspendedOrActiveProcess(SuspendedActiveParam suspendedActiveParam) {
         // 表示被挂起
@@ -50,7 +50,7 @@ public class FlowableProcessManageServiceImpl implements FlowableProcessManageSe
         }
     }
 
-    @CacheEvict(value = "processExtend",key = "'*'")
+    @CacheEvict(value = "flowableCache",key = "'*'")
     @Override
     public void deleteProcess(String deploymentId) {
         repositoryService.deleteDeployment(deploymentId,true);

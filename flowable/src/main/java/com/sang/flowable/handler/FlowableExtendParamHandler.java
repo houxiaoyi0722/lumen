@@ -28,7 +28,7 @@ public class FlowableExtendParamHandler {
      * @param attribute 扩展字段名称
      * @return
      */
-    @Cacheable(value = "processExtend",key = "#processDefinitionId + '-' + #attribute")
+    @Cacheable(value = "flowableCache",key = "'ProcessExtend:' + #processDefinitionId + '-' + #attribute")
     public String getProcessExtendParam(String processDefinitionId,String attribute) {
         BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
         Process mainProcess = bpmnModel.getMainProcess();
@@ -50,7 +50,7 @@ public class FlowableExtendParamHandler {
      * @param attribute 参数名称
      * @return
      */
-    @Cacheable(value = "processExtend",key = "#processDefinitionId + '-' + #taskDefinitionKey + '-' + #attribute")
+    @Cacheable(value = "flowableCache",key = "'TaskExtend:' + #processDefinitionId + '-' + #taskDefinitionKey + '-' + #attribute")
     public String getTaskExtendParam(String processDefinitionId,String taskDefinitionKey, String attribute) {
         BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
 

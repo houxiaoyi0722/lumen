@@ -7,6 +7,8 @@ import com.sang.flowable.service.flowable.FlowableService;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.task.api.history.HistoricTaskInstance;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -40,52 +42,52 @@ public class FlowableController {
 
     /**
      * 我的待办
-     * @param userId 用户id
      * @param processDefineId 流程定义id
      * @param pageNumber
      * @param pageSize
      * @return
      */
     @GetMapping("/task/todo/page")
-    public PageResult<FlowableTaskInfoDto> todoTaskByUser(@RequestParam(value = "userId") String userId,
-                                     @RequestParam(value = "processDefineId",required = false) String processDefineId,
+    public PageResult<FlowableTaskInfoDto> todoTaskByUser(@RequestParam(value = "processDefineId",required = false) String processDefineId,
                                      @RequestParam(value = "pageNumber",defaultValue = "1") Integer pageNumber,
                                      @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
-        return flowableService.getFlowableTaskInfoDtoPageResult(userId, processDefineId, pageNumber, pageSize);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return flowableService.getFlowableTaskInfoDtoPageResult(authentication.getPrincipal().toString(), processDefineId, pageNumber, pageSize);
     }
 
 
 
     /**
      * 我发起的流程
-     * @param userId 用户id
+     * @param processDefineId 流程定义id
      * @param finished 是否结束
      * @param pageNumber 页 从1开始
      * @param pageSize 页大小
      * @return
      */
     @GetMapping("/process/myProcess/page")
-    public PageResult<HistoricProcessInstance> myProcessTask(@RequestParam(value = "userId") String userId,
-                                                             @RequestParam(value = "finished") Boolean finished,
-                                           @RequestParam(value = "pageNumber",defaultValue = "1") Integer pageNumber,
-                                           @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
-
-        return flowableService.getHistoricProcessInstancePageResult(userId, finished, pageNumber, pageSize);
+    public PageResult<HistoricProcessInstance> myProcessTask(@RequestParam(value = "processDefineId",required = false) String processDefineId,
+                                            @RequestParam(value = "finished") Boolean finished,
+                                            @RequestParam(value = "pageNumber",defaultValue = "1") Integer pageNumber,
+                                            @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return flowableService.getHistoricProcessInstancePageResult(authentication.getPrincipal().toString(), finished, pageNumber, pageSize);
     }
 
     /**
      * 我处理的
-     * @param userId
+     * @param processDefineId 流程定义id
      * @param pageNumber
      * @param pageSize
      * @return
      */
     @GetMapping("/task/myComplete/page")
-    public PageResult<HistoricTaskInstance> myCompleteTask(@RequestParam(value = "userId") String userId,
-                                                             @RequestParam(value = "page",defaultValue = "1") Integer pageNumber,
-                                                             @RequestParam(value = "size",defaultValue = "10") Integer pageSize) {
+    public PageResult<HistoricTaskInstance> myCompleteTask(@RequestParam(value = "processDefineId",required = false) String processDefineId,
+                                                           @RequestParam(value = "page",defaultValue = "1") Integer pageNumber,
+                                                           @RequestParam(value = "size",defaultValue = "10") Integer pageSize) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        return flowableService.getHistoricTaskInstancePageResult(userId, pageNumber, pageSize);
+        return flowableService.getHistoricTaskInstancePageResult(authentication.getPrincipal().toString(), pageNumber, pageSize);
     }
 
 }
