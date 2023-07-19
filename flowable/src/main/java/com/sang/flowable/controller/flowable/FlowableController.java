@@ -35,9 +35,10 @@ public class FlowableController {
             @RequestParam(value = "name",required = false) String name,
             @RequestParam(value = "startBy",required = false) String startBy,
             @RequestParam(value = "active",required = false) Boolean active,
+            @RequestParam(value = "latestVersion",required = false) Boolean latestVersion,
             @RequestParam(value = "pageNumber",defaultValue = "1") Integer pageNumber,
             @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
-        return flowableService.getProcessDefinitionDtoPageResult(name, startBy, active, pageNumber, pageSize);
+        return flowableService.getProcessDefinitionDtoPageResult(name, startBy, active, latestVersion, pageNumber, pageSize);
     }
 
     /**

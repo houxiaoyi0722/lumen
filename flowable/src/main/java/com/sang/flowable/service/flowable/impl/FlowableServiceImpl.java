@@ -83,9 +83,9 @@ public class FlowableServiceImpl implements FlowableService {
      * @param pageSize
      * @return
      */
-    @Cacheable(value = "flowableCache",key = "'ProcessDefinition:' + #name + #startBy + #active + #pageNumber + #pageSize")
+    @Cacheable(value = "flowableCache",key = "'ProcessDefinition:' + #name + #startBy + #active + #latestVersion + #pageNumber + #pageSize")
     @Override
-    public PageResult<ProcessDefinitionDto> getProcessDefinitionDtoPageResult(String name, String startBy, Boolean active, Integer pageNumber, Integer pageSize) {
+    public PageResult<ProcessDefinitionDto> getProcessDefinitionDtoPageResult(String name, String startBy, Boolean active, Boolean latestVersion, Integer pageNumber, Integer pageSize) {
         ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery();
 
         if (StrUtil.isNotBlank(name))
@@ -100,8 +100,11 @@ public class FlowableServiceImpl implements FlowableService {
             processDefinitionQuery = active ? processDefinitionQuery.active() : processDefinitionQuery.suspended();
         }
 
+        if(latestVersion != null && latestVersion) {
+            processDefinitionQuery = processDefinitionQuery.latestVersion();
+        }
+
         List<ProcessDefinitionDto> processDefinitions = processDefinitionQuery
-                .latestVersion()
                 .listPage((pageNumber - 1)*pageSize, pageSize).stream()
                 .map(item -> BeanUtil.copyProperties(item, ProcessDefinitionDto.class))
                 .peek(item -> item.setProcessDisposePath(flowableExtendParamHandler.getProcessExtendParam(item.getId(),FlowableConst.PROCESS_DISPOSE_PATH))) // 设置流程处理页面路径

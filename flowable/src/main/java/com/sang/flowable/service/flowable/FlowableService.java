@@ -8,7 +8,7 @@ import org.flowable.task.api.history.HistoricTaskInstance;
 
 public interface FlowableService {
 
-    PageResult<ProcessDefinitionDto> getProcessDefinitionDtoPageResult(String name, String startBy, Boolean active, Integer pageNumber, Integer pageSize);
+    PageResult<ProcessDefinitionDto> getProcessDefinitionDtoPageResult(String name, String startBy, Boolean active, Boolean latestVersion, Integer pageNumber, Integer pageSize);
 
     PageResult<FlowableTaskInfoDto> getFlowableTaskInfoDtoPageResult(String userId, String processDefineId, Integer pageNumber, Integer pageSize);
 
