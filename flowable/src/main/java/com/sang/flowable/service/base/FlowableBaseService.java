@@ -1,4 +1,4 @@
-package com.sang.service.base;
+package com.sang.flowable.service.base;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.sang.common.constants.FlowableStatusEnum;

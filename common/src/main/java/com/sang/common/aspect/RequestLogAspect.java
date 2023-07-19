@@ -1,4 +1,4 @@
-package com.sang.system.aspect;
+package com.sang.common.aspect;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;

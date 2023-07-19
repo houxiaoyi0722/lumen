@@ -1,4 +1,4 @@
-package com.sang.dto;
+package com.sang.flowable.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

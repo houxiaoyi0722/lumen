@@ -1,4 +1,4 @@
-package com.sang.controller;
+package com.sang.flowable.controller;
 
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
@@ -6,7 +6,7 @@ import com.sang.common.domain.leaveProcess.mapper.LeaveProcessMapper;
 import com.sang.common.domain.leaveProcess.entity.LeaveProcess;
 import com.sang.common.domain.leaveProcess.param.LeaveProcessQry;
 import com.sang.common.domain.leaveProcess.dto.LeaveProcessDto;
-import com.sang.service.leaveProcess.LeaveProcessService;
+import com.sang.flowable.service.leaveProcess.LeaveProcessService;
 import org.springframework.web.bind.annotation.*;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;

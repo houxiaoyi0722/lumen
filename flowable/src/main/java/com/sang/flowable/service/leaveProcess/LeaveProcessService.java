@@ -1,8 +1,8 @@
-package com.sang.service.leaveProcess;
+package com.sang.flowable.service.leaveProcess;
 
 import com.sang.common.domain.leaveProcess.entity.LeaveProcess;
 import com.sang.common.domain.leaveProcess.param.LeaveProcessQry;
-import com.sang.service.base.FlowableBaseInterface;
+import com.sang.flowable.service.base.FlowableBaseInterface;
 import io.ebean.PagedList;
 
 import java.util.List;

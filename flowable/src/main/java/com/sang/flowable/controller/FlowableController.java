@@ -1,10 +1,7 @@
-package com.sang.controller;
+package com.sang.flowable.controller;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.smallbun.screw.core.util.CollectionUtils;
 import com.sang.common.constants.FlowableConst;
 import com.sang.common.constants.StringConst;
 import com.sang.common.domain.auth.authentication.user.repo.UserGroupRepository;
@@ -13,11 +10,10 @@ import com.sang.common.domain.flowable.dto.FlowableTaskInfoDto;
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
 import com.sang.common.utils.ResponseUtil;
-import com.sang.dto.ProcessDefinitionDto;
-import com.sang.param.SuspendedActiveParam;
+import com.sang.flowable.dto.ProcessDefinitionDto;
+import com.sang.flowable.param.SuspendedActiveParam;
+import com.sang.flowable.service.base.FlowableService;
 import lombok.extern.slf4j.Slf4j;
-import org.flowable.bpmn.model.*;
-import org.flowable.bpmn.model.Process;
 import org.flowable.common.engine.api.FlowableException;
 import org.flowable.common.engine.impl.db.SuspensionState;
 import org.flowable.engine.*;
@@ -25,7 +21,6 @@ import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.history.HistoricProcessInstanceQuery;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.ProcessDefinitionQuery;
-import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.idm.api.Group;
 import org.flowable.idm.api.GroupQuery;
 import org.flowable.idm.api.User;
@@ -43,9 +38,6 @@ import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.Flow;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -73,6 +65,9 @@ public class FlowableController {
 
     @Resource
     private RuntimeService runtimeService;
+
+    @Resource
+    private FlowableService flowableService;
 
     /**
      * 分页查询当前流程定义
@@ -107,49 +102,13 @@ public class FlowableController {
                 .latestVersion()
                 .listPage(pageNumber - 1, pageSize).stream()
                 .map(item -> BeanUtil.copyProperties(item, ProcessDefinitionDto.class))
-                .peek(item -> item.setProcessDisposePath(getMainProcessExtendParamByName(item))) // 设置流程处理页面路径
+                .peek(item -> item.setProcessDisposePath(flowableService.getMainProcessExtendParamByName(item))) // 设置流程处理页面路径
                 .collect(Collectors.toList());
 
         long count = processDefinitionQuery.count();
 
         return PageResult.ok(processDefinitions,pageNumber,pageSize,(int) count);
     }
-
-    @GetMapping("/process/test")
-    public void test () {
-        getCustomProperty("Activity_0bu60pr","Process_1111:15:fa7c76e8-1bdc-11ee-85cd-e2d4e83f9995","bbbb");
-    }
-
-
-    public FlowElement getFlowElementByActivityIdAndProcessDefinitionId(String taskDefinedKey, String processDefinitionId) {
-        BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
-        List<Process> processes = bpmnModel.getProcesses();
-        if (CollectionUtils.isNotEmpty(processes)) {
-            for (Process process : processes) {
-                FlowElement flowElement = process.getFlowElement(taskDefinedKey, true);
-                if (Objects.nonNull(flowElement)) {
-                    return flowElement;
-                }
-            }
-        }
-        return null;
-    }
-
-    public List<ExtensionElement> getCustomProperty(String taskDefinedKey, String processDefinitionId, String customPropertyName) {
-        FlowElement flowElement = this.getFlowElementByActivityIdAndProcessDefinitionId(taskDefinedKey, processDefinitionId);
-        if (flowElement != null && flowElement instanceof UserTask) {
-            UserTask userTask = (UserTask) flowElement;
-            Map<String, List<ExtensionElement>> extensionElements = userTask.getExtensionElements();
-            if (MapUtil.isNotEmpty(extensionElements)) {
-                List<ExtensionElement> values = extensionElements.get(customPropertyName);
-                if (CollectionUtils.isNotEmpty(values)) {
-                    return values;
-                }
-            }
-        }
-        return null;
-    }
-
 
     /**
      * 部署流程
@@ -246,7 +205,7 @@ public class FlowableController {
 
         List<FlowableTaskInfoDto> taskDtos = tasks.stream()
             .map(item -> BeanUtil.copyProperties(item, FlowableTaskInfoDto.class))
-            .peek(this::setTaskExtendField).collect(Collectors.toList());
+            .peek(flowableService::setTaskExtendField).collect(Collectors.toList());
 
 
         long count = taskQuery.count();
@@ -342,7 +301,7 @@ public class FlowableController {
     public Result syncUsers(@RequestParam(value = "username") String username) {
 
         if (StrUtil.isNotBlank(username)) {
-            updateUser(userRepository.userinfo(username));
+            flowableService.updateUser(userRepository.userinfo(username));
             return Result.ok();
         }
 
@@ -357,77 +316,8 @@ public class FlowableController {
             identityService.saveGroup(group);
         });
 
-        userRepository.findAll().forEach(this::updateUser);
+        userRepository.findAll().forEach(flowableService::updateUser);
         return Result.ok();
     }
 
-    private void updateUser(com.sang.common.domain.auth.authentication.user.entity.User userinfo) {
-        // 通过 IdentityService 完成相关的用户和组的管理
-        User user = identityService.createUserQuery().userId(userinfo.getUsername()).singleResult();
-        user = user == null ? identityService.newUser(userinfo.getUsername()) : user;
-        user.setId(userinfo.getUsername());
-        user.setDisplayName(userinfo.getName());
-        identityService.saveUser(user);
-
-        // 将用户分配给对应的组
-        if (userinfo.getUserGroup() != null) {
-            identityService.deleteMembership(user.getId(),userinfo.getUserGroup().getGroupCode());
-            identityService.createMembership(user.getId(),userinfo.getUserGroup().getGroupCode());
-        }
-    }
-
-    /**
-     * 获取流程扩展参数
-     * @param item
-     * @return
-     */
-    private String getMainProcessExtendParamByName(ProcessDefinitionDto item) {
-        BpmnModel bpmnModel = repositoryService.getBpmnModel(item.getId());
-        Process mainProcess = bpmnModel.getMainProcess();
-        Map<String, List<ExtensionAttribute>> attributes = mainProcess.getAttributes();
-        if (MapUtil.isNotEmpty(attributes)) {
-            List<ExtensionAttribute> extensionAttributes = attributes.get(FlowableConst.PROCESS_DISPOSE_PATH);
-            if (CollUtil.isNotEmpty(extensionAttributes)) {
-                return extensionAttributes.get(0).getValue();
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * 设置task相关扩展字段
-     * @param item
-     */
-    private void setTaskExtendField(FlowableTaskInfoDto item) {
-
-        BpmnModel bpmnModel = repositoryService.getBpmnModel(item.getProcessDefinitionId());
-        Process mainProcess = bpmnModel.getMainProcess();
-        // 流程定义相关字段
-        if (CollUtil.isNotEmpty(mainProcess.getAttributes().get(FlowableConst.PROCESS_DISPOSE_PATH)))
-            item.setProcessDisposePath(mainProcess.getAttributes().get(FlowableConst.PROCESS_DISPOSE_PATH).get(0).getValue());
-
-        // task定义相关字段
-        FlowElement flowElement = mainProcess.getFlowElement(item.getTaskDefinitionKey(), true);
-        Map<String, List<ExtensionAttribute>> attributes = flowElement.getAttributes();
-
-        if (CollUtil.isNotEmpty(attributes.get(FlowableConst.IS_BATCH_APPROVAL)))
-            item.setIsBatchApproval(Boolean.valueOf(attributes.get(FlowableConst.IS_BATCH_APPROVAL).get(0).getValue()));
-
-        if (CollUtil.isNotEmpty(attributes.get(FlowableConst.TASK_DISPOSE_PATH)))
-            item.setTaskDisposePath(attributes.get(FlowableConst.TASK_DISPOSE_PATH).get(0).getValue());
-
-        // 流程实例相关字段
-        List<ProcessInstance> list = runtimeService.createProcessInstanceQuery().processInstanceId(item.getProcessInstanceId()).list();
-        item.setBusinessId(list.get(0).getBusinessKey());
-        item.setBusinessStatus(list.get(0).getBusinessStatus());
-
-        item.setStartUserId(list.get(0).getStartUserId());
-        item.setStartTime(list.get(0).getStartTime());
-        item.setProcessName(list.get(0).getProcessDefinitionName());
-
-        List<User> userList = identityService.createUserQuery().userId(list.get(0).getStartUserId()).list();
-        if (CollUtil.isNotEmpty(userList))
-            item.setStartUserName(userList.get(0).getDisplayName());
-    }
 }
