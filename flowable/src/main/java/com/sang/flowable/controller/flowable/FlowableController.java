@@ -26,6 +26,8 @@ public class FlowableController {
      * 分页查询当前流程定义
      * @param name 模糊查询流程名称
      * @param startBy 当前发起人id
+     * @param active 激活状态
+     * @param latestVersion 是否查询最新版本
      * @param pageNumber
      * @param pageSize
      * @return PageResult

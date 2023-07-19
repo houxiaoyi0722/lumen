@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.sang.common.constants.FlowableStatusEnum;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.flowable.service.flowable.FlowableBaseInterface;
+import org.flowable.common.engine.api.FlowableException;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
@@ -16,16 +17,10 @@ import java.util.Arrays;
 public abstract class FlowableBaseService<T extends BaseModel> implements FlowableBaseInterface<T> {
 
     @Resource
-    private RepositoryService repositoryService;
-
-    @Resource
     private RuntimeService runtimeService;
 
     @Resource
     private TaskService taskService;
-
-    @Resource
-    private HistoryService historyService;
 
     /**
      * 通过key启动流程
@@ -39,7 +34,7 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
         ProcessInstance processInstance = runtimeService
                 .startProcessInstanceByKey(key, variables.getId().toString(), BeanUtil.beanToMap(variables));
 
-        runtimeService.updateBusinessStatus(processInstance.getProcessInstanceId(), FlowableStatusEnum.PENDING.getCode());
+        runtimeService.updateBusinessStatus(processInstance.getProcessInstanceId(), FlowableStatusEnum.APPROVAL.getCode());
 
         return processInstance;// 启动流程实例
     }
@@ -55,8 +50,8 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
         // 启动流程实例，第一个参数是流程定义的id
         ProcessInstance processInstance = runtimeService
                 .startProcessInstanceById(processDefinitionId, variables.getId().toString(), BeanUtil.beanToMap(variables));
-        // todo 状态更新
-        runtimeService.updateBusinessStatus(processInstance.getProcessInstanceId(), FlowableStatusEnum.PENDING.getCode());
+
+        runtimeService.updateBusinessStatus(processInstance.getProcessInstanceId(), FlowableStatusEnum.APPROVAL.getCode());
 
         return processInstance;// 启动流程实例
     }
@@ -103,5 +98,23 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
     @Override
     public void deleteProcessInstance(T variables, String processInstanceId,String deleteReason) {
         runtimeService.deleteProcessInstance(processInstanceId,deleteReason);
+    }
+
+    public FlowableStatusEnum nextStatusByAction(String action,String... currentStatus) {
+
+        // 保存草稿
+        if (FlowableStatusEnum.ACTION_DRAFT.getCode().equals(action))
+            return FlowableStatusEnum.DRAFT;
+        // 发起申请 || 审批通过 - 审批中
+        if (FlowableStatusEnum.ACTION_LAUNCH.getCode().equals(action) || FlowableStatusEnum.ACTION_APPROVED.getCode().equals(action))
+            return FlowableStatusEnum.APPROVAL;
+        // 审批驳回 - 驳回
+        if (FlowableStatusEnum.ACTION_REJECT.getCode().equals(action))
+            return FlowableStatusEnum.REJECT;
+        // 审批退回 - 审批退回
+        if (FlowableStatusEnum.ACTION_RETREAT.getCode().equals(action))
+            return FlowableStatusEnum.RETREAT;
+
+        throw new FlowableException("该动作不存在");
     }
 }
