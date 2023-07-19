@@ -1,7 +1,8 @@
 package com.sang.flowable.service.flowable;
 
-import com.sang.common.domain.flowable.dto.FlowableTaskInfoDto;
+import com.sang.flowable.dto.FlowableTaskInfoDto;
 import com.sang.common.response.PageResult;
+import com.sang.flowable.dto.HistoricTaskInstanceDto;
 import com.sang.flowable.dto.ProcessDefinitionDto;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.task.api.history.HistoricTaskInstance;
@@ -14,5 +15,5 @@ public interface FlowableService {
 
     PageResult<HistoricProcessInstance> getHistoricProcessInstancePageResult(String userId, Boolean finished, Integer pageNumber, Integer pageSize);
 
-    PageResult<HistoricTaskInstance> getHistoricTaskInstancePageResult(String userId, Integer pageNumber, Integer pageSize);
+    PageResult<HistoricTaskInstanceDto> getHistoricTaskInstancePageResult(String userId, Integer pageNumber, Integer pageSize);
 }

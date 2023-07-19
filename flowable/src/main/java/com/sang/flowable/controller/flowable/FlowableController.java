@@ -1,7 +1,8 @@
 package com.sang.flowable.controller.flowable;
 
-import com.sang.common.domain.flowable.dto.FlowableTaskInfoDto;
+import com.sang.flowable.dto.FlowableTaskInfoDto;
 import com.sang.common.response.PageResult;
+import com.sang.flowable.dto.HistoricTaskInstanceDto;
 import com.sang.flowable.dto.ProcessDefinitionDto;
 import com.sang.flowable.service.flowable.FlowableService;
 import lombok.extern.slf4j.Slf4j;
@@ -85,9 +86,9 @@ public class FlowableController {
      * @return
      */
     @GetMapping("/task/myComplete/page")
-    public PageResult<HistoricTaskInstance> myCompleteTask(@RequestParam(value = "processDefineId",required = false) String processDefineId,
-                                                           @RequestParam(value = "page",defaultValue = "1") Integer pageNumber,
-                                                           @RequestParam(value = "size",defaultValue = "10") Integer pageSize) {
+    public PageResult<HistoricTaskInstanceDto> myCompleteTask(@RequestParam(value = "processDefineId",required = false) String processDefineId,
+                                                              @RequestParam(value = "page",defaultValue = "1") Integer pageNumber,
+                                                              @RequestParam(value = "size",defaultValue = "10") Integer pageSize) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         return flowableService.getHistoricTaskInstancePageResult(authentication.getPrincipal().toString(), pageNumber, pageSize);

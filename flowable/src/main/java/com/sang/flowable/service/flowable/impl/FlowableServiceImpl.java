@@ -1,29 +1,23 @@
 package com.sang.flowable.service.flowable.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.sang.common.constants.FlowableConst;
 import com.sang.common.constants.StringConst;
 import com.sang.common.domain.auth.authentication.user.entity.User;
 import com.sang.common.domain.auth.authentication.user.repo.UserRepository;
-import com.sang.common.domain.flowable.dto.FlowableTaskInfoDto;
-import com.sang.common.domain.leaveProcess.mapper.LeaveProcessMapper;
+import com.sang.flowable.dto.FlowableTaskInfoDto;
 import com.sang.common.response.PageResult;
+import com.sang.flowable.dto.HistoricTaskInstanceDto;
 import com.sang.flowable.dto.ProcessDefinitionDto;
 import com.sang.flowable.handler.FlowableExtendParamHandler;
 import com.sang.flowable.mapper.FlowableMapper;
 import com.sang.flowable.service.flowable.FlowableService;
 import lombok.extern.slf4j.Slf4j;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.ExtensionAttribute;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.Process;
 import org.flowable.engine.*;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.history.HistoricProcessInstanceQuery;
-import org.flowable.engine.repository.Deployment;
+import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.idm.api.Group;
@@ -31,15 +25,11 @@ import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskQuery;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.api.history.HistoricTaskInstanceQuery;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -116,35 +106,6 @@ public class FlowableServiceImpl implements FlowableService {
     }
 
 
-    /**
-     * 设置task相关扩展字段
-     * @param item
-     */
-    private void setTaskExtendField(FlowableTaskInfoDto item) {
-
-        // 流程定义相关字段
-        item.setProcessDisposePath(flowableExtendParamHandler.getProcessExtendParam(item.getProcessDefinitionId(),FlowableConst.PROCESS_DISPOSE_PATH));
-
-        // task定义相关字段
-        String isBatchApproval = flowableExtendParamHandler.getTaskExtendParam(item.getProcessDefinitionId(), item.getTaskDefinitionKey(), FlowableConst.IS_BATCH_APPROVAL);
-        if (StrUtil.isNotBlank(isBatchApproval))
-            item.setIsBatchApproval(Boolean.valueOf(isBatchApproval));
-
-        item.setTaskDisposePath(flowableExtendParamHandler.getTaskExtendParam(item.getProcessDefinitionId(),item.getTaskDefinitionKey(),FlowableConst.TASK_DISPOSE_PATH));
-
-        // 流程实例相关字段
-        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(item.getProcessInstanceId()).singleResult();
-        item.setBusinessId(processInstance.getBusinessKey());
-        item.setBusinessStatus(processInstance.getBusinessStatus());
-        item.setStartUserId(processInstance.getStartUserId());
-        item.setStartTime(processInstance.getStartTime());
-        item.setProcessName(processInstance.getProcessDefinitionName());
-
-        User userinfo = userRepository.userinfo(processInstance.getStartUserId());
-        item.setStartUserName(userinfo.getName());
-    }
-
-
     @Override
     public PageResult<FlowableTaskInfoDto> getFlowableTaskInfoDtoPageResult(String userId, String processDefineId, Integer pageNumber, Integer pageSize) {
 
@@ -184,13 +145,62 @@ public class FlowableServiceImpl implements FlowableService {
     }
 
     @Override
-    public PageResult<HistoricTaskInstance> getHistoricTaskInstancePageResult(String userId, Integer pageNumber, Integer pageSize) {
-        // 查询已经结束的task任务,切由userid处理
+    public PageResult<HistoricTaskInstanceDto> getHistoricTaskInstancePageResult(String userId, Integer pageNumber, Integer pageSize) {
+        // 查询已经结束的task任务,且由userid处理
         HistoricTaskInstanceQuery historicTaskInstanceQuery = historyService.createHistoricTaskInstanceQuery();
-        List<HistoricTaskInstance> historicTaskInstances = historicTaskInstanceQuery.taskAssignee(userId).finished().listPage((pageNumber - 1)*pageSize, pageSize);
+        List<HistoricTaskInstanceDto> historicTaskInstances = historicTaskInstanceQuery
+                .taskAssignee(userId)
+                .finished()
+                .listPage((pageNumber - 1)*pageSize, pageSize)
+                .stream()
+                .map(flowableMapper::historicTaskInstanceToDto)
+                .peek(this::setHistoricTaskExtendField)
+                .collect(Collectors.toList());
 
         long count = historicTaskInstanceQuery.count();
         return PageResult.ok(historicTaskInstances, pageNumber, pageSize, (int) count);
+    }
+
+
+    private void setHistoricTaskExtendField(HistoricTaskInstanceDto item) {
+        HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(item.getProcessInstanceId()).singleResult();
+        item.setProcessName(historicProcessInstance.getProcessDefinitionName());
+        item.setBusinessStatus(historicProcessInstance.getBusinessStatus());
+        item.setBusinessId(historicProcessInstance.getBusinessKey());
+        item.setStartUserId(historicProcessInstance.getStartUserId());
+
+        User userinfo = userRepository.userinfo(historicProcessInstance.getStartUserId());
+        item.setStartUserName(userinfo.getName());
+    }
+
+
+
+    /**
+     * 设置task相关扩展字段
+     * @param item
+     */
+    private void setTaskExtendField(FlowableTaskInfoDto item) {
+
+        // 流程定义相关字段
+        item.setProcessDisposePath(flowableExtendParamHandler.getProcessExtendParam(item.getProcessDefinitionId(),FlowableConst.PROCESS_DISPOSE_PATH));
+
+        // task定义相关字段
+        String isBatchApproval = flowableExtendParamHandler.getTaskExtendParam(item.getProcessDefinitionId(), item.getTaskDefinitionKey(), FlowableConst.IS_BATCH_APPROVAL);
+        if (StrUtil.isNotBlank(isBatchApproval))
+            item.setIsBatchApproval(Boolean.valueOf(isBatchApproval));
+
+        item.setTaskDisposePath(flowableExtendParamHandler.getTaskExtendParam(item.getProcessDefinitionId(),item.getTaskDefinitionKey(),FlowableConst.TASK_DISPOSE_PATH));
+
+        // 流程实例相关字段
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(item.getProcessInstanceId()).singleResult();
+        item.setBusinessId(processInstance.getBusinessKey());
+        item.setBusinessStatus(processInstance.getBusinessStatus());
+        item.setStartUserId(processInstance.getStartUserId());
+        item.setStartTime(processInstance.getStartTime());
+        item.setProcessName(processInstance.getProcessDefinitionName());
+
+        User userinfo = userRepository.userinfo(processInstance.getStartUserId());
+        item.setStartUserName(userinfo.getName());
     }
 
 }
