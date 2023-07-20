@@ -16,7 +16,6 @@ import java.util.Date;
 public class HistoricTaskInstanceDto extends FlowableVariableDto {
 
     private String businessStatus;
-    private String businessId;
     private String executionId;
     private String processInstanceId;
     private String processDefinitionId;

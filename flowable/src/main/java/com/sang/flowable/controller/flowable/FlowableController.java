@@ -2,6 +2,7 @@ package com.sang.flowable.controller.flowable;
 
 import com.sang.flowable.dto.FlowableTaskInfoDto;
 import com.sang.common.response.PageResult;
+import com.sang.flowable.dto.HistoricProcessInstanceDto;
 import com.sang.flowable.dto.HistoricTaskInstanceDto;
 import com.sang.flowable.dto.ProcessDefinitionDto;
 import com.sang.flowable.service.flowable.FlowableService;
@@ -70,10 +71,10 @@ public class FlowableController {
      * @return
      */
     @GetMapping("/process/myProcess/page")
-    public PageResult<HistoricProcessInstance> myProcessTask(@RequestParam(value = "processDefineId",required = false) String processDefineId,
-                                            @RequestParam(value = "finished") Boolean finished,
-                                            @RequestParam(value = "pageNumber",defaultValue = "1") Integer pageNumber,
-                                            @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
+    public PageResult<HistoricProcessInstanceDto> myProcessTask(@RequestParam(value = "processDefineId",required = false) String processDefineId,
+                                                                @RequestParam(value = "finished") Boolean finished,
+                                                                @RequestParam(value = "pageNumber",defaultValue = "1") Integer pageNumber,
+                                                                @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return flowableService.getHistoricProcessInstancePageResult(authentication.getPrincipal().toString(), finished, pageNumber, pageSize);
     }

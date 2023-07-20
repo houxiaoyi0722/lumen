@@ -11,6 +11,15 @@ import java.util.Date;
 @Setter
 @SuperBuilder
 public class FlowableVariableDto {
+
+    /**
+     * 业务id
+     */
+    private String businessKey;
+    /**
+     * 状态
+     */
+    private String businessStatus;
     /**
      * 流程发起人
      */
@@ -30,7 +39,7 @@ public class FlowableVariableDto {
     /**
      * 流程名称
      */
-    private String processName;
+    private String processDefinitionName;
     /**
      * 流程key
      */

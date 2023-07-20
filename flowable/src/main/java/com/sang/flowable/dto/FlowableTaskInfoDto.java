@@ -13,15 +13,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FlowableTaskInfoDto extends FlowableVariableDto {
-
-    /**
-     * 业务id
-     */
-    private String businessId;
-    /**
-     * 状态
-     */
-    private String businessStatus;
     /**
      * taskId
      */

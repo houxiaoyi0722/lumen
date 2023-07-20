@@ -6,8 +6,10 @@ import com.sang.common.constants.FlowableConst;
 import com.sang.common.constants.StringConst;
 import com.sang.common.domain.auth.authentication.user.entity.User;
 import com.sang.common.domain.auth.authentication.user.repo.UserRepository;
+import com.sang.common.domain.flowable.dto.FlowableVariableDto;
 import com.sang.flowable.dto.FlowableTaskInfoDto;
 import com.sang.common.response.PageResult;
+import com.sang.flowable.dto.HistoricProcessInstanceDto;
 import com.sang.flowable.dto.HistoricTaskInstanceDto;
 import com.sang.flowable.dto.ProcessDefinitionDto;
 import com.sang.flowable.handler.FlowableExtendParamHandler;
@@ -17,13 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.*;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.history.HistoricProcessInstanceQuery;
-import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.idm.api.Group;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskQuery;
-import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.api.history.HistoricTaskInstanceQuery;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -130,15 +130,19 @@ public class FlowableServiceImpl implements FlowableService {
 
 
     @Override
-    public PageResult<HistoricProcessInstance> getHistoricProcessInstancePageResult(String userId, Boolean finished, Integer pageNumber, Integer pageSize) {
+    public PageResult<HistoricProcessInstanceDto> getHistoricProcessInstancePageResult(String userId, Boolean finished, Integer pageNumber, Integer pageSize) {
         HistoricProcessInstanceQuery historicProcessInstanceQuery = historyService.createHistoricProcessInstanceQuery();
 
         //流程是否结束
         historicProcessInstanceQuery = finished ? historicProcessInstanceQuery.finished() : historicProcessInstanceQuery.unfinished();
 
-        List<HistoricProcessInstance> historicProcessInstances = historicProcessInstanceQuery
+        List<HistoricProcessInstanceDto> historicProcessInstances = historicProcessInstanceQuery
                 .startedBy(userId)
-                .listPage((pageNumber - 1)*pageSize, pageSize);
+                .listPage((pageNumber - 1)*pageSize, pageSize)
+                .stream()
+                .map(flowableMapper::historicProcessInstanceToDto)
+                .peek(this::setHistoricProcessExtendField)
+                .collect(Collectors.toList());
 
         long count = historicProcessInstanceQuery.count();
         return PageResult.ok(historicProcessInstances, pageNumber, pageSize, (int) count);
@@ -154,7 +158,7 @@ public class FlowableServiceImpl implements FlowableService {
                 .listPage((pageNumber - 1)*pageSize, pageSize)
                 .stream()
                 .map(flowableMapper::historicTaskInstanceToDto)
-                .peek(this::setHistoricTaskExtendField)
+                .peek(this::setHistoricExtendField)
                 .collect(Collectors.toList());
 
         long count = historicTaskInstanceQuery.count();
@@ -162,17 +166,21 @@ public class FlowableServiceImpl implements FlowableService {
     }
 
 
-    private void setHistoricTaskExtendField(HistoricTaskInstanceDto item) {
+    private void setHistoricExtendField(FlowableVariableDto item) {
         HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(item.getProcessInstanceId()).singleResult();
-        item.setProcessName(historicProcessInstance.getProcessDefinitionName());
+        item.setProcessDefinitionName(historicProcessInstance.getProcessDefinitionName());
         item.setBusinessStatus(historicProcessInstance.getBusinessStatus());
-        item.setBusinessId(historicProcessInstance.getBusinessKey());
+        item.setBusinessKey(historicProcessInstance.getBusinessKey());
         item.setStartUserId(historicProcessInstance.getStartUserId());
 
         User userinfo = userRepository.userinfo(historicProcessInstance.getStartUserId());
         item.setStartUserName(userinfo.getName());
     }
 
+    private void setHistoricProcessExtendField(HistoricProcessInstanceDto item) {
+        User userinfo = userRepository.userinfo(item.getStartUserId());
+        item.setStartUserName(userinfo.getName());
+    }
 
 
     /**
@@ -193,11 +201,11 @@ public class FlowableServiceImpl implements FlowableService {
 
         // 流程实例相关字段
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(item.getProcessInstanceId()).singleResult();
-        item.setBusinessId(processInstance.getBusinessKey());
+        item.setBusinessKey(processInstance.getBusinessKey());
         item.setBusinessStatus(processInstance.getBusinessStatus());
         item.setStartUserId(processInstance.getStartUserId());
         item.setStartTime(processInstance.getStartTime());
-        item.setProcessName(processInstance.getProcessDefinitionName());
+        item.setProcessDefinitionName(processInstance.getProcessDefinitionName());
 
         User userinfo = userRepository.userinfo(processInstance.getStartUserId());
         item.setStartUserName(userinfo.getName());
