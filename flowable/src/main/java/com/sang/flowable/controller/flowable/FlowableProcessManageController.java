@@ -1,25 +1,34 @@
 package com.sang.flowable.controller.flowable;
 
 import cn.hutool.core.util.StrUtil;
+import cn.smallbun.screw.core.util.CollectionUtils;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sang.common.constants.FlowableConst;
 import com.sang.common.constants.StringConst;
 import com.sang.common.domain.auth.authentication.user.repo.UserGroupRepository;
 import com.sang.common.domain.auth.authentication.user.repo.UserRepository;
 import com.sang.common.response.Result;
 import com.sang.common.utils.ResponseUtil;
+import com.sang.flowable.dto.*;
 import com.sang.flowable.param.SuspendedActiveParam;
+import com.sang.flowable.service.debugger.DebuggerService;
 import com.sang.flowable.service.flowable.FlowableProcessManageService;
-import com.sang.flowable.service.flowable.FlowableService;
 import lombok.extern.slf4j.Slf4j;
+import org.flowable.bpmn.model.*;
 import org.flowable.common.engine.api.FlowableException;
-import org.flowable.common.engine.impl.db.SuspensionState;
-import org.flowable.engine.IdentityService;
-import org.flowable.engine.RepositoryService;
+import org.flowable.engine.*;
+import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.engine.repository.Deployment;
+import org.flowable.engine.runtime.Execution;
+import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.idm.api.Group;
 import org.flowable.idm.api.GroupQuery;
 import org.flowable.idm.api.User;
 import org.flowable.idm.api.UserQuery;
+import org.flowable.job.api.Job;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +37,7 @@ import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.util.*;
 
 /**
  * flowable 流程管理controller
@@ -53,7 +62,6 @@ public class FlowableProcessManageController {
     @Resource
     private FlowableProcessManageService flowableProcessManageService;
 
-
     /**
      * 部署流程
      * @param file 文件
@@ -76,7 +84,6 @@ public class FlowableProcessManageController {
         return Result.ok(deployment.getId());
     }
 
-
     /**
      * 挂起或者激活流程
      * @param suspendedActiveParam
@@ -86,8 +93,6 @@ public class FlowableProcessManageController {
         flowableProcessManageService.suspendedOrActiveProcess(suspendedActiveParam);
         return Result.ok();
     }
-
-
 
     /**
      * 级联删除流程
@@ -99,8 +104,6 @@ public class FlowableProcessManageController {
         flowableProcessManageService.deleteProcess(deploymentId);
         return Result.ok();
     }
-
-
 
     /**
      * 获取流程定义xml文件
@@ -175,5 +178,36 @@ public class FlowableProcessManageController {
         userRepository.findAll().forEach(flowableProcessManageService::updateUser);
         return Result.ok();
     }
+
+    /**
+     * 获取当前流程执行图
+     * @param processInstanceId
+     * @return
+     */
+    @GetMapping(value = "/rest/process-instances/{processInstanceId}/model-json", produces = "application/json")
+    public JsonNode getModelJSON(@PathVariable String processInstanceId) {
+
+//        SecurityScope currentUser = SecurityUtils.getAuthenticatedSecurityScope();
+//        if (!permissionService.hasReadPermissionOnProcessInstance(currentUser, processInstanceId)) {
+//            throw new NotPermittedException();
+//        }
+        return flowableProcessManageService.getProcessJsonNodes(processInstanceId);
+    }
+    /**
+     * 获取历史流程执行图
+     * @param processInstanceId
+     * @return
+     */
+    @GetMapping(value = "/rest/process-instances/history/{processInstanceId}/model-json", produces = "application/json")
+    public JsonNode getModelHistoryJSON(@PathVariable String processInstanceId) {
+
+//        SecurityScope currentUser = SecurityUtils.getAuthenticatedSecurityScope();
+//        if (!permissionService.hasReadPermissionOnProcessInstance(currentUser, processInstanceId)) {
+//            throw new NotPermittedException();
+//        }
+
+        return flowableProcessManageService.getModelHistoryNodes(processInstanceId);
+    }
+
 
 }
