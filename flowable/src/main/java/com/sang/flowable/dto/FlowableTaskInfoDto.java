@@ -1,5 +1,6 @@
-package com.sang.common.domain.flowable.dto;
+package com.sang.flowable.dto;
 
+import com.sang.common.domain.flowable.dto.FlowableVariableDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,16 +12,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FlowableTaskInfoDto extends FlowableVariableDto{
-
-    /**
-     * 业务id
-     */
-    private String businessId;
-    /**
-     * 状态
-     */
-    private String businessStatus;
+public class FlowableTaskInfoDto extends FlowableVariableDto {
     /**
      * taskId
      */

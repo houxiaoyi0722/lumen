@@ -1,7 +1,9 @@
 package com.sang.flowable.controller.flowable;
 
-import com.sang.common.domain.flowable.dto.FlowableTaskInfoDto;
+import com.sang.flowable.dto.FlowableTaskInfoDto;
 import com.sang.common.response.PageResult;
+import com.sang.flowable.dto.HistoricProcessInstanceDto;
+import com.sang.flowable.dto.HistoricTaskInstanceDto;
 import com.sang.flowable.dto.ProcessDefinitionDto;
 import com.sang.flowable.service.flowable.FlowableService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,8 @@ public class FlowableController {
      * 分页查询当前流程定义
      * @param name 模糊查询流程名称
      * @param startBy 当前发起人id
+     * @param active 激活状态
+     * @param latestVersion 是否查询最新版本
      * @param pageNumber
      * @param pageSize
      * @return PageResult
@@ -35,9 +39,10 @@ public class FlowableController {
             @RequestParam(value = "name",required = false) String name,
             @RequestParam(value = "startBy",required = false) String startBy,
             @RequestParam(value = "active",required = false) Boolean active,
+            @RequestParam(value = "latestVersion",required = false) Boolean latestVersion,
             @RequestParam(value = "pageNumber",defaultValue = "1") Integer pageNumber,
             @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
-        return flowableService.getProcessDefinitionDtoPageResult(name, startBy, active, pageNumber, pageSize);
+        return flowableService.getProcessDefinitionDtoPageResult(name, startBy, active, latestVersion, pageNumber, pageSize);
     }
 
     /**
@@ -66,10 +71,10 @@ public class FlowableController {
      * @return
      */
     @GetMapping("/process/myProcess/page")
-    public PageResult<HistoricProcessInstance> myProcessTask(@RequestParam(value = "processDefineId",required = false) String processDefineId,
-                                            @RequestParam(value = "finished") Boolean finished,
-                                            @RequestParam(value = "pageNumber",defaultValue = "1") Integer pageNumber,
-                                            @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
+    public PageResult<HistoricProcessInstanceDto> myProcessTask(@RequestParam(value = "processDefineId",required = false) String processDefineId,
+                                                                @RequestParam(value = "finished") Boolean finished,
+                                                                @RequestParam(value = "pageNumber",defaultValue = "1") Integer pageNumber,
+                                                                @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return flowableService.getHistoricProcessInstancePageResult(authentication.getPrincipal().toString(), finished, pageNumber, pageSize);
     }
@@ -82,9 +87,9 @@ public class FlowableController {
      * @return
      */
     @GetMapping("/task/myComplete/page")
-    public PageResult<HistoricTaskInstance> myCompleteTask(@RequestParam(value = "processDefineId",required = false) String processDefineId,
-                                                           @RequestParam(value = "page",defaultValue = "1") Integer pageNumber,
-                                                           @RequestParam(value = "size",defaultValue = "10") Integer pageSize) {
+    public PageResult<HistoricTaskInstanceDto> myCompleteTask(@RequestParam(value = "processDefineId",required = false) String processDefineId,
+                                                              @RequestParam(value = "page",defaultValue = "1") Integer pageNumber,
+                                                              @RequestParam(value = "size",defaultValue = "10") Integer pageSize) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         return flowableService.getHistoricTaskInstancePageResult(authentication.getPrincipal().toString(), pageNumber, pageSize);
