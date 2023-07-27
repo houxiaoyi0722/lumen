@@ -63,4 +63,7 @@ public class FlowableVariableDto {
      */
     private String processDisposePath;
 
+    private Date processEndTime;
+    private Date processStartTime;
+
 }

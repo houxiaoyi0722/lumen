@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.*;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.history.HistoricProcessInstanceQuery;
+import org.flowable.engine.impl.persistence.entity.HistoricProcessInstanceEntityImpl;
 import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.idm.api.Group;
@@ -140,7 +141,7 @@ public class FlowableServiceImpl implements FlowableService {
                 .startedBy(userId)
                 .listPage((pageNumber - 1)*pageSize, pageSize)
                 .stream()
-                .map(flowableMapper::historicProcessInstanceToDto)
+                .map(item -> flowableMapper.historicProcessInstanceToDto((HistoricProcessInstanceEntityImpl)item))
                 .peek(this::setHistoricProcessExtendField)
                 .collect(Collectors.toList());
 
@@ -172,6 +173,8 @@ public class FlowableServiceImpl implements FlowableService {
         item.setBusinessStatus(historicProcessInstance.getBusinessStatus());
         item.setBusinessKey(historicProcessInstance.getBusinessKey());
         item.setStartUserId(historicProcessInstance.getStartUserId());
+        item.setProcessEndTime(historicProcessInstance.getEndTime());
+        item.setProcessStartTime(historicProcessInstance.getStartTime());
 
         User userinfo = userRepository.userinfo(historicProcessInstance.getStartUserId());
         item.setStartUserName(userinfo.getName());
