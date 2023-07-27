@@ -88,8 +88,8 @@ public class FlowableController {
      */
     @GetMapping("/task/myComplete/page")
     public PageResult<HistoricTaskInstanceDto> myCompleteTask(@RequestParam(value = "processDefineId",required = false) String processDefineId,
-                                                              @RequestParam(value = "page",defaultValue = "1") Integer pageNumber,
-                                                              @RequestParam(value = "size",defaultValue = "10") Integer pageSize) {
+                                                              @RequestParam(value = "pageNumber",defaultValue = "1") Integer pageNumber,
+                                                              @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         return flowableService.getHistoricTaskInstancePageResult(authentication.getPrincipal().toString(), pageNumber, pageSize);
