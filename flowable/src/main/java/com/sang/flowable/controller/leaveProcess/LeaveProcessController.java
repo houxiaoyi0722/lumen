@@ -149,4 +149,15 @@ public class LeaveProcessController {
         return Result.ok(leaveProcessService.deleteProcessInstanceBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess)));
     }
 
+    /**
+     * 审批节点移动- 驳回-退回
+     * @param leaveProcess
+     * @return
+     */
+    @PutMapping("/moveActivity")
+    public Result<Boolean> moveActivity(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
+        leaveProcessService.moveActivityBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess),leaveProcess.getTaskDefinitionKey(),leaveProcess.getExecutionId(),leaveProcess.getAction());
+        return Result.ok();
+    }
+
 }

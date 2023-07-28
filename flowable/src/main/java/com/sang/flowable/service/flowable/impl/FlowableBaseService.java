@@ -84,13 +84,13 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
      * 移动当前流程激活节点(做跳过节点或者回退操作)
      * @param processInstanceId 流程实例id
      * @param executionId 当前执行id
-     * @param activityId 目标节点id
+     * @param newActivityId 目标节点id
      */
-    public void moveActivityByExecution(T variables, String processInstanceId, String executionId, String activityId) {
+    public void moveActivityByExecution(T variables, String processInstanceId, String executionId, String newActivityId) {
         // 回退操作
         runtimeService.createChangeActivityStateBuilder()
                 .processInstanceId(processInstanceId)
-                .moveExecutionToActivityId(executionId,activityId)
+                .moveExecutionToActivityId(executionId,newActivityId)
                 .changeState();
     }
 

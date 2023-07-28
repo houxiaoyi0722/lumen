@@ -56,12 +56,15 @@ public interface FlowableBaseInterface<T> {
      */
     void moveActivityById(T variables, String processInstanceId, String newActivityId, String... currentActivityIds);
 
+
     /**
      * 移动激活节点时业务逻辑处理
-     *
+     * @param param
+     * @param executionId 当前节点id
+     * @param action 动作
      * @return
      */
-    default T moveActivityBusinessProcessing(T param) { return param; }
+    default T moveActivityBusinessProcessing(T param, String taskDefinitionKey,String executionId, String action) { return param; }
 
     /**
      * 移动当前流程激活节点(做跳过节点或者回退操作)
