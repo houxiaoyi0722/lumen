@@ -50,9 +50,17 @@ public class FlowableVariableDto {
     private String processInstanceId;
 
     /**
-     * 任务id
+     * task id
      */
     private String taskId;
+    /**
+     * task定义id
+     */
+    private String taskDefinitionKey;
+    /**
+     * 执行id
+     */
+    private String executionId;
     /**
      * 操作注释
      */
@@ -62,6 +70,11 @@ public class FlowableVariableDto {
      * 流程处理地址
      */
     private String processDisposePath;
+
+    /**
+     * 动作
+     */
+    private String action;
 
     private Date processEndTime;
     private Date processStartTime;

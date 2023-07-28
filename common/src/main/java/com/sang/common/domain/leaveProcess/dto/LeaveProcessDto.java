@@ -61,4 +61,5 @@ public class LeaveProcessDto extends FlowableVariableDto {
      */
     private String type;
 
+
 }

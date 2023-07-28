@@ -1,5 +1,6 @@
 package com.sang.flowable.service.leaveProcess.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.sang.common.constants.FlowableStatusEnum;
 import com.sang.common.domain.leaveProcess.entity.LeaveProcess;
 import com.sang.common.domain.leaveProcess.param.LeaveProcessQry;
@@ -10,6 +11,12 @@ import com.sang.flowable.service.flowable.impl.FlowableBaseService;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.flowable.bpmn.model.BpmnModel;
+import org.flowable.bpmn.model.FlowElement;
+import org.flowable.bpmn.model.FlowNode;
+import org.flowable.bpmn.model.SequenceFlow;
+import org.flowable.engine.RepositoryService;
+import org.flowable.engine.impl.util.ExecutionGraphUtil;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +34,9 @@ public class LeaveProcessServiceImpl extends FlowableBaseService<LeaveProcess> i
 
     @Resource
     private LeaveProcessRepository repository;
+
+    @Resource
+    private RepositoryService repositoryService;
 
     @Override
     public PagedList<LeaveProcess> leaveProcessList(LeaveProcessQry qry) {
@@ -89,7 +99,29 @@ public class LeaveProcessServiceImpl extends FlowableBaseService<LeaveProcess> i
     }
 
     @Override
-    public LeaveProcess moveActivityBusinessProcessing(LeaveProcess param) {
+    public LeaveProcess moveActivityBusinessProcessing(LeaveProcess param, String taskDefinitionKey,String executionId, String action) {
+
+        String newActivityId = "";
+        if (FlowableStatusEnum.ACTION_RETREAT.getCode().equals(action)) {
+            // 退回获取上一个节点
+            BpmnModel bpmnModel = repositoryService.getBpmnModel(param.getProcessDefinitionId());
+            FlowNode flowElement = (FlowNode)bpmnModel.getFlowElement(taskDefinitionKey);
+            List<SequenceFlow> incomingFlows = flowElement.getIncomingFlows();
+            SequenceFlow sequenceFlow = incomingFlows.get(0);
+            newActivityId = sequenceFlow.getSourceRef();
+        } else if (FlowableStatusEnum.ACTION_REJECT.getCode().equals(action)) {
+            // 退回第一个节点
+            BpmnModel bpmnModel = repositoryService.getBpmnModel(param.getProcessDefinitionId());
+            FlowNode flowElement = (FlowNode)bpmnModel.getFlowElement(taskDefinitionKey);
+            List<SequenceFlow> incomingFlows = flowElement.getIncomingFlows();
+            SequenceFlow last = CollUtil.getLast(incomingFlows);
+            newActivityId = last.getSourceRef();
+        }
+
+        // 判断目标节点是否能走到当前节点
+//        ExecutionGraphUtil.isReachable()
+
+        moveActivityByExecution(param,param.getProcessInstanceId(),executionId,newActivityId);
         return null;
     }
 
