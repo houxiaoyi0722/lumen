@@ -6,14 +6,16 @@ import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.flowable.dto.FlowableTaskVariableDto;
 import com.sang.flowable.service.flowable.FlowableBaseInterface;
 import org.flowable.common.engine.api.FlowableException;
-import org.flowable.engine.HistoryService;
-import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.task.api.Task;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Map;
 
 public abstract class FlowableBaseService<T extends BaseModel> implements FlowableBaseInterface<T> {
 
@@ -48,13 +50,22 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
      * @return
      */
     public ProcessInstance startProcessById(T variables, String processDefinitionId) {
+        // 填充发起节点处理人
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Map<String, Object> param = BeanUtil.beanToMap(variables);
+        param.put("startUserId",authentication.getPrincipal().toString());
+
         // 启动流程实例，第一个参数是流程定义的id
         ProcessInstance processInstance = runtimeService
-                .startProcessInstanceById(processDefinitionId, variables.getId().toString(), BeanUtil.beanToMap(variables));
-
+                .startProcessInstanceById(processDefinitionId, variables.getId().toString(), param);
+        // 更新状态
         runtimeService.updateBusinessStatus(processInstance.getProcessInstanceId(), FlowableStatusEnum.APPROVAL.getCode());
 
-        return processInstance;// 启动流程实例
+        Task task = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).singleResult();
+
+        // 完成发起节点
+        taskService.complete(task.getId(),BeanUtil.beanToMap(FlowableTaskVariableDto.builder().action("发起申请").build()),true);
+        return processInstance;
     }
 
     /**

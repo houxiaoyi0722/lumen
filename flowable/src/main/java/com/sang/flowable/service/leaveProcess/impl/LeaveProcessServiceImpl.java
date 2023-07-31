@@ -115,7 +115,7 @@ public class LeaveProcessServiceImpl extends FlowableBaseService<LeaveProcess> i
             }
 
         } else if (FlowableStatusEnum.ACTION_REJECT.getCode().equals(leaveProcessDto.getAction())) {
-            // 退回第一个节点
+            // 退回第一个节点 todo 递归寻找节点 目前有bug
             BpmnModel bpmnModel = repositoryService.getBpmnModel(leaveProcessDto.getProcessDefinitionId());
             FlowNode flowElement = (FlowNode)bpmnModel.getFlowElement(leaveProcessDto.getTaskDefinitionKey());
             List<SequenceFlow> incomingFlows = flowElement.getIncomingFlows();

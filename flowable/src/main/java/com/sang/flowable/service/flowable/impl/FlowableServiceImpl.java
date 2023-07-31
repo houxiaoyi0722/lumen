@@ -196,7 +196,7 @@ public class FlowableServiceImpl implements FlowableService {
                     }
                     Map<String, String> historicVariable = historyService.createHistoricVariableInstanceQuery()
                             .taskId(item.getTaskId())
-                            .list().stream().collect(Collectors.toMap(HistoricVariableInstance::getVariableName, instance -> (String)instance.getValue()));
+                            .list().stream().collect(Collectors.toMap(HistoricVariableInstance::getVariableName, instance -> instance.getValue() != null? instance.getValue().toString():StringConst.EMPTY));
 
                     // 获取task 动作和动作原因
                     item.setAction(historicVariable.get(FlowableConst.ACTION));
