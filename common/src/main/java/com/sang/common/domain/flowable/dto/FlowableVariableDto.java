@@ -75,6 +75,7 @@ public class FlowableVariableDto {
      * 动作
      */
     private String action;
+    private String actionReason;
 
     private Date processEndTime;
     private Date processStartTime;

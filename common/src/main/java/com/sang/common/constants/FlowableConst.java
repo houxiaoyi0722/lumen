@@ -20,4 +20,6 @@ public class FlowableConst {
     public static final String IS_BATCH_APPROVAL = "isBatchApproval";
 
 
+    public static final String ACTION = "action";
+    public static final String ACTION_REASON = "actionReason";
 }

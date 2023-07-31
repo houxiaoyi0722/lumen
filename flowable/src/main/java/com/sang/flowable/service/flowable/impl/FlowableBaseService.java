@@ -3,6 +3,7 @@ package com.sang.flowable.service.flowable.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.sang.common.constants.FlowableStatusEnum;
 import com.sang.common.domain.base.entity.BaseModel;
+import com.sang.common.domain.flowable.dto.FlowableTaskVariableDto;
 import com.sang.flowable.service.flowable.FlowableBaseInterface;
 import org.flowable.common.engine.api.FlowableException;
 import org.flowable.engine.HistoryService;
@@ -58,12 +59,12 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
 
     /**
      * 完成任务
-     * @param variables 流程变量
+     * @param variables 任务变量
      * @param taskId 任务id
      */
-    public void completeTask(T variables,String taskId) {
+    public void completeTask(FlowableTaskVariableDto variables, String taskId) {
         // 完成任务
-        taskService.complete(taskId,BeanUtil.beanToMap(variables));
+        taskService.complete(taskId,BeanUtil.beanToMap(variables),true);
     }
 
     /**
@@ -72,11 +73,11 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
      * @param newActivityId 目标节点id
      * @param currentActivityIds 待移动节点列表
      */
-    public void moveActivityById(T variables,String processInstanceId, String newActivityId, String... currentActivityIds) {
+    public void moveActivityById(FlowableTaskVariableDto variables,String processInstanceId, String newActivityId, String... currentActivityIds) {
         runtimeService.createChangeActivityStateBuilder()
                 .processInstanceId(processInstanceId)
                 .moveActivityIdsToSingleActivityId(Arrays.asList(currentActivityIds),newActivityId)
-                .processVariables(BeanUtil.beanToMap(variables))
+                .localVariables(newActivityId,BeanUtil.beanToMap(variables))
                 .changeState();
     }
 
@@ -86,17 +87,33 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
      * @param executionId 当前执行id
      * @param newActivityId 目标节点id
      */
-    public void moveActivityByExecution(T variables, String processInstanceId, String executionId, String newActivityId) {
+    public void moveActivityByExecution(FlowableTaskVariableDto variables, String processInstanceId, String executionId, String newActivityId) {
         // 回退操作
         runtimeService.createChangeActivityStateBuilder()
                 .processInstanceId(processInstanceId)
                 .moveExecutionToActivityId(executionId,newActivityId)
+                .localVariables(newActivityId,BeanUtil.beanToMap(variables))
+                .changeState();
+    }
+
+    /**
+     * 移动当前流程激活节点(做跳过节点或者回退操作)
+     * @param processInstanceId 流程实例id
+     * @param currentActivityId 当前节点id
+     * @param newActivityId 目标节点id
+     */
+    public void moveActivityIdTo(FlowableTaskVariableDto variables, String processInstanceId, String currentActivityId, String newActivityId) {
+        // 回退操作
+        runtimeService.createChangeActivityStateBuilder()
+                .processInstanceId(processInstanceId)
+                .moveActivityIdTo(currentActivityId,newActivityId)
+                .localVariables(currentActivityId,BeanUtil.beanToMap(variables))
                 .changeState();
     }
 
 
     @Override
-    public void deleteProcessInstance(T variables, String processInstanceId,String deleteReason) {
+    public void deleteProcessInstance(String processInstanceId,String deleteReason) {
         runtimeService.deleteProcessInstance(processInstanceId,deleteReason);
     }
 
