@@ -64,6 +64,21 @@
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${spring.boot}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+                <version>${spring.boot}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>7.15.2</version>
+            </dependency>
+<!--            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>7.15.2</version>
+            </dependency>-->
             <!-- quartz -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
