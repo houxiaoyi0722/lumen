@@ -1,21 +1,29 @@
 package com.sang.flowable.service.flowable.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.sang.common.constants.FlowableStatusEnum;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.flowable.dto.FlowableTaskVariableDto;
+import com.sang.common.domain.flowable.dto.FlowableVariableDto;
+import com.sang.common.domain.leaveProcess.dto.LeaveProcessDto;
 import com.sang.flowable.service.flowable.FlowableBaseInterface;
+import org.flowable.bpmn.constants.BpmnXMLConstants;
+import org.flowable.bpmn.model.*;
 import org.flowable.common.engine.api.FlowableException;
+import org.flowable.engine.HistoryService;
+import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
+import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class FlowableBaseService<T extends BaseModel> implements FlowableBaseInterface<T> {
 
@@ -24,6 +32,12 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
 
     @Resource
     private TaskService taskService;
+
+    @Resource
+    private RepositoryService repositoryService;
+
+    @Resource
+    private HistoryService historyService;
 
     /**
      * 通过key启动流程
@@ -128,7 +142,7 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
         runtimeService.deleteProcessInstance(processInstanceId,deleteReason);
     }
 
-    public FlowableStatusEnum nextStatusByAction(String action,String... currentStatus) {
+    protected FlowableStatusEnum nextStatusByAction(String action,String... currentStatus) {
 
         // 保存草稿
         if (FlowableStatusEnum.ACTION_DRAFT.getCode().equals(action))
@@ -145,4 +159,130 @@ public abstract class FlowableBaseService<T extends BaseModel> implements Flowab
 
         throw new FlowableException("该动作不存在");
     }
+
+    /**
+     * 获取回退节点 - 单条线
+     * @param variableDto
+     * @return
+     */
+    protected String findNodeByAction(FlowableVariableDto variableDto) {
+        String newActivityId = "";
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(variableDto.getProcessDefinitionId());
+
+        // 查询历史节点实例
+        List<String> activityIdList = historyService.createHistoricActivityInstanceQuery()
+                .processInstanceId(variableDto.getProcessInstanceId())
+                .finished()
+                .orderByHistoricActivityInstanceEndTime().asc().list()
+                .stream()
+                .filter(activityInstance ->
+                        BpmnXMLConstants.ELEMENT_TASK_USER.equals(activityInstance.getActivityType()))
+                .map(HistoricActivityInstance::getActivityId)
+                .distinct()
+                .collect(Collectors.toList());
+
+        if (FlowableStatusEnum.ACTION_RETREAT.getCode().equals(variableDto.getAction())) {
+            // 退回获取上一个节点
+            newActivityId = findLastUserNode(variableDto.getTaskDefinitionKey(),bpmnModel,activityIdList);
+
+        } else if (FlowableStatusEnum.ACTION_REJECT.getCode().equals(variableDto.getAction())) {
+            // 退回第一个节点 流程中第一个处理的用户节点
+            newActivityId = CollUtil.getFirst(activityIdList);
+        }
+        return newActivityId;
+    }
+
+
+    /**
+     * 获取回退节点列表 - 多条线并行
+     * @param variableDto
+     * @return
+     */
+    protected List<String> findNodeListByAction(FlowableVariableDto variableDto) {
+        List<String> newActivityIds = null;
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(variableDto.getProcessDefinitionId());
+
+        // 查询历史节点实例
+        List<String> activityIdList = historyService.createHistoricActivityInstanceQuery()
+                .processInstanceId(variableDto.getProcessInstanceId())
+                .finished()
+                .orderByHistoricActivityInstanceEndTime().asc().list()
+                .stream()
+                .filter(activityInstance ->
+                        BpmnXMLConstants.ELEMENT_TASK_USER.equals(activityInstance.getActivityType()))
+                .map(HistoricActivityInstance::getActivityId)
+                .distinct()
+                .collect(Collectors.toList());
+
+        if (FlowableStatusEnum.ACTION_RETREAT.getCode().equals(variableDto.getAction())) {
+            // 退回获取上一个节点
+            newActivityIds = findLastUserNodeList(variableDto.getTaskDefinitionKey(),bpmnModel,activityIdList);
+
+        } else if (FlowableStatusEnum.ACTION_REJECT.getCode().equals(variableDto.getAction())) {
+            // 退回第一个节点 流程中第一个处理的用户节点
+            newActivityIds = Collections.singletonList(CollUtil.getFirst(activityIdList));
+        }
+        return newActivityIds;
+    }
+
+    /**
+     * 获取当前节点前的最后一个用户节点,适用于非并行流
+     * @param taskDefinitionKey
+     * @param bpmnModel
+     * @return
+     */
+    private String findLastUserNode(String taskDefinitionKey, BpmnModel bpmnModel, List<String> activityIdList) {
+        // 获取当前节点
+        FlowNode flowElement = (FlowNode)bpmnModel.getFlowElement(taskDefinitionKey);
+        // 获取节点来源
+        List<SequenceFlow> incomingFlows = flowElement.getIncomingFlows();
+        // 当前节点无前置节点则返回空
+        if (CollUtil.isNotEmpty(incomingFlows)) {
+            // 图上有多个来源的情况，找出最后走过的节点 --单条线执行 该方法不考虑多条线并行执行的情况
+            String last = CollUtil.getLast(activityIdList);
+            List<String> sourceRefs = incomingFlows.stream().map(SequenceFlow::getSourceRef).filter(last::equals).collect(Collectors.toList());
+            String sourceRef = sourceRefs.get(0);
+
+            // 如果上一个节点是用户节点并且流程走过该节点，获取id
+            FlowNode task = (FlowNode)bpmnModel.getFlowElement(sourceRef);
+            if (task instanceof UserTask) {
+                return task.getId(); //如果当前节点是用户任务节点则返回
+            } else {
+                return findLastUserNode(task.getId(),bpmnModel,activityIdList); //否则以当前节点向前递归查询
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 获取当前节点前的用户节点列表 适用于并行流等
+     * @param taskDefinitionKey
+     * @param bpmnModel
+     * @return
+     */
+    private List<String> findLastUserNodeList(String taskDefinitionKey, BpmnModel bpmnModel, List<String> activityIdList) {
+
+        List<String> taskIds = new ArrayList<>();
+        // 获取当前节点
+        FlowNode flowElement = (FlowNode)bpmnModel.getFlowElement(taskDefinitionKey);
+        // 获取节点来源
+        List<SequenceFlow> incomingFlows = flowElement.getIncomingFlows();
+        // 当前节点无前置节点则返回空
+        if (CollUtil.isNotEmpty(incomingFlows)) {
+
+            List<String> sourceRefs = incomingFlows.stream().map(SequenceFlow::getSourceRef).filter(activityIdList::contains).collect(Collectors.toList());
+
+            for (String sourceRef : sourceRefs) {
+                // 如果上一个节点是处理节点，获取id 非处理节点再向上找
+                FlowNode task = (FlowNode)bpmnModel.getFlowElement(sourceRef);
+                if (task instanceof UserTask) {
+                    taskIds.add(task.getId()); //如果当前节点是用户任务节点则返回
+                } else {
+                    taskIds.addAll(findLastUserNodeList(task.getId(),bpmnModel,activityIdList)); //否则再次调用
+                }
+            }
+        }
+        return taskIds;
+    }
+
 }

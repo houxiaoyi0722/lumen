@@ -1,6 +1,5 @@
 package com.sang.flowable.service.leaveProcess.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import com.sang.common.constants.FlowableStatusEnum;
 import com.sang.common.domain.flowable.dto.FlowableTaskVariableDto;
 import com.sang.common.domain.leaveProcess.dto.LeaveProcessDto;
@@ -13,7 +12,6 @@ import com.sang.flowable.service.flowable.impl.FlowableBaseService;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.flowable.bpmn.model.*;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.stereotype.Service;
@@ -99,29 +97,7 @@ public class LeaveProcessServiceImpl extends FlowableBaseService<LeaveProcess> i
     @Override
     public void moveActivityBusinessProcessing(LeaveProcessDto leaveProcessDto) {
 
-        String newActivityId = "";
-        if (FlowableStatusEnum.ACTION_RETREAT.getCode().equals(leaveProcessDto.getAction())) {
-            // 退回获取上一个节点
-            BpmnModel bpmnModel = repositoryService.getBpmnModel(leaveProcessDto.getProcessDefinitionId());
-            FlowNode flowElement = (FlowNode)bpmnModel.getFlowElement(leaveProcessDto.getTaskDefinitionKey());
-            List<SequenceFlow> incomingFlows = flowElement.getIncomingFlows();
-            SequenceFlow sequenceFlow = incomingFlows.get(0);
-            String sourceRef = sequenceFlow.getSourceRef();
-            FlowNode task = (FlowNode)bpmnModel.getFlowElement(sourceRef);
-            if (task instanceof Task || task instanceof StartEvent) {// 如果上一个节点是处理节点，获取id 非处理节点再向上找 todo 改递归
-                newActivityId = task.getId();
-            } else {
-                newActivityId = task.getIncomingFlows().get(0).getSourceRef();
-            }
-
-        } else if (FlowableStatusEnum.ACTION_REJECT.getCode().equals(leaveProcessDto.getAction())) {
-            // 退回第一个节点 todo 递归寻找节点 目前有bug
-            BpmnModel bpmnModel = repositoryService.getBpmnModel(leaveProcessDto.getProcessDefinitionId());
-            FlowNode flowElement = (FlowNode)bpmnModel.getFlowElement(leaveProcessDto.getTaskDefinitionKey());
-            List<SequenceFlow> incomingFlows = flowElement.getIncomingFlows();
-            SequenceFlow last = CollUtil.getLast(incomingFlows);
-            newActivityId = last.getSourceRef();
-        }
+        String newActivityId = findNodeByAction(leaveProcessDto);
 
         // 判断目标节点是否能走到当前节点
 //        ExecutionGraphUtil.isReachable()
