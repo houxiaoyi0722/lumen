@@ -2,9 +2,11 @@ package com.sang.system.controller.auth;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.sang.common.constants.AuthConst;
 import com.sang.common.constants.StringConst;
 import com.sang.common.domain.auth.authentication.token.dto.TokenDto;
+import com.sang.common.domain.auth.authentication.user.dto.UserDto;
 import com.sang.common.response.Result;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -97,12 +100,26 @@ public class TokenController {
 	public Result<String> refreshToken(@RequestHeader String authorization) {
 		authorization = authorization.replace(TOKEN_HEADER, StringConst.EMPTY);
 
+
 		// jwt过期刷新
-		Jwt freshToken = getFreshToken(Instant.now(), authorization);
+		Jwt newToken = getFreshToken(Instant.now(), authorization);
+		String refreshToken = redisTemplate.boundValueOps(REFRESH_TOKEN_JWT + newToken.getSubject()).get();
 
-		redisTemplate.boundValueOps(AuthConst.TOKEN_JWT + freshToken.getSubject()).set(freshToken.getTokenValue(), EXPIRY, TimeUnit.SECONDS);
+		if (StrUtil.isBlank(refreshToken) || !refreshToken.equals(authorization)) {
+			throw new BadJwtException("refreshToken 不存在或已下线");
+		}
 
-		return Result.ok(freshToken.getTokenValue());
+		redisTemplate.boundValueOps(AuthConst.TOKEN_JWT + newToken.getSubject()).set(newToken.getTokenValue(), EXPIRY, TimeUnit.SECONDS);
+
+		return Result.ok(newToken.getTokenValue());
+	}
+
+	@PostMapping("/offline")
+	public Result<Boolean> offline(@RequestBody UserDto user) {
+		// 删除token,使用户下线
+		redisTemplate.delete(TOKEN_JWT + user.getUsername());
+		redisTemplate.delete(REFRESH_TOKEN_JWT + user.getUsername());
+		return Result.ok(true);
 	}
 
 	private Jwt getFreshToken(Instant now, String tokenDto) {
