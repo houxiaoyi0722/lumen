@@ -119,7 +119,6 @@ public class DictionaryController {
     }
 
     /**
-     * todo 删除时参数校验
      * 字典item 数据更新\新增\删除
      * @param tableDataDto
      * @return
@@ -144,7 +143,6 @@ public class DictionaryController {
     }
 
     /**
-     * todo 删除时参数校验
      * 更新字典列表
      * @param tableDataDto
      * @return

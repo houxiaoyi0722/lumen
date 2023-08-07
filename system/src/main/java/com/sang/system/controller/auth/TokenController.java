@@ -2,10 +2,12 @@ package com.sang.system.controller.auth;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
+import com.sang.common.constants.AuthConst;
 import com.sang.common.constants.StringConst;
 import com.sang.common.domain.auth.authentication.token.dto.TokenDto;
 import com.sang.common.response.Result;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.*;
@@ -18,6 +20,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static com.sang.common.constants.AuthConst.*;
@@ -39,6 +42,9 @@ public class TokenController {
 
 	@Resource
 	private JwtDecoder decoder;
+
+	@Resource
+	private RedisTemplate<String, String> redisTemplate;
 
 	/**
 	 * 已废弃
@@ -93,7 +99,9 @@ public class TokenController {
 
 		// jwt过期刷新
 		Jwt freshToken = getFreshToken(Instant.now(), authorization);
-		// todo  jwt过期刷新 记录 更新 添加redis 存储管理jwt 单点登录
+
+		redisTemplate.boundValueOps(AuthConst.TOKEN_JWT + freshToken.getSubject()).set(freshToken.getTokenValue(), EXPIRY, TimeUnit.SECONDS);
+
 		return Result.ok(freshToken.getTokenValue());
 	}
 

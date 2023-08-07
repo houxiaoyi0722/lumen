@@ -4,6 +4,10 @@ public class StringConst {
 
     public static final String EMPTY = "";
 
+    public static final String COLON = ":";
+
+    public static final String MINUS = "-";
+
     public static final String SPACE = " ";
     public static final String DOT = ".";
     public static final String COMMA = ",";
@@ -18,6 +22,7 @@ public class StringConst {
 
     public static final String CONTENT_TYPE = "Content-type";
 
+    public static final String APPLICATION_JSON = "application/json;charset=UTF-8";
 
     public static final String APPLICATION_XML = "application/xml";
 

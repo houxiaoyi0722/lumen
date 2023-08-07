@@ -19,6 +19,7 @@ import com.sang.common.validate.user.ResetPassword;
 import com.sang.system.service.user.UserExtService;
 import com.sang.system.service.user.UserService;
 import io.ebean.PagedList;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户管理
@@ -43,6 +45,9 @@ public class UserController {
     @Resource
     private UserExtService userExtService;
 
+    @Resource
+    private RedisTemplate<String, String> redisTemplate;
+
     private final UserMapper userMapper = UserMapper.mapper;
     private final UserExtMapper userExtMapper = UserExtMapper.mapper;
 
@@ -54,7 +59,12 @@ public class UserController {
     @PostMapping("/users")
     public PageResult<UserVo> list(@RequestBody UserQry userQry) {
         PagedList<User> userPagedList = userService.userList(userQry);
-        return PageResult.ok(userMapper.userToVoList(userPagedList.getList()), userPagedList);
+
+        List<UserVo> collect = userMapper.userToVoList(userPagedList.getList()).stream()
+                .peek(item -> item.setOnline(redisTemplate.hasKey(AuthConst.TOKEN_JWT + item.getUsername())))
+                .collect(Collectors.toList());
+
+        return PageResult.ok(collect, userPagedList);
     }
 
     /**
