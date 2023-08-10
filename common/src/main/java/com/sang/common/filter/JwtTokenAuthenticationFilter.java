@@ -83,13 +83,14 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         AuthenticationException failed = null;
         try {
             JwtAuthenticationToken jwtAuthenticationToken = getAuthentication(request, response);
-            authentication = this.getAuthenticationManager().authenticate(jwtAuthenticationToken);
+            Authentication auth = this.getAuthenticationManager().authenticate(jwtAuthenticationToken);
             // 验证jwt是否为当前服务签发，或者是否已经过期
-            String refreshToken = redisTemplate.boundValueOps(REFRESH_TOKEN_JWT + jwtAuthenticationToken.getPrincipal()).get();
-            // todo 未验证逻辑
-            if (StrUtil.isBlank(refreshToken) || !refreshToken.equals(jwtAuthenticationToken.getToken())) {
+            String token = redisTemplate.boundValueOps(TOKEN_JWT + auth.getPrincipal()).get();
+
+            if (StrUtil.isBlank(token) || !token.equals(jwtAuthenticationToken.getToken()))
                 throw new BadJwtException("JWT not exist");
-            }
+
+            authentication = auth;
         } catch (JwtValidationException e) {
             failed = new InsufficientAuthenticationException(e.getMessage(), e);
         } catch (BadJwtException e) {

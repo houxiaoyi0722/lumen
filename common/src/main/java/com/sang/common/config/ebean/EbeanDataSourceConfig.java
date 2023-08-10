@@ -22,7 +22,7 @@ public class EbeanDataSourceConfig {
     private String jdbcUrl;
     private int minIdle = 5;
     private long idleTimeout = 600000L;
-    private long maxLifetime = 60000L;
+    private long maxLifetime = 6000000L;
     private long connectionTimeout = 30000L;
     private int maxPoolSize = 10;
     private String driverClassName;
