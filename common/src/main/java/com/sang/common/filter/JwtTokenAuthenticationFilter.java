@@ -88,7 +88,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             String token = redisTemplate.boundValueOps(TOKEN_JWT + auth.getPrincipal()).get();
 
             if (StrUtil.isBlank(token) || !token.equals(jwtAuthenticationToken.getToken()))
-                throw new BadJwtException("JWT not exist");
+                throw new BadJwtException("已被登出，请重新登陆");
 
             authentication = auth;
         } catch (JwtValidationException e) {

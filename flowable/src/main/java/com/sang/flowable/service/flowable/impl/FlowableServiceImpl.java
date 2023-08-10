@@ -189,7 +189,7 @@ public class FlowableServiceImpl implements FlowableService {
                         String last = CollUtil.getLast(strings);
 
                         FlowElement flowElement = bpmnModel.getFlowElement(last);
-                        String name = StrUtil.isBlank(flowElement.getName())? last : flowElement.getName();
+                        String name = flowElement == null || StrUtil.isBlank(flowElement.getName())? last : flowElement.getName();
 
                         strings.set(strings.size()-1, name);
                         item.setDeleteReason(String.join(StringConst.SPACE, strings));
