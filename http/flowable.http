@@ -73,3 +73,8 @@ Authorization: Bearer {{token}}
 ### 同步用户
 GET {{protocol}}{{domain}}/lumen/flowable/user/sync?username=
 Authorization: Bearer {{token}}
+
+
+### 获取履历
+GET {{protocol}}{{domain}}/lumen/flowable/process/history?processInstanceId=de0ab5ca-2d19-11ee-b742-e2d4e83f9995&processDefinitionId=Process_1111:22:c4f50c77-2d19-11ee-b742-e2d4e83f9995
+Authorization: Bearer {{token}}

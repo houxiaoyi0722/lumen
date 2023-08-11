@@ -6,6 +6,7 @@ import com.sang.common.config.auth.JwtAuthenticationToken;
 import com.sang.common.constants.StringConst;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -23,6 +24,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sang.common.constants.AuthConst.AUTHORIZATION;
-import static com.sang.common.constants.AuthConst.TOKEN_HEADER;
+import static com.sang.common.constants.AuthConst.*;
 
 /**
  * @author hxy
@@ -45,6 +46,9 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
     private RequestMatcher requiresAuthenticationRequestMatcher;
     private List<RequestMatcher> permissiveRequestMatchers;
     private AuthenticationManager authenticationManager;
+
+    @Resource
+    private RedisTemplate<String, String> redisTemplate;
 
     // 去除默认成功后处理
     private AuthenticationSuccessHandler successHandler = null;
@@ -79,7 +83,14 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         AuthenticationException failed = null;
         try {
             JwtAuthenticationToken jwtAuthenticationToken = getAuthentication(request, response);
-            authentication = this.getAuthenticationManager().authenticate(jwtAuthenticationToken);
+            Authentication auth = this.getAuthenticationManager().authenticate(jwtAuthenticationToken);
+            // 验证jwt是否为当前服务签发，或者是否已经过期
+            String token = redisTemplate.boundValueOps(TOKEN_JWT + auth.getPrincipal()).get();
+
+            if (StrUtil.isBlank(token) || !token.equals(jwtAuthenticationToken.getToken()))
+                throw new BadJwtException("已被登出，请重新登陆");
+
+            authentication = auth;
         } catch (JwtValidationException e) {
             failed = new InsufficientAuthenticationException(e.getMessage(), e);
         } catch (BadJwtException e) {

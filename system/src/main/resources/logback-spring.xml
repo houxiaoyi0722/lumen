@@ -132,20 +132,6 @@
         </root>
     </springProfile>
 
-    <springProfile name="jia">
-        <logger name="com.lumen" level="INFO" />
-        <root level="INFO">
-            <appender-ref ref="CONSOLE" />
-        </root>
-    </springProfile>
-
-    <springProfile name="gs">
-        <logger name="com.lumen" level="INFO" />
-        <root level="INFO">
-            <appender-ref ref="CONSOLE" />
-        </root>
-    </springProfile>
-
     <!--开发环境:打印控制台-->
     <springProfile name="dev">
         <!--可以输出项目中的debug日志-->

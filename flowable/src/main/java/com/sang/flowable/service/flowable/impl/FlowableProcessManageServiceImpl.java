@@ -241,7 +241,7 @@ public class FlowableProcessManageServiceImpl implements FlowableProcessManageSe
         List<String> activities = new ArrayList<>(completedActivityInstances);
         activities.addAll(currentActivityinstances);
 
-        // TODO: not a robust way of checking when parallel paths are active, should be revisited
+        // not a robust way of checking when parallel paths are active, should be revisited
         // Go over all activities and check if it's possible to match any outgoing paths against the activities
         for (FlowElement activity : pojoModel.getMainProcess().getFlowElements()) {
             if (activity instanceof FlowNode) {

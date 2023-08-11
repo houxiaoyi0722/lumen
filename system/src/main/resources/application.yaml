@@ -4,6 +4,10 @@ server:
     context-path: /lumen
 spring:
   profiles.active: txy
+  elasticsearch:
+    uris: http://10.144.233.86:9201
+#    username: elasticsearch
+#    password: elasticsearch
   application:
     name: lumen
   servlet:

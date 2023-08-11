@@ -7,6 +7,8 @@ package com.sang.common.constants;
 public class AuthConst {
     public static final String TOKEN_HEADER = "Bearer ";
     public static final String AUTHORIZATION = "Authorization";
+    public static final String TOKEN_JWT = "TokenJwt: ";
+    public static final String REFRESH_TOKEN_JWT = "RefreshTokenJwt: ";
     public static final String ROLES = "roles";
     public static final String ROLE_SPLIT = ",";
     public static final String SELF = "SELF";

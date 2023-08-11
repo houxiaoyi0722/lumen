@@ -135,7 +135,7 @@ public class LeaveProcessController {
      */
     @PostMapping("/completeTask")
     public Result<Boolean> completeTask(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
-        leaveProcessService.completeTaskBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess),leaveProcess.getTaskId());
+        leaveProcessService.completeTaskBusinessProcessing(leaveProcess);
         return Result.ok();
     }
 
@@ -146,7 +146,18 @@ public class LeaveProcessController {
      */
     @DeleteMapping("/deleteProcessInstance")
     public Result<Boolean> deleteProcessInstance(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
-        return Result.ok(leaveProcessService.deleteProcessInstanceBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess)));
+        return Result.ok(leaveProcessService.deleteProcessInstanceBusinessProcessing(leaveProcessMapper.dtoToLeaveProcess(leaveProcess),leaveProcess));
+    }
+
+    /**
+     * 审批节点移动- 驳回-退回
+     * @param leaveProcess
+     * @return
+     */
+    @PutMapping("/moveActivity")
+    public Result<Boolean> moveActivity(@RequestBody @Validated(Create.class) LeaveProcessDto leaveProcess) {
+        leaveProcessService.moveActivityBusinessProcessing(leaveProcess);
+        return Result.ok();
     }
 
     /**

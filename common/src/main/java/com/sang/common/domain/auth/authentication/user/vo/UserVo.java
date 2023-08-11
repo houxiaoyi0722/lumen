@@ -57,6 +57,11 @@ public class UserVo {
     private Boolean enabled;
 
     /**
+     * 是否在线
+     */
+    private Boolean online;
+
+    /**
      * 账户未过期
      */
     private Boolean accountNonExpired;

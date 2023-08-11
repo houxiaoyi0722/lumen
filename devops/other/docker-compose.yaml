@@ -37,6 +37,7 @@ services:
     environment:
       - cluster.name=docker-cluster #设置集群名称为elasticsearch
       - discovery.type=single-node #以单一节点模式启动
+      - xpack.security.enabled=false #关闭安全校验
       - ES_JAVA_OPTS=-Xms512m -Xmx1024m #设置使用jvm内存大小
     volumes:
       - ./elastic/docker-cluster/data:/usr/share/elasticsearch/data

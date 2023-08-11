@@ -1,12 +1,12 @@
 package com.sang.flowable.controller.flowable;
 
-import com.sang.flowable.dto.FlowableTaskInfoDto;
+import cn.hutool.core.util.StrUtil;
+import com.sang.common.response.Result;
+import com.sang.flowable.dto.*;
 import com.sang.common.response.PageResult;
-import com.sang.flowable.dto.HistoricProcessInstanceDto;
-import com.sang.flowable.dto.HistoricTaskInstanceDto;
-import com.sang.flowable.dto.ProcessDefinitionDto;
 import com.sang.flowable.service.flowable.FlowableService;
 import lombok.extern.slf4j.Slf4j;
+import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.springframework.security.core.Authentication;
@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Slf4j
 @RequestMapping("/flowable")
@@ -93,6 +94,16 @@ public class FlowableController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         return flowableService.getHistoricTaskInstancePageResult(authentication.getPrincipal().toString(), pageNumber, pageSize);
+    }
+
+    /**
+     * 获取流程履历
+     * @param processInstanceId 流程实例id
+     * @return
+     */
+    @GetMapping("/process/history")
+    public Result<List<HistoricActivityInstanceDto>> getProcessHistory(String processInstanceId, String processDefinitionId) {
+        return Result.ok(flowableService.getProcessHistory(processInstanceId, processDefinitionId));
     }
 
 }

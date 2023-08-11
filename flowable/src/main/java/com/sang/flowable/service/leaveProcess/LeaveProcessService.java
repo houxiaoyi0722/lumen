@@ -1,5 +1,6 @@
 package com.sang.flowable.service.leaveProcess;
 
+import com.sang.common.domain.leaveProcess.dto.LeaveProcessDto;
 import com.sang.common.domain.leaveProcess.entity.LeaveProcess;
 import com.sang.common.domain.leaveProcess.param.LeaveProcessQry;
 import com.sang.flowable.service.flowable.FlowableBaseInterface;
@@ -31,4 +32,9 @@ public interface LeaveProcessService extends FlowableBaseInterface<LeaveProcess>
 
     void deleteAll(List<LeaveProcess> leaveProcesss);
 
+    void moveActivityBusinessProcessing(LeaveProcessDto param);
+
+    void completeTaskBusinessProcessing(LeaveProcessDto leaveProcess);
+
+    Boolean deleteProcessInstanceBusinessProcessing(LeaveProcess leaveProcess, LeaveProcessDto leaveProcessDto);
 }
