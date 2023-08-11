@@ -32,7 +32,9 @@ public class ResponseUtil {
      */
     public static void sendStream(InputStream resourceAsStream, String contentType, String filename) throws IOException {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        assert requestAttributes != null;
         HttpServletResponse httpServletResponse = requestAttributes.getResponse();
+        assert httpServletResponse != null;
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
         try {
             // 设置信息给客户端不解析

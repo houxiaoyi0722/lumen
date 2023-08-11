@@ -58,7 +58,7 @@ public class JDBCSSHChannel {
             session.disconnect();
         }
 
-        if (channel != null && session.isConnected() ) {
+        if (channel != null && channel.isConnected() ) {
             channel.disconnect();
         }
     }
