@@ -27,6 +27,7 @@ pipeline {
 
     stage('mvn build') {
       steps {
+        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=lumen -Dsonar.projectName='lumen' -Dsonar.host.url=http://10.144.233.86:9002 -Dsonar.token=sqp_be1a6c098d8a0c7da3bf60eb4ad2b9d489453c4b"
         sh "mvn clean compile package"
       }
     }
