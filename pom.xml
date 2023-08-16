@@ -51,6 +51,8 @@
         <micrometer-prometheus.version>1.9.0</micrometer-prometheus.version>
         <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
         <flowable.version>6.8.0</flowable.version>
+        <elasticsearch.version>7.15.2</elasticsearch.version>
+        <disruptor.version>3.4.4</disruptor.version>
     </properties>
     <modules>
         <module>common</module>
@@ -72,7 +74,12 @@
             <dependency>
                 <groupId>org.elasticsearch</groupId>
                 <artifactId>elasticsearch</artifactId>
-                <version>7.15.2</version>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${disruptor.version}</version>
             </dependency>
 <!--            <dependency>
                 <groupId>org.elasticsearch.client</groupId>

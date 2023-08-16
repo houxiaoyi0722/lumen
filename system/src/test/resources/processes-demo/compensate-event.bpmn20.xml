@@ -4,8 +4,8 @@
     <startEvent id="startevent1" name="开始事件" flowable:formFieldValidation="true"></startEvent>
     <parallelGateway id="parallelgateway1" name="并行网关"></parallelGateway>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="parallelgateway1"></sequenceFlow>
-    <serviceTask id="servicetask1" name="预订机票" flowable:class="com.sang.delegate.OneSendMessage"></serviceTask>
-    <serviceTask id="servicetask2" name="微信支付" flowable:class="com.sang.delegate.ErrorExample"></serviceTask>
+    <serviceTask id="servicetask1" name="预订机票" flowable:class="com.sang.system.example.flowable.delegate.OneSendMessage"></serviceTask>
+    <serviceTask id="servicetask2" name="微信支付" flowable:class="com.sang.system.example.flowable.delegate.ErrorExample"></serviceTask>
     <userTask id="usertask1" name="人工出票" flowable:assignee="zhangsan" flowable:formFieldValidation="true">
       <extensionElements>
         <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
@@ -17,7 +17,7 @@
     <sequenceFlow id="flow4" sourceRef="parallelgateway1" targetRef="servicetask1"></sequenceFlow>
     <sequenceFlow id="flow5" sourceRef="parallelgateway1" targetRef="servicetask2"></sequenceFlow>
     <sequenceFlow id="flow6" sourceRef="servicetask2" targetRef="parallelgateway2"></sequenceFlow>
-    <serviceTask id="servicetask3" name="取消预订" isForCompensation="true" flowable:class="com.sang.delegate.ThreeSendMessage"></serviceTask>
+    <serviceTask id="servicetask3" name="取消预订" isForCompensation="true" flowable:class="com.sang.system.example.flowable.delegate.ThreeSendMessage"></serviceTask>
     <boundaryEvent id="boundarycompensation1" name="补偿边界事件" attachedToRef="servicetask1" cancelActivity="false">
       <compensateEventDefinition></compensateEventDefinition>
     </boundaryEvent>

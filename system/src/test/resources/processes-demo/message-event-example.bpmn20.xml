@@ -7,7 +7,7 @@
     <startEvent id="sid-7201E4F7-3D02-4621-B597-9144DDF83159" isInterrupting="true">
       <messageEventDefinition messageRef="test"></messageEventDefinition>
     </startEvent>
-    <serviceTask id="sid-23E03CDF-F866-4CE6-8FF2-CB2ED9117834" name="自动任务" flowable:class="com.sang.delegate.SendRejectionMail"></serviceTask>
+    <serviceTask id="sid-23E03CDF-F866-4CE6-8FF2-CB2ED9117834" name="自动任务" flowable:class="com.sang.system.example.flowable.delegate.SendRejectionMail"></serviceTask>
     <sequenceFlow id="sid-583750E7-433C-4D21-AD6F-3479C3FC6EC1" sourceRef="sid-7201E4F7-3D02-4621-B597-9144DDF83159" targetRef="sid-23E03CDF-F866-4CE6-8FF2-CB2ED9117834"></sequenceFlow>
     <endEvent id="sid-CADCE930-4BAF-48AA-BB27-B693F39DE6D3"></endEvent>
     <intermediateCatchEvent id="sid-5DBA6EA4-2609-4FD3-A3B6-BE25BABD3943">
@@ -15,7 +15,7 @@
     </intermediateCatchEvent>
     <sequenceFlow id="sid-5192AED5-F3D9-4E35-8060-873CADF9A0A2" sourceRef="sid-23E03CDF-F866-4CE6-8FF2-CB2ED9117834" targetRef="sid-5DBA6EA4-2609-4FD3-A3B6-BE25BABD3943"></sequenceFlow>
     <serviceTask id="sid-F4BD437C-7253-492F-8BDB-0CCE4397B9C9" name="自动任务3
-" flowable:class="com.sang.delegate.SendMessage"></serviceTask>
+" flowable:class="com.sang.system.example.flowable.delegate.SendMessage"></serviceTask>
     <sequenceFlow id="sid-C7DCCF2F-824E-487A-9AD6-895E80643D90" sourceRef="sid-F4BD437C-7253-492F-8BDB-0CCE4397B9C9" targetRef="sid-CADCE930-4BAF-48AA-BB27-B693F39DE6D3"></sequenceFlow>
     <userTask id="sid-FA9A1250-96E5-4941-9F9C-0654B027B354" name="a" flowable:assignee="aa" flowable:formFieldValidation="true">
       <extensionElements>

@@ -4,15 +4,15 @@
     <startEvent id="startEvent1" flowable:formFieldValidation="true"></startEvent>
     <subProcess id="sid-F3C8A543-7037-4EF0-90C1-BA72ADEBDD38" name="subProcess">
       <startEvent id="sid-F2A747FB-0689-4FF5-94CF-3060AD728EC8" flowable:formFieldValidation="true"></startEvent>
-      <serviceTask id="sid-B4A674E1-ACAC-4053-9CC3-EEB8913CE7B3" name="任务1" flowable:class="com.sang.delegate.ErrorExample"></serviceTask>
+      <serviceTask id="sid-B4A674E1-ACAC-4053-9CC3-EEB8913CE7B3" name="任务1" flowable:class="com.sang.system.example.flowable.delegate.ErrorExample"></serviceTask>
       <endEvent id="sid-EC064545-FE13-4FF2-A045-A1F287677BA0"></endEvent>
       <sequenceFlow id="sid-1C075C28-F375-40E0-A59F-C5375423C1D6" sourceRef="sid-F2A747FB-0689-4FF5-94CF-3060AD728EC8" targetRef="sid-B4A674E1-ACAC-4053-9CC3-EEB8913CE7B3"></sequenceFlow>
       <sequenceFlow id="sid-BB146771-1F33-49A6-A46F-F5A663C21C75" sourceRef="sid-B4A674E1-ACAC-4053-9CC3-EEB8913CE7B3" targetRef="sid-EC064545-FE13-4FF2-A045-A1F287677BA0"></sequenceFlow>
     </subProcess>
     <sequenceFlow id="sid-4A96AA9B-32DB-4815-AB23-47546910208B" sourceRef="startEvent1" targetRef="sid-F3C8A543-7037-4EF0-90C1-BA72ADEBDD38"></sequenceFlow>
     <endEvent id="sid-56B1A965-A51D-49D1-B5DB-0441DE1D961D"></endEvent>
-    <serviceTask id="sid-AAE753A5-7990-4B95-B519-0B8F6A218C5F" name="任务3" flowable:class="com.sang.delegate.SendMessage"></serviceTask>
-    <serviceTask id="sid-17C2FA73-361E-463E-998D-0363564D6B1C" name="任务2" flowable:class="com.sang.delegate.SendRejectionMail"></serviceTask>
+    <serviceTask id="sid-AAE753A5-7990-4B95-B519-0B8F6A218C5F" name="任务3" flowable:class="com.sang.system.example.flowable.delegate.SendMessage"></serviceTask>
+    <serviceTask id="sid-17C2FA73-361E-463E-998D-0363564D6B1C" name="任务2" flowable:class="com.sang.system.example.flowable.delegate.SendRejectionMail"></serviceTask>
     <sequenceFlow id="sid-19C73645-B429-4338-B4B4-A69F6F2E7CFA" sourceRef="sid-F3C8A543-7037-4EF0-90C1-BA72ADEBDD38" targetRef="sid-AAE753A5-7990-4B95-B519-0B8F6A218C5F"></sequenceFlow>
     <sequenceFlow id="sid-3C7CC698-6866-49C2-8CBD-8BB07E5C91B2" sourceRef="sid-AAE753A5-7990-4B95-B519-0B8F6A218C5F" targetRef="sid-56B1A965-A51D-49D1-B5DB-0441DE1D961D"></sequenceFlow>
     <boundaryEvent id="sid-54260C05-8D9C-4ECB-AEE3-6A197420278E" attachedToRef="sid-F3C8A543-7037-4EF0-90C1-BA72ADEBDD38">

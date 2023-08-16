@@ -4,7 +4,7 @@
     <startEvent id="startEvent1" flowable:formFieldValidation="true"></startEvent>
     <userTask id="sid-566D662A-076E-4191-A4C9-D3DF51FFC1D1" name="发起申请" flowable:assignee="${myProperty}" flowable:formFieldValidation="true">
       <extensionElements>
-        <flowable:taskListener event="create" class="com.sang.listener.MyTaskListener"></flowable:taskListener>
+        <flowable:taskListener event="create" class="com.sang.system.example.flowable.listener.MyTaskListener"></flowable:taskListener>
         <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>
     </userTask>

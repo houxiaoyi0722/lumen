@@ -2,12 +2,12 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef" exporter="Flowable Open Source Modeler" exporterVersion="6.8.0">
   <process id="error-event-example" name="error-event-example" isExecutable="true">
     <startEvent id="startEvent1" flowable:formFieldValidation="true"></startEvent>
-    <serviceTask id="sid-B1155853-0F20-451A-9D1B-8E029A6BB9F2" name="自动任务一" flowable:class="com.sang.delegate.ErrorExample"></serviceTask>
+    <serviceTask id="sid-B1155853-0F20-451A-9D1B-8E029A6BB9F2" name="自动任务一" flowable:class="com.sang.system.example.flowable.delegate.ErrorExample"></serviceTask>
     <endEvent id="sid-AD474A9B-25FB-4E1D-B495-441C45B410E1"></endEvent>
     <sequenceFlow id="sid-14D066C0-3D55-46FE-9F5A-376C6717A537" sourceRef="startEvent1" targetRef="sid-B1155853-0F20-451A-9D1B-8E029A6BB9F2"></sequenceFlow>
     <sequenceFlow id="sid-E1E67E2B-12C1-40F5-8C51-D20A41964ACB" sourceRef="sid-B1155853-0F20-451A-9D1B-8E029A6BB9F2" targetRef="sid-AD474A9B-25FB-4E1D-B495-441C45B410E1"></sequenceFlow>
     <subProcess id="sid-9BBEBBBA-0AA3-4F23-BF41-0B5D36199B64" name="test" triggeredByEvent="true">
-      <serviceTask id="sid-CAB57EA4-2B1D-4826-ABAA-80E145543D0D" name="异常处理" flowable:class="com.sang.delegate.SendMessage"></serviceTask>
+      <serviceTask id="sid-CAB57EA4-2B1D-4826-ABAA-80E145543D0D" name="异常处理" flowable:class="com.sang.system.example.flowable.delegate.SendMessage"></serviceTask>
       <startEvent id="sid-6757C7B4-CCD1-4783-8D01-2329396EE948" isInterrupting="true">
         <errorEventDefinition errorRef="error1" flowable:errorVariableLocalScope="true" flowable:errorVariableTransient="true"></errorEventDefinition>
       </startEvent>

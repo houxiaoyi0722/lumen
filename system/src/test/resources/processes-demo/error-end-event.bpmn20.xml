@@ -4,7 +4,7 @@
     <startEvent id="startEvent1" name="开始" flowable:formFieldValidation="true"></startEvent>
     <subProcess id="sid-615C7DBE-B6D9-4CF9-8261-D9883C308B1B" name="subProcess">
       <startEvent id="sid-04DE8AB1-8032-42EB-B86C-13945BF14486" flowable:formFieldValidation="true"></startEvent>
-      <serviceTask id="sid-649CA7C3-808A-47EB-B587-B243FC784AEF" name="任务1" flowable:class="com.sang.delegate.OneSendMessage"></serviceTask>
+      <serviceTask id="sid-649CA7C3-808A-47EB-B587-B243FC784AEF" name="任务1" flowable:class="com.sang.system.example.flowable.delegate.OneSendMessage"></serviceTask>
       <exclusiveGateway id="sid-43915B59-E0FA-49D6-9A7A-A85AD908D162"></exclusiveGateway>
       <endEvent id="sid-93BCD1DF-11D0-4ED1-B520-59773F1A4B2D" name="子流程结束"></endEvent>
       <endEvent id="sid-80BD8D45-55B7-454C-8FAA-08ACA19F4F5C" name="错误结束事件">
@@ -20,9 +20,9 @@
       </sequenceFlow>
     </subProcess>
     <sequenceFlow id="sid-7FFB3085-060C-4CAF-8E80-3604A6CFFBFF" sourceRef="startEvent1" targetRef="sid-615C7DBE-B6D9-4CF9-8261-D9883C308B1B"></sequenceFlow>
-    <serviceTask id="sid-607B5493-3EAC-4B07-A743-ABF28277C0E5" name="任务3" flowable:class="com.sang.delegate.ThreeSendMessage"></serviceTask>
+    <serviceTask id="sid-607B5493-3EAC-4B07-A743-ABF28277C0E5" name="任务3" flowable:class="com.sang.system.example.flowable.delegate.ThreeSendMessage"></serviceTask>
     <sequenceFlow id="sid-41639EA9-A2B8-4DFB-A19A-7BF30BAD736E" sourceRef="sid-0C8A87A5-94BE-473B-B1E4-7D9004E96A54" targetRef="sid-607B5493-3EAC-4B07-A743-ABF28277C0E5"></sequenceFlow>
-    <serviceTask id="sid-C9128D3F-270D-4B9A-A0DE-DBC17A6EE995" name="任务2" flowable:class="com.sang.delegate.TwoSendMessage"></serviceTask>
+    <serviceTask id="sid-C9128D3F-270D-4B9A-A0DE-DBC17A6EE995" name="任务2" flowable:class="com.sang.system.example.flowable.delegate.TwoSendMessage"></serviceTask>
     <endEvent id="sid-ED953092-B1C7-4333-8C5B-BD6AE2723639"></endEvent>
     <endEvent id="sid-9838FB10-E3EB-413F-804B-78D71AF0ED4F"></endEvent>
     <sequenceFlow id="sid-A3429401-B65F-495B-9894-B884695F05CE" sourceRef="sid-615C7DBE-B6D9-4CF9-8261-D9883C308B1B" targetRef="sid-C9128D3F-270D-4B9A-A0DE-DBC17A6EE995"></sequenceFlow>

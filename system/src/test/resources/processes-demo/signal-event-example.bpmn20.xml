@@ -7,15 +7,15 @@
       <signalEventDefinition signalRef="start"></signalEventDefinition>
     </startEvent>
     <parallelGateway id="sid-C72E7F04-B49A-432B-97B7-D4BDD32B7DF8"></parallelGateway>
-    <serviceTask id="sid-B4BDB21A-7A76-4EFD-8FC0-FC1AE8D95E57" name="步骤1" flowable:class="com.sang.delegate.OneSendMessage"></serviceTask>
+    <serviceTask id="sid-B4BDB21A-7A76-4EFD-8FC0-FC1AE8D95E57" name="步骤1" flowable:class="com.sang.system.example.flowable.delegate.OneSendMessage"></serviceTask>
     <intermediateThrowEvent id="sid-FA873CEA-C0C4-4A19-8CDA-3897FA964A6D">
       <signalEventDefinition signalRef="test1"></signalEventDefinition>
     </intermediateThrowEvent>
     <intermediateCatchEvent id="sid-95898B64-D8B5-44C5-A961-295DD116D3B7">
       <signalEventDefinition signalRef="test1"></signalEventDefinition>
     </intermediateCatchEvent>
-    <serviceTask id="sid-C5C12F42-D0E5-4D50-96DC-E69DB34730CA" name="步骤2" flowable:class="com.sang.delegate.TwoSendMessage"></serviceTask>
-    <serviceTask id="sid-D717FCA7-338D-4E26-A929-A0546F3A1862" name="步骤3" flowable:class="com.sang.delegate.ThreeSendMessage"></serviceTask>
+    <serviceTask id="sid-C5C12F42-D0E5-4D50-96DC-E69DB34730CA" name="步骤2" flowable:class="com.sang.system.example.flowable.delegate.TwoSendMessage"></serviceTask>
+    <serviceTask id="sid-D717FCA7-338D-4E26-A929-A0546F3A1862" name="步骤3" flowable:class="com.sang.system.example.flowable.delegate.ThreeSendMessage"></serviceTask>
     <parallelGateway id="sid-9A731CFF-61D3-4A06-A465-057F709373E0"></parallelGateway>
     <endEvent id="sid-F23B0056-933D-4DB5-84B0-927511162AF1"></endEvent>
     <sequenceFlow id="sid-4EE7E000-7191-481B-8ABC-EC5E6601983B" sourceRef="sid-078BA820-8BDB-448B-98A5-0902575CE137" targetRef="sid-C72E7F04-B49A-432B-97B7-D4BDD32B7DF8"></sequenceFlow>

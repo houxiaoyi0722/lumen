@@ -22,7 +22,7 @@
       <boundaryEvent id="boundarycompensation1" name="Compensate" attachedToRef="usertask1" cancelActivity="false">
         <compensateEventDefinition></compensateEventDefinition>
       </boundaryEvent>
-      <serviceTask id="servicetask5" name="补偿自动任务" isForCompensation="true" flowable:class="com.sang.delegate.OneSendMessage"></serviceTask>
+      <serviceTask id="servicetask5" name="补偿自动任务" isForCompensation="true" flowable:class="com.sang.system.example.flowable.delegate.OneSendMessage"></serviceTask>
       <sequenceFlow id="flow2" sourceRef="startevent2" targetRef="usertask1"></sequenceFlow>
       <sequenceFlow id="flow5" sourceRef="usertask2" targetRef="endevent1"></sequenceFlow>
       <sequenceFlow id="flow6" sourceRef="exclusivegateway1" targetRef="cancelendevent1">
@@ -34,11 +34,11 @@
       <sequenceFlow id="flow3" sourceRef="usertask1" targetRef="exclusivegateway1"></sequenceFlow>
     </transaction>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="transaction1"></sequenceFlow>
-    <serviceTask id="servicetask3" name="取消事件结束" flowable:class="com.sang.delegate.TwoSendMessage"></serviceTask>
+    <serviceTask id="servicetask3" name="取消事件结束" flowable:class="com.sang.system.example.flowable.delegate.TwoSendMessage"></serviceTask>
     <sequenceFlow id="flow8" sourceRef="boundarycancel1" targetRef="servicetask3"></sequenceFlow>
     <endEvent id="endevent2" name="取消事件结束"></endEvent>
     <sequenceFlow id="flow9" sourceRef="servicetask3" targetRef="endevent2"></sequenceFlow>
-    <serviceTask id="servicetask4" name="正常结束任务" flowable:class="com.sang.delegate.ThreeSendMessage"></serviceTask>
+    <serviceTask id="servicetask4" name="正常结束任务" flowable:class="com.sang.system.example.flowable.delegate.ThreeSendMessage"></serviceTask>
     <sequenceFlow id="flow10" sourceRef="transaction1" targetRef="servicetask4"></sequenceFlow>
     <endEvent id="endevent3" name="End"></endEvent>
     <sequenceFlow id="flow11" sourceRef="servicetask4" targetRef="endevent3"></sequenceFlow>
