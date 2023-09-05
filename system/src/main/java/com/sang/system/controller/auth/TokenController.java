@@ -10,6 +10,7 @@ import com.sang.common.domain.auth.authentication.user.dto.UserDto;
 import com.sang.common.response.Result;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.*;
@@ -115,6 +116,7 @@ public class TokenController {
 	}
 
 	@PostMapping("/offline")
+	@PreAuthorize("hasAuthority('admin')")
 	public Result<Boolean> offline(@RequestBody UserDto user) {
 		// 删除token,使用户下线
 		redisTemplate.delete(TOKEN_JWT + user.getUsername());
