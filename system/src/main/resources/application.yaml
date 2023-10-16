@@ -7,7 +7,7 @@ spring:
     enabled: false
   profiles.active: txy
   elasticsearch:
-    uris: http://10.144.233.86:9201
+    uris: http://www.sang0722.com:9201
 #    username: elasticsearch
 #    password: elasticsearch
   application:

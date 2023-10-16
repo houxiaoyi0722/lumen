@@ -2,7 +2,7 @@ spring:
   redis:
     database: 0
     port: 16379
-    host: 180.165.163.163
+    host: www.sang0722.com
 #    password: c5fSVo
     timeout: 2000
     jedis:
@@ -15,7 +15,7 @@ datasource:
   db:
     username: root
     password: w7s6bi
-    url: jdbc:mysql://180.165.163.163:13307/lumen_server?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://www.sang0722.com:13307/lumen_server?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     driverClassName: com.mysql.cj.jdbc.Driver
 logging:
   level:

@@ -1,7 +1,6 @@
 package com.sang.system.controller.router;
 
 import cn.hutool.core.collection.CollUtil;
-import com.sang.common.domain.base.dto.CommonKeyIdDto;
 import com.sang.common.domain.router.dto.RouterDto;
 import com.sang.common.domain.router.dto.TableDataDto;
 import com.sang.common.domain.router.mapper.RouterMapper;
