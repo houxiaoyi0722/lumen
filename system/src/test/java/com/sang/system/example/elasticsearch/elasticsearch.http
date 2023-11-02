@@ -1,0 +1,158 @@
+### index列表
+GET http://10.144.233.86:9201/_cat/indices?v
+
+### TYPE列表
+GET http://10.144.233.86:9201/_mapping?pretty=true
+
+### 新建 Index acknowledged字段表示操作成功。
+PUT http://10.144.233.86:9201/weather
+
+### 删除index
+DELETE http://10.144.233.86:9201/weather
+
+### 测试分词器
+POST http://10.144.233.86:9201/_analyze
+Content-Type: application/json
+
+{
+  "tokenizer":"ik_max_word",
+  "text":"我爱技术"
+}
+
+### 创建accounts index 并设置user、title、desc 类型为文本分词器为ik分词器ik_max_word模式
+PUT http://10.144.233.86:9201/accounts
+Content-Type: application/json
+
+{
+  "mappings": {
+    "properties": {
+      "user": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart"
+      },
+      "title": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart"
+      },
+      "desc": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart"
+      }
+    }
+  }
+}
+
+###
+PUT http://10.144.233.86:9201/content
+Content-Type: application/json
+
+{
+  "mappings": {
+    "properties": {
+      "data": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_max_word"
+      },
+      "id": {
+        "type": "text"
+      }
+    }
+  }
+}
+
+###
+PUT http://10.144.233.86:9201/accounts
+Content-Type: application/json
+
+{
+  "user": "张三",
+  "title": "工程师",
+  "desc": "数据库管理"
+}
+
+### 向指定的 /Index/Type 发送 PUT 请求，就可以在 Index 里面新增一条记录 1为id，已存在走更新
+PUT http://10.144.233.86:9201/accounts/_doc/1
+Content-Type: application/json
+
+{
+  "user": "张三",
+  "title": "工程师",
+  "desc": "数据库管理 系统"
+}
+
+### 向指定的 /Index/Type 发送 POST 请求
+POST http://10.144.233.86:9201/accounts/_doc
+Content-Type: application/json
+
+{
+  "user": "李四",
+  "title": "工程师",
+  "desc": "数据库管理"
+}
+### 向指定的 /Index/Type 发送 GET 请求查询数据  pretty=true表示以易读的格式返回
+GET http://10.144.233.86:9201/accounts/_doc/1?pretty=true
+
+### 向指定的 /Index/Type 发送 GET 请求查询数据
+# 返回结果的 took字段表示该操作的耗时（单位为毫秒），timed_out字段表示是否超时，hits字段表示命中的记录，里面子字段的含义如下。
+# total：返回记录数，本例是2条。
+# max_score：最高的匹配程度，本例是1.0。
+# hits：返回的记录组成的数组。
+GET http://10.144.233.86:9201/accounts/_search
+
+### 向指定的 /Index/Type 发送 DELETE 请求删除数据
+DELETE http://10.144.233.86:9201/accounts/_doc/uJhmkIsBRaM00nkoCOTR
+
+
+### 全文查询
+# Elastic 默认一次返回10条结果，可以通过size字段改变这个设置。还可以通过from字段，指定位移。
+POST http://10.144.233.86:9201/accounts/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": {
+      "desc": "管理"
+    }
+  },
+  "size": 1,
+  "from": 1
+}
+
+### 逻辑运算
+# 如果有多个搜索关键字， Elastic 认为它们是or关系。 管理 or 系统
+POST http://10.144.233.86:9201/accounts/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": {
+      "desc": "管理 系统"
+    }
+  }
+}
+
+### 如果要执行多个关键词的and搜索，必须使用布尔查询。
+POST http://10.144.233.86:9201/accounts/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "desc": "管理" } },
+        { "match": { "desc": "系统" } }
+      ]
+    }
+  }
+}
+
+
+
+
+
+
+

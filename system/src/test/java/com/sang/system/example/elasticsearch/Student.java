@@ -12,8 +12,8 @@ import javax.persistence.Id;
 public class Student {
     @Id
     private String id;
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text,analyzer = "ik_max_word",searchAnalyzer = "ik_max_word")
     private String name;
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text,analyzer = "ik_max_word",searchAnalyzer = "ik_max_word")
     private String price;
 }
