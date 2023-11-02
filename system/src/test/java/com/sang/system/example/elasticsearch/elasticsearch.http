@@ -6,6 +6,14 @@ GET http://10.144.233.86:9201/_mapping?pretty=true
 
 ### 新建 Index acknowledged字段表示操作成功。
 PUT http://10.144.233.86:9201/weather
+Content-Type: application/json
+
+{
+  "settings":{
+    "number_of_shards" : 2,
+    "number_of_replicas" : 0
+  }
+}
 
 ### 删除index
 DELETE http://10.144.233.86:9201/weather
@@ -24,6 +32,9 @@ PUT http://10.144.233.86:9201/accounts
 Content-Type: application/json
 
 {
+  "_source": {
+    "excludes":["description"]
+  },
   "mappings": {
     "properties": {
       "user": {
@@ -37,6 +48,11 @@ Content-Type: application/json
         "search_analyzer": "ik_smart"
       },
       "desc": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart"
+      },
+      "description": {
         "type": "text",
         "analyzer": "ik_max_word",
         "search_analyzer": "ik_smart"
