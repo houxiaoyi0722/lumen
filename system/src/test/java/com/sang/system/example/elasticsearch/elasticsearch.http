@@ -1,3 +1,12 @@
+###
+GET http://10.144.233.86:9201
+
+###
+GET http://10.144.233.86:9202
+
+###
+GET http://10.144.233.86:9203
+
 ### index列表
 GET http://10.144.233.86:9201/_cat/indices?v
 
@@ -28,13 +37,13 @@ Content-Type: application/json
 }
 
 ### 创建accounts index 并设置user、title、desc 类型为文本分词器为ik分词器ik_max_word模式
+#  "_source": {
+#    "excludes":["description"]
+#  },
 PUT http://10.144.233.86:9201/accounts
 Content-Type: application/json
 
 {
-  "_source": {
-    "excludes":["description"]
-  },
   "mappings": {
     "properties": {
       "user": {
