@@ -163,6 +163,11 @@ Content-Type: application/json
         { "match": { "desc": "系统" } }
       ]
     }
+  },
+  "highlight": {
+    "pre_tags": ["<font color='red'>"],
+    "post_tags": ["</font>"],
+    "fields": {"desc": {}}
   }
 }
 
