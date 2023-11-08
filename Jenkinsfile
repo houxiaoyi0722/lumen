@@ -25,11 +25,11 @@ pipeline {
       }
     }
 
-    stage('sonar-scan') {
-      steps {
-        sh "mvn clean compile verify sonar:sonar -Dsonar.projectKey=lumen -Dsonar.projectName='lumen' -Dsonar.host.url=http://10.144.233.86:9002 -Dsonar.token=sqp_be1a6c098d8a0c7da3bf60eb4ad2b9d489453c4b"
-      }
-    }
+//    stage('sonar-scan') {
+//      steps {
+//        sh "mvn clean compile verify sonar:sonar -Dsonar.projectKey=lumen -Dsonar.projectName='lumen' -Dsonar.host.url=http://10.144.233.86:9002 -Dsonar.token=sqp_be1a6c098d8a0c7da3bf60eb4ad2b9d489453c4b"
+//      }
+//    }
 
     stage('mvn build') {
       steps {
