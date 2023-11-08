@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.persistence.Id;
 
-@Document(indexName = "log")
+@Document(indexName = "student")
 @Data
 public class Student {
     @Id

@@ -1,5 +1,6 @@
 package com.sang.system.example.elasticsearch;
 
+import org.elasticsearch.client.RestHighLevelClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,6 +13,9 @@ public class ElasticsearchExample {
     @Resource
     private StudentRepository studentRepository;
 
+    @Resource
+    private RestHighLevelClient restHighLevelClient;
+
 
     @Test
     public void test1() {
@@ -23,6 +27,8 @@ public class ElasticsearchExample {
         Optional<Student> byId = studentRepository.findById("111");
         Student student1 = byId.get();
 
+
+//        restHighLevelClient.get()
     }
 
 }
