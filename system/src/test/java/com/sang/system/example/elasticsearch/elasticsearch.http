@@ -7,6 +7,12 @@ GET http://10.144.233.86:9202
 ###
 GET http://10.144.233.86:9203
 
+### 查询健康状态
+GET http://10.144.233.86:9203/_cluster/health?pretty
+
+### 查询分片
+GET http://10.144.233.86:9203/_cat/shards?h=index,shard,prirep,state,unassigned.reason
+
 ### index列表
 GET http://10.144.233.86:9201/_cat/indices?v
 
@@ -25,7 +31,7 @@ Content-Type: application/json
 }
 
 ### 删除index
-DELETE http://10.144.233.86:9201/weather
+DELETE http://10.144.233.86:9201/accounts
 
 ### 测试分词器
 POST http://10.144.233.86:9201/_analyze
@@ -181,7 +187,9 @@ Content-Type: application/json
 }
 
 
-
+### 检查磁盘使用情况
+#如果很多nodes的磁盘都触及low disk watermark, 没有足够的磁盘空间用来分配分片， 这时候同样会出现 unassigned 的分片。 一般这个 磁盘使用超过 85 % ， 就会触及low disk watermark。
+GET http://10.144.233.86:9201/_cat/allocation?v
 
 
 
