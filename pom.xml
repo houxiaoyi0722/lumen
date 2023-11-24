@@ -41,6 +41,7 @@
         <nimbus.jose.jwt>9.7</nimbus.jose.jwt>
         <spring.boot>2.6.2</spring.boot>
         <webcollector.version>2.73-alpha</webcollector.version>
+        <webmagic.version>0.9.1</webmagic.version>
         <ikanalyzer.version>2012_u6</ikanalyzer.version>
         <HikariCP.version>3.4.5</HikariCP.version>
         <screw.version>1.0.5</screw.version>
@@ -175,6 +176,16 @@
                 <groupId>cn.edu.hfut.dmic.webcollector</groupId>
                 <artifactId>WebCollector</artifactId>
                 <version>${webcollector.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>us.codecraft</groupId>
+                <artifactId>webmagic-core</artifactId>
+                <version>${webmagic.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>us.codecraft</groupId>
+                <artifactId>webmagic-extension</artifactId>
+                <version>${webmagic.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.janeluo</groupId>
