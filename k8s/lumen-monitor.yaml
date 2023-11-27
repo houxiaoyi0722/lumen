@@ -1,0 +1,20 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: lumen-monitor
+  namespace: monitoring
+  labels:
+    app: lumen-monitor
+spec:
+  endpoints:
+    - port: http-8080
+      interval: 10s
+      scheme: http
+      path: '/actuator/prometheus'
+  selector:
+    matchLabels:
+      app: lumen
+  namespaceSelector:
+    matchNames:
+      - sang-lumen
