@@ -28,3 +28,6 @@ Content-Type: application/json
   "id": "427821948161691648",
   "groupName": "fake26"
 }
+
+###
+GET {{protocol}}{{domain}}/lumen/actuator/prometheus

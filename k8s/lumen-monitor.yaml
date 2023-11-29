@@ -2,19 +2,25 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
+  # name最终会反应到Prometheus的配置中，作为job_name
   name: lumen-monitor
+  # 命名空间必须和Prometheus所在的命名空间相同，此处为monitoring
   namespace: monitoring
   labels:
     app: lumen-monitor
 spec:
   endpoints:
+    # Endpoints.port需要和Pod/Deployment中的拉取metrics的ports.name对应
     - port: http-8080
       interval: 10s
       scheme: http
-      path: '/actuator/prometheus'
+      path: '/lumen/actuator/prometheus'
+  # elector.matchLabels的标签必须和被监控的Pod中能唯一标明身份的标签对应
   selector:
     matchLabels:
       app: lumen
+  # namespaceSelector.matchNames需要和被监控的Pod所在的命名空间相同
   namespaceSelector:
     matchNames:
       - sang-lumen
+
