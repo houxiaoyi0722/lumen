@@ -58,6 +58,7 @@ management:
       application: ${spring.application.name}
 flowable:
   async-executor-activate: true
+  database-schema-update: false # 关闭自动表结构生成，解决非正常关闭下锁未释放的问题
 #rocketmq:
 #  #  name-server: 47.103.123.107:31303
 #  name-server: localhost:9876
