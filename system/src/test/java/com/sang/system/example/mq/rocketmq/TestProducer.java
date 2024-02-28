@@ -37,4 +37,9 @@
 //        });
 //    }
 //
+//    //    @Test
+//    public void test3() {
+//        //顺序生产发送，按照hash取模的方式使同一个key的数据发送到同一个队列
+////        rocketMQTemplate.syncSendOrderly("msp-test:tag1","123","2222222");
+//    }
 //}
