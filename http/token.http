@@ -7,7 +7,7 @@ Content-Type: application/json
   "password": "{{password}}"
 }
 
-> {% client.global.set("token", response.body.refreshToken); %}
+> {% client.global.set("token", response.body.token); %}
 
 ###
 POST {{protocol}}{{domain}}/lumen/login

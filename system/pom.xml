@@ -53,21 +53,18 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-extension</artifactId>
-        </dependency>
-    <!--
+<!--        <dependency>-->
+<!--            <groupId>us.codecraft</groupId>-->
+<!--            <artifactId>webmagic-core</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>us.codecraft</groupId>-->
+<!--            <artifactId>webmagic-extension</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-spring-boot-starter</artifactId>
-            <scope>test</scope>
         </dependency>
-    -->
     </dependencies>
 
     <build>
