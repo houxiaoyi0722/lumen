@@ -21,7 +21,7 @@
     </parent>
     <properties>
         <java.version>11</java.version>
-        <hutool.version>5.8.15</hutool.version>
+        <hutool.version>5.8.26</hutool.version>
         <ebean.version>12.8.0</ebean.version>
 <!--        <redisson.version>3.13.5</redisson.version>-->
         <validation.version>2.0.1.Final</validation.version>
@@ -54,6 +54,7 @@
         <flowable.version>6.8.0</flowable.version>
         <elasticsearch.version>7.15.2</elasticsearch.version>
         <disruptor.version>3.4.4</disruptor.version>
+        <aviator.version>5.4.1</aviator.version>
     </properties>
     <modules>
         <module>common</module>
@@ -244,6 +245,11 @@
                 <groupId>org.flowable</groupId>
                 <artifactId>flowable-spring-boot-starter</artifactId>
                 <version>${flowable.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.googlecode.aviator</groupId>
+                <artifactId>aviator</artifactId>
+                <version>${aviator.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
