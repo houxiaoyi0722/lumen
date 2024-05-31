@@ -17,11 +17,11 @@
     <!-- white:白色 -->
     <!-- magenta:洋红 -->
     <property name="CONSOLE_LOG_PATTERN"
-              value="%date{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) |%blue(%thread) |%cyan(%file:%line) %boldMagenta(%logger)| %msg%n"/>
+              value="%date{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) |%blue(%thread) | [%X{traceId}] |%cyan(%file:%line) %boldMagenta(%logger)| %msg%n"/>
 
 <!--    <property name="CONSOLE_LOG_PATTERN" value="%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{%pid}{magenta} %clr{-&#45;&#45;}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n%xwEx"/>-->
     <property name="INFO_LOG_PATTERN"
-              value="%date{yyyy-MM-dd HH:mm:ss} |%highlight(%-5level) |%blue(%thread) |%blue(%file:%line) |%boldMagenta(%logger) |%green(%msg%n)"/>
+              value="%date{yyyy-MM-dd HH:mm:ss} |%highlight(%-5level) |%blue(%thread)| [%X{traceId}] |%blue(%file:%line) |%boldMagenta(%logger) |%green(%msg%n)"/>
 
     <!--输出到控制台-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
