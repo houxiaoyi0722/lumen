@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
  * ${domainComment}
  * ${modelComment}
  * ${fileComment}
- * ${author} ${createDate?string("yyyy-MM-dd HH:mm:ss")}
+ * @author ${author}
+ * @since ${createDate?string("yyyy-MM-dd HH:mm:ss")}
  */
 @Repository
 public class ${model}Repository extends BeanRepository<Long, ${model}> {

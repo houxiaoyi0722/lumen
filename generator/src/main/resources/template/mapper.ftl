@@ -13,7 +13,8 @@ import java.util.List;
  * ${domainComment}
  * ${modelComment}
  * ${fileComment}
- * ${author} ${createDate?string("yyyy-MM-dd HH:mm:ss")}
+ * @author ${author}
+ * @since ${createDate?string("yyyy-MM-dd HH:mm:ss")}
  */
 @Mapper(builder = @Builder(disableBuilder = true))
 public interface ${model}Mapper {

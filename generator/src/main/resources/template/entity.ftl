@@ -13,7 +13,8 @@ import javax.persistence.Table;
  * ${domainComment}
  * ${modelComment}
  * ${fileComment}
- * ${author} ${createDate?string("yyyy-MM-dd HH:mm:ss")}
+ * @author ${author}
+ * @since ${createDate?string("yyyy-MM-dd HH:mm:ss")}
  */
 @Setter
 @Getter

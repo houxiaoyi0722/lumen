@@ -8,7 +8,8 @@ import lombok.Builder;
  * ${domainComment}
  * ${modelComment}
  * ${fileComment}
- * ${author} ${createDate?string("yyyy-MM-dd HH:mm:ss")}
+ * @author ${author}
+ * @since ${createDate?string("yyyy-MM-dd HH:mm:ss")}
  */
 @Builder
 public class ${model}Finder extends Finder<Long, ${model}> {
