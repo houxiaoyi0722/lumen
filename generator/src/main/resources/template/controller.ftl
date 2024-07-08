@@ -1,12 +1,12 @@
-package com.sang.system.controller.${domain?lower_case};
+package com.sang.system.controller.${domain};
 
 import com.sang.common.response.PageResult;
 import com.sang.common.response.Result;
-import com.sang.common.domain.${domain?lower_case}.mapper.${model}Mapper;
-import com.sang.common.domain.${domain?lower_case}.entity.${model};
-import com.sang.common.domain.${domain?lower_case}.param.${model}Qry;
-import com.sang.system.service.${domain?lower_case}.${model}Service;
-import com.sang.common.domain.${domain?lower_case}.dto.${model}Dto;
+import com.sang.common.domain.${domain}.mapper.${model}Mapper;
+import com.sang.common.domain.${domain}.entity.${model};
+import com.sang.common.domain.${domain}.param.${model}Qry;
+import com.sang.system.service.${domain}.${model}Service;
+import com.sang.common.domain.${domain}.dto.${model}Dto;
 import org.springframework.web.bind.annotation.*;
 import com.sang.common.validate.Create;
 import com.sang.common.validate.Delete;
@@ -29,7 +29,7 @@ import java.util.List;
 @RequestMapping("/${domain?lower_case}<#if domain?upper_case != model?upper_case>/${model?lower_case}</#if>")
 public class ${model}Controller {
 
-    private final ${model}Mapper ${model?lower_case}Mapper = ${model}Mapper.mapper;
+    private static final ${model}Mapper ${model?lower_case}Mapper = ${model}Mapper.mapper;
 
     @Resource
     private ${model}Service ${model?lower_case}Service;

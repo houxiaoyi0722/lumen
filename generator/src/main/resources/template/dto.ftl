@@ -1,4 +1,4 @@
-package com.sang.common.domain.${domain?lower_case}.dto;
+package com.sang.common.domain.${domain}.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

@@ -1,8 +1,8 @@
-package com.sang.common.domain.${domain?lower_case}.repo;
+package com.sang.common.domain.${domain}.repo;
 
-import com.sang.common.domain.${domain?lower_case}.entity.${model};
-import com.sang.common.domain.${domain?lower_case}.param.${model}Qry;
-import com.sang.common.domain.${domain?lower_case}.entity.query.Q${model};
+import com.sang.common.domain.${domain}.entity.${model};
+import com.sang.common.domain.${domain}.param.${model}Qry;
+import com.sang.common.domain.${domain}.entity.query.Q${model};
 import io.ebean.BeanRepository;
 import io.ebean.Database;
 import io.ebean.PagedList;

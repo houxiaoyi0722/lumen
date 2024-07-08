@@ -1,9 +1,9 @@
-package com.sang.system.service.${domain?lower_case}.impl;
+package com.sang.system.service.${domain}.impl;
 
-import com.sang.common.domain.${domain?lower_case}.entity.${model};
-import com.sang.common.domain.${domain?lower_case}.param.${model}Qry;
-import com.sang.common.domain.${domain?lower_case}.repo.${model}Repository;
-import com.sang.system.service.${domain?lower_case}.${model}Service;
+import com.sang.common.domain.${domain}.entity.${model};
+import com.sang.common.domain.${domain}.param.${model}Qry;
+import com.sang.common.domain.${domain}.repo.${model}Repository;
+import com.sang.system.service.${domain}.${model}Service;
 import io.ebean.PagedList;
 import io.ebean.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;

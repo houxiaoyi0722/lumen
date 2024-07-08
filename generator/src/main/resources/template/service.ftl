@@ -1,7 +1,7 @@
-package com.sang.system.service.${domain?lower_case};
+package com.sang.system.service.${domain};
 
-import com.sang.common.domain.${domain?lower_case}.entity.${model};
-import com.sang.common.domain.${domain?lower_case}.param.${model}Qry;
+import com.sang.common.domain.${domain}.entity.${model};
+import com.sang.common.domain.${domain}.param.${model}Qry;
 import io.ebean.PagedList;
 
 import java.util.List;

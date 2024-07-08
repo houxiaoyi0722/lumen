@@ -1,7 +1,7 @@
-package com.sang.common.domain.${domain?lower_case}.mapper;
+package com.sang.common.domain.${domain}.mapper;
 
-import com.sang.common.domain.${domain?lower_case}.dto.${model}Dto;
-import com.sang.common.domain.${domain?lower_case}.entity.${model};
+import com.sang.common.domain.${domain}.dto.${model}Dto;
+import com.sang.common.domain.${domain}.entity.${model};
 import org.mapstruct.Mapper;
 import org.mapstruct.Builder;
 import org.mapstruct.factory.Mappers;

@@ -1,6 +1,6 @@
-package com.sang.common.domain.${domain?lower_case}.entity.finder;
+package com.sang.common.domain.${domain}.entity.finder;
 
-import com.sang.common.domain.${domain?lower_case}.entity.${model};
+import com.sang.common.domain.${domain}.entity.${model};
 import io.ebean.Finder;
 import lombok.Builder;
 
