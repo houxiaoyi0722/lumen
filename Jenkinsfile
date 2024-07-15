@@ -56,6 +56,18 @@ pipeline {
         sh "cp k8s/deployment.yaml /opt/kubernetes/lumen/deployment-lumen.yaml"
         sh "kubectl delete -f /opt/kubernetes/lumen/deployment-lumen.yaml"
         sh "kubectl apply -f /opt/kubernetes/lumen/deployment-lumen.yaml"
+//         script {
+//           def remote = [:]
+//           remote.name = 'centos'
+//           remote.host = '10.144.233.86'
+//           withCredentials([usernamePassword(credentialsId: 'centos', passwordVariable: 'password', usernameVariable: 'user')]) {
+//             remote.user = "${user}"
+//             remote.password = "${password}"
+//             remote.allowAnyHosts = true
+//           }
+//           sshCommand remote: remote, command: "kubectl delete -f /opt/kubernetes/lumen/deployment-lumen.yaml"
+//           sshCommand remote: remote, command: "kubectl apply -f /opt/kubernetes/lumen/deployment-lumen.yaml"
+//         }
       }
     }
   }
