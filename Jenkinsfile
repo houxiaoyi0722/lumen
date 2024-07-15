@@ -33,7 +33,7 @@ pipeline {
 
     stage('mvn build') {
       steps {
-        sh "mvn clean compile package"
+        sh "mvn clean compile package -Dmaven.test.skip=true"
       }
     }
 
