@@ -27,7 +27,19 @@ import java.util.Locale;
 @Configuration
 public class JacksonConfig {
 
-
+    /**
+     * new ObjectMapper()
+     *                 .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL)
+     *                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+     *                 .disable(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS)
+     *                 .disable(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS)
+     *                 .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+     *                 .setDateFormat(new SimpleDateFormat(DatePattern.NORM_DATETIME_PATTERN))
+     *                 .setLocale(Locale.CHINA)
+     *                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+     *                 .registerModule((new JavaTimeModule()));
+     * @return
+     */
     @Bean
     @Primary
     @ConditionalOnMissingBean
@@ -39,7 +51,6 @@ public class JacksonConfig {
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .setLocale(Locale.CHINA)
                 .registerModule(this.javaTimeModule());
-
     }
 
     private Module javaTimeModule() {
