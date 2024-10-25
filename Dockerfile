@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk
+FROM 10.144.233.86:8082/sang/arthas:3.7.2
 MAINTAINER sang
 COPY system/target/system-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
