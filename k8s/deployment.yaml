@@ -22,6 +22,7 @@ spec:
     metadata:
       labels:
         app: lumen
+        logging: "true"  # 一定要具有该标签才会被采集
     spec:
       containers:
         - image: 10.144.233.86:8082/sang/lumen-test:latest
