@@ -5,6 +5,7 @@ metadata:
     deployment.kubernetes.io/revision: "1"
   labels:
     app: lumen
+    logging: "true"  # 一定要具有该标签才会被采集
   name: lumen
   namespace: sang-lumen
 spec:
