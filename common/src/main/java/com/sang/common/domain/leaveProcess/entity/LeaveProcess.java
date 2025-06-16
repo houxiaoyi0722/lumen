@@ -3,7 +3,11 @@ package com.sang.common.domain.leaveProcess.entity;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.leaveProcess.entity.finder.LeaveProcessFinder;
 import io.ebean.annotation.DbComment;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +23,7 @@ import java.util.Date;
  */
 @Setter
 @Getter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass

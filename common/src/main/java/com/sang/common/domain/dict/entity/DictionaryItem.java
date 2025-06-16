@@ -1,9 +1,13 @@
 package com.sang.common.domain.dict.entity;
 
-import com.sang.common.domain.dict.entity.finder.DictionaryItemFinder;
 import com.sang.common.domain.base.entity.BaseModel;
+import com.sang.common.domain.dict.entity.finder.DictionaryItemFinder;
 import io.ebean.annotation.DbComment;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +20,7 @@ import javax.validation.constraints.NotNull;
  */
 @Setter
 @Getter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

@@ -5,15 +5,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.dict.entity.finder.DictionaryFinder;
 import io.ebean.annotation.DbComment;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
  * 数据字典 组
  */
-@Setter @Getter @Builder @NoArgsConstructor @AllArgsConstructor @MappedSuperclass @Entity
+@Setter @Getter @SuperBuilder
+@NoArgsConstructor @AllArgsConstructor @MappedSuperclass @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "sys_dict")
 @DbComment("数据字典")

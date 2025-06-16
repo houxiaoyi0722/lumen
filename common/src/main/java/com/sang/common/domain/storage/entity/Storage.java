@@ -9,7 +9,11 @@ import io.ebean.annotation.Index;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.http.Method;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.Column;
@@ -20,7 +24,7 @@ import javax.persistence.Table;
 @Setter
 @Getter
 @Entity
-@Builder
+@SuperBuilder
 @Index(name = "storage_bucket",columnNames = "storage_bucket")
 @Index(name = "suffix",columnNames = "suffix")
 @Index(name = "business_type",columnNames = "business_type")

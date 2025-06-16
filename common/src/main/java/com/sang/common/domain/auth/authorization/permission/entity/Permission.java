@@ -6,9 +6,19 @@ import com.sang.common.domain.auth.authorization.role.entity.Role;
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.router.entity.Router;
 import io.ebean.annotation.DbComment;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +30,7 @@ import java.util.Objects;
  */
 @Setter
 @Getter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass

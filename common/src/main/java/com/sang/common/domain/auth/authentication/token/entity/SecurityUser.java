@@ -1,8 +1,12 @@
 package com.sang.common.domain.auth.authentication.token.entity;
 
-import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.auth.authorization.role.entity.Role;
-import lombok.*;
+import com.sang.common.domain.base.entity.BaseModel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -13,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 public class SecurityUser extends BaseModel  {
 
     /**

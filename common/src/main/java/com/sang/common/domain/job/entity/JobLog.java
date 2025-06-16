@@ -2,24 +2,19 @@ package com.sang.common.domain.job.entity;
 
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.job.entity.finder.JobLogFinder;
-import com.sang.common.validate.Create;
-import com.sang.common.validate.Delete;
-import com.sang.common.validate.Update;
-import com.sang.common.validate.job.TriggerDelete;
-import com.sang.common.validate.job.TriggerSave;
 import io.ebean.annotation.DbComment;
 import io.ebean.annotation.DbJson;
 import io.ebean.annotation.Index;
-import io.ebean.annotation.WhenModified;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.quartz.JobDataMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -30,7 +25,7 @@ import java.util.Date;
  */
 @Setter
 @Getter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

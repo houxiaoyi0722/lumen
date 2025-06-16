@@ -5,9 +5,18 @@ import com.sang.common.domain.auth.authentication.user.entity.finder.UserExtFind
 import com.sang.common.domain.base.entity.BaseModel;
 import com.sang.common.domain.storage.entity.Storage;
 import io.ebean.annotation.DbComment;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
@@ -18,7 +27,7 @@ import java.util.Date;
  */
 @Setter
 @Getter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
